@@ -1,0 +1,12 @@
+Sources:
+
+SPVA 2002 - version 3.2: https://ssh.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/DANS-XDT-CYNN (28/10/2026)
+SPVA 2003 - version 2.1: https://ssh.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/DANS-X7U-VKFM (28/10/2026)
+
+LAS 2004 2005 - version 4.1: https://ssh.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/DANS-ZQG-UQN8 (29/10/2026)
+SIM 2006 - version 4.0: https://ssh.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/DANS-2Z9-6EQC (29/10/2026)
+SING 2009 - version 3.0: https://ssh.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/DANS-XNN-KY48 (29/10/2026)
+SIM 2011 - version 2.0: https://ssh.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/DANS-2A2-77KP (29/10/2026)
+SIM 2015 - version 2.0: https://ssh.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/DANS-X63-DQ58 (28/10/2026)
+SIM 2020 - version 2.0: https://ssh.datastations.nl/dataset.xhtml?persistentId=doi:10.17026/DANS-26H-XN4N (28/10/2026)
+

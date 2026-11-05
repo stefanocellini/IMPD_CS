@@ -1,0 +1,14 @@
+Sources:
+
+Tabel34_Landentabel_(gesorteerd_op_omschrijving)-1: https://publicaties.rvig.nl/landelijke-tabellen-32-tm-61 (23/10/2026)
+2006-gemeenten-op-code, Gemeenten numeriek op gemeentecode 2015, Gemeenten alfabetisch 2020, Gemeentelijke indelingen per jaar*: https://www.cbs.nl/nl-nl/onze-diensten/methoden/classificaties/overig/gemeentelijke-indelingen-per-jaar (26/10/2026)
+70936eng_TabelIndeling_20261028102458: https://opendata.cbs.nl/#/CBS/en/dataset/70936ENG/table?ts=1793179330127 (28/10/2026)
+SBI-schakelschema-SBI74-SBI93: https://www.cbs.nl/nl-nl/onze-diensten/methoden/classificaties/activiteiten/standaard-bedrijfsindeling--sbi--/schakelschema-sbi-74-sbi-93 (25/10/2026)
+schakelschema-sbi-2008-sbi93-versie-7-3-2012: https://www.cbs.nl/nl-nl/onze-diensten/methoden/classificaties/activiteiten/standaard-bedrijfsindeling--sbi--/sbi-93-versie-2004/schakelschema-sbi-2008-sbi-93 (25/10/2026)
+CodingSystemOccupationsStatisticsNetherlands: https://www.cbs.nl/-/media/_pdf/2021/27/codingsystemoccupationsstatisticsnetherlands.pdf (25/10/2026)
+2010-sbc-classificatie-editie-2010: https://www.cbs.nl/-/media/imported/onze-diensten/methoden/classificaties/documents/2010/35/2010-sbc-classificatie-editie-2010.pdf (25/10/2026)
+schakelschema-bc84-isco68-88-08: https://www.cbs.nl/-/media/cbs/onze-diensten/methoden/classificaties/documents/2023/schakelschema-bc84-isco68-88-08.xlsx (25/10/2026)
+Codelijsten beroepenclassificatie 1984, codelijsten-sbc92, isco-08, schakelschema-sbc92-isco88, schakelschema-sbc92-isco08-gebaseerd-op-zwaartepunten, schakelschema-sbc92-isco08, Schakelschema ISCO2008-BRC2014, codelijsten-isco-08, sbc, hulpschema-sbc92-sbc2010, codelijsten SBC92, BRC2014, Beroepenindeling ROA-CBS 2014 Editie 2025: https://www.cbs.nl/nl-nl/onze-diensten/methoden/classificaties/onderwijs-en-beroepen/beroepenclassificatie--isco-en-sbc-- (23/10/2026)
+
+
+* Author's own creation from yearly changes in https://www.cbs.nl/nl-nl/onze-diensten/methoden/classificaties/overig/gemeentelijke-indelingen-per-jaar

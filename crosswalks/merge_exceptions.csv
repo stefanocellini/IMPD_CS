@@ -1,0 +1,2 @@
+survey,source_var,sysmis_code,rule,reason
+spvn2003,GENERAT,-7,valid_over_sysmis,the interviewed-persons file holds the system-missing code (-7) for one member whose roster record carries a valid generation code (2) consistent with the self-reported age (17) and country of birth; the construction failed in the self-report only - the roster value is the best available report

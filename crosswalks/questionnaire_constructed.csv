@@ -1,0 +1,172 @@
+survey,source_var,description
+las2004,BB_NED,"labour-force position (employed >= 12 hours a week / unemployed and seeking work / not in the labour force) from the questions on paid work, hours and job search"
+las2004,BERBEV,labour-force membership from the questions on paid work and hours
+las2004,BERNIV,occupational level (SCP coding of the occupation description)
+las2004,DAG,day of the week covered by the time-use diary (fieldwork administration)
+las2004,GENERAT,generation from the respondent's and parents' countries of birth (first generation = born abroad; second = born in the Netherlands with at least one parent born abroad)
+las2004,GENPART,"partner's generation from the partner's country of birth: 1 = born abroad, 2 = born in the Netherlands, native Dutch partners included; partners of native Dutch respondents are not classed (the parents' clause of the generation definition is not applied - SIM 2006 deposit, restricted component, 5 Nov 2026)"
+las2004,GEZINPO2,position in the household (SCP recode of the household roster)
+las2004,GEZSAMST,household composition from the household roster
+las2004,GVERDTYP,preferred earner type of the couple from the respondent's and partner's preferred working hours
+las2004,MAATPOS,"societal position (SCP typology combining work, education, benefits and household care)"
+las2004,ONDPART,full-time education participation from the questions on current education and main activity
+las2004,OPLBLNL,country where education was followed (Netherlands / abroad / both) from the education history questions
+las2004,POSWRK,position in the job (employee / self-employed / ...) from the employment questions
+las2004,SAMHSH,household composition (CBS typology) from the household roster
+las2004,URENWERK,total weekly working hours of all jobs
+las2004,URENWRK,weekly working hours (recode of the hours questions)
+las2004,VERDTYP,earner type of the couple (single / one-and-a-half / dual earner ...) from the respondent's and partner's working hours
+las2004,WEEGDAG,weighting factor for the time-use diary (SCP)
+las2004,WEEGDAGC,weighting/correction factor for the time-use diary (SCP)
+sim2006,BB_NED,"labour-force position (employed >= 12 hours a week / unemployed and seeking work / not in the labour force) from the questions on paid work, hours and job search"
+sim2006,ETNGRP,origin group from the respondent's and parents' countries of birth (CBS definition: a person belongs to a group when he/she or at least one parent was born in that country)
+sim2006,ETNPART,partner's origin group from the respondent's and parents' countries of birth (CBS definition: a person belongs to a group when he/she or at least one parent was born in that country)
+sim2006,GENERAT,generation from the respondent's and parents' countries of birth (first generation = born abroad; second = born in the Netherlands with at least one parent born abroad)
+sim2006,GENPART,"partner's generation from the partner's country of birth: 1 = born abroad, 2 = born in the Netherlands, native Dutch partners included; partners of native Dutch respondents are not classed (the parents' clause of the generation definition is not applied - SIM 2006 deposit, restricted component, 5 Nov 2026)"
+sim2006,GRPLS,"size class of the municipality of residence (CBS, from the sample address)"
+sim2006,INKCAT,monthly income in categories (recode of the income questions)
+sim2006,MAXDIP1,"highest diploma obtained, 4 classes, respondents not in education (recode of the education questions)"
+sim2006,MAXDIPN1,"highest education level, 4 classes, including the current education of those still in education"
+sim2006,ONDPART,full-time education participation from the questions on current education and main activity
+sim2006,UITKEER,receives a benefit (any of the benefit questions)
+sim2006,URENCAT,weekly working hours in categories (recode of the hours question)
+sim2011,AANTANT,number of residents of Antillean origin in the respondent's neighbourhood (CBS neighbourhood count attached by SCP to the sample address)
+sim2011,AANTAUT,number of residents of Dutch origin in the respondent's neighbourhood (CBS neighbourhood count attached by SCP to the sample address)
+sim2011,AANTMAR,number of residents of Moroccan origin in the respondent's neighbourhood (CBS neighbourhood count attached by SCP to the sample address)
+sim2011,AANTONW,number of residents of other non-western origin in the respondent's neighbourhood (CBS neighbourhood count attached by SCP to the sample address)
+sim2011,AANTOW,number of residents of other western origin in the respondent's neighbourhood (CBS neighbourhood count attached by SCP to the sample address)
+sim2011,AANTSUR,number of residents of Surinamese origin in the respondent's neighbourhood (CBS neighbourhood count attached by SCP to the sample address)
+sim2011,AANTTUR,number of residents of Turkish origin in the respondent's neighbourhood (CBS neighbourhood count attached by SCP to the sample address)
+sim2011,BB_NED,"labour-force position (employed >= 12 hours a week / unemployed and seeking work / not in the labour force) from the questions on paid work, hours and job search"
+sim2011,CATLFT5JR,age in 5-year classes
+sim2011,CATLFT5JRPART,partner's age in 5-year classes
+sim2011,ETNGRP,origin group from the respondent's and parents' countries of birth (CBS definition: a person belongs to a group when he/she or at least one parent was born in that country)
+sim2011,GENERAT,generation from the respondent's and parents' countries of birth (first generation = born abroad; second = born in the Netherlands with at least one parent born abroad)
+sim2011,MAXDIP1,"highest diploma obtained, 4 classes, respondents not in education (recode of the education questions)"
+sim2011,MAXDIPN1,"highest education level including the current education, 4 classes"
+sim2011,MAXDIPNU,highest education level including the current education (detailed)
+sim2011,MAXDSCH,"highest diploma obtained so far, including those in education (detailed)"
+sim2011,MAXDSCH1,"highest diploma obtained so far, including those in education, 4 classes"
+sim2011,ONDPART,full-time education participation from the questions on current education and main activity
+sim2011,URENCAT,weekly working hours in categories (recode of the hours question)
+sing2009,BB_NED,"labour-force position (employed >= 12 hours a week / unemployed and seeking work / not in the labour force) from the questions on paid work, hours and job search"
+sing2009,BMI,"body mass index from self-reported height and weight, respondents 18 and over"
+sing2009,ETNGRP,origin group from the respondent's and parents' countries of birth (CBS definition: a person belongs to a group when he/she or at least one parent was born in that country)
+sing2009,ETNGRPPA,partner's origin group from the respondent's and parents' countries of birth (CBS definition: a person belongs to a group when he/she or at least one parent was born in that country)
+sing2009,GENERAT,generation from the respondent's and parents' countries of birth (first generation = born abroad; second = born in the Netherlands with at least one parent born abroad)
+sing2009,GENPART,"partner's generation from the partner's country of birth: 1 = born abroad, 2 = born in the Netherlands, native Dutch partners included; partners of native Dutch respondents are not classed (the parents' clause of the generation definition is not applied - SIM 2006 deposit, restricted component, 5 Nov 2026)"
+sing2009,LFTCAT3,age in 3 categories
+sing2009,LFTPARTC,partner's age in 3 categories
+sing2009,MAXDIPN1,"highest education level, including the current education of those still in education (recode of the education questions)"
+sing2009,UURWRKC4,contractual working hours in 4 categories (recode of the hours question)
+sing2009,VERBLIJF,length of stay in the Netherlands (year of interview minus year of arrival)
+spva2002,BB,Het al dan niet behoren tot de beroepsbevolking CCS-91 (uurgrens ≥ 12 uur)
+spva2002,BEDRIJF,Bedrijf van de huidige baan (in twee digits gecodeerd volgens SBI-93)
+spva2002,BEDRIJF1,Bedrijf van de eerste baan (in twee digits gecodeerd volgens SBI-93)
+spva2002,BEDRIJFV,Bedrijf van de vroegere baan (in twee digits gecodeerd volgens SBI-93)
+spva2002,BEDRIJFZ,Soort eigen bedrijf (in vijf digits gecodeerd volgens SBI-93)
+spva2002,BEDRTAK,Bedrijfstak huidige beroep (afgeleid van de bedrijfstakclassificatie; BEDRIJF)
+spva2002,BEDRTAK1,Bedrijfstak eerste beroep (afgeleid van de bedrijfstakclassificatie; BEDRIJF1)
+spva2002,BEDRTAKV,Bedrijfstak vroegere beroep (afgeleid van de bedrijfstakclassificatie; BEDRIJFV)
+spva2002,BERBEV,Potentiële beroepsbevolking in groepen
+spva2002,BEROEP,Huidige beroep (gecodeerd volgens SBC-92)
+spva2002,BEROEP1,Beroep van de eerste baan (gecodeerd volgens SBC-92)
+spva2002,BEROEPV,Beroep van de vroegere baan (gecodeerd volgens SBC-92)
+spva2002,BRUGKLAS,Soort brugklas
+spva2002,DROPOUT,Uitvallers in het Nederlandse voortgezet onderwijs (15-34 jaar)
+spva2002,ETNGESL,Etnische groepering en geslacht
+spva2002,ETNGROEP,Etnische groepering
+spva2002,ETNGRP,Etnische groepering
+spva2002,ETNTAAL,Welke andere taal er naast het Nederlands meestal gesproken wordt met familie en vrienden
+spva2002,FUNCNIV,Functieniveau huidige baan (afgeleid van de beroepenclassificatie; BEROEP)
+spva2002,FUNCNIV1,Functieniveau eerste baan (afgeleid van de beroepenclassificatie; BEROEP1)
+spva2002,GEMEENT1,Gemeente
+spva2002,GEMEENTE,Gemeente
+spva2002,GENERAT,Onderscheid naar generatie aan de hand van de leeftijd van de komst naar Nederland
+spva2002,GEZINK1,"Gezinsinkomen (optelsom van alle inkomens. Eerst is INKOMEN1 gebruikt en, als deze"
+spva2002,GEZINK2,"Gezinsinkomen (optelsom van alle inkomens. Eerst is INKOMEN1 gebruikt en, als deze"
+spva2002,GEZINPOS,Gezinspositie (persoonsniveau)
+spva2002,GEZOMV,huishoudensomvang
+spva2002,GEZSAMST,huishoudenssamenstelling
+spva2002,GWL,Geregistreerde werkloosheid (volgens definitie CCS-91)
+spva2002,GWLDUUR,Werkloosheidsduur geregistreerde werklozen (in jaren met één decimaal)
+spva2002,GWLDUUR1,Werkloosheidsduur geregistreerde werklozen
+spva2002,HUIDOPL,Huidige voltijdse dagopleiding
+spva2002,HUIDOPL1,Huidige voltijdse dagopleiding
+spva2002,INKOMEN1,Totale netto-inkomen (in guldens)
+spva2002,INKOMEN2,Totale netto-inkomen
+spva2002,LEEFTD1,Leeftijd
+spva2002,LEEFTD2,Leeftijd
+spva2002,LEEFTD3,Leeftijd
+spva2002,LFTMIGR,Leeftijd van de migratie (in jaren met één decimaal)
+spva2002,LFTMIGR1,Leeftijd van de migratie
+spva2002,MAXDIP,Hoogst gerealiseerde opleidingsniveau exclusief schoolgaanden
+spva2002,MAXDIPB1,Hoogst gerealiseerde opleidingsniveau in het buitenland
+spva2002,MAXDIPBL,Hoogst gerealiseerde opleidingsniveau in het buitenland
+spva2002,MAXDIPM1,Hoogste diploma vader
+spva2002,MAXDIPMA,Hoogste diploma vader
+spva2002,MAXDIPN1,Hoogst gerealiseerde opleidingsniveau in Nederland
+spva2002,MAXDIPNL,Hoogst gerealiseerde opleidingsniveau in Nederland
+spva2002,MAXDIPP1,Hoogste diploma moeder
+spva2002,MAXDIPPA,Hoogste diploma moeder
+spva2002,MAXDSCH,Hoogst gerealiseerde opleidingsniveau inclusief schoolgaanden
+spva2002,MAXOPLNL,Hoogst gevolgde opleiding in Nederland
+spva2002,MIGRJR1,Jaartal van de migratie
+spva2002,NWP,Niet-werkzame personen (volgens definitie CCS-91)
+spva2002,ONDPART,Onderwijsparticipatie
+spva2002,OPLBLNL,Plaats waar de opleiding is gevolgd
+spva2002,POSHH,Positie binnen het huishouden (alleen in het tt-bestand)
+spva2002,POSTCODE,Viercijferig gedeelte van de postcode
+spva2002,RELIGIE,Huidige geloof
+spva2002,RELIGOPV,Geloof waarin men is opgevoed
+spva2002,SUBGROEP,Etnische subgroep (eerst o.b.v. zelfidentificatie en vervolgens o.b.v. taal)
+spva2002,TERUGK,Terugkeerwensen naar land van herkomst
+spva2002,URENWRK1,Aantal uren per week volgens arbeidsovereenkomst (voor zelfstandigen: feitelijke uren)
+spva2002,VERBL1,Verblijfsduur in Nederland
+spva2002,VERBLIJF,Verblijfsduur in Nederland (in jaren met één decimaal)
+spva2002,VERZORG,Verzorging van personen in land van herkomst
+spva2002,VERZTOT,Totaal aantal personen aan wie geld wordt gestuurd in het land van herkomst
+spva2002,WIEGESPR,Persoon die de vragen van de minivragenlijst heeft beantwoord (alleen in het tt-bestand)
+spvn2003,BB,listed as constructed/derived variable in the codebook
+spvn2003,BERBEV,listed as constructed/derived variable in the codebook
+spvn2003,DROPOUT,listed as constructed/derived variable in the codebook
+spvn2003,ETNGESL,listed as constructed/derived variable in the codebook
+spvn2003,ETNGROEP,listed as constructed/derived variable in the codebook
+spvn2003,ETNGRP,listed as constructed/derived variable in the codebook
+spvn2003,GEMEENT1,listed as constructed/derived variable in the codebook
+spvn2003,GEMEENTE,listed as constructed/derived variable in the codebook
+spvn2003,GENERAT,listed as constructed/derived variable in the codebook
+spvn2003,GEZINK1,listed as constructed/derived variable in the codebook
+spvn2003,GEZINK2,listed as constructed/derived variable in the codebook
+spvn2003,GEZINPOS,listed as constructed/derived variable in the codebook
+spvn2003,GEZLIDNR,listed as constructed/derived variable in the codebook
+spvn2003,GEZSAMST,listed as constructed/derived variable in the codebook
+spvn2003,GWL,listed as constructed/derived variable in the codebook
+spvn2003,GWLDUUR,listed as constructed/derived variable in the codebook
+spvn2003,GWLDUUR1,listed as constructed/derived variable in the codebook
+spvn2003,HHNUMMER,listed as constructed/derived variable in the codebook
+spvn2003,INKOMEN1,listed as constructed/derived variable in the codebook
+spvn2003,INKOMEN2,listed as constructed/derived variable in the codebook
+spvn2003,LEEFTD1,listed as constructed/derived variable in the codebook
+spvn2003,LEEFTD2,listed as constructed/derived variable in the codebook
+spvn2003,LEEFTD3,listed as constructed/derived variable in the codebook
+spvn2003,LFTMIGR,listed as constructed/derived variable in the codebook
+spvn2003,LFTMIGR1,listed as constructed/derived variable in the codebook
+spvn2003,MAXDIP1,listed as constructed/derived variable in the codebook
+spvn2003,MAXDIPA,listed as constructed/derived variable in the codebook
+spvn2003,MAXDIPN1,listed as constructed/derived variable in the codebook
+spvn2003,MAXDIPNL,listed as constructed/derived variable in the codebook
+spvn2003,MAXDSCH1,listed as constructed/derived variable in the codebook
+spvn2003,MAXDSCHA,listed as constructed/derived variable in the codebook
+spvn2003,MAXRICHA,listed as constructed/derived variable in the codebook
+spvn2003,NATIONAL,listed as constructed/derived variable in the codebook
+spvn2003,NWP,listed as constructed/derived variable in the codebook
+spvn2003,OPLBLNL,listed as constructed/derived variable in the codebook
+spvn2003,POSHH,listed as constructed/derived variable in the codebook
+spvn2003,POSTCODE,listed as constructed/derived variable in the codebook
+spvn2003,TAALVTOT,listed as constructed/derived variable in the codebook
+spvn2003,TERUGK,listed as constructed/derived variable in the codebook
+spvn2003,VERBL1,listed as constructed/derived variable in the codebook
+spvn2003,VERBLIJF,listed as constructed/derived variable in the codebook
+spvn2003,VERZORG,listed as constructed/derived variable in the codebook
+spvn2003,WIEGESPR,listed as constructed/derived variable in the codebook

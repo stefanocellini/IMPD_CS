@@ -1,0 +1,94 @@
+target,note
+att_chd_frnd_orig,"SIM 2006 asks all respondents, with the fill 'stel dat u kinderen zou hebben' for those without children; natives are asked about friends with a migration background."
+att_chd_prtnr_orig,"SING 2009: '<groep> als partner' - for migrants an 'autochtoon', for natives an 'allochtoon' partner."
+att_fam10,SIM 2011: 'Kinderen moeten voor hun ouders zorgen als deze hulp nodig hebben'; SPVA 2002: 'kinderen zouden voor hun zieke ouders moeten zorgen'. LAS 2004/05: 'Kinderen horen hun ouders op leeftijd te verzorgen'.
+att_hom03,SIM 2015 asked the same situation on a 'problematic' scale (att_hom03_prb); SIM 2020 as an agree/disagree statement.
+att_isl03,"SIM 2006 routes the Islam items by origin group (Turks and Moroccans vs the other groups), SIM 2011 by religion (Muslims vs non-Muslims)."
+att_isl10,"LAS 2004/05 questionnaire (VRAAG 300): 'Ik vind dat <groep> kinderen in Nederland naar een islamitische school moeten' - the data label 'Mijn kinderen moeten naar Islamitische school kunnen' is a shortened label, not the question as printed; SIM 2006: '... naar een islamitische basisschool moeten gaan'. The remaining difference is 'school' vs 'basisschool', not 'my children' vs 'children of the group'."
+att_mor03,SIM 2011: self-determination to end life when terminally ill and in pain; SPVA 2002 wording differs (see table).
+att_nl01,"Wording of the subject changed: SPVA/SPVN 'buitenlander/allochtoon', SIM 2015 'allochtoon', SIM 2020 'persoon met een migratieachtergrond'."
+att_nl03,Subject term changed as for att_nl01.
+att_nl04,Subject term changed as for att_nl01.
+att_nl08,"SPVA/SPVN 'buitenlandse culturen', SIM 2015 'allochtone culturen', SIM 2020 'andere culturen'."
+att_soc05,SPVA 2002 and SIM 2015 'allochtonen'; not asked in SIM 2020.
+att_soc09,LAS 2004/05: 'Allochtonen moeten niet te veel vasthouden aan hun eigen cultuur en gewoonten' (SIM 2006/2011: 'loslaten').
+dem_age_cat,"SIM 2015: 'Hoe oud bent U?' (self-report, classes). SIM 2020: registry age in classes; youngest class '<18' merged with 18-24."
+dem_age_cat5y,LAS 2004/05 sampled persons aged 15-64 only.
+dem_brthcntry,"SIM public files do not contain country of birth (removed by DANS/SCP). Under the CBS definition the origin group of a first-generation person is his/her own country of birth and second-generation persons are born in the Netherlands, so dem_brthcntry is derived (derive brthcntry_group): first generation -> country of the origin group (Caribbean group -> 7011 aggregate), second generation and natives -> 6030 Netherlands."
+dem_eth,"SPVA/SPVN: group by country of birth of the person and parents as established in the interview. SIM: group from the BRP sample frame (CBS herkomstgroepering). Code 4 covers Antillean/Aruban (SPVA, SIM 2015) and Caribbean-Dutch incl. Bonaire, Sint Eustatius and Saba (SIM 2020). SIM 2006/2011: origin group based on the respondent's own answers on countries of birth (etngrp), not on the register."
+dem_gen,"Definitions differ: SPVA/SPVN (ISEO) count arrival before age 6 as second generation; SIM (CBS) first generation = born abroad, second = born in NL with at least one parent born abroad. Code 0 = native Dutch reference sample (SIM only)."
+dem_mar,LAS 2004/05 combines 'divorced' and 'widowed' (code 2 here = divorced or widowed).
+dem_posfam,LAS 2004/05 does not separate children living with one or two parents (code 9) and adds children living with other relatives (10).
+dem_prtnr_res,SPVN 2003 distinguishes Western Europe from elsewhere; SIM 2015 asks Netherlands / country of origin / another country (code 6).
+disc_perc,SPVA 2002: discrimination of own group. SIM: 'allochtonen' (2015) / 'personen met een migratieachtergrond' (2020) in general; own group asked separately (disc_perc_grp).
+disc_yn04,"SING 2009: 'op straat'; SIM 2011: elsewhere, e.g. in the street or going out."
+edu_cntry,"SPVA/SPVN/SIM 2015: constructed variable with a separate 'no education' code. SIM 2020: direct question 'Heeft u buiten Nederland een opleiding gevolgd?' (1 only abroad, 2 both, 3 no)."
+edu_fa_lvl3,"Answer categories: SPVA 2002 Dutch levels (8); SPVN 2003 4 levels; SIM 2015 'nooit naar school / laag / middel / hoog'; SIM 2020 'geen onderwijs / lagere school / middelbare school / hoger onderwijs' (secondary school = middle, see edu_fa_det4)."
+fam_care411_lunch,"LAS 2004/05 answers: ja, regelmatig / ja, soms / nee, nooit."
+fam_care411_no1,"LAS 2004/05 code 10 reads 'child too old/young for out-of-school care or does not want it', 11 'already has other care, e.g. with friends'."
+geo_urb_reg,"LAS 2004/05: urbanisation of the municipality in five CBS classes, attached by SCP (the sample covers the 50 largest municipalities)."
+hh_noth,SPVA/SPVN: number of non-nuclear household members from the roster; SIM 2015: self-reported number of 'other people' in the household.
+hh_size,LAS 2004/05 (CBS-protected deposit): 5 = five or more persons. SING 2009 (CBS-protected deposit): 6 = six or more persons.
+hlth_self,SPVA 2002 'uitstekend/goed/neutraal/slecht/zeer slecht'; SIM 'zeer goed/goed/gaat wel/slecht/zeer slecht'.
+iden_scale,Same 5-point scale; SIM 2015 question text 'Voelt u zich: meer (herkomst) of meer Nederlander of beide evenveel?'
+int_nlcrs,"SIM: 'followed, with or without certificate, or currently following' = yes; 'no' and 'planning to' = no (detail in int_nlcrs_det). SIM 2006: 'wel eens een cursus gedaan om Nederlands te leren' (first generation); SIM 2011/2015 ask the same with more answer categories (int_nlcrs_det)."
+lab_act,SPVA/SPVN include 'working 12 hours or more' (code 0); SIM asks the question only to persons without paid work.
+lab_emptype,SIM 2015 asks 'Werkt u als werknemer in loondienst?' (yes / 'diversen'); the self-employment detail comes from a follow-up (lab_se_type). Code 2 here = not an employee.
+lab_exp,SIM 2006: years with decimals; SIM 2011/2015: years and months in two variables.
+lab_found,"SIM 2006 adds 'wervings- en selectiebureau' (mapped to 12, placement agency) and 'werd gevraagd' (9)."
+lab_hrs_cat5,"SING 2009: contractual hours of employees in classes <12, 12-20, 20-35, 35+ (no 'zero hours' class)."
+lab_occ,"SIM 2011: Standaard Beroepenclassificatie 1992 codes (5 digits, first digit = skill level); SPVA/SPVN: SBC-1992 as coded by ISEO."
+lab_occ_lvl,"LAS 2004/05: skill level (beroepsniveau) of all working respondents, SBC-92 levels 1-5."
+lab_rel,"LAS 2004/05 has three classes (BERBEV): working labour force (1), non-working labour force (7) and not in the labour force (8)."
+lab_tenure,"SIM 2006: years with decimals (months / 12); SIM 2011: years and months in two variables (lab_tenure, lab_tenure_mo)."
+lang_orig_follow,SIM 2006: yes/no; SIM 2011/2015: yes / a little / no.
+lang_orig_read,SIM 2006 has no 'cannot read the language' category (SIM 2011: code 4).
+lang_orig_write,SIM 2006 has no 'cannot write the language' category (SIM 2011: code 4).
+lang_other,"SIM 2011: the origin-country language the respondent can follow best (Q656); SPVA 2002: other language usually spoken at home. SING 2009: group-specific language lists (Afghan, Iraqi, Iranian, Somali, Polish, Chinese groups) mapped to one list."
+lang_prob_spk,SPVA 2002: often/sometimes/never. SIM adds 'ik spreek geen Nederlands' (code 4). SIM 2006 merges 'speaks no Dutch' with 'often' (code 1); SIM 2011/2015 have it as a separate category (4).
+med_krant_nl_cat,"SIM 2006 asked days per week in six classes (kept in the *_days variable); collapsed here: every day and 5-6 days -> (almost) every day, 3-4 days -> several times a week, 1-2 days -> once a week, less than 1 day -> less than once a week."
+med_krant_nl_days,LAS 2004/05 asks about newspapers only ('Nederlandse kranten'); SIM 2006 about newspapers or magazines.
+med_krant_orig_cat,"SIM 2006 asked days per week in six classes (kept in the *_days variable); collapsed here: every day and 5-6 days -> (almost) every day, 3-4 days -> several times a week, 1-2 days -> once a week, less than 1 day -> less than once a week."
+med_pc_internet,LAS 2004/05: 'mogelijkheid om thuis te internetten/e-mailen' (asked to households with a PC); SIM 2006: 'computer waarmee u kunt internetten'.
+med_tv_nl_cat,"SIM 2006 asked days per week in six classes (kept in the *_days variable); collapsed here: every day and 5-6 days -> (almost) every day, 3-4 days -> several times a week, 1-2 days -> once a week, less than 1 day -> less than once a week."
+med_tv_orig_cat,"SIM 2006 asked days per week in six classes (kept in the *_days variable); collapsed here: every day and 5-6 days -> (almost) every day, 3-4 days -> several times a week, 1-2 days -> once a week, less than 1 day -> less than once a week."
+med_tv_orig_days,LAS 2004/05 asked Turks and Moroccans only. SING 2009 scale runs 1 every day ... 6 never (reversed here); asked as '<?> zenders' with the group filled in.
+mig_reason,"SPVA 2002/SPVN 2003/SIM 2015: one main reason. SIM 2020 asks the same list as a multiple-response question (mig_rsn01-12). SIM adds reasons 12-15. SING 2009 distinguishes political reasons, war and conscription (all mapped to 4), religious persecution (19) and invitation by the Dutch government (18)."
+nat_cit,"SPVA/SPVN: one question on nationality. SIM: two yes/no questions (Dutch nationality; origin-country nationality) combined (derive cit_nl_orig): 1 Dutch only, 2 dual, 3 origin only, 4 neither/other."
+pol_news_cat,LAS 2004/05 scale: every day / several times a week / once or twice a month / less often / never (no 'once a week' category).
+pol_vote_carib,SIM 2020: the Caribbean-Dutch group was asked the same question (Q8531) about the elections of their island instead of a national parliament.
+rel_any,LAS 2004/05: derived from the denomination question (code 'niet van toepassing' = no religion).
+rel_attend,"SPVA/SPVN 4 categories (never / few times a year / few times a month / weekly+). SIM 5 categories (daily / weekly / monthly / few times a year / never): daily and weekly -> weekly+, monthly -> few times a month. Detail in rel_attend5."
+rel_attend5,SIM 2006 scale runs 1 never ... 5 every day (reversed here).
+rel_den_det,SIM 2015 delivered denomination in condensed categories; SIM 2020 in two coarsened class lists (rel_den_det from religie_kl for Turkish/Moroccan/Somali/Iranian groups and religie2_kl for the others).
+rel_halal,SIM 2006 scale runs 1 no ... 4 all days (reversed here).
+rel_pray,SIM 2006 asked seven categories (kept in rel_pray7): 'once a week' and 'several times a week' are both mapped to 'every week'.
+rel_ramadan,SIM 2006 scale runs 1 no ... 4 all days (reversed here).
+rel_rule,SIM 2015: 'Ik vind dat moslims helemaal volgens de regels van de islam moeten leven'. SIM 2020 generalised: 'Elke <moslim/christen> moet leven volgens de regels van de <islam/bijbel>'.
+rel_veil,LAS 2004/05: interviewer observation ('respondent draagt hoofddoek'); SIM: self-report.
+rel_veil_should,LAS 2004/05 questionnaire (VRAAG 300): 'Ik vind dat moslimvrouwen en -meisjes in Nederland buitenshuis een hoofddoek moeten dragen' (the data label shortens this to 'Moslimmeisjes'); SIM 2006/2011: 'moslimvrouwen ... als ze naar buiten gaan'.
+ret_fut5y,"SING 2009: 'Denkt u dat u over 5 jaar nog in Nederland woont?' (yes, certainly / probably back in the origin country / probably in another country)."
+ret_wish,SIM 2015 offers yes/no with 'weet niet' recorded as -3 (mapped to code 2).
+saf_unsafe_street,LAS 2004/05 third category: 'zelden/nooit'; SIM 2006: 'zelden'.
+soc_act_ethn,SING 2009 answer categories: vooral allochtonen / vooral autochtone Nederlanders / allerlei bevolkingsgroepen (no 'half-half').
+soc_cont_chd,SIM 2006 scale runs 1 never ... 5 every day (reversed to the harmonized order); the contact items were fielded as separate variables for the migrant groups (Q965) and the native sample (Q966).
+soc_cont_frnd_nl,SIM 2006 scale runs 1 never ... 5 every day (reversed to the harmonized order); the contact items were fielded as separate variables for the migrant groups (Q965) and the native sample (Q966).
+soc_cont_frnd_org,SIM 2006 scale runs 1 never ... 5 every day (reversed to the harmonized order); the contact items were fielded as separate variables for the migrant groups (Q965) and the native sample (Q966).
+soc_cont_nbr_nl,SIM 2006 scale runs 1 never ... 5 every day (reversed to the harmonized order); the contact items were fielded as separate variables for the migrant groups (Q965) and the native sample (Q966).
+soc_cont_nbr_org,SIM 2006 scale runs 1 never ... 5 every day (reversed to the harmonized order); the contact items were fielded as separate variables for the migrant groups (Q965) and the native sample (Q966).
+soc_cont_par,SIM 2006 scale runs 1 never ... 5 every day (reversed to the harmonized order); the contact items were fielded as separate variables for the migrant groups (Q965) and the native sample (Q966).
+soc_cont_sib,SIM 2006 scale runs 1 never ... 5 every day (reversed to the harmonized order); the contact items were fielded as separate variables for the migrant groups (Q965) and the native sample (Q966).
+soc_mem,SIM 2006: derived from 'geen van deze' in the membership list (card with ten types of organisations); SPVA/SPVN asked a direct yes/no question.
+soc_mem04,"SIM 2006: 'vrijetijdsorganisatie (hobby, muziek, toneel, dans)'; SPVA 2002: 'hobbyvereniging'."
+soc_sport5,LAS 2004/05 asked the number of times in the past 12 months in classes (soc_sport_n5); the mapping to the frequency scale is approximate.
+soc_sport_comp,"LAS 2004/05: 'in competitie- of trainingsverband' (competition or training); SIM 2006/2011: competitions, tournaments or matches."
+soc_sport_ethn,LAS 2004/05: background of the members of the sports club (voornamelijk westers / eigen groep / half-half / divers / anders).
+soc_visit_nl,"SPVA 2002: 'autochtone Nederlandse vrienden'. SIM: text filled per group - migrants asked about 'autochtone Nederlandse' visitors, the native reference sample about 'allochtone' (2015) / 'personen met een migratieachtergrond' (2020). Interpret for natives as contact with the other group."
+soc_volunteer,SIM 2006: 'doet u op dit moment wel eens vrijwilligerswerk' (currently); SIM 2015: in the past 12 months.
+svy_lang_q,SPVN 2003: Dutch/English/French chosen by the interviewer with the respondent. SIM 2020: language version selected by the respondent (CAWI) or interviewer (CAPI).
+svy_wgt,"Weights are population-scaled (sum = population size per survey) and survey-specific; SPVA/SPVN weights come from ISEO, SIM weights from CBS. Do not pool weighted estimates across surveys without rescaling."
+tim_act01,"LAS 2004/05 diary: the day runs from 6:00 to 24:00 in 72 quarter-hour slots (tim_slot01-72, activity codes act43); tim_act01-43 are the hours spent on each activity summed by SCP over the 72 slots."
+trn_remit,"SIM 2006: 'in 2005 geld of goederen gestuurd naar het buitenland' (any country, calendar year 2005); SIM 2011/2015: to the country of origin in the past 12 months. SING 2009 asks about the calendar year 2008 (money or goods sent to the country of origin)."
+trn_remit01,SIM 2006: partner or ex-partner; SIM 2011: partner / spouse / fiance(e).
+trn_remit04,SIM 2006: other family members or friends; SIM 2011: other family members (friends under 'others').
+trn_visit12m,SIM 2006 asks about the calendar year 2005 (interviews autumn 2006 - January 2007); SIM 2011/2015 about 2010 / the past 12 months.

@@ -1,0 +1,143 @@
+target,survey,source_var,code,printed_label,data_label
+dem_eth,las2004,ETNGRP,1,Marokkaans,Turken
+dem_eth,las2004,ETNGRP,2,Turks,Marokkanen
+dem_eth,las2004,ETNGRP,3,Antilliaans,Surinamers
+dem_eth,las2004,ETNGRP,4,Surinaams,Antillianen
+dem_brthcntry,spva2002,GEBLAND,2,Nederland,Marokko
+dem_brthcntry_fa,spva2002,GEBLPA,2,Nederland,Marokko
+dem_brthcntry_ma,spva2002,GEBLMA,2,Nederland,Marokko
+dem_mar,spvn2003,BURGST,2,ongehuwd samenwonend,gescheiden
+dem_mar,spvn2003,BURGST,3,gescheiden,weduwe/weduwnaar
+dem_mar,spvn2003,BURGST,4,weduwe\weduwnaar,nooit gehuwd geweest
+dem_mar,spvn2003,BURGST,5,nooit gehuwd geweest,ongehuwd samenwonend
+dem_mar,las2004,BURGST,3,weduwe\weduwnaar,nooit gehuwd geweest
+dem_prtnr_brthcntry,spva2002,GEBLPART,2,Nederland,Marokko
+mig_reason,spvn2003,REDMIGR,1,gezinsvorming,Werk
+mig_reason,spvn2003,REDMIGR,2,gezinshereniging,Studie
+mig_reason,spvn2003,REDMIGR,4,om te werken,Politieke redenen/oorlog/dienstplicht
+mig_reason,spvn2003,REDMIGR,5,om te studeren,Gezinshereniging
+mig_reason,spvn2003,REDMIGR,6,medische redenen,Gezinsvorming
+mig_reason,spvn2003,REDMIGR,7,hongersnood\armoede\werkloosheid,Met gezin meegekomen
+mig_reason,spvn2003,REDMIGR,8,met het gezin meegekomen (als kind),Medische redenen
+mig_reason,sim2006,REDMIGR,9,"anders, nl.:",Toekomst kinderen\opleiding kinderen
+mig_reason,sim2006,REDMIGR,10,toekomst kinderen\opleiding kinderen,"Met vakantie, daarna in Nederland gebleven"
+mig_reason,sim2006,REDMIGR,11,"met vakantie, daarna in Nederland gebleven","Anders, nl.:"
+nat_cit,spva2002,NATIONAL,3,Nederlandse en Turkse,Lvh en Ned.
+nat_perm_cat,spvn2003,VERGUNA,8,verblijfsvergunning voor bepaalde tijd regulier (type I),verblijfsvergunning onbep. tijd
+nat_perm_cat,spvn2003,VERGUNA,12,verblijfskaart voor gemeenschapsonderdaan (type EU\EER),verblijfskaart voor Gem. onderdaan
+nat_perm_det,spvn2003,VERGUNA,8,verblijfsvergunning voor bepaalde tijd regulier (type I),verblijfsvergunning onbep. tijd
+nat_perm_det,spvn2003,VERGUNA,12,verblijfskaart voor gemeenschapsonderdaan (type EU\EER),verblijfskaart voor Gem. onderdaan
+lang_other,sing2009,ETNITAAL,11,Dari (Afghaans Perzisch),Farsi\ Perzisch
+lang_other,sing2009,ETNITAAL,12,Pashto,"Azeri, Turks-Perzisch"
+lang_other,sing2009,ETNITAAL,13,"Turkse talen (Oezbeeks, Turkmeens)",Koerdisch
+lang_other,sing2009,ETNITAAL,19,"Anders, nl.:",Arabisch
+lang_other,sing2009,ETNITAAL,21,Arabisch,anders
+lang_other,sing2009,ETNITAAL,22,Koerdisch-Soerani,Pools
+lang_other,sing2009,ETNITAAL,23,Turkmeens,anders
+lang_other,sing2009,ETNITAAL,24,Badini (=Kurmanji),Mandarijn
+lang_other,sing2009,ETNITAAL,25,Armeens,Kantonees
+edu_abr_hi_det,spvn2003,MAXDIPBA,1,lager onderwijs,Bao >=5jr
+edu_cur_type,spvn2003,TYPEOPL,2,avondopleiding,Dagdeeltijd
+edu_cur_type,spvn2003,TYPEOPL,3,opleiding met praktijkgedeelte,Avondopl.
+edu_cur_type,spvn2003,TYPEOPL,4,"anders, nl.:",Praktijkopl.
+lab_noseek_reason,spvn2003,NIETZOEK,4,wil eerst studeren,Werkzaam in huishouden
+lab_noseek_reason,spvn2003,NIETZOEK,5,is werkzaam in huishouden,Te oud
+lab_noseek_reason,spvn2003,NIETZOEK,6,is te oud,Geen werk/niet vinden
+lab_noseek_reason,spvn2003,NIETZOEK,7,er is toch geen werk\kan geen werk vinden,Geen tijd/niet van gekomen
+lab_noseek_reason,spvn2003,NIETZOEK,8,geen tijd gehad\het is er nog niet van gekomen,Toch niet aangenomen
+lab_noseek_reason,spvn2003,NIETZOEK,9,wordt toch niet aangenomen\discriminatie,Andere bezigheden/geen behoefte
+lab_noseek_reason,spvn2003,NIETZOEK,10,andere bezigheden\geen behoefte,Anders
+lab_noseek_reason,spvn2003,NIETZOEK,11,ik keer binnenkort terug,Wil eerst studeren
+lab_noseek_reason,spvn2003,NIETZOEK,12,"anders, nl.:",Ik keer binnenkort terug
+soc_cont_bal,sing2009,CONTACTV,9,weet niet \ geen antwoord,niet van toepassing
+fam_chd_seen,spva2002,ZIENKIND,3,enkele keren per jaar,enkele keren p/jr
+fam_chd_cont,spva2002,TELEKIND,3,enkele keren per jaar,enkele keren p/jr
+fam_par_seen,spva2002,ZIENOUD,3,enkele keren per jaar,enkele keren p/jr
+fam_par_cont,spva2002,TELEOUD,3,enkele keren per jaar,enkele keren p/jr
+att_chd_frnd_orig,spva2002,AFKVRIKI,5,"nee, helemaal niet vervelend",Helem. niet verv.
+att_chd_frnd_orig,sing2009,AFKVRIKI,7,weet niet,geen antwoord\wil niet zeggen
+att_chd_prtnr_orig,spva2002,AFKPARKI,5,"nee, helemaal niet vervelend",Helem. niet verv.
+att_chd_prtnr_orig,sing2009,AFKARKI,7,weet niet,geen antwoord\wil niet zeggen
+rel_den_det,spva2002,RELIGIE0,12,Christelijk: Pinkstergemeente,Ev.Br.gem (C)
+rel_den_det,spva2002,RELIGIE0,13,Christelijk: Jehova´s getuige,Pinkster (C)
+rel_den_det,sim2015,CATreligie,1,Islam: Shi'ieten,Christelijk: Evangelische Broedergemeenschap
+rel_den_det,sim2015,CATreligie,5,Islam: Salafisten,Christelijk: Pinkstergemeente
+rel_den_det,sim2015,CATreligie,6,Islam: algemeen\anders namelijk...,Christelijk: Protestantse Kerk Nederland
+rel_den_det,sim2015,CATreligie,8,Christelijk: Nederlands Hervormd,Hindoeïsme
+rel_den_det,sim2015,CATreligie,11,Christelijk: Evangelische Broedergemeenschap,Islam: Sunnieten
+rel_den_det,sim2015,CATreligie,12,Christelijk: Pinkstergemeente,Overige
+rel_den_det,sim2020,religie_kl,4,Islam: algemeen,Christelijk
+rel_den_det,sim2020,religie_kl,9,Christelijk: Protestantse Kerk Nederland,Overige/Refusal/Don't know
+rel_den_cat,spvn2003,RELIGIEA,2,Islam: Sunnieten,Christendom
+rel_den_cat,spvn2003,RELIGIEA,3,Islam: Alevieten,Overig
+rel_den_cat,sim2015,CATreligie,1,Islam: Shi'ieten,Christelijk: Evangelische Broedergemeenschap
+rel_den_cat,sim2015,CATreligie,5,Islam: Salafisten,Christelijk: Pinkstergemeente
+rel_den_cat,sim2015,CATreligie,6,Islam: algemeen\anders namelijk...,Christelijk: Protestantse Kerk Nederland
+rel_den_cat,sim2015,CATreligie,8,Christelijk: Nederlands Hervormd,Hindoeïsme
+rel_den_cat,sim2015,CATreligie,11,Christelijk: Evangelische Broedergemeenschap,Islam: Sunnieten
+rel_den_cat,sim2015,CATreligie,12,Christelijk: Pinkstergemeente,Overige
+rel_raised_det,spva2002,RELIGOV0,12,Christelijk: Pinkstergemeente,Ev.Br.gem (C)
+rel_raised_det,spva2002,RELIGOV0,13,Christelijk: Jehova´s getuige,Pinkster (C)
+iden_scale,sing2009,ZELFIDEN,9,weet niet \ geen antwoord,niet van toepassing
+iden_oth,spvn2003,ZELFIDEN,2,nee,Irakeese
+iden_sub,spva2002,SUBGROEP,1,"ja, Koerdische",Turken
+iden_sub,spva2002,SUBGROEP,2,"ja, Armeense",Koerden
+iden_sub,spvn2003,ETNIDEN,1,nee,Pasjtoen\Pathanen
+iden_sub,spvn2003,ETNIDEN,9,weet niet,Bosniers
+disc_perc,sing2009,DISCALG,7,weet niet,geen antwoord\wil niet zeggen
+disc_exp,sing2009,DISCZELF,7,weet niet,geen antwoord\wil niet zeggen
+dem_prtnr_act,sim2020,parthfda,92,weet niet,"anders, namelijk:"
+edu_abr_att_lvl3,sim2015,maxoplbl,2,lager beroepsonderwijs,Middel
+edu_abr_att_lvl3,sim2015,maxoplbl,3,middelbaar algemeen voortgezet onderwijs,Hoog
+edu_abr_att_lvl3,sim2020,maxoplbl_kl,2,lager beroepsonderwijs,Middel
+edu_abr_att_lvl3,sim2020,maxoplbl_kl,3,middelbaar algemeen voortgezet onderwijs,Hoog
+edu_cur_lvl3,sim2015,huidopl,2,VMBO-basisberoepsgerichte of kaderberoepsgerichte leerweg,Midden
+edu_cur_lvl3,sim2020,huidopl_kl,1,basisonderwijs,Middel
+edu_nl_att_lvl3,sim2015,maxoplnl,2,"lager beroepsonderwijs (LBO, LTS, LEAO, LHNO, huishoud-\ambachts-school, VMBO- basisberoepsgericht of kaderberoepsgericht)",Middel
+edu_nl_att_lvl3,sim2015,maxoplnl,3,"middelbaar algemeen voortgezet onderwijs (MAVO, ULO, MULO, 3 jaar HBS\gymnasium\VWO, VMBO-theoretische of gemengde leerweg)",Hoog
+edu_nl_att_lvl3,sim2020,maxoplnl_kl,2,"lager beroepsonderwijs (LBO, LTS, LEAO, LHNO, huishoud- \ambachts-school, VMBO-basisberoepsgericht of kaderberoepsgericht)",Middel
+edu_nl_att_lvl3,sim2020,maxoplnl_kl,3,"middelbaar algemeen voortgezet onderwijs (MAVO, ULO, MULO, 3 jaar HBS\gymnasium\VWO, VMBO-theoretische of gemengde leerweg)",Hoog
+edu_prtnr_lvl3,sim2015,maxdipp,3,lager onderwijs,Middel
+edu_fa_lvl3,sim2015,maxdippa,3,lager onderwijs,Middel
+edu_fa_lvl3,sim2020,maxdippa,92,weet niet,"anders, namelijk:"
+edu_ma_lvl3,sim2015,maxdipma,3,lager onderwijs,Middel
+edu_ma_lvl3,sim2020,maxdipma,92,weet niet,"anders, namelijk:"
+edu_fa_det4,sim2020,maxdippa,92,weet niet,"anders, namelijk:"
+edu_ma_det4,sim2020,maxdipma,92,weet niet,"anders, namelijk:"
+lab_coll_bal,sing2009,CONTACTW,7,weet niet,geen antwoord\wil niet zeggen
+iden_nl5,sing2009,VOELNL,9,weet niet,niet van toepassing
+iden_orig5,sing2009,VOELLVH,9,weet niet,niet van toepassing
+ret_fut5y,sing2009,WOONNL5J,7,weet niet,geen antwoord\wil niet zeggen
+rel_den_det20b,sim2020,religie2_kl,2,Islam: Sunnieten,Christelijk: Rooms-Katholiek
+rel_den_det20b,sim2020,religie2_kl,3,Islam: Alevieten,Christelijk: Nederlands Hervormd
+rel_den_det20b,sim2020,religie2_kl,4,Islam: algemeen,Christelijk: Protestantse Kerk Nederland
+rel_den_det20b,sim2020,religie2_kl,5,Islam: anders namelijk...,Christelijk: Algemeen
+rel_den_det20b,sim2020,religie2_kl,6,Christelijk: Rooms-Katholiek,Christelijk: Overige
+rel_den_det20b,sim2020,religie2_kl,7,Christelijk: Nederlands Hervormd,Hindoeïsme
+rel_den_det20b,sim2020,religie2_kl,9,Christelijk: Protestantse Kerk Nederland,Overige/Refusal/Don't know
+rel_pray,las2004,GEBED,2,een keer per jaar,enkele keren per jaar
+rel_pray,las2004,GEBED,3,een aantal keer per jaar,enkele keren per maand
+rel_pray,las2004,GEBED,4,enkele keren per maand,1 keer per week
+rel_pray,las2004,GEBED,5,een keer per week,enkele keren per week
+rel_pray,las2004,GEBED,6,aantal keer per week,elke dag
+ret_reason,sing2009,WELTERUG,10,"anders, nl.:",het is mijn moederland\voel me daar thuis
+ret_reason,sing2009,WELTERUG,11,weet niet,familie\vrienden zijn daar
+hh_inc_band_par,sing2009,GEZINK3,99,wil niet zeggen,niet van toepassing
+soc_grp_most,sing2009,ANVEEL,7,niet van toepassing,geen antwoord\wil niet zeggen
+soc_grp_most,sing2009,ANVEEL,8,weet niet \ geen antwoord,niet van toepassing
+hous_nbhd_reason,sim2006,BURT_NEW,9,"anders, nl.",Ben hier geboren\woon hier al van jongs af aan
+hous_nbhd_reason,sim2006,BURT_NEW,10,ben hier geboren\woon hier al van jongs af aan,"Anders, nl."
+fam_par04,sim2011,OPVGEDR4,5,niet van toepassing Q62 = kind(eren) van de respondent ≥ 6 jaar,"nee, nooit"
+lab_eq_chance_no,sim2006,KANSNEE,5,anders nl:,gezondheid
+lab_eq_chance_no,sim2006,KANSNEE,6,gezondheid,te oud
+lab_eq_chance_no,sim2006,KANSNEE,7,te oud,te lage opleiding\geen diploma
+lab_eq_chance_no,sim2006,KANSNEE,8,te lage opleiding\geen diploma,Anders nl:
+med_email_ethn,sing2009,CHATPUB,9,weet niet \ geen antwoord,niet van toepassing
+rel_pray7,las2004,GEBED,2,een keer per jaar,enkele keren per jaar
+rel_pray7,las2004,GEBED,3,een aantal keer per jaar,enkele keren per maand
+rel_pray7,las2004,GEBED,4,enkele keren per maand,1 keer per week
+rel_pray7,las2004,GEBED,5,een keer per week,enkele keren per week
+rel_pray7,las2004,GEBED,6,aantal keer per week,elke dag
+dem_prtnr_reun_when,sing2009,KOMPADU,9,weet niet,niet van toepassing
+inc_lab_band,sing2009,ARBINK1,99,wil niet zeggen,niet van toepassing
+dem_prtnr_inc_band,sing2009,INKPART2,99,wil niet zeggen,niet van toepassing

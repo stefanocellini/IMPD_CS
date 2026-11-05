@@ -1,0 +1,2940 @@
+valueset,code,label_en
+yesno,0,No
+yesno,1,Yes
+mentioned,0,Not mentioned
+mentioned,1,Mentioned
+agree5,1,Strongly agree
+agree5,2,Agree
+agree5,3,Neither agree nor disagree
+agree5,4,Disagree
+agree5,5,Strongly disagree
+freq3,1,Often/always
+freq3,2,Sometimes
+freq3,3,Never
+freq3_help,1,Several times
+freq3_help,2,Once or a few times
+freq3_help,3,No
+freq3_nso,1,Never
+freq3_nso,2,Sometimes
+freq3_nso,3,Often
+freq5_disc,1,Never
+freq5_disc,2,Almost never
+freq5_disc,3,Occasionally
+freq5_disc,4,Often
+freq5_disc,5,Very often
+freq7_contact,1,Never
+freq7_contact,2,Once a year
+freq7_contact,3,A few times a year
+freq7_contact,4,At least monthly
+freq7_contact,5,At least weekly
+freq7_contact,6,Several times a week
+freq7_contact,7,Daily
+trait4,1,Very
+trait4,2,A little
+trait4,3,Not
+trait4,4,Not at all
+good3,1,Good
+good3,2,Moderate
+good3,3,Poor
+sex,1,Male
+sex,2,Female
+month,1,January
+month,2,February
+month,3,March
+month,4,April
+month,5,May
+month,6,June
+month,7,July
+month,8,August
+month,9,September
+month,10,October
+month,11,November
+month,12,December
+who3,1,Mainly the father
+who3,2,Mainly the mother
+who3,3,Both
+yes_no_sometimes,1,Yes
+yes_no_sometimes,2,No
+yes_no_sometimes,3,Sometimes
+survey,1,SPVA 1988
+survey,2,SPVA 1991
+survey,3,SPVA 1994
+survey,4,SPVA 1998
+survey,5,SPVA 2002
+survey,6,SPVN 2003 (SPVA refugee groups)
+survey,7,LAS 2004/05
+survey,8,SIM 2006
+survey,9,SING 2009
+survey,10,SIM 2011
+survey,11,SIM 2015
+survey,12,SIM 2020
+resptype,1,Head of household - main questionnaire
+resptype,2,Other household member - mini questionnaire
+resptype,3,"Household member - roster only, not interviewed"
+resptype,4,Individually sampled respondent (person sample)
+proxy,1,Person him/herself
+proxy,2,Other person (head of household)
+proxy,3,Other person
+proxy,4,Respondent unknown
+proxy,8,"No mini questionnaire, cultural-integration module only (SPVA 2002)"
+panel_first,1,First in SPVA 2002
+panel_first,2,First in SPVA 1998
+panel_first,3,First in SPVA 1994
+panel_first,4,First in SPVA 1991
+partner_avail,1,Participates
+partner_avail,2,Not at home
+partner_avail,3,Refuses
+partner_avail,4,Other
+lang_interview,1,Entirely Dutch
+lang_interview,2,Mostly Dutch
+lang_interview,3,"Half Dutch, half other language"
+lang_interview,4,Mostly other language
+lang_interview,5,Entirely other language (own language)
+lang_interview,6,English (SPVN 2003)
+lang_interview,7,French (SPVN 2003)
+lang_interview,0,Partner not interviewed (SPVA 2002)
+lang_questionnaire,1,Dutch
+lang_questionnaire,2,English
+lang_questionnaire,3,Turkish
+lang_questionnaire,4,Moroccan Arabic
+lang_questionnaire,5,Polish
+lang_questionnaire,6,Somali
+lang_questionnaire,7,Farsi
+lang_questionnaire,8,French
+member_number,0,Head of household
+member_number,1,Eldest child
+member_number,2,2nd child
+member_number,3,3rd child
+member_number,4,4th child
+member_number,5,5th child
+member_number,6,6th child
+member_number,7,7th child
+member_number,8,8th child
+member_number,9,9th child
+member_number,10,Partner
+member_number,11,Eldest other member
+member_number,12,2nd other member
+member_number,13,3rd other member
+member_number,14,4th other member
+member_number,15,5th other member
+member_number,16,6th other member
+member_number,17,7th other member
+member_number,18,8th other member
+pos_household,0,Male head of household or partner
+pos_household,1,Female head of household or partner
+pos_household,2,Child
+pos_household,3,Sibling
+pos_household,4,Parent or parent-in-law
+pos_household,5,Grandparent
+pos_household,6,Other relative
+pos_household,7,Friend
+pos_household,8,Other
+pos_family,0,Single man
+pos_family,1,Single woman
+pos_family,2,Member of a couple
+pos_family,3,One of two parents
+pos_family,4,Lone father
+pos_family,5,Lone mother
+pos_family,6,Child (two parents)
+pos_family,7,Child (one parent)
+pos_family,8,Other
+pos_family,9,Child living with one or two parents (LAS 2004/05)
+pos_family,10,Child living with other relatives (LAS 2004/05)
+hh_comp,1,Single person
+hh_comp,2,Couple
+hh_comp,3,Parents with children
+hh_comp,4,Parents with children and others
+hh_comp,5,Couple with others
+hh_comp,6,Father with children
+hh_comp,7,Mother with children
+hh_comp,8,Other
+hh_comp,9,Child living with parents or relatives (LAS 2004/05)
+marstat,1,Married
+marstat,2,Divorced
+marstat,3,Widowed
+marstat,4,Never married
+marstat,5,"Cohabiting, unmarried (SPVN 2003)"
+partner_status,0,Single
+partner_status,1,"Married, partner in household"
+partner_status,2,"Married, partner not in household"
+partner_status,3,Cohabiting
+partner_status,4,"Partner, not cohabiting"
+lat_partner,0,No partner (single)
+lat_partner,1,"Yes, partner living elsewhere"
+lat_partner,2,No
+generation,0,No migration background (native Dutch reference sample)
+generation,1,First generation (SPVA/SPVN: arrived aged 6 or older; SIM/CBS: born abroad)
+generation,2,"Second generation (SPVA/SPVN: born in NL or arrived before age 6; SIM/CBS: born in NL, parent(s) born abroad)"
+generation_prtnr,1,First generation (partner born abroad; SPVA/SPVN: arrived aged 6 or older)
+generation_prtnr,2,"Second generation: partner born in the Netherlands (SPVA/SPVN: or arrived before age 6), native Dutch partners included"
+ethgroup,1,Turkish
+ethgroup,2,Moroccan
+ethgroup,3,Surinamese
+ethgroup,4,Antillean/Aruban
+ethgroup,5,Afghan
+ethgroup,6,Iraqi
+ethgroup,7,Iranian
+ethgroup,8,Former Yugoslav
+ethgroup,9,Somali
+ethgroup,10,Polish
+ethgroup,11,Chinese
+ethgroup,90,Native Dutch / third generation
+ethgroup,95,Other (non-target) origin group
+ethgroup,99,Migrant group unknown
+ethsubgroup,1,Turks
+ethsubgroup,2,Kurds (Turkey)
+ethsubgroup,3,Armenians
+ethsubgroup,4,Moroccans (Arabic)
+ethsubgroup,5,Berbers
+ethsubgroup,6,Hindustani Surinamese
+ethsubgroup,7,Creole Surinamese
+ethsubgroup,8,Javanese Surinamese
+ethsubgroup,9,Chinese Surinamese
+ethsubgroup,10,Other Surinamese
+ethsubgroup,11,Antilleans
+ethsubgroup,12,Curacaoans
+ethsubgroup,13,Arubans
+ethsubgroup,20,Does not identify with a subgroup (SPVN 2003)
+ethsubgroup,21,Pashtun/Pathan
+ethsubgroup,22,Tajik
+ethsubgroup,23,Hazara
+ethsubgroup,24,Arab
+ethsubgroup,25,Kurd (Iraq/Iran)
+ethsubgroup,26,Persian
+ethsubgroup,27,Azerbaijani
+ethsubgroup,29,Bosniak
+ethsubgroup,30,Croat
+ethsubgroup,31,Serb
+ethsubgroup,32,Montenegrin
+ethsubgroup,33,Slovene
+ethsubgroup,34,Macedonian
+ethsubgroup,35,Dir
+ethsubgroup,36,Darod
+ethsubgroup,37,Isaaq
+ethsubgroup,38,Hawiye
+ethsubgroup,39,Rahanweyn
+ethsubgroup,40,Digil
+ethsubgroup,41,Dutch
+ethsubgroup,98,"Other, specified in text"
+partner_residence,1,Netherlands
+partner_residence,2,Country of origin
+partner_residence,3,Elsewhere in Western Europe
+partner_residence,4,Elsewhere in the world
+partner_residence,5,Whereabouts unknown
+partner_residence,6,"Other country, unspecified (SIM)"
+reunification_plan,1,"Yes, in progress"
+reunification_plan,2,"No, not (yet) in progress"
+reunification_plan,3,"No, not planning to"
+reunification_plan,4,Not possible
+origin_settlement,1,Large city
+origin_settlement,2,Small town
+origin_settlement,3,Village
+origin_settlement,4,Refugee camp
+origin_settlement,5,Other
+city4,1,Amsterdam
+city4,2,Rotterdam
+city4,3,The Hague
+city4,4,Utrecht
+city4,5,Other survey municipality
+mig_reason,1,Work
+mig_reason,2,Study
+mig_reason,3,Social security (SPVA 2002)
+mig_reason,4,Political situation / war / conscription
+mig_reason,5,Family reunification
+mig_reason,6,Marriage / family formation
+mig_reason,7,Came with family
+mig_reason,8,Health / medical reasons
+mig_reason,10,Other
+mig_reason,11,Famine / poverty
+mig_reason,12,Moved in with parents or partner already in NL (SIM)
+mig_reason,13,Future / education of children (SIM)
+mig_reason,14,Came with parents (SIM)
+mig_reason,15,Came with partner (SIM)
+mig_reason,16,Moved in with partner already in NL (SIM partner)
+mig_reason,17,Came on holiday and stayed (SIM 2006/2011)
+mig_reason,18,Invited by the Dutch government (invited refugee; SING 2009)
+mig_reason,19,Religious persecution (SING 2009)
+reason_nl,1,No real preference
+reason_nl,2,Partner lives in the Netherlands
+reason_nl,3,Compatriots in the Netherlands
+reason_nl,4,Family or acquaintances already here
+reason_nl,5,Quality of health care
+reason_nl,6,Socio-economic situation
+reason_nl,7,Political situation
+reason_nl,8,Asylum procedure / good reception
+reason_nl,9,Quality of education system
+reason_nl,10,Travelled with a group going to the Netherlands
+reason_nl,11,Dutch always willing to help
+reason_nl,12,Other
+reason_nl,13,For a job / work
+reason_nl,14,Safety
+reason_nl,15,Invitation by the Dutch government
+citizenship,1,Dutch only
+citizenship,2,Dual: Dutch and other
+citizenship,3,Non-Dutch only
+citizenship,4,Other / unspecified
+citizenship_det,1,Dutch
+citizenship_det,11,Dutch and Afghan
+citizenship_det,12,Dutch and Iraqi
+citizenship_det,13,Dutch and Iranian
+citizenship_det,14,Dutch and Yugoslav
+citizenship_det,15,Dutch and Bosnian
+citizenship_det,16,Dutch and Croatian
+citizenship_det,17,Dutch and Serbian
+citizenship_det,18,Dutch and Montenegrin
+citizenship_det,19,Dutch and Slovenian
+citizenship_det,20,Dutch and Macedonian
+citizenship_det,21,Dutch and Kosovar
+citizenship_det,22,Dutch and Kurdish
+citizenship_det,23,Dutch and Somali
+citizenship_det,24,Dutch and other nationality
+citizenship_det,111,Afghan
+citizenship_det,112,Iraqi
+citizenship_det,113,Iranian
+citizenship_det,114,Yugoslav
+citizenship_det,115,Bosnian
+citizenship_det,116,Croatian
+citizenship_det,117,Serbian
+citizenship_det,118,Montenegrin
+citizenship_det,119,Slovenian
+citizenship_det,120,Macedonian
+citizenship_det,121,Kosovar
+citizenship_det,122,Kurdish
+citizenship_det,123,Somali
+citizenship_det,124,Other nationality
+permit_cat,1,Permanent residence / settlement permit
+permit_cat,2,Refugee status (Convention) / asylum permit
+permit_cat,3,Regular residence permit (temporary or unspecified)
+permit_cat,4,"Conditional / temporary permit (VVTV, W-document)"
+permit_cat,5,Residence card for EU/EEA nationals
+permit_cat,6,No papers
+permit_cat,7,Other
+permit_det,101,SPVA02: settlement permit (vestigingsvergunning)
+permit_det,102,SPVA02: admission document (toelatingsbewijs)
+permit_det,103,SPVA02: residence permit
+permit_det,104,SPVA02: stamp in passport
+permit_det,105,SPVA02: temporary permit
+permit_det,106,SPVA02: no papers
+permit_det,107,SPVA02: other
+permit_det,201,SPVN03: settlement permit (vestigingsvergunning)
+permit_det,202,SPVN03: admitted as refugee (A-status)
+permit_det,203,"SPVN03: residence permit, indefinite"
+permit_det,204,SPVN03: residence permit
+permit_det,205,SPVN03: residence card EU nationals
+permit_det,206,SPVN03: conditional permit (VVTV)
+permit_det,207,SPVN03: W-document
+permit_det,208,SPVN03: residence permit indefinite (new Aliens Act)
+permit_det,209,"SPVN03: residence permit indefinite, regular"
+permit_det,210,"SPVN03: residence permit temporary, asylum"
+permit_det,211,"SPVN03: residence permit indefinite, asylum"
+permit_det,212,SPVN03: residence card EU national (duplicate code)
+permit_det,213,SPVN03: W-document (duplicate code)
+permit_det,214,SPVN03: other
+course_diploma,0,No
+course_diploma,1,"Yes, completed"
+course_diploma,2,Still in progress (SPVN 2003)
+satisfied5,1,Very satisfied
+satisfied5,2,Satisfied
+satisfied5,3,Neither satisfied nor dissatisfied
+satisfied5,4,Dissatisfied
+satisfied5,5,Very dissatisfied
+course_best,1,Everything
+course_best,2,Language course
+course_best,3,Meeting other people
+course_best,4,Information on society / culture
+course_best,5,Teachers / guidance / care
+course_best,6,Practical information about the Netherlands
+course_best,7,Computer lessons
+course_best,8,Other
+course_best,9,Satisfied with nothing
+course_worst,1,Too difficult / too fast
+course_worst,2,Programme too short
+course_worst,3,Guidance / teacher
+course_worst,4,Language / course
+course_worst,5,Level too low
+course_worst,6,Levels too different / groups too mixed
+course_worst,7,Practical / government information
+course_worst,8,Dissatisfied with nothing
+course_worst,9,Other
+reading4,1,"No, not at all"
+reading4,2,"No, with difficulty"
+reading4,3,"Yes, reasonably"
+reading4,4,"Yes, well"
+other_language,0,Dutch only
+other_language,11,Turkish
+other_language,12,Kurdish
+other_language,21,Moroccan Arabic
+other_language,22,Berber
+other_language,31,Sranan Tongo
+other_language,32,Sarnami Hindi
+other_language,33,Javanese
+other_language,34,Chinese
+other_language,35,Papiamento
+other_language,36,English
+other_language,13,Armenian
+other_language,41,Dari (Afghan Persian)
+other_language,42,Pashto
+other_language,43,"Turkic languages (Uzbek, Turkmen)"
+other_language,44,Arabic (general)
+other_language,45,Sorani Kurdish
+other_language,46,Turkmen
+other_language,47,Badini / Kurmanji Kurdish
+other_language,48,Farsi (Persian)
+other_language,49,Azeri
+other_language,50,Somali
+other_language,51,Polish
+other_language,52,Mandarin
+other_language,53,Cantonese
+other_language,54,Wenzhounese
+other_language,96,Other
+edu_cntry,0,No education
+edu_cntry,1,Country of origin only
+edu_cntry,2,Both origin country and Netherlands
+edu_cntry,3,Netherlands only
+edu8,0,None
+edu8,1,Primary (bao)
+edu8,2,Lower vocational (vbo/lbo)
+edu8,3,Lower general secondary (mavo)
+edu8,4,Upper vocational (mbo)
+edu8,5,Upper general secondary (havo/vwo)
+edu8,6,Higher professional (hbo)
+edu8,7,University (wo)
+edu_nl,-1,No education at all
+edu_nl,0,Education abroad only
+edu_nl,1,Primary (bao)
+edu_nl,2,Lower vocational (vbo/lbo)
+edu_nl,3,Lower general secondary (mavo)
+edu_nl,4,Upper vocational (mbo)
+edu_nl,5,Upper general secondary (havo/vwo)
+edu_nl,6,Higher professional (hbo)
+edu_nl,7,University (wo)
+edu4,1,At most primary
+edu4,2,Lower secondary (vbo/mavo)
+edu4,3,Upper secondary (mbo/havo/vwo)
+edu4,4,Tertiary (hbo/wo)
+edu5,0,None
+edu5,1,At most primary
+edu5,2,Lower secondary (vbo/mavo)
+edu5,3,Upper secondary (mbo/havo/vwo)
+edu5,4,Tertiary (hbo/wo)
+edu_abroad_det,0,"Primary, 4 years or less"
+edu_abroad_det,1,"Primary, 5 years or more"
+edu_abroad_det,2,SPVA02: lower vocational (vbo)
+edu_abroad_det,3,SPVA02: lower general secondary (mavo)
+edu_abroad_det,4,SPVA02: upper vocational (mbo)
+edu_abroad_det,5,SPVA02: upper general secondary (havo/vwo)
+edu_abroad_det,6,SPVA02: higher professional (hbo)
+edu_abroad_det,7,SPVA02: university (wo)
+edu_abroad_det,12,SPVN03: lower secondary
+edu_abroad_det,13,SPVN03: upper secondary
+edu_abroad_det,14,SPVN03: higher education
+edu_parent_det,0,None
+edu_parent_det,1,Primary
+edu_parent_det,2,SPVA02: lower vocational (vbo)
+edu_parent_det,3,SPVA02: lower general secondary (mavo)
+edu_parent_det,4,SPVA02: upper vocational (mbo)
+edu_parent_det,5,SPVA02: upper general secondary (havo/vwo)
+edu_parent_det,6,SPVA02: higher professional (hbo)
+edu_parent_det,7,SPVA02: university (wo)
+edu_parent_det,12,SPVN03: lower secondary
+edu_parent_det,13,SPVN03: upper secondary
+edu_parent_det,14,SPVN03: higher education
+edu_current,0,Bridge class (brugklas) (SPVA 2002)
+edu_current,1,Primary (bao)
+edu_current,2,Lower vocational (vbo/lbo)
+edu_current,3,Lower general secondary (mavo)
+edu_current,4,Upper vocational (mbo)
+edu_current,5,Upper general secondary (havo/vwo)
+edu_current,6,Higher professional (hbo)
+edu_current,7,University (wo)
+edu7,1,Primary (bao)
+edu7,2,Lower vocational (vbo/lbo)
+edu7,3,Lower general secondary (mavo)
+edu7,4,Upper vocational (mbo)
+edu7,5,Upper general secondary (havo/vwo)
+edu7,6,Higher professional (hbo)
+edu7,7,University (wo)
+edu_type,0,No education
+edu_type,1,Full-time day education
+edu_type,2,Part-time day education
+edu_type,3,Evening education
+edu_type,4,Practical / apprenticeship
+edu_type,5,Other
+participation,0,No
+participation,1,Full-time
+bridge_class,1,vmbo
+bridge_class,2,vmbo/havo/vwo
+bridge_class,3,vmbo/havo
+bridge_class,4,havo/vwo
+bridge_class,5,Other
+field_cat,1,General
+field_cat,2,Economic / administrative
+field_cat,3,Technical
+field_cat,4,Care / health / services
+field_cat,5,Other
+field_det,1,SPVA02: general
+field_det,2,SPVA02: economic-administrative
+field_det,3,SPVA02: technical
+field_det,4,SPVA02: care
+field_det,5,SPVA02: other
+field_det,11,SPVN03: general education
+field_det,12,"SPVN03: languages, arts, philosophy"
+field_det,13,SPVN03: agricultural
+field_det,14,"SPVN03: technical, natural sciences"
+field_det,15,"SPVN03: economic, administrative, legal"
+field_det,16,"SPVN03: medical, paramedical"
+field_det,17,SPVN03: socio-cultural
+field_det,18,SPVN03: personal and social care
+field_det,19,SPVN03: teacher training
+field_det,20,SPVN03: other
+dropout,0,Diploma Dutch secondary education
+dropout,1,Dropout from Dutch secondary education
+diploma_eval,1,"Yes, had it evaluated"
+diploma_eval,0,No
+diploma_eval,2,Evaluation in progress
+diploma_eval_result,1,Rated higher than in country of award
+diploma_eval_result,2,Rated equal
+diploma_eval_result,3,Rated lower
+diploma_eval_result,4,Not recognised in the Netherlands
+lab_rel,1,Working 12 hours or more
+lab_rel,2,"Wants work, searching, available, registered"
+lab_rel,3,"Wants work, searching, available"
+lab_rel,4,"Wants work, searching, registered"
+lab_rel,5,"Wants work, registered"
+lab_rel,6,Benefit only
+lab_rel,7,"Other, wants work"
+lab_rel,8,"Other, not in labour force"
+in_lf,0,Not in labour force
+in_lf,1,In labour force
+reg_unemp,0,Other labour force
+reg_unemp,1,Registered unemployed
+not_working,0,Other labour force
+not_working,1,Not working
+main_activity,0,Working 12 hours or more
+main_activity,1,Unemployed / job seeking
+main_activity,2,Homemaker
+main_activity,3,Work-disabled
+main_activity,4,Pupil / student
+main_activity,5,Retired / state pension
+main_activity,6,Other
+main_activity,7,No legal status (SPVN 2003)
+skill_level,1,Elementary
+skill_level,2,Lower
+skill_level,3,Intermediate
+skill_level,4,Higher
+skill_level,5,Scientific
+industry9,0,"Agriculture, fishing, mining"
+industry9,1,Manufacturing
+industry9,2,Construction
+industry9,3,"Repair, trade, hotels and catering"
+industry9,4,"Transport, storage, communication"
+industry9,5,Financial and business services
+industry9,6,"Public administration, education"
+industry9,7,Health and welfare
+industry9,8,Culture and other services
+employment_type,1,Employee
+employment_type,2,Self-employed / own business
+employment_type,3,Freelance
+prev_status,1,Paid work 12 hours or more per week
+prev_status,2,Paid work less than 12 hours
+prev_status,3,No paid work
+job_level_vs_prev,1,Current higher
+job_level_vs_prev,2,Same
+job_level_vs_prev,3,Current lower
+reason_job_change,1,Did not like the work
+reason_job_change,2,Did not like colleagues
+reason_job_change,3,To get promoted
+reason_job_change,4,Work too far away
+reason_job_change,5,Wage too low
+reason_job_change,6,Moved house
+reason_job_change,7,Work ended
+reason_job_change,8,Other
+sector,1,Government
+sector,2,Non-profit
+sector,3,Private company
+job_found,1,Family / friends
+job_found,2,Employment office
+job_found,3,Temp agency
+job_found,4,Enquiring
+job_found,5,School / internship
+job_found,6,Subsidised job scheme
+job_found,7,Advertisement
+job_found,8,Internet
+job_found,9,Was asked
+job_found,10,Other
+job_found,11,Via refugee organisation (SPVN 2003)
+job_found,12,Via placement agency (SPVN 2003)
+promotion_barrier,1,Education too low
+promotion_barrier,2,Too little experience
+promotion_barrier,3,Works part-time / side job
+promotion_barrier,4,Prejudice
+promotion_barrier,5,No internal vacancies
+promotion_barrier,6,No interest
+promotion_barrier,7,Language problems
+promotion_barrier,8,Already in highest position
+promotion_barrier,9,Too old (SIM 2006)
+promotion_barrier,10,Other
+reason_other_job,1,Does not like the work
+reason_other_job,2,Does not like colleagues
+reason_other_job,3,To get promoted
+reason_other_job,4,Too far away
+reason_other_job,5,Wage too low
+reason_other_job,6,Moving house
+reason_other_job,7,Other
+contract_perm,1,Permanent
+contract_perm,2,Temporary
+contract_type,0,Permanent appointment
+contract_type,1,Fixed-term contract
+contract_type,2,"Temporary, prospect of permanent"
+contract_type,3,Temp agency work
+contract_type,4,On-call / stand-in
+contract_type,5,Min-max contract
+contract_type,6,Zero-hours contract
+contract_type,7,Probation period
+contract_type,8,Subsidised job scheme (ID-banen)
+contract_type,9,Other
+hours12,1,Less than 12 hours
+hours12,2,12 hours or more
+employee_ethnicity,1,Own group
+employee_ethnicity,2,Mixed
+employee_ethnicity,3,Native Dutch
+prior_status_selfemp,1,Unemployed / job seeking
+prior_status_selfemp,2,Homemaker
+prior_status_selfemp,3,Work-disabled
+prior_status_selfemp,4,Student
+prior_status_selfemp,5,Other
+how_left,1,Dismissed by employer
+how_left,2,Resigned
+how_left,3,Became work-disabled
+how_left,4,Retired / early retirement
+reason_dismissal,1,Reorganisation / downsizing
+reason_dismissal,2,Company bankrupt
+reason_dismissal,3,End of temporary contract
+reason_dismissal,4,Health
+reason_dismissal,5,Became work-disabled
+reason_dismissal,6,Conflict
+reason_dismissal,7,Returned to school
+reason_dismissal,8,Did not like the work
+reason_dismissal,9,Private reasons
+reason_dismissal,10,Other
+reason_dismissal,11,Poor performance (SIM 2011)
+last_visit,1,Less than 1 month ago
+last_visit,2,1-6 months ago
+last_visit,3,6-12 months ago
+last_visit,4,A year or more ago
+wants_work,1,"Yes, 12 hours or more per week"
+wants_work,2,"Yes, less than 12 hours per week"
+wants_work,3,Does not want work
+not_available_reason,1,Finishing studies
+not_available_reason,2,Arranging childcare
+not_available_reason,3,Finishing voluntary work
+not_available_reason,4,Notice period current job
+not_available_reason,5,Other
+reason_not_seeking,1,Health / work disability
+reason_not_seeking,2,Satisfied with current job of <12 hours
+reason_not_seeking,3,Studying / at school
+reason_not_seeking,4,Housework
+reason_not_seeking,5,Too old
+reason_not_seeking,6,No work available / cannot find work
+reason_not_seeking,7,No time / did not get round to it
+reason_not_seeking,8,Would not be hired anyway
+reason_not_seeking,9,Other activities / no need
+reason_not_seeking,10,Other
+reason_not_seeking,11,Wants to study first (SPVN 2003)
+reason_not_seeking,12,Returning to origin country soon (SPVN 2003)
+reason_not_seeking,13,Insufficient language skills (SPVN 2003)
+reason_not_seeking,14,No legal status (SPVN 2003)
+job_match,1,"Yes, job matches education"
+job_match,2,"No, over-educated"
+job_match,3,"No, under-educated"
+job_match,4,Educated for something else
+future5,1,In paid employment
+future5,2,Unemployed
+future5,3,Work-disabled
+future5,4,Retired
+future5,5,Working in the household
+future5,6,Not living in the Netherlands
+income_cat10,1,Less than 550 euro
+income_cat10,2,550-750 euro
+income_cat10,3,750-950 euro
+income_cat10,4,950-1150 euro
+income_cat10,5,1150-1350 euro
+income_cat10,6,1350-1550 euro
+income_cat10,7,1550-1750 euro
+income_cat10,8,1750-2000 euro
+income_cat10,9,2000-2250 euro
+income_cat10,10,2250 euro or more
+income_cat8,1,Less than 750 euro
+income_cat8,2,750-950 euro
+income_cat8,3,950-1150 euro
+income_cat8,4,1150-1350 euro
+income_cat8,5,1350-1550 euro
+income_cat8,6,1550-1750 euro
+income_cat8,7,1750-2000 euro
+income_cat8,8,2000 euro or more
+income_cat9,1,Less than 750 euro
+income_cat9,2,750-950 euro
+income_cat9,3,950-1150 euro
+income_cat9,4,1150-1350 euro
+income_cat9,5,1350-1550 euro
+income_cat9,6,1550-1750 euro
+income_cat9,7,1750-2000 euro
+income_cat9,8,2000-2250 euro
+income_cat9,9,2250 euro or more
+benefit_type,1,Social assistance (bijstand)
+benefit_type,2,Unemployment benefit (WW)
+benefit_type,3,Disability benefit (WAO)
+benefit_type,4,Pension / state pension (AOW) / early retirement
+benefit_type,5,Student grant / UAF
+benefit_type,6,Other
+money_worries,1,Almost constantly
+money_worries,2,Very often
+money_worries,3,Occasionally
+money_worries,4,Never
+support_who,1,Nobody
+support_who,2,Partner only
+support_who,3,Children (and partner)
+support_who,4,Parents only
+support_who,5,Others only
+support_who,6,Other family only (SPVN 2003)
+move_reason,1,Larger or better dwelling
+move_reason,2,Bought a house
+move_reason,3,Cheaper dwelling
+move_reason,4,Disliked neighbourhood
+move_reason,5,Work / better job chances
+move_reason,6,Education
+move_reason,7,Contacts with compatriots etc.
+move_reason,8,Medical reasons
+move_reason,9,Other
+nbhd_pleasant4,1,Pleasant
+nbhd_pleasant4,2,So-so
+nbhd_pleasant4,3,Not pleasant
+nbhd_pleasant4,4,Not at all pleasant
+nbhd_pleasant5,1,Very pleasant
+nbhd_pleasant5,2,Pleasant
+nbhd_pleasant5,3,Neither pleasant nor unpleasant
+nbhd_pleasant5,4,Not pleasant
+nbhd_pleasant5,5,Not at all pleasant
+nbhd_foreigners,1,Too many foreigners
+nbhd_foreigners,2,Fine
+nbhd_foreigners,3,Too few foreigners
+nbhd_dutch,1,Too few Dutch
+nbhd_dutch,2,Fine
+nbhd_dutch,3,Too many Dutch
+move_destination,1,Same municipality
+move_destination,2,Amsterdam / Rotterdam / The Hague / Utrecht
+move_destination,3,Another municipality
+health5,1,Excellent
+health5,2,Good
+health5,3,Fair
+health5,4,Poor
+health5,5,Very poor
+member_type,1,Sports club
+member_type,2,Trade union
+member_type,3,Organisation with a social goal
+member_type,4,Hobby club
+member_type,5,Education / school association
+member_type,6,Political party
+member_type,7,Social club
+member_type,8,Ethnic / cultural association
+member_type,9,Other
+ethnic_share,1,Many from own group
+ethnic_share,2,Few
+ethnic_share,3,(Almost) none
+assoc_focus,1,Own group in the Netherlands
+assoc_focus,2,Country of origin
+assoc_focus,3,Both
+wants_friends4,1,"Yes, very much"
+wants_friends4,2,Yes
+wants_friends4,3,"No, rather not"
+wants_friends4,4,"No, definitely not"
+contact_balance,1,More with own group
+contact_balance,2,Equally with both
+contact_balance,3,More with native Dutch
+residence4,1,Same municipality
+residence4,2,Other municipality
+residence4,3,Country of origin
+residence4,4,Elsewhere
+parents_alive,1,Both
+parents_alive,2,Father only
+parents_alive,3,Mother only
+parents_alive,4,Neither
+parent_asked,1,Father
+parent_asked,2,Mother
+annoy5,1,Very annoying
+annoy5,2,Annoying
+annoy5,3,No opinion
+annoy5,4,Not annoying
+annoy5,5,Not at all annoying
+stay_home6,1,Always the mother
+stay_home6,2,Mostly the mother
+stay_home6,3,Both
+stay_home6,4,Mostly the father
+stay_home6,5,Always the father
+stay_home6,6,Neither
+ideal_children,0,No children
+ideal_children,1,1 child
+ideal_children,2,2 children
+ideal_children,3,3 children
+ideal_children,4,4 children
+ideal_children,5,5 children
+ideal_children,8,6 or more children
+child_value,1,Obey parents
+child_value,2,Consideration / respect for others
+child_value,3,Independence
+neighbour_choice,1,Compatriot
+neighbour_choice,2,Native Dutch
+neighbour_choice,3,Does not matter
+living_nl5,1,Very pleasant
+living_nl5,2,Pleasant
+living_nl5,3,Neutral
+living_nl5,4,Unpleasant
+living_nl5,5,Very unpleasant
+safe5,1,Very safe
+safe5,2,Safe
+safe5,3,Neither safe nor unsafe
+safe5,4,Unsafe
+safe5,5,Very unsafe
+parenting4,1,Good
+parenting4,2,Not so good
+parenting4,3,Bad
+parenting4,4,Very bad
+at_ease4,1,"Yes, very"
+at_ease4,2,"Yes, somewhat"
+at_ease4,3,"No, not really"
+at_ease4,4,"No, not at all"
+religion_cat,0,None
+religion_cat,1,Hinduism
+religion_cat,2,Islam
+religion_cat,3,Christianity
+religion_cat,4,Other
+religion_det,0,No religion
+religion_det,11,Hindu: Sanatan Dharm
+religion_det,12,Hindu: Arya Samaj
+religion_det,13,Hindu: other / unspecified
+religion_det,21,Islam: Shia
+religion_det,22,Islam: Sunni
+religion_det,23,Islam: Alevi
+religion_det,24,Islam: Ahmadiyya
+religion_det,25,Islam: other / unspecified
+religion_det,31,Christian: Roman Catholic
+religion_det,32,Christian: Dutch Reformed (Hervormd)
+religion_det,33,Christian: Reformed (Gereformeerd)
+religion_det,34,Christian: Moravian (Evangelische Broedergemeente)
+religion_det,35,Christian: Pentecostal
+religion_det,36,Christian: Jehovah's Witness
+religion_det,37,Christian: Orthodox
+religion_det,38,Christian: other / unspecified
+religion_det,39,Christian: Protestant Church in the Netherlands (PKN)
+religion_det,26,Islam: Salafi (SIM 2011)
+religion_det,41,Jewish
+religion_det,42,Zoroastrian
+religion_det,43,Baha'i
+religion_det,44,Sikh
+religion_det,45,Buddhist
+religion_det,46,Confucian
+religion_det,47,Taoist
+religion_det,99,Other religion
+same_religion,1,Same as raised in
+same_religion,2,Different
+same_religion,3,Not raised religiously
+attendance4,1,Never
+attendance4,2,A few times a year
+attendance4,3,A few times a month
+attendance4,4,Weekly or more
+iden_prim,1,Own group
+iden_prim,2,Dutch
+iden_scale5,1,Entirely own group
+iden_scale5,2,More own group than Dutch
+iden_scale5,3,Both equally
+iden_scale5,4,More Dutch than own group
+iden_scale5,5,Entirely Dutch
+iden_oth,0,No
+iden_oth,1,Afghan
+iden_oth,2,Iraqi
+iden_oth,3,Iranian
+iden_oth,4,Yugoslav
+iden_oth,5,Somali
+iden_oth,6,Dutch
+iden_oth,7,Other people
+return3,1,Yes
+return3,2,Don't know
+return3,3,No
+return_combined,1,Wants to and able to return
+return_combined,2,"Wants to return, other"
+return_combined,3,Don't know
+return_combined,4,Does not want to return
+reason_not_return,1,Work
+reason_not_return,2,Likes it here
+reason_not_return,3,No money
+reason_not_return,4,Study
+reason_not_return,5,Political situation
+reason_not_return,6,Children
+reason_not_return,7,No future in origin country
+reason_not_return,8,No ties with origin country
+reason_not_return,9,Health reasons / care (SPVA 2002)
+reason_not_return,10,Other
+reason_not_return,11,Economic situation / no work in origin country (SIM)
+reason_not_return,12,Origin country not a good place to live (SIM)
+reason_not_return,13,Born and raised in / long in the Netherlands (SIM)
+month_special,1,January
+month_special,2,February
+month_special,3,March
+month_special,4,April
+month_special,5,May
+month_special,6,June
+month_special,7,July
+month_special,8,August
+month_special,9,September
+month_special,10,October
+month_special,11,November
+month_special,12,December
+mode,1,Web (CAWI)
+mode,2,Face-to-face (CAPI)
+mode,3,"Video interview (CAVI, SIM 2020)"
+agency,1,TNS NIPO / Veldkamp
+agency,2,Labyrinth
+split_half,1,Group A
+split_half,2,Group B
+qversion,1,Version 1
+qversion,2,Version 2
+qversion,3,Version 3
+qversion,4,Version 4
+qversion,5,Version 5
+qversion,6,Version 6
+age_cat7,0,Under 15 (SPVA/SPVN household members)
+age_cat7,1,15-24
+age_cat7,2,25-34
+age_cat7,3,35-44
+age_cat7,4,45-54
+age_cat7,5,55-64
+age_cat7,6,65-74
+age_cat7,7,75 or older
+age_cat7,8,"70 or older, undivided (SIM 2011 top class)"
+age_cat_chd4,1,0-3
+age_cat_chd4,2,4-12
+age_cat_chd4,3,13-17
+age_cat_chd4,4,18 or older
+cbs_origin3,1,No migration background (native Dutch)
+cbs_origin3,2,Western migration background
+cbs_origin3,3,Non-western migration background
+marstat_reg,1,Married / registered partnership
+marstat_reg,2,Not married
+chd_residence,1,All children in the Netherlands
+chd_residence,2,In the Netherlands and in the country of origin
+chd_residence,3,All in the country of origin
+chd_residence,4,In another country
+chd_residence,5,In the Netherlands and in another country
+chd_residence,6,Various
+prtnr_activity,1,Paid work
+prtnr_activity,2,Unemployed / job seeking
+prtnr_activity,3,Homemaker
+prtnr_activity,4,Work-disabled
+prtnr_activity,5,Pupil / student
+prtnr_activity,6,Retired / state pension / early retirement
+prtnr_activity,98,Other
+oth_relation3,1,"No, not family"
+oth_relation3,2,"Yes, family"
+oth_relation3,3,Family and non-family
+livsit5,1,"With partner, no children"
+livsit5,2,With partner and children
+livsit5,3,Alone with children
+livsit5,4,With parent(s) (child living at home)
+livsit5,98,Other
+hh_type_reg,1,One-person household
+hh_type_reg,2,Unmarried couple without children
+hh_type_reg,3,Married couple without children
+hh_type_reg,4,Unmarried couple with children
+hh_type_reg,5,Married couple with children
+hh_type_reg,6,Single-parent household
+hh_type_reg,7,Other household
+hh_type_reg,8,Institutional household
+hh_type_reg,9,Other / institutional / unknown (SIM 2020 classes)
+hh_pos_reg,1,Child living at home
+hh_pos_reg,2,Single
+hh_pos_reg,3,Partner in unmarried couple without children
+hh_pos_reg,4,Partner in married couple without children
+hh_pos_reg,5,Partner in unmarried couple with children
+hh_pos_reg,6,Partner in married couple with children
+hh_pos_reg,7,Parent in single-parent household
+hh_pos_reg,8,Reference person in other household
+hh_pos_reg,9,Other member of a household
+hh_pos_reg,10,Member of institutional household
+hh_pos_reg,19,Reference person / other member / institutional / unknown (SIM 2020 classes)
+tenure3,1,Rented
+tenure3,2,Owner-occupied
+tenure3,98,Other
+tenure_reg,1,Owner-occupied
+tenure_reg,2,Rented
+tenure_reg,9,Unknown
+landlord,1,Housing association
+landlord,2,Private landlord
+landlord,3,"Family, friend or acquaintance"
+landlord,4,Employer
+landlord,5,Temp agency
+landlord,6,Student housing
+landlord,98,Other
+dwelling_type,1,Independent rented or owned dwelling
+dwelling_type,2,"Room(s), sharing bathroom and/or kitchen with non-household members"
+dwelling_type,3,"Room in boarding house, hostel or hotel"
+dwelling_type,4,Holiday home or caravan on a campsite
+dwelling_type,5,Housing unit (e.g. studio)
+dwelling_type,98,Other
+urban5,1,Very highly urbanised
+urban5,2,Highly urbanised
+urban5,3,Moderately urbanised
+urban5,4,Little urbanised
+urban5,5,Not urbanised
+edu3,0,None / no diploma
+edu3,1,"Low (primary, vmbo, mbo-1)"
+edu3,2,"Middle (havo/vwo, mbo 2-4)"
+edu3,3,"High (hbo, wo)"
+edu3_att,1,Low
+edu3_att,2,Middle
+edu3_att,3,High
+edu_where2,1,In the country of origin
+edu_where2,2,In another country
+edu_parent4,1,No education / never went to school
+edu_parent4,2,Primary school
+edu_parent4,3,Secondary school
+edu_parent4,4,"Higher education (hbo, university)"
+enr_type_reg,1,Secondary (vo)
+enr_type_reg,2,Upper vocational (mbo)
+enr_type_reg,3,Higher professional (hbo)
+enr_type_reg,4,University (wo)
+enr_type_reg,5,Adult / vocational education (ve)
+enr_type_reg,6,Middle (vo/mbo) (SIM 2020 classes)
+enr_type_reg,7,High (hbo/wo) (SIM 2020 classes)
+inb_course3,1,Followed
+inb_course3,2,Currently following
+inb_course3,3,Not followed
+inb_exam3,1,"Yes, passed"
+inb_exam3,2,"No, preparing for the exam"
+inb_exam3,3,No
+nl_course5,1,"Yes, followed, no certificate"
+nl_course5,2,"Yes, followed and certified"
+nl_course5,3,"No, but planning to"
+nl_course5,4,No
+nl_course5,5,Currently following
+selfemp3,1,Own business / self-employed
+selfemp3,2,Business of partner or parents
+selfemp3,3,Freelancer
+freq4_av,1,Always
+freq4_av,2,Often
+freq4_av,3,Sometimes
+freq4_av,4,Never
+wants_work5,1,"Yes, 12 hours or more per week"
+wants_work5,2,"Yes, less than 12 hours per week"
+wants_work5,3,"No, not at the moment"
+wants_work5,4,Already found new work
+wants_work5,5,"Would like to, but cannot"
+sec_reg4,1,Labour and capital
+sec_reg4,2,Benefits
+sec_reg4,3,Pension
+sec_reg4,4,No income or unknown
+inc_band,1,"Less than 10,000 euro (SIM 2015: 2013 income)"
+inc_band,2,"10,000-20,000"
+inc_band,3,"20,000-30,000"
+inc_band,4,"30,000-40,000"
+inc_band,5,"40,000-50,000"
+inc_band,6,"50,000 euro or more"
+inc_band,11,"Less than 25,000 euro (SIM 2020: 2019 income)"
+inc_band,12,"25,000-50,000"
+inc_band,13,"50,000-75,000"
+inc_band,14,"75,000-100,000"
+inc_band,15,"100,000 euro or more"
+inc_band,16,"75,000 euro or more (household, SIM 2020)"
+inc_band,90,No income
+inc_band,99,Income unknown
+pct_band5,1,1st-20th percentile
+pct_band5,2,21st-40th percentile
+pct_band5,3,41st-60th percentile
+pct_band5,4,61st-80th percentile
+pct_band5,5,81st-100th percentile
+pct_band5,6,Institutional household or income unknown
+ind_motive,10,Family migration
+ind_motive,11,Family formation
+ind_motive,12,Family reunification
+ind_motive,13,Adoption / foster children
+ind_motive,20,Asylum
+ind_motive,30,Labour
+ind_motive,31,Knowledge migrant
+ind_motive,32,Researcher
+ind_motive,33,Au pair
+ind_motive,34,Internship
+ind_motive,40,Study
+ind_motive,50,Other
+ind_motive,90,Unknown / migrated within the same year
+ind_motive_pub,9,Not applicable: EU/EFTA national (no IND motive)
+ind_motive_pub,10,Family reunification
+ind_motive_pub,11,Family formation
+ind_motive_pub,20,Asylum
+ind_motive_pub,30,Other labour migration
+ind_motive_pub,31,Knowledge migration
+ind_motive_pub,40,Study
+ind_motive_pub,50,Other motives
+ind_motive_nw,9,Unknown (non-EU) / not applicable (EU/EFTA)
+ind_motive_nw,10,Family reunification
+ind_motive_nw,11,Family formation
+ind_motive_nw,31,Asylum: conditional residence permit (VVTV)
+ind_motive_nw,32,Asylum: temporary/permanent permit
+ind_motive_nw,33,Asylum: A-status
+ind_motive_nw,34,Asylum: other
+ind_motive_nw,35,Asylum: unaccompanied minors (AMV)
+ind_motive_nw,40,Knowledge migration
+ind_motive_nw,49,Other labour migration
+ind_motive_nw,51,Au pair
+ind_motive_nw,61,Study
+ind_motive_nw,71,Economically inactive
+ind_motive_nw,81,Medical treatment
+ind_motive_nw,91,Other motives
+ind_motive_nw,99,Unknown / not filled in
+motive_rank,1,First migration goal
+motive_rank,2,Second
+motive_rank,3,Third
+motive_rank,4,Fourth
+future_res4,1,Living in the Netherlands
+future_res4,2,"Partly in country of origin, partly in NL"
+future_res4,3,In the country of origin
+future_res4,4,(Partly) in another country
+visit_dur3,1,Less than a month
+visit_dur3,2,One to three months
+visit_dur3,3,More than three months
+lang_prob4,1,Often
+lang_prob4,2,Sometimes
+lang_prob4,3,Never
+lang_prob4,4,Does not speak the language
+yes_bit_no,1,Yes
+yes_bit_no,2,A little
+yes_bit_no,3,No
+strength5,1,Very strongly
+strength5,2,Strongly
+strength5,3,A little
+strength5,4,Not
+strength5,5,Not at all
+home3,1,Yes
+home3,2,Sometimes
+home3,3,No
+freq5_cont,1,Every day
+freq5_cont,2,Every week
+freq5_cont,3,Every month
+freq5_cont,4,A few times a year
+freq5_cont,5,Never / less than once a year
+freq4_vrsn,1,Often
+freq4_vrsn,2,Regularly
+freq4_vrsn,3,Sometimes
+freq4_vrsn,4,Never
+want_contact3,1,"Yes, more"
+want_contact3,2,Fine as it is
+want_contact3,3,"No, rather less"
+share5,1,Nobody
+share5,2,Some
+share5,3,Half
+share5,4,Many
+share5,5,All
+trust2,1,Most people can be trusted
+trust2,2,You cannot be careful enough
+sport5,1,Twice a week or more
+sport5,2,Once a week
+sport5,3,Once a month
+sport5,4,A few times a year
+sport5,5,Less than once a year / never
+media_freq5,1,(Almost) every day
+media_freq5,2,Several times a week
+media_freq5,3,Once a week
+media_freq5,4,Less than once a week
+media_freq5,5,Never
+interest4,1,Very interested
+interest4,2,Interested
+interest4,3,Not very interested
+interest4,4,Not at all interested
+amount3,1,Too little
+amount3,2,Enough
+amount3,3,Too much
+positive5,1,Very negative
+positive5,2,Negative
+positive5,3,Neutral
+positive5,4,Positive
+positive5,5,Very positive
+trust4,1,Very much trust
+trust4,2,Much trust
+trust4,3,Not so much trust
+trust4,4,No trust at all
+voted3,1,Yes
+voted3,2,No
+voted3,3,Not eligible to vote
+vote_int5,1,Yes
+vote_int5,2,Maybe
+vote_int5,3,No
+vote_int5,4,Not eligible to vote
+vote_int5,5,"Prefers not to say (printed answer option: LAS 2004/05, SIM 2020)"
+brthcntry_src,1,Observed: country of birth collected in the survey
+brthcntry_src,2,Inferred from origin group x generation (CBS definition; public person-sample files carry no country of birth)
+party_nl,1,VVD
+party_nl,2,PVV
+party_nl,3,CDA
+party_nl,4,D66
+party_nl,5,GroenLinks
+party_nl,6,SP
+party_nl,7,PvdA
+party_nl,8,ChristenUnie
+party_nl,9,Partij voor de Dieren
+party_nl,10,50PLUS
+party_nl,11,SGP
+party_nl,12,DENK
+party_nl,13,Forum voor Democratie
+party_nl,14,Trots op Nederland / Verdonk (2011)
+party_nl,15,Blank vote
+party_nl,16,Does not know yet
+party_nl,17,Would not vote
+party_nl,18,LPF (SIM 2006)
+party_nl,92,Other party
+understand3,1,Much understanding
+understand3,2,A little understanding
+understand3,3,No understanding
+fear4,1,"Yes, afraid"
+fear4,2,"Yes, a little afraid"
+fear4,3,"No, not afraid"
+fear4,4,"No, not afraid, but it will happen"
+tension3,1,"Yes, certainly"
+tension3,2,"Yes, maybe"
+tension3,3,No
+problem5,1,Very problematic
+problem5,2,Problematic
+problem5,3,Neutral
+problem5,4,Not problematic
+problem5,5,Not at all problematic
+attendance5,1,Every day
+attendance5,2,Every week
+attendance5,3,Every month
+attendance5,4,A few times a year
+attendance5,5,Never / less than once a year
+pray6,1,Five times a day
+pray6,2,Every day
+pray6,3,Every week
+pray6,4,A few times a month
+pray6,5,A few times a year
+pray6,6,Never / less than once a year
+read5,1,Every day
+read5,2,Every week
+read5,3,A few times a month
+read5,4,A few times a year
+read5,5,Never / less than once a year
+observe4,1,"Yes, every day"
+observe4,2,"Yes, most days"
+observe4,3,"Yes, some days"
+observe4,4,No
+freq4_disc,1,"No, never"
+freq4_disc,2,"Yes, once or a few times"
+freq4_disc,3,"Yes, fairly often"
+freq4_disc,4,Very often
+difficulty3,1,"Yes, much difficulty"
+difficulty3,2,"Yes, some difficulty"
+difficulty3,3,No difficulty
+pain4,1,"Yes, much less well"
+pain4,2,A little less well
+pain4,3,Hardly
+pain4,4,"No, not at all"
+freq4_mh,1,Always
+freq4_mh,2,Often
+freq4_mh,3,Sometimes
+freq4_mh,4,Never
+freq6_mhi,1,All of the time
+freq6_mhi,2,Most of the time
+freq6_mhi,3,Often
+freq6_mhi,4,Sometimes
+freq6_mhi,5,Rarely
+freq6_mhi,6,Never
+freq4_lim,1,All of the time
+freq4_lim,2,Often
+freq4_lim,3,Sometimes
+freq4_lim,4,Never
+last_contact3,1,Less than 12 months ago
+last_contact3,2,12 months ago or longer
+last_contact3,3,Never
+hospital3,1,"Yes, day admission only"
+hospital3,2,"Yes, including overnight stay"
+hospital3,3,No
+care_rcv3,1,"Yes, from family, friends or acquaintances"
+care_rcv3,2,"Yes, professional help (home care, domestic help)"
+care_rcv3,3,No
+relation8,1,Partner
+relation8,2,Parent or step-parent
+relation8,3,Parent-in-law
+relation8,4,Child or step-child
+relation8,5,Other family member
+relation8,6,Friend or acquaintance
+relation8,7,Neighbour
+relation8,8,Someone else
+lf3,1,Employed labour force
+lf3,2,Unemployed labour force
+lf3,3,Not in the labour force
+change5,1,Clearly improved
+change5,2,Somewhat improved
+change5,3,Unchanged
+change5,4,Somewhat worsened
+change5,5,Clearly worsened
+relative5,1,Much better than others
+relative5,2,Somewhat better
+relative5,3,About the same
+relative5,4,Somewhat worse
+relative5,5,Much worse than others
+hh_income_band8,1,Less than 500 euro per month
+hh_income_band8,2,500-1000 euro
+hh_income_band8,3,1000-1500 euro
+hh_income_band8,4,1500-2000 euro
+hh_income_band8,5,2000-2500 euro
+hh_income_band8,6,2500-3000 euro
+hh_income_band8,7,3000-3500 euro
+hh_income_band8,8,More than 3500 euro per month
+inb_noreason,1,No civic integration obligation
+inb_noreason,2,Never summoned
+inb_noreason,3,Followed another (language) course
+inb_noreason,4,On a waiting list / waiting for the municipality's offer
+inb_noreason,5,No time / no interest
+inb_noreason,6,"Not needed, got extra guidance or language lessons at school"
+inb_noreason,7,Exempted
+inb_noreason,8,Other
+good4,1,Good
+good4,2,Reasonable
+good4,3,Moderate
+good4,4,Poor
+better3,1,Better
+better3,2,Equally well
+better3,3,Worse
+lang_prob4_rw,1,Often
+lang_prob4_rw,2,Sometimes
+lang_prob4_rw,3,Never
+lang_prob4_rw,4,Cannot read / write the language
+lang_prob4_rw,5,Not applicable: the language has no written form (SING 2009)
+nat_reason9,1,Feels Dutch
+nat_reason9,2,"Passport, easier travel"
+nat_reason9,3,Work / social security
+nat_reason9,4,To be able to vote
+nat_reason9,5,"Did not choose, it happened automatically"
+nat_reason9,6,Lives here / belongs here
+nat_reason9,7,Children get Dutch nationality
+nat_reason9,8,Arranged via / by parents
+nat_reason9,9,Other
+ret_reason13,1,No work in the Netherlands
+ret_reason13,2,Discrimination
+ret_reason13,3,Family in the country of origin
+ret_reason13,4,No ties with the Netherlands
+ret_reason13,5,No future in the Netherlands
+ret_reason13,6,Living in NL no longer pleasant / negative ideas about migrants
+ret_reason13,7,Better job chances in the country of origin
+ret_reason13,8,"Climate, good weather"
+ret_reason13,9,"Atmosphere, contact between people"
+ret_reason13,10,It is my fatherland / feel at home there
+ret_reason13,11,Family / friends are there
+ret_reason13,12,To live with partner
+ret_reason13,13,Other
+visit3,1,"Yes, every year"
+visit3,2,"No, not every year"
+visit3,3,"No, never"
+visit3,4,"No, not possible to travel to the country of origin (SING 2009)"
+visit3,5,"No, no family left in the country of origin (SING 2009)"
+ethmix4,1,Mainly own origin group
+ethmix4,2,Mainly native Dutch
+ethmix4,3,"Half own group, half native Dutch"
+ethmix4,4,All kinds of groups
+ethmix4,5,Other (LAS 2004/05)
+grp_most6,1,Moroccans
+grp_most6,2,Turks
+grp_most6,3,Antilleans / Arubans
+grp_most6,4,Surinamese
+grp_most6,5,Other group
+grp_most6,6,Mixed / various groups
+bestfriend4,1,Own origin group
+bestfriend4,2,Native Dutch
+bestfriend4,3,Another minority group
+bestfriend4,4,Has no best friend
+edu_lvl10,1,Never went to school
+edu_lvl10,2,Primary school not completed
+edu_lvl10,3,Primary (lager onderwijs)
+edu_lvl10,4,Lower vocational (lbo/vbo)
+edu_lvl10,5,Lower general secondary (mavo)
+edu_lvl10,6,Upper vocational (mbo)
+edu_lvl10,7,Upper general secondary (havo/vwo)
+edu_lvl10,8,Higher professional (hbo)
+edu_lvl10,9,University (wo)
+edu_lvl10,10,Other
+edu_chd8,1,Primary (basisonderwijs)
+edu_chd8,2,vmbo basic / middle-management track
+edu_chd8,3,vmbo theoretical / mixed track
+edu_chd8,4,Upper vocational (mbo)
+edu_chd8,5,havo/vwo
+edu_chd8,6,Higher professional (hbo)
+edu_chd8,7,University (wo)
+edu_chd8,8,Other
+freq5_par,1,"Yes, always"
+freq5_par,2,"Yes, often"
+freq5_par,3,Sometimes
+freq5_par,4,"No, often not"
+freq5_par,5,"No, never"
+true3,1,Certainly true
+true3,2,Somewhat true
+true3,3,Not true
+quality5,1,Very good
+quality5,2,Good
+quality5,3,Reasonable
+quality5,4,Not so good
+quality5,5,Bad
+important5,1,Very important
+important5,2,Important
+important5,3,Neither important nor unimportant
+important5,4,Unimportant
+important5,5,Very unimportant
+freq3_adv,1,Never
+freq3_adv,2,Once
+freq3_adv,3,Several times
+willing3,1,Yes
+willing3,2,Maybe
+willing3,3,No
+parent_q3,1,Continued with the questions for a parent
+parent_q3,2,Parents not present
+parent_q3,3,Parents refused
+charity4,1,KWF Kankerbestrijding
+charity4,2,Wereld Natuur Fonds
+charity4,3,Unicef
+charity4,4,Villa Pardoes
+incentive2,1,Gift voucher
+incentive2,2,Money
+presence4,1,Respondent interviewed alone
+presence4,2,"Others present, no influence"
+presence4,3,"Others present, some influence"
+presence4,4,"Others present, much influence"
+happy5,1,Very happy
+happy5,2,Happy
+happy5,3,Neither happy nor unhappy
+happy5,4,Not so happy
+happy5,5,Unhappy
+interest3,1,Very interested
+interest3,2,Somewhat interested
+interest3,3,Not interested
+effort4,1,"Yes, most do enough"
+effort4,2,"Neutral, so-so"
+effort4,3,"No, most do too little"
+effort4,4,"Some groups do, others do not"
+integrated3,1,"Yes, enough"
+integrated3,2,"Neutral, so-so"
+integrated3,3,"No, too little"
+disc_reason12,1,Language
+disc_reason12,2,Skin colour
+disc_reason12,3,Ethnic group / origin
+disc_reason12,4,Religion
+disc_reason12,5,Surname
+disc_reason12,6,Appearance (e.g. beard)
+disc_reason12,7,Headscarf
+disc_reason12,8,Behaviour
+disc_reason12,9,Sex
+disc_reason12,10,Age
+disc_reason12,11,Sexual orientation
+disc_reason12,12,Other
+nbhd_reason10,1,Found a pleasant dwelling here
+nbhd_reason10,2,Dwelling allocated here
+nbhd_reason10,3,Friends / family in the neighbourhood
+nbhd_reason10,4,Could afford a dwelling here
+nbhd_reason10,5,Nice neighbourhood
+nbhd_reason10,6,Convenient location
+nbhd_reason10,7,Lives with parents
+nbhd_reason10,8,Moved in with partner
+nbhd_reason10,9,Born here / lived here since childhood
+nbhd_reason10,10,Other
+age_cat5y,1,15-19
+age_cat5y,2,20-24
+age_cat5y,3,25-29
+age_cat5y,4,30-34
+age_cat5y,5,35-39
+age_cat5y,6,40-44
+age_cat5y,7,45-49
+age_cat5y,8,50-54
+age_cat5y,9,55-59
+age_cat5y,10,60-64
+age_cat5y,11,65-69
+age_cat5y,12,70 or older
+active3,1,Very active
+active3,2,Somewhat active
+active3,3,Not / hardly active
+phase2,1,Main phase
+phase2,2,Re-approach of non-respondents
+hours_cat5,0,No hours
+hours_cat5,1,Less than 12 hours per week
+hours_cat5,2,12-19 hours
+hours_cat5,3,20-34 hours
+hours_cat5,4,35 hours or more
+remit_to6,1,Partner / spouse
+remit_to6,2,Children
+remit_to6,3,Parents
+remit_to6,4,Other family members
+remit_to6,5,Others
+remit_to6,6,Organisations
+city_size6,1,Small municipality
+city_size6,2,Medium-sized municipality
+city_size6,3,Amsterdam
+city_size6,4,Rotterdam
+city_size6,5,The Hague
+city_size6,6,Utrecht
+hhpos4,1,Head of household
+hhpos4,2,Partner of the head
+hhpos4,3,Lives with parents (co-resident child)
+hhpos4,4,Other
+accept4,1,Certainly not
+accept4,2,Rather not
+accept4,3,Yes
+accept4,4,Certainly yes
+chance5,1,Very large
+chance5,2,Large
+chance5,3,Neither large nor small
+chance5,4,Small
+chance5,5,Very small
+eq_chance_no8,1,Does not speak Dutch well
+eq_chance_no8,2,Prejudice / discrimination
+eq_chance_no8,3,No suitable vacancies
+eq_chance_no8,4,Knows too few people / fewer contacts
+eq_chance_no8,5,Health
+eq_chance_no8,6,Too old
+eq_chance_no8,7,Education too low / no diploma
+eq_chance_no8,8,Other
+ease5,1,Very easy
+ease5,2,Easy
+ease5,3,Neither easy nor difficult
+ease5,4,Difficult
+ease5,5,Very difficult
+amount_band9,1,Less than 250 euro
+amount_band9,2,250-500 euro
+amount_band9,3,500-750 euro
+amount_band9,4,750-1000 euro
+amount_band9,5,1000-5000 euro
+amount_band9,6,"5000-10,000 euro"
+amount_band9,7,"10,000-20,000 euro"
+amount_band9,8,"20,000-50,000 euro"
+amount_band9,9,"More than 50,000 euro"
+inc_band16,1,Less than 500 euro per month
+inc_band16,2,500-750 euro
+inc_band16,3,750-1000 euro
+inc_band16,4,1000-1250 euro
+inc_band16,5,1250-1500 euro
+inc_band16,6,1500-1750 euro
+inc_band16,7,1750-2000 euro
+inc_band16,8,2000-2250 euro
+inc_band16,9,2250-2500 euro
+inc_band16,10,2500-2750 euro
+inc_band16,11,2750-3000 euro
+inc_band16,12,3000-3250 euro
+inc_band16,13,3250-3500 euro
+inc_band16,14,3500-5000 euro
+inc_band16,15,5000-7500 euro
+inc_band16,16,More than 7500 euro per month
+prob_type3,1,Mainly speaking
+prob_type3,2,Mainly understanding
+prob_type3,3,Both
+org10,1,Sports club
+org10,2,"Leisure organisation (hobby, music, theatre, dance)"
+org10,3,Neighbourhood or tenants' association
+org10,4,Trade union / professional organisation
+org10,5,Organisation of or for migrants
+org10,6,Political party or organisation
+org10,7,Religious organisation
+org10,8,"Nature, environment or international solidarity organisation"
+org10,9,Library
+org10,10,Other organisation
+vol_for6,1,For myself
+vol_for6,2,For my children
+vol_for6,3,For my neighbourhood / town
+vol_for6,4,For the origin group
+vol_for6,5,For society in general
+vol_for6,6,Other
+culture4,1,Keep the origin culture entirely
+culture4,2,Keep the origin culture somewhat
+culture4,3,Adapt somewhat to Dutch culture
+culture4,4,Adapt entirely to Dutch culture
+media_days6,1,Never
+media_days6,2,Less than 1 day a week
+media_days6,3,1-2 days a week
+media_days6,4,3-4 days a week
+media_days6,5,5-6 days a week
+media_days6,6,Every day
+web_type5,1,Mainly Dutch sites
+web_type5,2,Mainly origin-country sites
+web_type5,3,Both about equally
+web_type5,4,Mainly Western (English/American) sites
+web_type5,5,Other
+pol_where4,1,Mainly Dutch politics
+pol_where4,2,Mainly origin-country politics
+pol_where4,3,Mainly politics of other countries
+pol_where4,4,All equally
+pay4,1,The government entirely
+pay4,2,The government together with the participants
+pay4,3,The participants
+pay4,4,Depending on the participants' income
+pray7,1,Never
+pray7,2,A few times a year
+pray7,3,A few times a month
+pray7,4,Once a week
+pray7,5,Several times a week
+pray7,6,Every day
+pray7,7,Five times a day or more
+veil_reason6,1,Part of my faith
+veil_reason6,2,Religious obligation
+veil_reason6,3,"Beautiful, symbol of beauty"
+veil_reason6,4,Sign of my Muslim identity
+veil_reason6,5,To avoid gossip or unpleasant behaviour
+veil_reason6,6,Other
+noveil_reason6,1,Not required by my faith
+noveil_reason6,2,One must be truly devout to wear it
+noveil_reason6,3,Not ready for it yet
+noveil_reason6,4,Better for integration in the Netherlands
+noveil_reason6,5,Otherwise discrimination / unpleasant behaviour
+noveil_reason6,6,Other
+unsafe_freq3,1,Often
+unsafe_freq3,2,Sometimes
+unsafe_freq3,3,Rarely
+limited3,1,"Yes, strongly"
+limited3,2,"Yes, slightly"
+limited3,3,No
+alcohol5,1,Never
+alcohol5,2,"Almost never, not every week"
+alcohol5,3,Some days
+alcohol5,4,Most days
+alcohol5,5,Every day
+hh_band16_las,1,Less than 500 euro per month
+hh_band16_las,2,500-750 euro
+hh_band16_las,3,750-1000 euro
+hh_band16_las,4,1000-1250 euro
+hh_band16_las,5,1250-1500 euro
+hh_band16_las,6,1500-1750 euro
+hh_band16_las,7,1750-2000 euro
+hh_band16_las,8,2000-2250 euro
+hh_band16_las,9,2250-2500 euro
+hh_band16_las,10,2500-2750 euro
+hh_band16_las,11,2750-3000 euro
+hh_band16_las,12,3000-3250 euro
+hh_band16_las,13,3250-3500 euro
+hh_band16_las,14,3500-3750 euro
+hh_band16_las,15,3750-4000 euro
+hh_band16_las,16,More than 4000 euro per month
+flex3,1,"Yes, always"
+flex3,2,"Yes, within limits"
+flex3,3,No
+avail4,1,Within 2 weeks
+avail4,2,2 weeks to 3 months
+avail4,3,3 to 6 months
+avail4,4,6 months or longer
+seek3,1,Yes
+seek3,2,No
+seek3,3,"No, awaiting the result of an application"
+freq5_conf,1,"No, never"
+freq5_conf,2,"Yes, but rarely"
+freq5_conf,3,"Yes, a few times a month"
+freq5_conf,4,"Yes, a few times a week"
+freq5_conf,5,"Yes, daily"
+task_conflict5,1,I do too little in the household
+task_conflict5,2,My partner does too little
+task_conflict5,3,According to my partner I do not do it well (enough)
+task_conflict5,4,My partner does not do it well (enough)
+task_conflict5,5,Other
+plan5,1,Certainly stop working
+plan5,2,Probably stop working
+plan5,3,Probably continue working
+plan5,4,Certainly continue working
+plan5,5,Did not know yet at the time
+care_opt5,1,Ideal
+care_opt5,2,Good option
+care_opt5,3,Possibly
+care_opt5,4,Rather not
+care_opt5,5,Certainly not
+nocare14,1,"Not needed, respondent or partner always at home"
+nocare14,2,Prefers to look after the child him/herself
+nocare14,3,Prefers grandparents or another trusted person
+nocare14,4,Grandparents or other family live in or nearby
+nocare14,5,Too expensive
+nocare14,6,Waiting list too long
+nocare14,7,Not in the neighbourhood
+nocare14,8,Childcare too inflexible
+nocare14,9,Child ill or disabled
+nocare14,10,Considers the child too young (or too old / child does not want to)
+nocare14,11,Already has childcare (at language course / with friends)
+nocare14,12,Objections to or bad experience with nurseries or childminders
+nocare14,13,Not familiar with nurseries / childminders or the subsidy
+nocare14,14,"No, inadequate or unintelligible answer"
+leave_paid3,1,Yes
+leave_paid3,2,No
+leave_paid3,3,"With one employer yes, with the other no"
+noleave14,1,Partner has/had taken parental leave
+noleave14,2,Did not want to lose too much income
+noleave14,3,Does not know what parental leave is
+noleave14,4,"Already working part-time, did not want to work less"
+noleave14,5,Enough (good) childcare available
+noleave14,6,Partner has/had no work
+noleave14,7,No work
+noleave14,8,Employer did not agree
+noleave14,9,The work did not allow it
+noleave14,10,Bad for my career
+noleave14,11,Used days off
+noleave14,12,Other
+noleave14,14,None of these
+leave_type4,1,Holiday or ADV days
+leave_type4,2,Special leave from the employer
+leave_type4,3,"No leave taken, called in sick"
+leave_type4,4,Other
+noleave_kz3,1,Still had enough holiday / ADV days
+noleave_kz3,2,Did not know it was possible / did not know the scheme
+noleave_kz3,3,Other
+noleave_vry3,1,Had too few days off
+noleave_vry3,2,Did not know the care-leave scheme
+noleave_vry3,3,Other
+freq5_month,1,At least once a week
+freq5_month,2,2-3 times a month
+freq5_month,3,Once a month
+freq5_month,4,Less than once a month
+freq5_month,5,Rarely or never
+freq7_frnd,1,Every day
+freq7_frnd,2,At least once a week
+freq7_frnd,3,2-3 times a month
+freq7_frnd,4,Once a month
+freq7_frnd,5,Less than once a month
+freq7_frnd,6,Rarely
+freq7_frnd,7,Has no such friend or acquaintance
+ethmix5_las,1,Mainly Western
+ethmix5_las,2,Mainly own origin group
+ethmix5_las,3,"Half Western, half own group"
+ethmix5_las,4,Diverse population groups
+ethmix5_las,5,Other
+lang3,1,Dutch
+lang3,2,Mother tongue
+lang3,3,Another language
+lang_mix6,1,Dutch
+lang_mix6,2,More Dutch than mother tongue
+lang_mix6,3,Dutch and mother tongue equally
+lang_mix6,4,More mother tongue than Dutch
+lang_mix6,5,Mother tongue
+lang_mix6,6,Mostly another language
+lang_mix7,1,Dutch
+lang_mix7,2,More Dutch than own language
+lang_mix7,3,Dutch and own language equally
+lang_mix7,4,More own language than Dutch
+lang_mix7,5,Own language
+lang_mix7,6,English
+lang_mix7,7,Mostly another language
+alone_org2,1,Alone / on own
+alone_org2,2,Organised
+sport_n5,0,Never
+sport_n5,1,1-11 times
+sport_n5,2,12-59 times
+sport_n5,3,60-119 times
+sport_n5,4,120 times or more
+sport26,1,Athletics
+sport26,2,Motor sports
+sport26,3,Badminton
+sport26,4,Basketball
+sport26,5,Fitness / aerobics
+sport26,6,Golf
+sport26,7,Gymnastics
+sport26,8,Handball
+sport26,9,Hockey
+sport26,10,Korfball
+sport26,11,Horse riding
+sport26,12,Skating
+sport26,13,Inline skating
+sport26,14,Softball / baseball
+sport26,15,Squash
+sport26,16,Table tennis
+sport26,17,Tennis
+sport26,18,Cycling
+sport26,19,Jogging
+sport26,20,Martial arts
+sport26,21,Football
+sport26,22,Volleyball
+sport26,23,Walking
+sport26,24,Sailing / rowing / canoeing / surfing
+sport26,25,Swimming
+sport26,26,Other sport
+sportmem5,1,No
+sportmem5,2,Sports club
+sportmem5,3,Sports school
+sportmem5,4,Fitness centre
+sportmem5,5,Other
+channel7,1,Never watches this
+channel7,2,On Dutch channels
+channel7,3,More on Dutch than on origin-group channels
+channel7,4,On both kinds of channels
+channel7,5,More on origin-group than on Dutch channels
+channel7,6,On origin-group channels
+channel7,7,Other
+nonet6,1,"No interest, not important"
+nonet6,2,Computer too expensive
+nonet6,3,Internet too expensive
+nonet6,4,Too difficult
+nonet6,5,Language problem
+nonet6,6,Other
+nettype4,1,Analogue modem
+nettype4,2,ISDN
+nettype4,3,Cable
+nettype4,4,ADSL
+risk3,1,Large
+risk3,2,Neither large nor small
+risk3,3,Small
+willing4,1,"Yes, definitely"
+willing4,2,"Yes, maybe"
+willing4,3,Probably not
+willing4,4,Definitely not
+strict3,1,Very strict
+strict3,2,Somewhat strict
+strict3,3,Not strict at all
+expel3,1,Yes
+expel3,2,No
+expel3,3,It depends
+asylum_stay7,1,If they have lived here long
+asylum_stay7,2,If the procedure took long
+asylum_stay7,3,If they have work
+asylum_stay7,4,If children were born here
+asylum_stay7,5,If the situation in the origin country is unsafe
+asylum_stay7,6,"Always, in all cases"
+asylum_stay7,7,Other
+interest4_asc,1,Not at all interested
+interest4_asc,2,Little interested
+interest4_asc,3,Fairly interested
+interest4_asc,4,Strongly interested
+attendance6,1,Never
+attendance6,2,A few times a year
+attendance6,3,A few times a month
+attendance6,4,Once a week
+attendance6,5,Several times a week
+attendance6,6,Every day
+time_short3,1,"No, not at all"
+time_short3,2,"Yes, a little"
+time_short3,3,"Yes, very much"
+weekday7,1,Sunday
+weekday7,2,Monday
+weekday7,3,Tuesday
+weekday7,4,Wednesday
+weekday7,5,Thursday
+weekday7,6,Friday
+weekday7,7,Saturday
+act43,1,"Sleeping, resting"
+act43,2,Washing and dressing
+act43,3,"Preparing food and drink, setting the table"
+act43,4,"Breakfast, lunch"
+act43,5,Dinner at home
+act43,6,Caring for children
+act43,7,"Playing with children, reading to them"
+act43,8,Caring for other people
+act43,9,Travelling by car
+act43,10,Travelling by public transport
+act43,11,"Travelling by motorcycle, moped, scooter"
+act43,12,Travelling by bicycle
+act43,13,Travelling on foot
+act43,14,"Paid work, incl. work at home"
+act43,15,Voluntary work
+act43,16,"School, attending lessons, lectures, courses"
+act43,17,"Homework, studying"
+act43,18,Shopping (groceries)
+act43,19,"Going into town, shopping, being in the street"
+act43,20,"Cleaning, tidying, washing up"
+act43,21,"Laundry, ironing, sewing"
+act43,22,"Maintenance, odd jobs, gardening"
+act43,23,Watching television / video / dvd
+act43,24,Listening to radio / music
+act43,25,"Internet, e-mail, chatting"
+act43,26,Other computer use
+act43,27,"Church / mosque attendance, praying"
+act43,28,Sport
+act43,29,Receiving visitors
+act43,30,Visiting
+act43,31,"Visiting a restaurant, cafe, disco"
+act43,32,"Visiting a coffee house, tea house"
+act43,33,Telephoning
+act43,34,Reading
+act43,35,"Walking, cycling"
+act43,36,"Visiting a zoo, recreation or amusement park"
+act43,37,"Visiting a park, forest, heath, beach"
+act43,38,"Visiting a museum, theatre, etc."
+act43,39,"Games, handicrafts, making music, acting"
+act43,40,"Doing nothing, lazing"
+act43,41,Drinking coffee
+act43,42,Talking with household members
+act43,43,Other
+earner8,1,Sole earner: woman
+earner8,2,Sole earner: man
+earner8,3,"One-and-a-half earners: woman full-time, man part-time"
+earner8,4,Small one-and-a-half earners
+earner8,5,Large one-and-a-half earners
+earner8,6,Half and half
+earner8,7,Double earners
+earner8,8,No earners
+socpos9,1,Unemployed / job seeking
+socpos9,2,Homemaker
+socpos9,3,Work-disabled (WAO)
+socpos9,4,Pupil / student
+socpos9,5,Working: elementary occupation
+socpos9,6,Working: lower occupation
+socpos9,7,Working: intermediate occupation
+socpos9,8,Working: higher / scientific occupation
+socpos9,9,Other
+hh_cbs7,1,One-person household
+hh_cbs7,2,Unmarried couple (and others)
+hh_cbs7,3,Unmarried couple with children (and others)
+hh_cbs7,4,Married couple (and others)
+hh_cbs7,5,Married couple with children (and others)
+hh_cbs7,6,Single-parent family (and others)
+hh_cbs7,7,Non-family household
+who4,1,Mostly the man
+who4,2,Mostly the woman
+who4,3,Both / together
+who4,4,Someone else
+sector14,1,"Agriculture, fishing"
+sector14,3,Manufacturing incl. mining
+sector14,4,Energy and water supply
+sector14,5,Construction
+sector14,6,Trade
+sector14,7,Hotels and catering
+sector14,8,Transport and communication
+sector14,9,Financial institutions
+sector14,10,Business services
+sector14,11,Public administration
+sector14,12,Education
+sector14,13,Health and welfare
+sector14,14,Culture and other services
+occ_class_las,11,Elementary occupations
+occ_class_las,20,Lower occupations n.e.c.
+occ_class_las,33,"Lower: security / administrative, commercial"
+occ_class_las,37,Lower: care
+occ_class_las,40,Intermediate occupations n.e.c.
+occ_class_las,42,Intermediate: teachers
+occ_class_las,44,Intermediate: agricultural
+occ_class_las,45,"Intermediate: mathematics, natural sciences"
+occ_class_las,46,Intermediate: technical
+occ_class_las,48,Intermediate: transport
+occ_class_las,49,Intermediate: (para)medical
+occ_class_las,51,"Intermediate: administrative, commercial"
+occ_class_las,53,"Intermediate: legal, administrative, security"
+occ_class_las,55,"Intermediate: linguistic, cultural"
+occ_class_las,56,Intermediate: behaviour and society
+occ_class_las,57,Intermediate: care
+occ_class_las,60,Higher occupations n.e.c.
+occ_class_las,62,Higher: pedagogical
+occ_class_las,64,Higher: agricultural
+occ_class_las,65,"Higher: mathematics, natural sciences"
+occ_class_las,66,Higher: technical
+occ_class_las,68,Higher: transport
+occ_class_las,69,Higher: (para)medical
+occ_class_las,71,"Higher: administrative, commercial, economic"
+occ_class_las,73,"Higher: legal, administrative, security"
+occ_class_las,75,"Higher: linguistic, cultural"
+occ_class_las,76,Higher: behaviour and society
+occ_class_las,77,Higher: care
+occ_class_las,78,Higher: managers
+occ_class_las,80,Scientific occupations n.e.c.
+occ_class_las,91,"Scientific: economic, administrative"
+occ_class_las,93,"Scientific: legal, administrative"
+occ_class_las,96,Scientific: behaviour and society
+occ_class_las,98,Scientific: managers
+occ_class_las,99,Not classifiable
+voucher2,1,Blokker
+voucher2,2,Free Record Shop
+pace3,1,Already fairly well integrated
+pace3,2,Will integrate soon
+pace3,3,Will take a long time
+care_rcv_from4,1,Parents or parents-in-law
+care_rcv_from4,2,Other family members
+care_rcv_from4,3,Neighbours
+care_rcv_from4,4,Friends
+traffic8,1,Parking
+traffic8,2,Traffic jams and delays
+traffic8,3,"High costs (fuel, public transport fares)"
+traffic8,4,"Accidents, speeding"
+traffic8,5,Aggression in traffic / public transport
+traffic8,6,"Exhaust fumes, traffic noise"
+traffic8,7,There are no problems
+traffic8,8,Other
+dur_cat4,1,0-4 years
+dur_cat4,2,5-9 years
+dur_cat4,3,10-14 years
+dur_cat4,4,15 years or more
+age_cat3,1,15-24
+age_cat3,2,25-44
+age_cat3,3,45 or older
+hhpos3,1,Head of household (male or female)
+hhpos3,2,Co-resident child
+hhpos3,3,Other
+when5,1,Within a few months
+when5,2,Within half a year
+when5,3,Within a year
+when5,4,In more than a year
+when5,5,Does not know
+yr_cat7_mar,1,1930-1950
+yr_cat7_mar,2,1951-1960
+yr_cat7_mar,3,1961-1970
+yr_cat7_mar,4,1971-1980
+yr_cat7_mar,5,1981-1990
+yr_cat7_mar,6,1991-2000
+yr_cat7_mar,7,2001-2009
+yr_cat5,1,1930-1950
+yr_cat5,2,1951-1970
+yr_cat5,3,1971-1990
+yr_cat5,4,1991-2000
+yr_cat5,5,2001 or later
+yr_cat6_prtnr,1,1930-1950
+yr_cat6_prtnr,2,1951-1970
+yr_cat6_prtnr,3,1971-1990
+yr_cat6_prtnr,4,1991-2000
+yr_cat6_prtnr,5,2001 or later
+yr_cat6_prtnr,6,At the same time as the respondent
+yr_cat5_doc,1,1980-1985
+yr_cat5_doc,2,1986-1991
+yr_cat5_doc,3,1992-1997
+yr_cat5_doc,4,1998-2003
+yr_cat5_doc,5,2004-2009
+yr_cat5_stat,1,1910-1930
+yr_cat5_stat,2,1931-1950
+yr_cat5_stat,3,1951-1970
+yr_cat5_stat,4,1971-1990
+yr_cat5_stat,5,1991 or later
+oth_rel11,1,Father
+oth_rel11,2,Mother
+oth_rel11,3,Father-in-law / mother-in-law
+oth_rel11,4,Brother / sister
+oth_rel11,5,Grandfather / grandmother
+oth_rel11,6,Nephew / niece / cousin
+oth_rel11,7,Other family
+oth_rel11,8,Grandchild
+oth_rel11,9,Partner's child / stepchild
+oth_rel11,10,Friend / acquaintance
+oth_rel11,11,Other
+months_cat6,1,0 to 3 months
+months_cat6,2,4 to 10 months
+months_cat6,3,11 to 20 months
+months_cat6,4,21 to 35 months
+months_cat6,5,36 to 45 months
+months_cat6,6,46 months or longer
+inc_band14,1,Less than 500 euro per month
+inc_band14,2,500-750 euro
+inc_band14,3,750-1000 euro
+inc_band14,4,1000-1250 euro
+inc_band14,5,1250-1500 euro
+inc_band14,6,1500-1750 euro
+inc_band14,7,1750-2000 euro
+inc_band14,8,2000-2250 euro
+inc_band14,9,2250-2500 euro
+inc_band14,10,2500-2750 euro
+inc_band14,11,2750-3000 euro
+inc_band14,12,3000-3250 euro
+inc_band14,13,3250-3500 euro
+inc_band14,14,More than 3500 euro per month
+inc_band14,15,No income from work or benefit (partner)
+enough4,1,More than enough
+enough4,2,Enough
+enough4,3,Too little
+enough4,4,Far too little
+foreign4,1,English
+foreign4,2,German
+foreign4,3,French
+foreign4,4,None of these languages
+share2,1,Own room (alone or with partner / family)
+share2,2,Shares a room with others
+bmi4,1,Underweight
+bmi4,2,Healthy weight
+bmi4,3,Overweight
+bmi4,4,Obese
+when6_ret,1,Within a year
+when6_ret,2,Within 1-2 years
+when6_ret,3,In 2 to 5 years
+when6_ret,4,In 5 to 10 years
+when6_ret,5,When my children are grown up
+when6_ret,6,When it is really safe again
+contact_vw3,1,"Yes, at the moment"
+contact_vw3,2,"Yes, in the past, not any more"
+contact_vw3,3,No
+country,5001,Canada
+country,5002,France
+country,5003,Switzerland
+country,5007,Suriname
+country,5009,Austria
+country,5010,Belgium
+country,5012,Iran
+country,5013,New Zealand
+country,5015,Denmark
+country,5017,Hungary
+country,5018,Saudi Arabia
+country,5020,Ethiopia
+country,5022,Morocco
+country,5027,Philippines
+country,5028,Zambia
+country,5030,Ivory Coast
+country,5037,Singapore
+country,5039,Sweden
+country,5040,Cyprus
+country,5043,Iraq
+country,5048,Yemen
+country,5049,Slovenia
+country,5050,Zaire (Congo-Kinshasa)
+country,5051,Croatia
+country,5053,Russia
+country,5054,Armenia
+country,5057,Bahrain
+country,5097,Azerbaijan
+country,5098,Belarus
+country,5099,Kazakhstan
+country,5100,Macedonia
+country,5103,Serbia
+country,5104,Montenegro
+country,6000,Moldova
+country,6003,Greece
+country,6006,Libya
+country,6013,Somalia
+country,6014,United States
+country,6018,Luxembourg
+country,6020,Mauritania
+country,6021,Kyrgyzstan
+country,6022,China
+country,6023,Afghanistan
+country,6024,Indonesia
+country,6027,Norway
+country,6029,Germany
+country,6030,Netherlands
+country,6034,Israel
+country,6036,South Korea
+country,6037,Spain
+country,6038,Ukraine
+country,6039,United Kingdom
+country,6042,Jordan
+country,6043,Turkey
+country,6045,Yugoslavia (former)
+country,6047,Algeria
+country,6050,Uzbekistan
+country,6057,Tajikistan
+country,6063,Turkmenistan
+country,6065,Bosnia and Herzegovina
+country,6066,Czech Republic
+country,6067,Slovakia
+country,7002,Kenya
+country,7009,Syria
+country,7011,Netherlands Antilles / Aruba / Caribbean Netherlands (aggregate)
+country,7014,Egypt
+country,7020,Pakistan
+country,7024,Bulgaria
+country,7026,Malaysia
+country,7028,Poland
+country,7031,Tanzania
+country,7034,Sudan
+country,7035,Japan
+country,7036,Hong Kong
+country,7042,Thailand
+country,7043,Lebanon
+country,7044,Italy
+country,7045,Kuwait
+country,7046,India
+country,7047,Romania
+country,7054,United Arab Emirates
+country,7066,Lithuania
+country,9003,Eritrea
+country,9037,Qatar
+country,9087,Djibouti
+country,9901,Other Africa
+country,9902,Other Asia
+country,9903,Other Europe
+country,9998,Unidentifiable country name in source
+country,9999,Other country (unspecified)
+src_WPAC,2,Aalten
+src_WPAC,3,Alkmaar
+src_WPAC,4,Almelo
+src_WPAC,5,Amersfoort
+src_WPAC,6,Amsterdam
+src_WPAC,7,Apeldoorn
+src_WPAC,8,Arnhem
+src_WPAC,9,Baarlo
+src_WPAC,10,Breda
+src_WPAC,11,Brunsum
+src_WPAC,12,Burgh-Haamstede
+src_WPAC,13,Bussum
+src_WPAC,14,Chaam
+src_WPAC,15,Culemborg
+src_WPAC,16,Delft
+src_WPAC,17,Den Bosch
+src_WPAC,18,Den Haag
+src_WPAC,19,Deventer
+src_WPAC,20,Dordrecht
+src_WPAC,21,Dronten
+src_WPAC,22,Eindhoven
+src_WPAC,23,Emmeloord
+src_WPAC,24,Ermelo
+src_WPAC,25,Geeuwenbrug
+src_WPAC,26,Gilze en Rijen
+src_WPAC,27,Goes
+src_WPAC,28,Groesbeek
+src_WPAC,29,Groningen
+src_WPAC,30,Haarlem
+src_WPAC,31,Hardenberg
+src_WPAC,32,Harderwijk
+src_WPAC,33,Heerenveen
+src_WPAC,34,Heerlen
+src_WPAC,35,Hengelo
+src_WPAC,36,Hoek van Holland
+src_WPAC,37,Hoofddorp
+src_WPAC,38,Hooghalen
+src_WPAC,39,Leeuwarden
+src_WPAC,40,Leiden
+src_WPAC,41,Leidschendam
+src_WPAC,42,Lunteren
+src_WPAC,43,Luttelgeest
+src_WPAC,44,Maastricht
+src_WPAC,45,Markelo
+src_WPAC,46,Meppel
+src_WPAC,47,Middelburg
+src_WPAC,48,Middelharnis
+src_WPAC,49,Mill
+src_WPAC,50,Nijeveen
+src_WPAC,51,Nijmegen
+src_WPAC,52,Nunspeet
+src_WPAC,53,Oirschot
+src_WPAC,54,Oisterwijk
+src_WPAC,55,Oosterbeek
+src_WPAC,56,Putten
+src_WPAC,57,Rijsbergen
+src_WPAC,58,Rijswijk
+src_WPAC,59,Roermond
+src_WPAC,60,rotterdam
+src_WPAC,61,Rotterdam
+src_WPAC,62,Schiphol
+src_WPAC,63,Sittard
+src_WPAC,64,Slagharen
+src_WPAC,65,Sluiswolde
+src_WPAC,66,Stevensbeek
+src_WPAC,67,Ter Apel
+src_WPAC,68,Terneuzen
+src_WPAC,69,Texel
+src_WPAC,70,Tilburg
+src_WPAC,71,Utrecht
+src_WPAC,72,Veendam
+src_WPAC,73,Venray
+src_WPAC,74,Vlissingen
+src_WPAC,75,Vught
+src_WPAC,78,Zaandam
+src_WPAC,79,Zeewolde
+src_WPAC,80,Zevenaar
+src_WPAC,81,Zevenbergen
+src_WPAC,82,Zevenhout
+src_WPAC,83,Zierikzee
+src_WPAC,84,Zuidlaren
+src_WPAC,85,Zwijndrecht
+src_WPAC,86,Zwolle
+src_WPOC,1,'s-Gravendeel
+src_WPOC,3,Aalten
+src_WPOC,4,Alkmaar
+src_WPOC,5,Almelo
+src_WPOC,6,America
+src_WPOC,7,Amersfoort
+src_WPOC,8,Amsterdam
+src_WPOC,9,Apeldoorn
+src_WPOC,10,Appelscha
+src_WPOC,11,Arnhem
+src_WPOC,12,Assen
+src_WPOC,13,Assendelft
+src_WPOC,14,Asten
+src_WPOC,15,Balk
+src_WPOC,16,Best
+src_WPOC,17,Beverwijk
+src_WPOC,18,Bijlen
+src_WPOC,19,Bloemendaal
+src_WPOC,20,Borger
+src_WPOC,21,Borne
+src_WPOC,22,Boxtel
+src_WPOC,23,Breda
+src_WPOC,24,Budel
+src_WPOC,25,Crailo
+src_WPOC,26,Cuijk
+src_WPOC,27,De Winter
+src_WPOC,28,Deelen
+src_WPOC,29,Den Bosch
+src_WPOC,30,Den Haag
+src_WPOC,31,Den Haam
+src_WPOC,32,Den Helder
+src_WPOC,33,Deventer
+src_WPOC,34,Dilzerheide
+src_WPOC,35,Dordrecht
+src_WPOC,36,Dronten
+src_WPOC,37,Duiven
+src_WPOC,38,Echt
+src_WPOC,39,Ede
+src_WPOC,40,Eibergen
+src_WPOC,41,Eindhoven
+src_WPOC,42,Emmeloord
+src_WPOC,43,Emmen
+src_WPOC,44,Enschede
+src_WPOC,45,Ermelo
+src_WPOC,46,Geleen
+src_WPOC,47,Gilze en Rijen
+src_WPOC,48,Goes
+src_WPOC,49,Gouda
+src_WPOC,50,Groenlo
+src_WPOC,51,Groesbeek
+src_WPOC,52,Groningen
+src_WPOC,53,Gulpen
+src_WPOC,54,Haamstede
+src_WPOC,55,Haarlem
+src_WPOC,56,Harderwijk
+src_WPOC,57,Heemstede
+src_WPOC,58,Heerenveen
+src_WPOC,59,Heerlen
+src_WPOC,60,Hellevoetsluis
+src_WPOC,61,Hengelo
+src_WPOC,62,Hilversum
+src_WPOC,63,Hoofddorp
+src_WPOC,64,Hoogeveen
+src_WPOC,65,Hooghalen
+src_WPOC,66,Kampen
+src_WPOC,67,Katwijk
+src_WPOC,68,Kilchen
+src_WPOC,69,Lageveen
+src_WPOC,70,Langweer
+src_WPOC,71,Laren
+src_WPOC,72,Leersum
+src_WPOC,73,Leeuwarden
+src_WPOC,74,Leiden
+src_WPOC,75,Lelystad
+src_WPOC,76,Leusden
+src_WPOC,77,Lochem
+src_WPOC,78,Lunteren
+src_WPOC,79,Luttelgeest
+src_WPOC,80,Markelo
+src_WPOC,81,Meppel
+src_WPOC,82,Middelburg
+src_WPOC,83,Munikkenburen
+src_WPOC,84,Musselkanaal
+src_WPOC,85,Neven
+src_WPOC,86,Nijeveen
+src_WPOC,87,Nijmegen
+src_WPOC,88,Nunspeet
+src_WPOC,89,Oirschot
+src_WPOC,90,Oisterwijk
+src_WPOC,91,Ommen
+src_WPOC,93,Oosterbeek
+src_WPOC,94,Oss
+src_WPOC,95,Ossendrecht
+src_WPOC,96,Prinsenbosch
+src_WPOC,97,Purmerend
+src_WPOC,98,Raamsdonkveer
+src_WPOC,99,Reusel
+src_WPOC,100,Rijsbergen
+src_WPOC,101,Roermond
+src_WPOC,102,Roosendaal
+src_WPOC,103,Rosmalen
+src_WPOC,104,Rotterdam
+src_WPOC,105,Rucphen
+src_WPOC,106,Schalkhaar
+src_WPOC,107,Schiphol
+src_WPOC,108,Slagharen
+src_WPOC,109,Sneek
+src_WPOC,110,Spauwbeek
+src_WPOC,111,Stevensbeek
+src_WPOC,112,Ter Apel
+src_WPOC,113,Terneuzen
+src_WPOC,114,Tilburg
+src_WPOC,115,Udenhout
+src_WPOC,116,Utrecht
+src_WPOC,117,Valkenburg
+src_WPOC,118,Veendam
+src_WPOC,119,Velp
+src_WPOC,120,Venray
+src_WPOC,121,Vlissingen
+src_WPOC,122,Vught
+src_WPOC,123,Wassenaar
+src_WPOC,124,Weert
+src_WPOC,126,Westerbork
+src_WPOC,127,Wijk aan Zee
+src_WPOC,128,Zaandam
+src_WPOC,129,Zeewolde
+src_WPOC,130,Zeist
+src_WPOC,131,Zevenaar
+src_WPOC,132,Zierikzee
+src_WPOC,133,Zuidlaren
+src_WPOC,134,Zweelo
+src_WPOC,135,Zwolle
+src_WPAZC,1,'s-Gravendeel
+src_WPAZC,3,Aalten
+src_WPAZC,4,Alkmaar
+src_WPAZC,5,Almelo
+src_WPAZC,6,Almen
+src_WPAZC,7,Almere
+src_WPAZC,8,Alphen aan de Rijn
+src_WPAZC,9,Ameland
+src_WPAZC,10,Amersfoort
+src_WPAZC,11,Amsterdam
+src_WPAZC,12,Andijk
+src_WPAZC,13,Apeldoorn
+src_WPAZC,14,Appelscha
+src_WPAZC,15,Arnhem
+src_WPAZC,16,Assen
+src_WPAZC,17,Axel
+src_WPAZC,18,Azelo
+src_WPAZC,19,Bakkeveen
+src_WPAZC,20,Baksum
+src_WPAZC,21,Beekbergen
+src_WPAZC,22,Beetsterzwaag
+src_WPAZC,23,Beilen
+src_WPAZC,24,Berg en Dal
+src_WPAZC,25,Bergen
+src_WPAZC,26,Bergen op Zoom
+src_WPAZC,27,Bergheide
+src_WPAZC,28,Bergum
+src_WPAZC,29,Best
+src_WPAZC,30,Beverwijk
+src_WPAZC,31,Blitterswijk
+src_WPAZC,32,Bloemendaal
+src_WPAZC,33,Borculo
+src_WPAZC,34,Borne
+src_WPAZC,35,Boxmeer
+src_WPAZC,36,Boxtel
+src_WPAZC,37,Breda
+src_WPAZC,38,Brummen
+src_WPAZC,39,Brunsum
+src_WPAZC,40,Budel
+src_WPAZC,41,Burgh-Haamstede
+src_WPAZC,42,Bussum
+src_WPAZC,43,Cadzand
+src_WPAZC,44,Callantsoog
+src_WPAZC,45,Coevorden
+src_WPAZC,46,Crailo
+src_WPAZC,47,De Lier
+src_WPAZC,48,De Steeg
+src_WPAZC,49,Delft
+src_WPAZC,50,Delfzijl
+src_WPAZC,51,Den Bosch
+src_WPAZC,52,Den Burg
+src_WPAZC,53,Den Haag
+src_WPAZC,54,Den Ham
+src_WPAZC,55,Den Helder
+src_WPAZC,56,Deventer
+src_WPAZC,57,Diemen
+src_WPAZC,58,Dieren
+src_WPAZC,59,Doetinchem
+src_WPAZC,60,Dokkum
+src_WPAZC,61,Doorn
+src_WPAZC,62,Dordrecht
+src_WPAZC,63,Drachten
+src_WPAZC,64,Driebergen
+src_WPAZC,65,Dronten
+src_WPAZC,66,Druten
+src_WPAZC,67,Echt
+src_WPAZC,68,Ede
+src_WPAZC,69,Eexterveensche Kanaal
+src_WPAZC,70,Egmond
+src_WPAZC,71,Eibergen
+src_WPAZC,72,Eindhoven
+src_WPAZC,73,Ellecom
+src_WPAZC,74,Emmeloord
+src_WPAZC,75,Emmen
+src_WPAZC,76,Enschede
+src_WPAZC,77,Ermelo
+src_WPAZC,78,Etten-Leur
+src_WPAZC,79,Franeker
+src_WPAZC,80,Gasselternijveen
+src_WPAZC,81,Geeuwenbrug
+src_WPAZC,82,Geleen
+src_WPAZC,83,Gennep
+src_WPAZC,84,Gilze en Rijen
+src_WPAZC,85,Goes
+src_WPAZC,86,Gorinchem
+src_WPAZC,87,Grave
+src_WPAZC,88,Groesbeek
+src_WPAZC,89,Groningen
+src_WPAZC,90,Grouw
+src_WPAZC,91,Gulpen
+src_WPAZC,92,Haamstede
+src_WPAZC,93,Haarlem
+src_WPAZC,94,Harderberg
+src_WPAZC,95,Harderwijk
+src_WPAZC,96,Haren
+src_WPAZC,97,Harlingen
+src_WPAZC,98,Heerenveen
+src_WPAZC,99,Heerlen
+src_WPAZC,100,Heijen
+src_WPAZC,101,Hellevoetsluis
+src_WPAZC,102,Helmond
+src_WPAZC,103,Hengelo
+src_WPAZC,104,Hilversum
+src_WPAZC,105,Hoeven
+src_WPAZC,106,Hoogeveen
+src_WPAZC,107,Hoogezand-Sappemeer
+src_WPAZC,108,Hooghalen
+src_WPAZC,109,Huijbergen
+src_WPAZC,110,IJsselmuiden
+src_WPAZC,111,Joure
+src_WPAZC,112,Kampen
+src_WPAZC,113,Katwijk
+src_WPAZC,114,Kerkrade
+src_WPAZC,115,Klazienaveen
+src_WPAZC,116,Kollum
+src_WPAZC,117,Kortenhoef
+src_WPAZC,118,Krimpen a/d ijssel
+src_WPAZC,119,Langweer
+src_WPAZC,120,Laren
+src_WPAZC,121,Leersum
+src_WPAZC,122,Leeuwarden
+src_WPAZC,123,Leiden
+src_WPAZC,124,Leiderdorp
+src_WPAZC,125,Leidschendam
+src_WPAZC,126,Lemele
+src_WPAZC,127,Lemmer
+src_WPAZC,128,Leusden
+src_WPAZC,129,Lichtengeest
+src_WPAZC,130,Lichtenvoorde
+src_WPAZC,131,Lochem
+src_WPAZC,132,Lunteren
+src_WPAZC,133,Luttelgeest
+src_WPAZC,134,Maastricht
+src_WPAZC,135,Malden
+src_WPAZC,136,Markelo
+src_WPAZC,137,Meppel
+src_WPAZC,138,Middelburg
+src_WPAZC,139,Middelsem
+src_WPAZC,140,Midsland
+src_WPAZC,141,Mook
+src_WPAZC,142,Musselkanaal
+src_WPAZC,143,Nijeveen
+src_WPAZC,144,Nijmegen
+src_WPAZC,145,Noordwijk
+src_WPAZC,146,Nunspeet
+src_WPAZC,147,Nutter
+src_WPAZC,148,Oegstgeest
+src_WPAZC,149,Oirschot
+src_WPAZC,150,Oisterbeek
+src_WPAZC,151,Oisterwijk
+src_WPAZC,152,Oldenzaal
+src_WPAZC,154,Oosterbeek
+src_WPAZC,155,Oosterhout
+src_WPAZC,156,Oosterzee
+src_WPAZC,157,Ossendrecht
+src_WPAZC,158,Oude Pekela
+src_WPAZC,159,Ouderkerk
+src_WPAZC,160,Papendrecht
+src_WPAZC,161,Putten
+src_WPAZC,162,Reuzel
+src_WPAZC,163,Ridderkerk
+src_WPAZC,164,Rijsbergen
+src_WPAZC,165,Rijssen
+src_WPAZC,166,Rijswijk
+src_WPAZC,167,Rockanje
+src_WPAZC,168,Roermond
+src_WPAZC,169,Roosendaal
+src_WPAZC,170,Rosmalen
+src_WPAZC,171,Rotterdam
+src_WPAZC,172,Santpoort
+src_WPAZC,173,Schalkhaar
+src_WPAZC,174,Schemert
+src_WPAZC,175,Scheveningen
+src_WPAZC,176,Schijndel
+src_WPAZC,177,Schimmert
+src_WPAZC,178,Schiphol
+src_WPAZC,179,Schoondijk
+src_WPAZC,180,Sellingen
+src_WPAZC,181,Sint Anthonis
+src_WPAZC,182,Sint Maarten aan Zee
+src_WPAZC,183,Sittard
+src_WPAZC,184,Slagharen
+src_WPAZC,185,Sneek
+src_WPAZC,186,Soest
+src_WPAZC,187,Someren
+src_WPAZC,188,Spaubeek
+src_WPAZC,189,Stadskanaal
+src_WPAZC,190,Steenwijk
+src_WPAZC,191,Steenwijkerwold
+src_WPAZC,192,Stevensbeek
+src_WPAZC,193,Strijen
+src_WPAZC,194,Ten Boer
+src_WPAZC,195,Ter Apel
+src_WPAZC,196,Terneuzen
+src_WPAZC,197,Texel
+src_WPAZC,198,Tilburg
+src_WPAZC,199,Udenhout
+src_WPAZC,200,Uithoorn
+src_WPAZC,201,Utrecht
+src_WPAZC,202,Valkenburg
+src_WPAZC,203,Veendam
+src_WPAZC,204,Veenendaal
+src_WPAZC,205,Velp
+src_WPAZC,206,Venlo
+src_WPAZC,207,Venray
+src_WPAZC,208,Vierlingsbeek
+src_WPAZC,209,Vierlinsbeek
+src_WPAZC,210,Vlagtwedde
+src_WPAZC,211,Vledder
+src_WPAZC,212,Vlissingen
+src_WPAZC,213,Vught
+src_WPAZC,214,Waddinxveen
+src_WPAZC,215,Wageningen
+src_WPAZC,216,Wassenaar
+src_WPAZC,217,Weerden
+src_WPAZC,219,Werkendam
+src_WPAZC,220,Westerbork
+src_WPAZC,221,Wezep
+src_WPAZC,222,Wijk aan Zee
+src_WPAZC,223,Winschoten
+src_WPAZC,224,Winterswijk
+src_WPAZC,225,Witmarsum
+src_WPAZC,226,Wolvega
+src_WPAZC,227,Zaandam
+src_WPAZC,228,Zeddam
+src_WPAZC,229,Zeewolde
+src_WPAZC,230,Zeist
+src_WPAZC,231,Zevenaar
+src_WPAZC,232,Zierikzee
+src_WPAZC,233,Zuiddorpe
+src_WPAZC,234,Zuidlaren
+src_WPAZC,235,Zutphen
+src_WPAZC,236,Zweeloo
+src_WPAZC,237,Zwijndrecht
+src_WPAZC,238,Zwolle
+src_WPCOA,2,Albrandswaard
+src_WPCOA,3,Almere
+src_WPCOA,4,Alverna
+src_WPCOA,5,Amsterdam
+src_WPCOA,6,Apeldoorn
+src_WPCOA,7,Arnemuiden
+src_WPCOA,8,Assen
+src_WPCOA,9,Badhoevedorp
+src_WPCOA,10,Barneveld
+src_WPCOA,11,Bedum
+src_WPCOA,12,Berkel-Enschot
+src_WPCOA,13,Blijham
+src_WPCOA,14,Brielle
+src_WPCOA,15,Buren
+src_WPCOA,16,Capelle aan de IJssel
+src_WPCOA,17,Dalfssen
+src_WPCOA,18,De Lier
+src_WPCOA,19,Delft
+src_WPCOA,20,Delfzijl
+src_WPCOA,21,Den Bosch
+src_WPCOA,22,Den Haag
+src_WPCOA,23,Den Helder
+src_WPCOA,24,Denekamp
+src_WPCOA,25,Deurne
+src_WPCOA,26,Dokkum
+src_WPCOA,27,Drachten
+src_WPCOA,28,Drogeham
+src_WPCOA,29,Echt
+src_WPCOA,30,Ede
+src_WPCOA,31,Eibergen
+src_WPCOA,32,Eindhoven
+src_WPCOA,33,Eisden
+src_WPCOA,34,Enschede
+src_WPCOA,35,Finsterwolde
+src_WPCOA,36,Geldrop
+src_WPCOA,37,Gendringen
+src_WPCOA,38,Giessen
+src_WPCOA,39,Gieten
+src_WPCOA,40,Goirle
+src_WPCOA,41,Gorinchem
+src_WPCOA,42,Gouderak
+src_WPCOA,43,Groesbeek
+src_WPCOA,44,Groningen
+src_WPCOA,45,Harderwijk
+src_WPCOA,46,Harlingen
+src_WPCOA,47,Hasselt
+src_WPCOA,48,Hatert
+src_WPCOA,49,Heerenveen
+src_WPCOA,50,Heerhugowaard
+src_WPCOA,51,Hellevoetsluis
+src_WPCOA,52,Hilversum
+src_WPCOA,53,Hoofddorp
+src_WPCOA,54,Hoogezand
+src_WPCOA,55,Hoogvliet
+src_WPCOA,56,Horst
+src_WPCOA,57,IJlst
+src_WPCOA,58,Ingen
+src_WPCOA,59,Jubbega
+src_WPCOA,60,Katwijk
+src_WPCOA,61,Kessel
+src_WPCOA,62,Kranenburg
+src_WPCOA,63,Krimpen aan de Lek
+src_WPCOA,64,Leek
+src_WPCOA,65,Leeuwarden
+src_WPCOA,66,Lichtenvoorde
+src_WPCOA,67,Malden
+src_WPCOA,68,Meppel
+src_WPCOA,69,Middelburg
+src_WPCOA,70,Mijdrecht
+src_WPCOA,71,Molenhoek
+src_WPCOA,72,Neede
+src_WPCOA,73,Nieuw Millingen
+src_WPCOA,74,Nieuw Vennep
+src_WPCOA,75,Nieuwe Pekela
+src_WPCOA,76,Nieuwegein
+src_WPCOA,77,Nijmegen
+src_WPCOA,78,Nunspeet
+src_WPCOA,79,Nuth
+src_WPCOA,80,Oegstgeest
+src_WPCOA,82,Oud-Beijerland
+src_WPCOA,83,Oudhuizen
+src_WPCOA,84,Peize
+src_WPCOA,85,Renswoude
+src_WPCOA,86,Ridderkerk
+src_WPCOA,87,Roden
+src_WPCOA,88,Roosendaal
+src_WPCOA,89,Rotterdam
+src_WPCOA,90,Rozenburg
+src_WPCOA,91,Scheveningen
+src_WPCOA,92,Schijndel
+src_WPCOA,93,Sleewijk
+src_WPCOA,94,Spijkenisse
+src_WPCOA,95,Stadskanaal
+src_WPCOA,96,Steenbergen
+src_WPCOA,97,Susteren
+src_WPCOA,98,Texel
+src_WPCOA,99,Tilburg
+src_WPCOA,100,Uitgeest
+src_WPCOA,101,Uithuizen
+src_WPCOA,102,Urk
+src_WPCOA,103,Valthermond
+src_WPCOA,104,Veendam
+src_WPCOA,105,Venlo
+src_WPCOA,106,Vlaardingen
+src_WPCOA,107,Vleuten
+src_WPCOA,108,Vught
+src_WPCOA,110,Winschoten
+src_WPCOA,111,Wognum
+src_WPCOA,112,Zaandam
+src_WPCOA,113,Zandeweer
+src_WPCOA,114,Zeewolde
+src_WPCOA,115,Zetten
+src_WPCOA,116,Zuidwolde
+src_WPCOA,117,Zundert
+src_WPCOA,118,Zutphen
+src_WPZELF,2,Amstelveen
+src_WPZELF,3,Amsterdam
+src_WPZELF,4,Apeldoorn
+src_WPZELF,5,Arnhem
+src_WPZELF,6,Assen
+src_WPZELF,7,Bergen op Zoom
+src_WPZELF,8,Bilthoven
+src_WPZELF,9,Bodegraven
+src_WPZELF,10,Bosschenhoofd
+src_WPZELF,11,Breda
+src_WPZELF,12,Bussum
+src_WPZELF,13,Callantsoog
+src_WPZELF,14,Cuijk
+src_WPZELF,15,De Meern
+src_WPZELF,16,Delft
+src_WPZELF,17,Delfzijl
+src_WPZELF,18,Den Bosch
+src_WPZELF,19,Den Haag
+src_WPZELF,20,Diemen
+src_WPZELF,21,Dordrecht
+src_WPZELF,22,Drachten
+src_WPZELF,23,Drunen
+src_WPZELF,24,Druten
+src_WPZELF,25,Eindhoven
+src_WPZELF,26,Emmen
+src_WPZELF,27,Enschede
+src_WPZELF,28,Geleen
+src_WPZELF,29,Gendringen
+src_WPZELF,30,Grijpskerk
+src_WPZELF,31,Groningen
+src_WPZELF,32,Haarlem
+src_WPZELF,33,Heerewaarden
+src_WPZELF,34,Katwijk
+src_WPZELF,35,Kerkrade
+src_WPZELF,36,Leeuwarden
+src_WPZELF,37,Leiden
+src_WPZELF,38,Maarssen
+src_WPZELF,39,Middelburg
+src_WPZELF,40,Naaldwijk
+src_WPZELF,41,Nieuwe Pekela
+src_WPZELF,42,Nijmegen
+src_WPZELF,44,Oosterbeek
+src_WPZELF,45,Oosterwolde
+src_WPZELF,46,Roosendaal
+src_WPZELF,47,Rotterdam
+src_WPZELF,48,Ruurlo
+src_WPZELF,49,Silvolde
+src_WPZELF,50,Sneek
+src_WPZELF,51,Someren
+src_WPZELF,52,Texel
+src_WPZELF,53,Tilburg
+src_WPZELF,54,Tolbert
+src_WPZELF,55,Utrecht
+src_WPZELF,56,Varsseveld
+src_WPZELF,57,Veenendaal
+src_WPZELF,58,Warmenhuizen
+src_WPZELF,59,Weenwouden
+src_WPZELF,60,Weesp
+src_WPZELF,62,Wijk aan Zee
+src_WPZELF,63,Woensel
+src_WPZELF,64,Zwolle
+src_WPFAMVR,2,Aalte
+src_WPFAMVR,3,Almelo
+src_WPFAMVR,4,Almere-Haven
+src_WPFAMVR,5,Almere
+src_WPFAMVR,6,Amersfoort
+src_WPFAMVR,7,Amstelveen
+src_WPFAMVR,8,Amsterdam
+src_WPFAMVR,9,Anna Paulowna
+src_WPFAMVR,10,Apeldoorn
+src_WPFAMVR,11,Arnhem
+src_WPFAMVR,12,Assen
+src_WPFAMVR,13,Berkel-Roderijs
+src_WPFAMVR,14,Boxtel
+src_WPFAMVR,15,Breda
+src_WPFAMVR,16,Capelle aan de IJssel
+src_WPFAMVR,17,Delft
+src_WPFAMVR,18,Den Bosch
+src_WPFAMVR,19,Den Haag
+src_WPFAMVR,20,Den Hhelder
+src_WPFAMVR,21,Diemen
+src_WPFAMVR,22,Dordrecht
+src_WPFAMVR,23,Drachten
+src_WPFAMVR,24,Dronrijp
+src_WPFAMVR,25,Ede
+src_WPFAMVR,26,Eindhoven
+src_WPFAMVR,27,Emmeloord
+src_WPFAMVR,28,Emmen
+src_WPFAMVR,29,Enschede
+src_WPFAMVR,30,Epe
+src_WPFAMVR,31,Erm
+src_WPFAMVR,32,Garderen
+src_WPFAMVR,33,Geleen
+src_WPFAMVR,34,Goes
+src_WPFAMVR,35,Gouda
+src_WPFAMVR,36,Groesbeek
+src_WPFAMVR,37,Groningen
+src_WPFAMVR,38,Harderwijk
+src_WPFAMVR,39,Heemskerk
+src_WPFAMVR,40,Heerlen
+src_WPFAMVR,41,Hellevoetssluis
+src_WPFAMVR,42,Helmond
+src_WPFAMVR,43,Hengelo
+src_WPFAMVR,44,Heusden
+src_WPFAMVR,45,Hilversum
+src_WPFAMVR,46,Hollandsche Rading
+src_WPFAMVR,47,Hoofddorp
+src_WPFAMVR,48,Hoorn
+src_WPFAMVR,49,IJmuiden
+src_WPFAMVR,50,Joure
+src_WPFAMVR,51,Kampen
+src_WPFAMVR,52,Klazienaveen
+src_WPFAMVR,53,Leeuwarden
+src_WPFAMVR,54,Leiden
+src_WPFAMVR,55,Lunteren
+src_WPFAMVR,56,Maarssen
+src_WPFAMVR,57,Maastricht
+src_WPFAMVR,58,Malden
+src_WPFAMVR,59,Mierlo
+src_WPFAMVR,60,Montfoort
+src_WPFAMVR,61,Mook
+src_WPFAMVR,62,Naarden
+src_WPFAMVR,63,Nieuwegein
+src_WPFAMVR,64,Nijmegen
+src_WPFAMVR,66,Oostburg
+src_WPFAMVR,67,Opmeer
+src_WPFAMVR,68,Oss
+src_WPFAMVR,69,Raalte
+src_WPFAMVR,70,Rhoon
+src_WPFAMVR,71,Rijswijk
+src_WPFAMVR,72,Roermond
+src_WPFAMVR,73,Roosendaal
+src_WPFAMVR,74,Rotterdam
+src_WPFAMVR,75,Schiedam
+src_WPFAMVR,76,Sint Maartensdijk
+src_WPFAMVR,77,Sliedrecht
+src_WPFAMVR,78,Soest
+src_WPFAMVR,79,Spijkenisse
+src_WPFAMVR,80,Ternaard
+src_WPFAMVR,81,Tilburg
+src_WPFAMVR,82,Tytsjerk
+src_WPFAMVR,83,Utrecht
+src_WPFAMVR,84,Veendam
+src_WPFAMVR,85,Venlo
+src_WPFAMVR,86,Voorburg
+src_WPFAMVR,87,Waalwijk
+src_WPFAMVR,88,Wageningen
+src_WPFAMVR,89,Wassenaar
+src_WPFAMVR,90,Weert
+src_WPFAMVR,92,Wijchen
+src_WPFAMVR,93,Wijk aan zee
+src_WPFAMVR,94,Winschoten
+src_WPFAMVR,95,Winterswijk
+src_WPFAMVR,96,Zaandam
+src_WPFAMVR,97,Zeist
+src_WPFAMVR,98,Zoetermeer
+src_WPFAMVR,99,Zwijndrecht
+src_WPFAMVR,100,Zwolle
+src_bedrijf_cod,1,"01 Landbouw, jacht en dienstverlening voor de landbouw en jacht"
+src_bedrijf_cod,9,Dienstverlening voor de winning van delfstoffen
+src_bedrijf_cod,10,Vervaardiging van voedingsmiddelen
+src_bedrijf_cod,11,Vervaardiging van dranken
+src_bedrijf_cod,12,Vervaardiging van tabaksproducten
+src_bedrijf_cod,13,Vervaardiging van textiel
+src_bedrijf_cod,14,Vervaardiging van kleding
+src_bedrijf_cod,16,"Primaire houtbewerking en vervaardiging van artikelen van hout, kurk, riet en vlechtwerk ( geen meubels)"
+src_bedrijf_cod,17,"Vervaardiging van papier, karton en papier- en kartonwaren"
+src_bedrijf_cod,18,"Drukkerijen, reproductie van opgenomen media"
+src_bedrijf_cod,20,Vervaardiging van chemische producten
+src_bedrijf_cod,21,Vervaardiging van farmaceutische grondstoffen en producten
+src_bedrijf_cod,22,Vervaardiging van producten van rubber en kunststof
+src_bedrijf_cod,23,Vervaardiging van overige niet-metaalhoudende minerale producten
+src_bedrijf_cod,24,Vervaardiging van metalen in primaire vorm
+src_bedrijf_cod,25,Vervaardiging van producten van metaal (geen machines en apparaten)
+src_bedrijf_cod,26,Vervaardiging van computers en van elektronische en optische apparatuur
+src_bedrijf_cod,27,Vervaardiging van elektrische apparatuur
+src_bedrijf_cod,28,Vervaardiging van overige machines en apparaten
+src_bedrijf_cod,29,"Vervaardiging van autos, aanhangwagens en opleggers"
+src_bedrijf_cod,30,Vervaardiging van overige transportmiddelen
+src_bedrijf_cod,31,Vervaardiging van meubels
+src_bedrijf_cod,32,Vervaardiging van overige goederen
+src_bedrijf_cod,33,Reparatie en installatie van machines en apparaten
+src_bedrijf_cod,35,"Productie en distributie van en handel in elektriciteit, aardgas, stoom en gekoelde lucht"
+src_bedrijf_cod,36,Winning en distributie van water
+src_bedrijf_cod,37,Afvalwaterinzameling en -behandeling
+src_bedrijf_cod,38,Afvalinzameling en -behandeling; voorbereiding tot recycling
+src_bedrijf_cod,41,Algemene burgerlijke en utiliteitsbouw
+src_bedrijf_cod,42,"Grond-, water- en wegenbouw (geen grondverzet)"
+src_bedrijf_cod,43,Gespecialiseerde werkzaamheden in de bouw
+src_bedrijf_cod,45,"Handel in en reparatie van autos, motorfietsen en aanhangers"
+src_bedrijf_cod,46,Groothandel en handelsbemiddeling (niet in autos en motorfietsen)
+src_bedrijf_cod,47,"Detailhandel en reparatie van consumentenartikelen (geen auto s, motorfietsen en motorbrandstoffen)"
+src_bedrijf_cod,49,Transport\vervoer over land
+src_bedrijf_cod,50,Transport\vervoer over water
+src_bedrijf_cod,51,Transport\vervoer door de lucht
+src_bedrijf_cod,52,Opslag en dienstverlening voor vervoer
+src_bedrijf_cod,53,Post en koeriers
+src_bedrijf_cod,55,Logiesverstrekking
+src_bedrijf_cod,56,Maaltijden- en drankenverstrekking
+src_bedrijf_cod,58,Uitgeverijen
+src_bedrijf_cod,59,Productie en distributie van films en televisieprogrammas; maken en uitgeven van geluidsopnamen
+src_bedrijf_cod,60,Verzorgen en uitzenden van radio- en televisieprogrammas
+src_bedrijf_cod,61,Telecommunicatie
+src_bedrijf_cod,62,Dienstverlenende activiteiten op het gebied van informatietechnologie
+src_bedrijf_cod,63,Dienstverlenende activiteiten op het gebied van informatie
+src_bedrijf_cod,64,Financile instellingen (geen verzekeringen en pensioenfondsen)
+src_bedrijf_cod,65,Verzekeringen en pensioenfondsen (geen verplichte sociale verzekeringen)
+src_bedrijf_cod,66,Overige financile dienstverlening
+src_bedrijf_cod,68,Verhuur van en handel in onroerend goed
+src_bedrijf_cod,69,"69 Rechtskundige dienstverlening, accountancy, belastingadvisering en administratie"
+src_bedrijf_cod,70,"Holdings (geen financile), concerndiensten binnen eigen concern en managementadvisering"
+src_bedrijf_cod,71,"Architecten, ingenieurs en technisch ontwerp en advies; keuring en controle"
+src_bedrijf_cod,72,Speur- en ontwikkelingswerk
+src_bedrijf_cod,73,Reclame en marktonderzoek
+src_bedrijf_cod,74,"Industrieel ontwerp en vormgeving, fotografie, vertaling en overige consultancy"
+src_bedrijf_cod,77,"Verhuur en lease van autos, consumentenartikelen, machines en overige roerende goederen"
+src_bedrijf_cod,78,"Arbeidsbemiddeling, uitzendbureaus en personeelsbeheer"
+src_bedrijf_cod,79,"Reisbemiddeling, reisorganisatie, toeristische informatie en reserveringsbureaus"
+src_bedrijf_cod,80,Beveiliging en opsporing
+src_bedrijf_cod,81,"Facility management, reiniging en landschapsverzorging"
+src_bedrijf_cod,82,Overige zakelijke dienstverlening
+src_bedrijf_cod,84,Openbaar bestuur en overheidsdiensten
+src_bedrijf_cod,85,Onderwijs
+src_bedrijf_cod,86,Gezondheidszorg
+src_bedrijf_cod,87,"Verpleging, verzorging en begeleiding met overnachting"
+src_bedrijf_cod,88,Maatschappelijke dienstverlening zonder overnachting
+src_bedrijf_cod,90,Kunst
+src_bedrijf_cod,91,"Culturele uitleencentra, openbare archieven, musea, dieren- en plantentuinen, natuurbehoud"
+src_bedrijf_cod,92,Loterijen en kansspelen
+src_bedrijf_cod,93,Sport en recreatie
+src_bedrijf_cod,94,"Levensbeschouwelijke en politieke organisaties, belangen- en idele organisaties, hobbyclubs"
+src_bedrijf_cod,95,Reparatie van computers en consumentenartikelen
+src_bedrijf_cod,96,Wellness en overige dienstverlening; uitvaartbranche
+src_bedrijf_cod,97,Huishoudens als werkgever van huishoudelijk personeel
+src_bedrijf_cod,98,Niet-gespecificeerde productie van goederen en diensten door particuliere huishoudens voor eigen gebruik
+src_bedrijf_cod,99,Extraterritoriale organisaties en lichamen
+src_bedrijf_cod,101,Anders namelijk

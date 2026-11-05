@@ -1,0 +1,58 @@
+survey,pattern,gate,allowed,description,consumes
+las2004,INDIEN ALLOCHTOON,svy_routing_mig,1,persons with a migration background (migrant routing of the script),9001
+las2004,INDIEN AUTOCHTOON,svy_routing_mig,0,native reference sample (native routing),9001
+las2004,"INDIEN TURK, ?MAROKKAAN",dem_eth,"1,2",Turkish and Moroccan respondents,
+las2004,INDIEN MOSLIM,rel_den_cat,2,Muslims,
+las2004,INDIEN VROUW,dem_sex,2,women,35
+las2004,INDIEN (BETAALD WERK|WERKEND),lab_emp,1,persons with paid work,500
+las2004,INDIEN GEEN (BETAALD )?WERK,lab_emp,0,persons without paid work,
+las2004,INDIEN (?!NIET )(GEHUWD OF SAMENWONEND|PARTNER\b),dem_prtnr_st,"1,2,3,4","persons with a partner - married, cohabiting or living apart together: the LAS data show the 'GEHUWD OF SAMENWONEND' items were asked to LAT partners as well",
+las2004,INDIEN NIET GEHUWD OF SAMENWONEND,dem_prtnr_st,"0,4",persons without a co-resident partner,
+las2004,INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b,dem_has_chd,1,persons with children,
+las2004,INDIEN GODSDIENST/RELIGIE,rel_any,1,persons who belong to a religion,
+las2004,INDIEN NIET (IN NEDERLAND )?GEBOREN,dem_gen,1,first generation (born abroad),20
+sim2006,"IF \[ (?!#)\s*Q9001 , 1 TO 4(?! ?,)",svy_routing_mig,1,persons with a migration background (migrant routing of the script),9001
+sim2006,"IF \[ # ?Q9001 , 5(?! ?,)",svy_routing_mig,1,persons with a migration background (migrant routing of the script),9001
+sim2006,"IF \[ (?!#)\s*Q9001 , 5(?! ?,)",svy_routing_mig,0,native reference sample (native routing),9001
+sim2006,"IF \[ (?!#)\s*Q9001 , 1 , 2(?! ?,)",dem_eth,"1,2",Turkish and Moroccan respondents,9001
+sim2006,"IF \[ (?!#)\s*Q9001 , 3 , 4 , 5(?! ?,)",dem_eth,"3,4,90","Surinamese, Antillean and native Dutch respondents",9001
+sim2006,"IF \[ (?!#)\s*Q35 , 2(?! ?,)",dem_sex,2,women,35
+sim2006,"IF \[ (?!#)\s*Q43 , 1(?! ?,)",dem_prtnr_st,"1,2,3,4",persons with a partner,43
+sim2006,"IF \[ (?!#)\s*Q500 , 1(?! ?,)",lab_emp,1,persons with paid work,500
+sim2006,"IF \[ (?!#)\s*Q920 , 1(?! ?,)",rel_any,1,persons who belong to a religion,920
+sim2006,"IF \[ (?!#)\s*Q930 , 1 TO 6(?! ?,)",rel_den_cat,2,Muslims,930
+sing2009,"INDIEN \[ # ?Q40 , 8(?! ?,)",svy_routing_mig,1,persons with a migration background (migrant routing of the script),"40,9001"
+sing2009,"INDIEN \[ (?!#)\s*Q80 , 2(?! ?,)",dem_sex,2,women,80
+sing2009,"INDIEN \[ (?!#)\s*Q860 , 1(?! ?,)",lab_emp,1,persons with paid work,860
+sing2009,"INDIEN \[ (?!#)\s*Q2990 , 1(?! ?,)",rel_any,1,persons who belong to a religion,2990
+sing2009,"INDIEN \[ (?!#)\s*Q3000 , 1 TO 6(?! ?,)",rel_den_cat,2,Muslims,3000
+sim2011,INDIEN (RESPONDENT )?ALLOCHTOON,svy_routing_mig,1,persons with a migration background (migrant routing of the script),9001
+sim2011,INDIEN (RESPONDENT )?AUTOCHTOON,svy_routing_mig,0,native reference sample (native routing),9001
+sim2011,INDIEN MOSLIM,rel_den_cat,2,Muslims,930
+sim2011,INDIEN (Q920 ?= ?1|GELOVIG),rel_any,1,persons who belong to a religion,920
+sim2011,INDIEN VROUW,dem_sex,2,women,35
+sim2011,INDIEN PARTNER \(Q43 ?= ?1\),dem_has_prtnr,1,persons with a partner,43
+sim2011,INDIEN BETAALD WERK \(Q500 ?= ?1\)|INDIEN WERKEND,lab_emp,1,persons with paid work,500
+sim2011,INDIEN GEEN BETAALD WERK,lab_emp,0,persons without paid work,500
+sim2011,INDIEN NIET IN NEDERLAND GEBOREN,dem_gen,1,first generation (born abroad),20
+sim2015,ASK ONLY IF not Q9001 ?= ?7|not Q9001=7,svy_routing_mig,1,persons with a migration background (migrant routing of the script),9001
+sim2015,ASK ONLY IF Q920 ?= ?1,rel_any,1,persons who belong to a religion,920
+sim2015,"ASK ONLY IF Q930 ?= ?1,2,3,4,5,6",rel_den_cat,2,Muslims,930
+sim2015,ASK ONLY IF Q43 ?= ?1|IF Q43 ?= ?1,dem_has_prtnr,1,persons with a partner,43
+sim2015,ASK ONLY IF Q500 ?= ?1,lab_emp,1,persons with paid work,500
+sim2015,ASK ONLY IF Q35 ?= ?2,dem_sex,2,women,35
+sim2015,not Q20 ?= ?5,dem_gen,1,first generation (born abroad),20
+sim2020,IF NOT (Q)?9001 ?= ?7|Q9001 IS NOT 7,svy_routing_mig,1,persons with a migration background (migrant routing of the script),9001
+sim2020,"Q9004 ?, ?1\b|Q9004 ?= ?1\b|NOT Q9004 ?= ?2\b",dem_gen,1,"first generation (sample-data field GENERATIE: the language, Dutch-course and migration items of SIM 2020 went to the first generation only)",9004
+sim2020,IF Q920 ?= ?1,rel_any,1,persons who belong to a religion,920
+sim2020,"IF \[?Q43,1\]?",dem_has_prtnr,1,persons with a partner,43
+sim2020,"IF \[?Q35,2",dem_sex,2,women,35
+sim2020,"IF \[?Q500,1\]?|IF WERKZAAM",lab_emp,1,persons with paid work,500
+sim2020,"IF \[?Q930,1-5\]?|IF Q930 ?= ?1,2,3,4,5",rel_den_cat,2,Muslims,930
+sim2020,MOSLIM OF CHRISTEN,rel_den_cat,"2,3",Muslims and Christians,930
+sim2020,IF SCHOOLGAAND,edu_cur_lvl3,"1,2,3",persons currently in education (any level),
+spva2002,INDIEN (NU )?(LOONDIENST|WERKEND|BETAALD WERK),lab_emp,1,persons with paid work,500
+spva2002,INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b,dem_has_chd,1,persons with children,
+spvn2003,INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b,dem_has_chd,1,persons with children,
+spva2002,INDIEN GEHUWD,dem_mar,1,married persons,
+spva2002,INDIEN GODSDIENST/KERK/RELIGIE|INDIEN GELOVIG,rel_any,1,persons who belong to a religion,920

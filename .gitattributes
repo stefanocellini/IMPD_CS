@@ -1,0 +1,4 @@
+# No line-ending conversion: every file is stored and checked out byte for byte. The build identity (docs/BUILD_ID)
+# is a hash over the bytes of crosswalks/*.csv and the code, so a clone must hold exactly the bytes that were
+# committed on any operating system (the crosswalk CSVs are written with CRLF, the code with LF). Diffs still work.
+* -text

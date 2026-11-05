@@ -1,0 +1,104 @@
+Data file: impd_public_v0_4_8.rds 
+
+== Eligibility statements (impd_universe) ==
+  target       
+1 lang_prob_spk
+2 soc_leis_nl  
+  universe_en                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+1 Heads of household (main questionnaire) (SPVA 2002); Respondents with a migration background (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015); First-generation respondents with a migration background (SIM 2020: the script routed the second generation past the language and Dutch-course items)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+2 All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002); Other interviewed household members aged 12+ (mini questionnaire; heads of household were not asked) (SPVN 2003); All respondents (LAS 2004/05; natives asked about contact with persons with a migration background, VRTIJDAL); All respondents (SIM 2006; natives asked about contact with persons with a migration background, VRTIJDN); A random half of the respondents with a migration background (SING 2009: CAPI script field exp2431 = 1; no split indicator delivered, the other half is .c); All respondents (SIM 2011; natives asked about persons with a migration background); All respondents (SIM 2015; natives: leisure contact with persons with a migration background); All respondents (SIM 2020; same)
+
+Analysis population (interviewed, migrant origin group, 15+):
+
+ LAS2004  SIM2006  SIM2011  SIM2015  SIM2020 SING2009 SPVA2002 SPVN2003 
+    3424     4212     3287     5783     4552     5830     7464     5077 
+
+== impd_sample: descriptive variables ==
+impd_sample: 6 variable(s), 8 survey(s)
+   survey n_records n_complete share_complete not_collected
+ SPVA2002      7464       7184          0.962              
+ SPVN2003      5077       1586          0.312              
+  LAS2004      3424       3424          1.000              
+  SIM2006      4212       4210          1.000              
+ SING2009      5830       2953          0.507              
+  SIM2011      3287       3287          1.000              
+  SIM2015      5783       5783          1.000              
+  SIM2020      4552       4552          1.000              
+  SPVA2002: soc_leis_nl: 7185 valid / 0 .c / 0 .e / 279 other | dem_eth: 7464 valid / 0 .c / 0 .e / 0 other | dem_gen: 7464 valid / 0 .c / 0 .e / 0 other | dem_sex: 7462 valid / 0 .c / 0 .e / 2 other | dem_age_cat3: 7464 valid / 0 .c / 0 .e / 0 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other
+  SPVN2003: soc_leis_nl: 1586 valid / 0 .c / 3488 .e / 3 other | dem_eth: 5077 valid / 0 .c / 0 .e / 0 other | dem_gen: 5077 valid / 0 .c / 0 .e / 0 other | dem_sex: 5077 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 5077 valid / 0 .c / 0 .e / 0 other | svy_wgt: 5077 valid / 0 .c / 0 .e / 0 other
+  LAS2004: soc_leis_nl: 3424 valid / 0 .c / 0 .e / 0 other | dem_eth: 3424 valid / 0 .c / 0 .e / 0 other | dem_gen: 3424 valid / 0 .c / 0 .e / 0 other | dem_sex: 3424 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 3424 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3424 valid / 0 .c / 0 .e / 0 other
+  SIM2006: soc_leis_nl: 4210 valid / 2 .c / 0 .e / 0 other | dem_eth: 4212 valid / 0 .c / 0 .e / 0 other | dem_gen: 4212 valid / 0 .c / 0 .e / 0 other | dem_sex: 4212 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 4212 valid / 0 .c / 0 .e / 0 other | svy_wgt: 4212 valid / 0 .c / 0 .e / 0 other
+  SING2009: soc_leis_nl: 2954 valid / 2868 .c / 0 .e / 8 other | dem_eth: 5830 valid / 0 .c / 0 .e / 0 other | dem_gen: 5830 valid / 0 .c / 0 .e / 0 other | dem_sex: 5829 valid / 0 .c / 0 .e / 1 other | dem_age_cat3: 5830 valid / 0 .c / 0 .e / 0 other | svy_wgt: 5830 valid / 0 .c / 0 .e / 0 other
+  SIM2011: soc_leis_nl: 3287 valid / 0 .c / 0 .e / 0 other | dem_eth: 3287 valid / 0 .c / 0 .e / 0 other | dem_gen: 3287 valid / 0 .c / 0 .e / 0 other | dem_sex: 3287 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 3287 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3287 valid / 0 .c / 0 .e / 0 other
+  SIM2015: soc_leis_nl: 5783 valid / 0 .c / 0 .e / 0 other | dem_eth: 5783 valid / 0 .c / 0 .e / 0 other | dem_gen: 5783 valid / 0 .c / 0 .e / 0 other | dem_sex: 5783 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 5783 valid / 0 .c / 0 .e / 0 other | svy_wgt: 5783 valid / 0 .c / 0 .e / 0 other
+  SIM2020: soc_leis_nl: 4552 valid / 0 .c / 0 .e / 0 other | dem_eth: 4552 valid / 0 .c / 0 .e / 0 other | dem_gen: 4552 valid / 0 .c / 0 .e / 0 other | dem_sex: 4552 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 4552 valid / 0 .c / 0 .e / 0 other | svy_wgt: 4552 valid / 0 .c / 0 .e / 0 other
+
+== impd_sample: with lang_prob_spk (stops: SPVN 2003 did not collect it) ==
+impd_sample: 3 variable(s), 8 survey(s)
+   survey n_records n_complete share_complete not_collected
+ SPVA2002      7464       4073          0.546              
+ SPVN2003      5077          0          0.000 lang_prob_spk
+  LAS2004      3424       3424          1.000              
+  SIM2006      4212       4201          0.997              
+ SING2009      5830       2954          0.507              
+  SIM2011      3287       3287          1.000              
+  SIM2015      5783       5783          1.000              
+  SIM2020      4552       3309          0.727              
+  SPVA2002: soc_leis_nl: 7185 valid / 0 .c / 0 .e / 279 other | lang_prob_spk: 4093 valid / 0 .c / 3349 .e / 22 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other
+  SPVN2003: soc_leis_nl: 1586 valid / 0 .c / 3488 .e / 3 other | lang_prob_spk: 0 valid / 0 .c / 5077 .e / 0 other | svy_wgt: 5077 valid / 0 .c / 0 .e / 0 other
+  LAS2004: soc_leis_nl: 3424 valid / 0 .c / 0 .e / 0 other | lang_prob_spk: 3424 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3424 valid / 0 .c / 0 .e / 0 other
+  SIM2006: soc_leis_nl: 4210 valid / 2 .c / 0 .e / 0 other | lang_prob_spk: 4203 valid / 9 .c / 0 .e / 0 other | svy_wgt: 4212 valid / 0 .c / 0 .e / 0 other
+  SING2009: soc_leis_nl: 2954 valid / 2868 .c / 0 .e / 8 other | lang_prob_spk: 5824 valid / 6 .c / 0 .e / 0 other | svy_wgt: 5830 valid / 0 .c / 0 .e / 0 other
+  SIM2011: soc_leis_nl: 3287 valid / 0 .c / 0 .e / 0 other | lang_prob_spk: 3287 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3287 valid / 0 .c / 0 .e / 0 other
+  SIM2015: soc_leis_nl: 5783 valid / 0 .c / 0 .e / 0 other | lang_prob_spk: 5783 valid / 0 .c / 0 .e / 0 other | svy_wgt: 5783 valid / 0 .c / 0 .e / 0 other
+  SIM2020: soc_leis_nl: 4552 valid / 0 .c / 0 .e / 0 other | lang_prob_spk: 3309 valid / 1243 .c / 0 .e / 0 other | svy_wgt: 4552 valid / 0 .c / 0 .e / 0 other
+Error : survey(s) with no complete record on soc_leis_nl, lang_prob_spk, svy_wgt: SPVN2003 (not collected: lang_prob_spk)
+ 
+
+== Table 1: weighted % often/always leisure time with native Dutch, by survey and origin group (n unweighted) ==
+   survey year Antillean/Aruban    Moroccan  Surinamese     Turkish      Polish     Somali    Iranian     Afghan    Chinese      Iraqi Former Yugoslav
+ SPVA2002 2002      54.7 (1211) 19.5 (1978) 49.7 (1714) 16.8 (2282)                                                                                   
+ SPVN2003 2003                                                                  40.4 (138)   52 (322) 37.2 (408)            35.9 (383)      56.8 (335)
+  LAS2004 2004       55.4 (804)    37 (914)  55.5 (760)  28.8 (946)                                                                                   
+  SIM2006 2006       48.9 (996)   29 (1031) 46.9 (1057) 16.7 (1126)                                                                                   
+ SING2009 2009                                                       42.3 (501) 31.5 (475) 43.8 (469) 38.8 (515) 29.7 (486)   33 (508)                
+  SIM2011 2011       43.1 (863)  12.2 (829)  35.8 (780)  16.2 (815)                                                                                   
+  SIM2015 2015      49.2 (1112)  25.5 (951) 45.5 (1045)  24.4 (920) 33.6 (1129) 22.8 (626)                                                            
+  SIM2020 2020       45.7 (592)  34.3 (570)    48 (638)  30.4 (696)  26.4 (682) 24.1 (519)   37 (855)                                                 
+
+== Table 2: weighted % often/always, by survey and generation ==
+   survey year 1st generation 2nd generation
+ SPVA2002 2002    25.8 (5471)    47.2 (1714)
+ SPVN2003 2003    39.6 (1473)       79 (113)
+  LAS2004 2004    36.7 (2646)     60.5 (778)
+  SIM2006 2006    28.6 (3194)    49.9 (1016)
+ SING2009 2009    33.8 (2763)     71.9 (191)
+  SIM2011 2011    18.6 (2269)    35.6 (1018)
+  SIM2015 2015    28.9 (4228)    42.2 (1555)
+  SIM2020 2020    30.8 (3309)    46.8 (1243)
+
+== Table 3: weighted % often/always, by survey and problems speaking Dutch (7 surveys; SPVA 2002: heads only) ==
+   survey year       never   sometimes often / does not speak Dutch
+ SPVA2002 2002 49.7 (2219) 15.9 (1202)                   10.1 (652)
+  LAS2004 2004 53.7 (2105)  22.8 (858)                   22.9 (461)
+  SIM2006 2006 41.7 (2889)  15.3 (818)                    6.3 (494)
+ SING2009 2009 57.8 (1110) 25.4 (1195)                   14.1 (649)
+  SIM2011 2011   31 (2323)     9 (544)                    7.1 (420)
+  SIM2015 2015 40.3 (3389)   21 (1412)                   17.2 (982)
+  SIM2020 2020   44 (1386) 21.5 (1081)                   14.8 (842)
+
+== Pooled logit: often ~ lang3 + sex + age + generation + origin group + survey (fixed effects) ==
+Weights: svy_wgt rescaled to mean 1 within survey (each survey contributes in proportion to its analytic n).
+Clusters: household (id_hh) in SPVA 2002, the person elsewhere.  Survey fixed effects: within-survey association.
+Analytic n: 27029 
+
+ LAS2004  SIM2006  SIM2011  SIM2015  SIM2020 SING2009 SPVA2002 
+    3424     4201     3287     5783     3309     2953     4072 
+Odds ratios (origin-group and survey fixed effects included, not shown):
+                                     OR OR low OR high     p
+lang3sometimes                    0.377  0.345   0.412 0.000
+lang3often / does not speak Dutch 0.258  0.226   0.294 0.000
+sexFemale                         0.963  0.903   1.026 0.241
+age325-44                         0.844  0.772   0.923 0.000
+age345 or older                   0.810  0.729   0.901 0.000
+gen2nd generation                 1.752  1.600   1.919 0.000

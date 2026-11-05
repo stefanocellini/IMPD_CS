@@ -1,0 +1,166 @@
+kind,target,source_var,source_value,survey,target_value,reason,reviewer,date
+polarity,soc_mem,GEENLID,1,sim2006,0,"'geen van deze' mentioned = member of none -> soc_mem 0 (inverted on purpose, as the public map)","restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,soc_mem,GEENLID,0,sim2006,1,'geen van deze' not mentioned = member of at least one -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,svy_video,manier,1,sim2020,0,face-to-face interview = not by video call -> 0,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,svy_video,manier,2,sim2020,1,'via videobellen' = video call -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,int_crs,inbcurus,2,sim2015,1,'nu mee bezig' = currently following the course = participated -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,int_crs,INBCURUS,2,sim2011,1,'nu mee bezig' = currently following the course = participated -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,int_crs,INBCURUS,2,sing2009,1,'nu mee bezig' = currently following the course = participated -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,int_nlcrs,nlcurs,5,sim2015,1,'ik volg op dit moment een cursus' = currently following = yes -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,edu_abr,oplbl,2,sim2015,1,'zowel buiten Nederland als in Nederland' = education abroad as well -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,int_nlcrs,nlcurs,5,sim2020,1,'ik volg op dit moment een cursus' = currently following = yes -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,edu_abr,oplbl,2,sim2020,1,'zowel buiten Nederland als in Nederland' = education abroad as well -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,svy_remarks,OPEN,1,sim2011,1,'toelichting' = a remark was given -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,lab_train,CURSUSBD,2,sim2011,1,'nu mee bezig' = currently in training with the employer = yes -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,lab_train,CURSUSBD,2,sim2006,1,'nu mee bezig' = currently in training with the employer = yes -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,lab_lf,bb_ned,1,sim2011,1,'werkzame beroepsbevolking' = employed labour force -> in labour force 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,lab_lf,bb_ned,2,sim2011,1,'werkloze beroepsbevolking' = unemployed labour force -> in labour force 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,lab_lf,BB_NED,1,las2004,1,'werkzame beroepsbevolking' = employed labour force -> in labour force 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,lab_lf,BB_NED,2,las2004,1,'werkloze beroepsbevolking' = unemployed labour force -> in labour force 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,lab_lf,BB_NED,1,sing2009,1,'werkzame beroepsbevolking' = employed labour force -> in labour force 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,lab_lf,BB_NED,2,sing2009,1,'werkloze beroepsbevolking' = unemployed labour force -> in labour force 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,edu_abr_dipl,DIPLBL,1,las2004,1,'diploma' = has a diploma -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,edu_ft,VOLTOPL,1,las2004,1,'voltijd' = full-time -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,edu_nl_dipl_att,DIPLNL,1,las2004,1,'diploma' = has a diploma -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,1,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,2,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,3,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,4,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,5,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,6,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,7,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,8,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,9,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,10,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,11,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,12,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,13,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,14,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,15,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,16,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,rel_any,RELIGIE,17,las2004,1,a named denomination (or 'overige godsdienst') = belongs to a religion -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,mig_transit,ANDLAND,1,sing2009,0,'direct naar Nederland gekomen' = no stay in another country -> 0,"restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,mig_transit,ANDLAND,2,sing2009,1,'eerst in ander(e) land(en) gewoond' = stayed elsewhere -> 1,"restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,dem_prtnr_act,PARTHFDA,6,sim2006|sim2011,98,"'anders, nl' / 'anders, namelijk': the same other category","restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,edu_abr_dipl,DIPLBL,1,las2004|sim2020,1,'diploma' / 'ja': both yes,"restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,edu_ft,VOLTOPL,1,las2004|sim2020,1,'voltijd' / 'ja': both full-time,"restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,lab_emptype,ZELFST,2,sim2006|sim2015,2,'anders' / 'diversen': other than employee = self-employed or other (2),"restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,lab_emptype,ZELFST,2,sim2011|sim2015,2,'anders' / 'diversen': other than employee = self-employed or other (2),"restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,lab_emptype,ZELFST,2,sim2015|sing2009,2,'anders' / 'diversen': other than employee = self-employed or other (2),"restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,lab_act,HFDACT,7,sim2006|sim2011,6,"'anders, nl' / 'anders, namelijk': the same other category","restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,hous_tenure,KOOPWON,3,sim2006|sim2015,98,'anders' / 'diversen': other tenure (98),"restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,hous_tenure,KOOPWON,3,sim2011|sim2015,98,'anders' / 'diversen': other tenure (98),"restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,rel_attend,KERKBEZ,5,las2004|sim2006,4,'enkele keren per week' / 'elke dag': both weekly or more (4),"restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,svy_lang_hh,TAALINT,6,las2004|sim2011,.d,"'anders nl' / 'anders, namelijk': other language, not harmonized (.d)","restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,lab_dism_reason,REDONTSL,11,sim2006|sim2011,10,"'anders nl' / 'anders, namelijk': the same other category","restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,pol_party,STEMWS,7,sim2011|sing2009,2,"'pvv' / 'wilders': the same party (PVV, Wilders)","restricted component (Stefano), from the CBS code lists",2026-11-04
+reuse,rel_pray,GEBED,6,las2004|sim2006,2,'elke dag' / 'in elk geval iedere dag': both every day (2),"restricted component (Stefano), from the CBS code lists",2026-11-04
+overlap,when6_ret,,2|3,,,"answer options of the questionnaire ('binnen 1-2 jaar', 'tussen 2 en 5 jaar'): fuzzy by design","restricted component (Stefano), from the CBS code lists",2026-11-04
+overlap,when6_ret,,3|4,,,"answer options of the questionnaire ('tussen 2 en 5 jaar', 'tussen 5 en 10 jaar'): fuzzy by design","restricted component (Stefano), from the CBS code lists",2026-11-04
+polarity,svy_fup,VERVOLG,1,spva2002,1,'wil meedoen' = willing to take part in a follow-up -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,svy_fup,VERVOLG,2,spva2002,0,'wil niet' = not willing -> 0,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,svy_selfsel,ZELFZOEK,1,spva2002,1,'via zelfzoekmethode' = respondent found through the self-search method -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,edu_enr,SCHOOLG,1,spva2002,1,'schoolgaand' = attending school -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,edu_ft,VOLTOPL,1,spva2002,1,'voltijd' = full-time education -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,edu_nl,OPLNL,1,spva2002,1,'opleiding in Nederland' = followed education in the Netherlands -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,edu_nl_att_dipl,DIPLNL1,1,spva2002,1,'diploma' = obtained the diploma -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_emp,NUWERK,1,spva2002,1,'werk' = has paid work now -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_train,CURSUSBD,1,spva2002,1,'cursus gevolgd' = followed a course with the employer -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_oth_consider,ANDWERK,1,spva2002,1,'overweeg ander werk' = considers other work -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_oth_applied,GESOLL,1,spva2002,1,'al gesolliciteerd' = has already applied -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_everwork,WERKNL,1,spva2002,1,'gewerkt' = has worked in the Netherlands -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_reg,INGGAB,1,spva2002,1,'ingeschreven' = registered with the employment office -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_seek,ZOEKWERK,1,spva2002,1,'zoekt werk' = looking for work -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_seek,ZOEKWERK,2,spva2002,0,'zoekt niet' = not looking -> 0,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_avail2w,BESCH2W,1,spva2002,1,'beschikbaar' = available within two weeks -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_avail3m,BESCH3M,1,spva2002,1,'beschikbaar' = available within three months -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,inc_ben,UITKERIN,1,spva2002,1,'ontvangt uitkering' = receives a benefit -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,inc_ben01,SRTUITK,1,spvn2003,1,SRTUITK 1 'bijstandsuitkering' = the social assistance (bijstand) named by inc_ben01 -> mentioned 1 (multi-response spread into one indicator per benefit type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,inc_ben02,SRTUITK,2,spvn2003,1,SRTUITK 2 'werkloosheidsuitkering' = the unemployment benefit named by inc_ben02 -> mentioned 1 (multi-response spread into one indicator per benefit type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,inc_ben03,SRTUITK,3,spvn2003,1,SRTUITK 3 'arbeidsongeschiktheid' = the disability benefit named by inc_ben03 -> mentioned 1 (multi-response spread into one indicator per benefit type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,inc_ben04,SRTUITK,4,spvn2003,1,"SRTUITK 4 'pensioen, AOW of vut' = the old-age pension / AOW / early retirement named by inc_ben04 -> mentioned 1 (multi-response spread into one indicator per benefit type)","public component (Claude), read against the DANS labels",2026-11-04
+polarity,inc_ben05,SRTUITK,5,spvn2003,1,SRTUITK 5 'studiefinanciering\UAF' = the student grant (studiefinanciering/UAF) named by inc_ben05 -> mentioned 1 (multi-response spread into one indicator per benefit type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,inc_ben06,SRTUITK,6,spvn2003,1,SRTUITK 6 'anders' = the other benefit named by inc_ben06 -> mentioned 1 (multi-response spread into one indicator per benefit type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,soc_mem,LIDVER,1,spva2002,1,'lid vereniging' = member of an association -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,soc_mem01,WELKVER,1,spvn2003,1,WELKVER 1 'Sportvereniging' = the sports club named by soc_mem01 -> mentioned 1 (multi-response spread into one indicator per association type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,soc_mem02,WELKVER,7,spvn2003,1,WELKVER 7 'Gezelligheidsvereniging' = the social club (gezelligheidsvereniging) named by soc_mem02 -> mentioned 1 (multi-response spread into one indicator per association type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,soc_mem04,WELKVER,4,spvn2003,1,WELKVER 4 'Hobby' = the hobby club named by soc_mem04 -> mentioned 1 (multi-response spread into one indicator per association type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,soc_mem06,WELKVER,5,spvn2003,1,WELKVER 5 'Onderwijs\schoolvereniging' = the education/school association named by soc_mem06 -> mentioned 1 (multi-response spread into one indicator per association type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,soc_mem08,WELKVER,3,spvn2003,1,WELKVER 3 'Org. met maatsch. doel' = the organisation with a social goal named by soc_mem08 -> mentioned 1 (multi-response spread into one indicator per association type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,soc_mem09,WELKVER,2,spvn2003,1,WELKVER 2 'Vakbond' = the trade union named by soc_mem09 -> mentioned 1 (multi-response spread into one indicator per association type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,soc_mem10,WELKVER,6,spvn2003,1,WELKVER 6 'Politieke partij' = the political party named by soc_mem10 -> mentioned 1 (multi-response spread into one indicator per association type),"public component (Claude), read against the DANS labels",2026-11-04
+polarity,nat_nl,NATIONAL,1,sim2006,0,'<land herkomst>' = origin-country nationality only = not Dutch -> 0,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,nat_nl,NATIONAL,2,sim2006,1,'Nederlandse' = Dutch nationality -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,nat_nl,NATIONAL,3,sim2006,1,"'Nederlandse en <land herkomst>' = dual, includes Dutch -> 1","public component (Claude), read against the DANS labels",2026-11-04
+polarity,nat_orig,NATIONAL,1,sim2006,1,'<land herkomst>' = origin-country nationality -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,nat_orig,NATIONAL,2,sim2006,0,"'Nederlandse' = Dutch only, no origin-country nationality -> 0","public component (Claude), read against the DANS labels",2026-11-04
+polarity,nat_orig,NATIONAL,3,sim2006,1,"'Nederlandse en <land herkomst>' = dual, includes the origin-country nationality -> 1","public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_lf,BB_NED,1,sim2006,1,'werkzame beroepsbevolking' = employed labour force -> in labour force 1,"public component (Claude), read against the DANS labels",2026-11-04
+polarity,lab_lf,BB_NED,2,sim2006,1,'werkloze beroepsbevolking' = unemployed labour force -> in labour force 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,svy_fup,VERVOLG,2,spva2002|spvn2003,0,'wil niet' / 'nee': both not willing -> 0,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,nat_cit,NATIONAL,1,sim2006|spva2002,3,'<land herkomst>' / 'nat. van lvh' (nationaliteit van land van herkomst): origin-country nationality only -> 3 non-Dutch only,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,nat_cit,NATIONAL,3,sim2006|spva2002,2,'Nederlandse en <land herkomst>' / 'lvh en Ned.': dual nationality -> 2,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_enr,SCHOOLG,1,sim2006|spva2002,1,'ja' / 'schoolgaand': both attending school -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_enr,SCHOOLG,1,sim2015|spva2002,1,'ja' / 'schoolgaand': both attending school -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_enr,SCHOOLG,1,sim2020|spva2002,1,'ja' / 'schoolgaand': both attending school -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_enr,SCHOOLG,1,spva2002|spvn2003,1,"'schoolgaand' / 'ja, volgt schoolopleiding': both attending school -> 1","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_ft,VOLTOPL,1,sim2020|spva2002,1,'ja' / 'voltijd': both full-time -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl,OPLNL,1,sim2020|spva2002,1,'ja' / 'opleiding in nederland': both followed education in the Netherlands -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_dipl,DIPLNL1,1,sim2020|spva2002,1,'ja' / 'diploma': both obtained the diploma -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,lab_emp,NUWERK,1,sim2020|spva2002,1,'ja' / 'werk': both has paid work -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,lab_everwork,WERKNL,1,sim2006|spva2002,1,"'ja, betaald werk gehad in nederland' / 'gewerkt': both has worked (in the Netherlands) -> 1","public component (Claude), read against the DANS labels",2026-11-04
+reuse,lab_everwork,WERKNL,1,sim2011|spva2002,1,"'ja, betaald werk gehad in nederland' / 'gewerkt': both has worked (in the Netherlands) -> 1","public component (Claude), read against the DANS labels",2026-11-04
+reuse,lab_everwork,WERKNL,1,sim2015|spva2002,1,"'ja, betaald werk gehad in nederland' / 'gewerkt': both has worked (in the Netherlands) -> 1","public component (Claude), read against the DANS labels",2026-11-04
+reuse,lab_everwork,WERKNL,1,spva2002|spvn2003,1,"'gewerkt' / 'ja, betaald werk gehad': both has worked (in the Netherlands) -> 1","public component (Claude), read against the DANS labels",2026-11-04
+reuse,lab_seek,ZOEKWERK,2,las2004|spva2002,0,'nee' / 'zoekt niet': both not looking for work -> 0,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,lab_seek,ZOEKWERK,2,spva2002|spvn2003,0,'nee' / 'zoekt niet': both not looking for work -> 0,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,lab_avail2w,BESCH2W,1,spva2002|spvn2003,1,"'beschikbaar' / 'ja, kan binnen 2 weken': both available -> 1","public component (Claude), read against the DANS labels",2026-11-04
+reuse,lab_avail3m,BESCH3M,1,spva2002|spvn2003,1,"'beschikbaar' / 'ja, kan binnen 3 mnd beginnen': both available -> 1","public component (Claude), read against the DANS labels",2026-11-04
+reuse,soc_mem,LIDVER,1,spva2002|spvn2003,1,'lid vereniging' / 'ja': both member -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,nat_orig,NATIONAL,1,sim2006|sim2011,1,'<land herkomst>' (three-option item) / 'ja' (yes/no item): both origin-country nationality -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,nat_orig,NATIONAL,2,sim2006|sim2011,0,'nederlandse' (three-option item) / 'nee' (yes/no item): both no origin-country nationality -> 0,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,nat_orig,NATIONAL,1,sim2006|sim2015,1,'<land herkomst>' (three-option item) / 'ja' (yes/no item): both origin-country nationality -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,nat_orig,NATIONAL,2,sim2006|sim2015,0,'nederlandse' (three-option item) / 'nee' (yes/no item): both no origin-country nationality -> 0,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,nat_orig,NATIONAL,1,sim2006|sim2020,1,'<land herkomst>' (three-option item) / 'ja' (yes/no item): both origin-country nationality -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,nat_orig,NATIONAL,2,sim2006|sim2020,0,'nederlandse' (three-option item) / 'nee' (yes/no item): both no origin-country nationality -> 0,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,2,las2004|spvn2003,1,"'vbo' / 'lager beroepsonderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (lower vocational) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,3,las2004|spvn2003,1,"'mavo' / 'middelbaar onderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (lower general secondary) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,4,las2004|spvn2003,2,"'mbo' / 'middelbaar beroepsonderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (intermediate vocational) -> 2 (middle)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,5,las2004|spvn2003,2,"'havo/vwo' / 'hoger algem. en voorber. onderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (higher general secondary) -> 2 (middle)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,6,las2004|spvn2003,3,"'hbo' / 'hoger beroepsonderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (higher vocational) -> 3 (high)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,7,las2004|spvn2003,3,"'wo' / 'wetenschappelijk onderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (university) -> 3 (high)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,2,spva2002|spvn2003,1,"'vbo' / 'lager beroepsonderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (lower vocational) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,3,spva2002|spvn2003,1,"'mavo' / 'middelbaar onderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (lower general secondary) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,4,spva2002|spvn2003,2,"'mbo' / 'middelbaar beroepsonderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (intermediate vocational) -> 2 (middle)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,5,spva2002|spvn2003,2,"'havo/vwo' / 'hoger algem. en voorber. onderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (higher general secondary) -> 2 (middle)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,6,spva2002|spvn2003,3,"'hbo' / 'hoger beroepsonderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (higher vocational) -> 3 (high)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_cur_lvl3,HUIDOPL,7,spva2002|spvn2003,3,"'wo' / 'wetenschappelijk onderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (university) -> 3 (high)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,1,las2004|spvn2003,1,"'bao' / 'lager onderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (primary) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,2,las2004|spvn2003,1,"'vbo' / 'lager beroepsonderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (lower vocational) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,3,las2004|spvn2003,1,"'mavo' / 'middelbaar onderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (lower general secondary) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,4,las2004|spvn2003,2,"'mbo' / 'middelbaar beroepsonderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (intermediate vocational) -> 2 (middle)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,5,las2004|spvn2003,2,"'havo/vwo' / 'hoger algem. en voorber. onderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (higher general secondary) -> 2 (middle)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,6,las2004|spvn2003,3,"'hbo' / 'hoger beroepsonderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (higher vocational) -> 3 (high)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,7,las2004|spvn2003,3,"'wo' / 'wetenschappelijk onderw': the same level, abbreviated in las2004 and spelled out in spvn2003 (university) -> 3 (high)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,1,spva2002|spvn2003,1,"'bao' / 'lager onderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (primary) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,2,spva2002|spvn2003,1,"'vbo' / 'lager beroepsonderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (lower vocational) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,3,spva2002|spvn2003,1,"'mavo' / 'middelbaar onderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (lower general secondary) -> 1 (low)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,4,spva2002|spvn2003,2,"'mbo' / 'middelbaar beroepsonderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (intermediate vocational) -> 2 (middle)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,5,spva2002|spvn2003,2,"'havo/vwo' / 'hoger algem. en voorber. onderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (higher general secondary) -> 2 (middle)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,6,spva2002|spvn2003,3,"'hbo' / 'hoger beroepsonderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (higher vocational) -> 3 (high)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_nl_att_lvl3,MAXOPLNL,7,spva2002|spvn2003,3,"'wo' / 'wetenschappelijk onderw': the same level, abbreviated in spva2002 and spelled out in spvn2003 (university) -> 3 (high)","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_prtnr_lvl3,MAXDIPP,2,las2004|sim2015,1,'lager beroepsonderwijs' / 'laag' (CCF class): both low -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_fa_lvl3,MAXDIPPA,3,sim2006|spva2002,1,"'lager onderwijs' (SIM 2006 ten-option list) / 'mavo' (SPVA 2002 list): different lists, both low -> 1","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_fa_lvl3,MAXDIPPA,2,sim2015|sim2020,1,'laag' / 'lagere school': both low -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_fa_lvl3,MAXDIPPA,4,sim2015|sim2020,3,"'hoog' (CCF class) / 'hoger onderwijs (hbo, universiteit)': both high -> 3","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_fa_lvl3,MAXDIPPA,2,sim2015|spva2002,1,'laag' / 'vbo': both low -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_fa_lvl3,MAXDIPPA,2,sim2020|spva2002,1,'lagere school' / 'vbo': both low -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_ma_lvl3,MAXDIPMA,3,sim2006|spva2002,1,"'lager onderwijs' (SIM 2006 ten-option list) / 'mavo' (SPVA 2002 list): different lists, both low -> 1","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_ma_lvl3,MAXDIPMA,2,sim2015|sim2020,1,'laag' / 'lagere school': both low -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_ma_lvl3,MAXDIPMA,4,sim2015|sim2020,3,"'hoog' (CCF class) / 'hoger onderwijs (hbo, universiteit)': both high -> 3","public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_ma_lvl3,MAXDIPMA,2,sim2015|spva2002,1,'laag' / 'vbo': both low -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,edu_ma_lvl3,MAXDIPMA,2,sim2020|spva2002,1,'lagere school' / 'vbo': both low -> 1,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,dem_gen,ETNGRP,1,sim2006|sing2009,.c,secondary source of the GENERAT|ETNGRP feed: a migrant-group code ('turken' / 'afghanen') defers to GENERAT (.c); only the native code gives 0,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,dem_gen,ETNGRP,2,sim2006|sing2009,.c,secondary source of the GENERAT|ETNGRP feed: a migrant-group code ('marokkanen' / 'irakezen') defers to GENERAT (.c); only the native code gives 0,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,dem_gen,ETNGRP,3,sim2006|sing2009,.c,secondary source of the GENERAT|ETNGRP feed: a migrant-group code ('surinamers' / 'iraniërs') defers to GENERAT (.c); only the native code gives 0,"public component (Claude), read against the DANS labels",2026-11-04
+reuse,dem_gen,ETNGRP,4,sim2006|sing2009,.c,secondary source of the GENERAT|ETNGRP feed: a migrant-group code ('antillianen' / 'somaliërs') defers to GENERAT (.c); only the native code gives 0,"public component (Claude), read against the DANS labels",2026-11-04

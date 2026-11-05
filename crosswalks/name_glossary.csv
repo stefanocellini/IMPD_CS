@@ -1,0 +1,366 @@
+kind,key,description
+abbreviation,abr,abroad
+abbreviation,act,(soc_act) attends activities of an association type
+abbreviation,adv,advice
+abbreviation,amt,amount
+abbreviation,arr,arrival
+abbreviation,att,"(edu_) attended, as opposed to diploma obtained (dipl)"
+abbreviation,avail,available
+abbreviation,ben,benefit
+abbreviation,brthcntry,country of birth
+abbreviation,byr,birth year
+abbreviation,c5/c1564/c15p,age classes (source recode)
+abbreviation,cat,harmonized classes
+abbreviation,cat5,five classes incl. none
+abbreviation,chd,child(ren)
+abbreviation,cmb,combined / combines
+abbreviation,cntry,country
+abbreviation,comp,composition
+abbreviation,cont,contact
+abbreviation,contr,contract
+abbreviation,crs,course
+abbreviation,cur,current
+abbreviation,den,denomination
+abbreviation,dep,departure
+abbreviation,det,survey-specific detail
+abbreviation,dipl,diploma
+abbreviation,dur,duration
+abbreviation,dut,native Dutch people
+abbreviation,emp,employed / employment
+abbreviation,enr,enrolled
+abbreviation,eth,ethnic group
+abbreviation,exp,experience / experienced
+abbreviation,fa,father
+abbreviation,fam,family
+abbreviation,fdipl,foreign diploma
+abbreviation,fld,field of study
+abbreviation,fr,from
+abbreviation,frnd,friends
+abbreviation,frst,first
+abbreviation,ft,full-time
+abbreviation,fup,follow-up
+abbreviation,fut,future
+abbreviation,gen,generation
+abbreviation,gr,gender roles
+abbreviation,hh,household
+abbreviation,hi,highest
+abbreviation,hrs,hours
+abbreviation,ind,"IND (immigration service) or industry, see label"
+abbreviation,indep,independent
+abbreviation,lab,labour
+abbreviation,lf,labour force
+abbreviation,lvl,level
+abbreviation,ma,mother
+abbreviation,mar,marital / marriage
+abbreviation,mem,member(ship)
+abbreviation,mo,month
+abbreviation,mun,municipality
+abbreviation,mv,move
+abbreviation,nbhd,neighbourhood
+abbreviation,nl,Netherlands / Dutch language
+abbreviation,occ,occupation (SBC-92)
+abbreviation,orig,country/group of origin
+abbreviation,oth,other
+abbreviation,par,(suffix) answered by the parent of a 15-17-year-old respondent (SIM 2011); (fam_par) parenting items
+abbreviation,pc4,4-digit postcode
+abbreviation,perm,residence permit
+abbreviation,pl,place
+abbreviation,pleas,pleasant
+abbreviation,poss,possible
+abbreviation,prtnr,partner
+abbreviation,prob,problems
+abbreviation,prom,promotion
+abbreviation,q,questionnaire
+abbreviation,rec,reception
+abbreviation,red,reduce
+abbreviation,reg,registered
+abbreviation,rel,relation (lab_) / religion
+abbreviation,res,residence
+abbreviation,resp,respondent
+abbreviation,sat,satisfaction
+abbreviation,se,self-employed
+abbreviation,seek,seeking
+abbreviation,sel,selection
+abbreviation,spk,speaking
+abbreviation,srch,search
+abbreviation,st,status
+abbreviation,sub,subgroup
+abbreviation,sup,support
+abbreviation,tot,total
+abbreviation,tr,transit
+abbreviation,txt,open text
+abbreviation,wgt,weight
+abbreviation,yr,year
+abbreviation,yrs,years
+abbreviation,15,constant 2015 euro
+abbreviation,pol,"theme stem: politics - voting, political participation, institutional trust, representation"
+abbreviation,med,"theme stem: media use - channels used, days per week, interest in news, opinion on reporting"
+abbreviation,_reg,"suffix: registry-based (CBS) variable linked by SCP/CBS, not self-reported"
+abbreviation,_cbs,CBS 3-class migration background (native / western / non-western)
+abbreviation,lvl3,3-level education classification (SCP laag/middel/hoog; 0 = none where applicable)
+abbreviation,mhi,"Mental Health Inventory items (6-point, SIM 2020)"
+abbreviation,mh4,"mental health items, 4-point scale (SIM 2015)"
+abbreviation,therm,feeling thermometer 0-100
+abbreviation,cores,co-resident household members (who lives in the house)
+abbreviation,rsn,reason (multiple-response migration reasons)
+abbreviation,sh,share of a network with a given background (none ... all)
+abbreviation,bar,barrier / reason for not getting help
+abbreviation,prb,'problematic' answer scale variant
+abbreviation,rnd,randomisation flag (source only)
+abbreviation,split,split-half group (SIM 2020)
+abbreviation,qversion,questionnaire script version
+abbreviation,fw,fieldwork
+abbreviation,tens,perceived tension between groups
+abbreviation,piet,Zwarte Piet items
+abbreviation,viol,understanding for (religious) violence
+abbreviation,free,freedom of speech items
+abbreviation,hom,homosexuality items
+abbreviation,isl,Islam items
+abbreviation,grp,(svy_wgt_grp) weight within origin group; (att_grp) in-group social control items
+abbreviation,rep,political representation
+abbreviation,sec,socio-economic category (main income source)
+abbreviation,pct,percentile group
+abbreviation,std,standardised (household income)
+abbreviation,mot,migration motive (CBS derived rank)
+abbreviation,pub,published (CBS) classification
+abbreviation,nw,'nieuw' - condensed IND classification without imputation
+abbreviation,urb,urbanisation
+abbreviation,dw,dwelling
+abbreviation,kit,kitchen
+abbreviation,coll,colleagues
+abbreviation,cond,working conditions
+abbreviation,srch2m,job search in the past two months
+abbreviation,carib,Caribbean islands
+abbreviation,gov,government
+abbreviation,jus,judges / justice
+abbreviation,ext,extremists
+abbreviation,vio,violence
+abbreviation,home,feels at home
+abbreviation,remit,remittances
+abbreviation,interp,interpretation (of scripture)
+abbreviation,veil,headscarf
+abbreviation,altmed,alternative medicine
+abbreviation,dent,dentist
+abbreviation,lim,limitations
+abbreviation,role,role limitations (SF-12 type items)
+abbreviation,rcv,received
+abbreviation,give,given
+abbreviation,cm/kg,centimetres / kilograms
+abbreviation,eval,respondent's evaluation of the interview
+abbreviation,fup3,"willingness to take part in follow-up research, 3 answers"
+abbreviation,raise,raising factor to population totals
+abbreviation,band,"income band (survey-specific bands, see value set)"
+abbreviation,selchd,child selected for the parenting module
+abbreviation,chdbeh,child behaviour items (parent-reported)
+abbreviation,val_rank,ranking of child-rearing values
+abbreviation,spt,sport practised (multiple response)
+abbreviation,bestfrnd,best friend
+abbreviation,ethn,ethnic composition of a setting
+abbreviation,yn,(disc_yn) yes/no version of an item asked elsewhere on a frequency scale
+abbreviation,fatherland,sees a country as one's fatherland
+abbreviation,island,island of origin (Antillean/Aruban group)
+abbreviation,allochtoon,self-description as 'allochtoon'
+abbreviation,eff,(pol_eff) political efficacy; (int_eff) effects of the civic integration programme
+abbreviation,noreason,reason for not doing something
+abbreviation,state,(int_nt2_state) NT2 state examination
+abbreviation,und,understanding (a language)
+abbreviation,vs,compared with
+abbreviation,rw,reading / writing
+abbreviation,happy,happiness
+abbreviation,pa,physical activity
+abbreviation,krant,newspapers
+abbreviation,satellite,satellite dish
+abbreviation,pc,computer
+abbreviation,effort,perceived effort of migrants to integrate
+abbreviation,nbhd_n,registry count of residents of a group in the neighbourhood
+abbreviation,phase,fieldwork phase
+abbreviation,incentive,reward for participation
+abbreviation,charity,charity chosen for the reward
+abbreviation,addr,address
+abbreviation,understood,interviewer rating of how well the questions were understood
+abbreviation,others_present,others present during the interview
+abbreviation,cat5y,5-year age classes
+abbreviation,lf3,labour force status in 3 classes
+abbreviation,hrs_cat5,working hours in 5 classes
+abbreviation,change5,"change over the past 12 months, 5-point"
+abbreviation,rel_nl5,"relative standard of living, 5-point"
+abbreviation,yearly,every year
+abbreviation,homesick,homesickness
+abbreviation,koran,Koran lessons
+abbreviation,should,normative item (should ...)
+abbreviation,slot,"(tim_slot) quarter-hour time slot of the LAS diary, 01 = 06:00-06:15 ... 72 = 23:45-24:00"
+abbreviation,tim,(stem) time use: LAS 2004/05 diary and time-orientation statements
+abbreviation,cul,"(stem) cultural and leisure participation (museums, performances, amateur arts, outings)"
+abbreviation,saf,(stem) safety: feelings of unsafety and victimisation
+abbreviation,mob,"(stem) mobility: driving licence, vehicles, transport use"
+abbreviation,vic,"(saf_vic) victim of an offence; suffix 5y = in the past five years, 12m = in the past twelve months"
+abbreviation,prev,(mig_prev) earlier stays in the Netherlands before the current one
+abbreviation,vol,(soc_vol) voluntary work for an organisation type
+abbreviation,noleave,reasons for not taking (parental / care) leave
+abbreviation,illcare,caring for a seriously ill person
+abbreviation,sickcare,short-term leave for a sick family member
+abbreviation,frstchd,(fam_frstchd) work attitudes at the time the first child was born (women)
+abbreviation,futchd,(fam_futchd) work attitudes about having children in the future (women without children)
+abbreviation,div,(fam_div) division of household tasks between partners
+abbreviation,care03 / care411,childcare used for children aged 0-3 / after-school care for children aged 4-11
+abbreviation,_t,(suffix) type of ... (multiple response)
+abbreviation,_w,(suffix) where / in which setting (multiple response)
+abbreviation,_d,(med_d) days per week
+abbreviation,nchd,number of children
+abbreviation,recv,(trn_recv) money or goods received
+abbreviation,accept,(lab_accept) would accept a job with the given drawback
+abbreviation,admit,(att_admit) strictness in admitting categories of migrants
+abbreviation,ch,(med_ch) television channels (Dutch vs origin-group)
+abbreviation,mar / sur / dut,"(att_mar, att_sur, att_dut) traits attributed to Moroccans / Surinamese / native Dutch"
+abbreviation,dem,(pol_dem) attitudes towards democracy
+abbreviation,vwn,VluchtelingenWerk Nederland (Dutch Council for Refugees)
+abbreviation,oth_rel,(hh_oth_rel) relation of other household members to the respondent
+abbreviation,socpos,societal position (SCP typology)
+abbreviation,earner_type,earner type of the couple (single / one-and-a-half / dual earner)
+abbreviation,flex,flexibility of working hours
+abbreviation,weekday,day of the week
+abbreviation,corr,correction factor
+abbreviation,pool,(svy_wgt_pool) weight for the short-stay Polish sample (SING 2009)
+abbreviation,weur,Western Europe
+abbreviation,bmi,body mass index (kg/m2) in classes
+abbreviation,hrwage,hourly wage
+abbreviation,regunemp,registered unemployed
+abbreviation,nunemp,number of unemployment spells
+abbreviation,nsup,number of persons supervised
+abbreviation,dism,dismissal
+abbreviation,chg,change (of job)
+abbreviation,eq_chance,equal chance of a job compared with native Dutch
+abbreviation,gp2m / gp12m / dent12m,GP visits in the past 2 months / past 12 months; dentist visits in the past 12 months
+abbreviation,4w,(hlth_4w) mental health items referring to the past four weeks
+abbreviation,2w,two weeks
+abbreviation,12h,works 12 hours or more a week
+abbreviation,ac / oc / azc / coa,asylum reception: application centre / investigation and reception centre / asylum seekers' centre / COA (ROA) dwelling
+abbreviation,nlcrs,Dutch language course
+abbreviation,nt2,Dutch as a second language (NT2) examination
+abbreviation,roc,regional training centre (ROC)
+abbreviation,labchance,chances on the labour market
+abbreviation,bal,balance of contacts (more with native Dutch or with the own group)
+abbreviation,bc,birth country
+abbreviation,hhpos,position in the household
+abbreviation,settl,type of settlement (urban/rural) in the origin country
+abbreviation,ethsh,share of own ethnic group
+abbreviation,wishposs,wish and possibility combined
+abbreviation,livsit,living situation
+abbreviation,arb / asi / gez / stu,(mig_mot_*_reg) CBS migration motive: labour / asylum / family / study
+abbreviation,bo / vo / ve / mbo / hbo / wo,Dutch education levels: primary / secondary / adult-vocational / senior secondary vocational / higher professional / university
+abbreviation,cit,citizenship
+abbreviation,priv / pub,(att_cult) own culture in private / public life
+abbreviation,reun,family reunification
+abbreviation,sib,siblings
+abbreviation,noth,number of other household members
+abbreviation,selfsel,self-selected (snowball) respondent
+abbreviation,panel1st,first panel wave
+abbreviation,oversample,oversample of working men and women (LAS 2004/05)
+abbreviation,voucher,gift voucher (reward)
+abbreviation,dest,destination
+abbreviation,forgn,foreigners
+abbreviation,prim,primary (identification)
+abbreviation,perc,perceived
+abbreviation,pref,preferred
+abbreviation,cult,culture
+abbreviation,dom,domestic (help)
+abbreviation,spec,medical specialist
+abbreviation,hosp,hospital
+abbreviation,leis,leisure time
+abbreviation,mag,magazines
+abbreviation,com,commercial (broadcaster)
+abbreviation,wk,per week
+abbreviation,m5,(soc_cont_*_m5) 5-class monthly frequency
+battery,att_ideal,Ideal ages and family size (numeric answers)
+battery,att_task,Who should do household tasks (father / mother / both)
+battery,att_gr,"Gender-role statements (agreement, 5-point): 01 man decides on large purchases, 02 woman responsible for household, 03 man responsible for money, 04 education more important for boys, 05 woman happy without children, 06 own income more important for boys, 07 woman should stop working with a child, 08 share housework (SIM 2020), 11 equal hours outside the home, 12 wife accepts husband's veto on work, 13 partners discuss division of tasks (11-13 LAS 2004/05)"
+battery,att_fam,"Family norms and solidarity (agreement, 5-point; 07-19 from the NKPS module of SPVA 2002): 20 professional carers can never help as well as family (LAS 2004/05)"
+battery,att_chd,"Children's autonomy and parental authority statements (agreement, 5-point)"
+battery,att_mor,"Morality: 01 free interaction between men and women, 02 openness about sex, 03 ending life when in pain, 04 abortion, 05 no death penalty"
+battery,att_rel,"Religion (agree): 01 pity that secularisation takes place, 02 annoying if daughter marries another faith, 03 same for son, 04 child's school should match the family's religion, 05 religion important in politics, 06 religion a private matter, 07 religion and politics separate (06-07 SIM 2011)"
+battery,att_soc,"Statements on migrants in Dutch society (agreement, 5-point): 09 migrants should give up their own culture, 10 migrants must learn Dutch (LAS 2004/05, SIM 2006), 11 other cultures threaten our own (SING 2009)"
+battery,att_nl,"Statements on how the Netherlands treats foreigners (agreement, 5-point)"
+battery,att_dut,Traits attributed to native Dutch (very / a little / not / not at all)
+battery,lab_srch,Job-search channels (mentioned / not mentioned)
+battery,inc_ben,Benefit types received (yes / no)
+battery,soc_mem,"Member of (mentioned): 01 sports club, 02 social club, 03 choir, 04 hobby club, 05 youth association, 06 school association, 07 nature association, 08 social-goal organisation, 09 trade union, 10 political party, 11 religious organisation (SPVA/SPVN; 01, 04, 07, 09-11 also SIM 2006), 12 neighbourhood/tenants, 13 migrant organisation, 14 library, 15 other (SIM 2006)"
+battery,hous_mv,Reasons for seeking another dwelling (mentioned / not mentioned)
+battery,hlth_4w,Mental well-being in the past four weeks (yes / no / sometimes)
+battery,att_hom,"Homosexuality (agree): 01 free to live as they wish, 02 same-sex marriage good, 03 problem if own child had a same-sex partner, 04 offensive when two men hold hands, 05 problem if own child taught by a homosexual teacher (LAS 2004/05)"
+battery,att_free,"Freedom of speech: 01 even if it offends a religion, 02 even if hurtful"
+battery,att_therm,"Feeling thermometers 0-100: 01 Moroccans, 02 Turks, 03 Antilleans, 04 Surinamese, 05 Poles, 06 native Dutch, 07 Jews (SIM 2015), 08 migrants in general, 09 asylum seekers (SIM 2006), 10 own cultural group (LAS 2004/05, SING 2009), 12 Chinese (SING 2009); all surveys use the 0-100 scale"
+battery,att_isl,"Islam (agree): 01 Western and Muslim ways of life incompatible (asked to non-Muslims), 02 people in NL too negative about Islam, 03 Dutch respect Islamic culture, 04 incompatible (asked to Muslims), 05 Dutch women too much freedom, 06 Dutch children do not listen, 07 Muslims respect Dutch culture, 08 Muslim women too little freedom, 09 Muslims raise children too strictly, 10 own-group children should attend an Islamic school, 11 Muslims should convert others in NL (10-11 LAS 2004/05, SIM 2006), 12 annoyed by a cashier with a headscarf (SIM 2006)"
+battery,att_grp,"In-group social control (SIM 2015): 01 people keep an eye on each other, 02 pressure, 03 family influence on partner choice"
+battery,att_piet,"Zwarte Piet: 01 is hurtful, 02 may be changed (2015), 03 good that appearance is changed (2020)"
+battery,att_viol,"Understanding for violence (SIM 2015): 01 young people joining IS, 02 violence for one's faith"
+battery,pol_trust,"Institutional trust: _gov10/_pol10/_hlth10 (SIM 2015, 1-10); _jus4/_pol4/_gov4/_orig4/_hlth4 (SIM 2020, 4-point)"
+battery,pol_part,"Political participation in NL (past 2 years): 01 contacted party/politician, 02 meeting/hearing, 03 protest, 04 online discussion/action"
+battery,pol_orig,"Political participation concerning the country of origin: 01 online, 02 contacted party/politician, 03 protest"
+battery,pol_rep,"Representation: 01 interests represented in parliament, 02 more persons with migration background in parliament"
+battery,mig_rsn,"Reasons for migration, multiple response (SIM 2020): 01 work, 02 study, 03 social security, 04 political/war/persecution, 05 poverty, 06 moved in with parents/partner, 07 marriage, 08 health, 09 children's future, 10 came with parents, 11 came with partner, 12 other"
+battery,hh_cores,"Lives with (SIM 2020): 01 alone, 02 children, 03 partner, 04 parents, 05 other family, 06 non-family"
+battery,soc_cont,"Contact frequency: _nbr_org / _frnd_org (own group), _frnd_nl / _nbr_nl (native Dutch)"
+battery,soc_grp,"Contact with groups (SIM 2015): 01 Moroccans, 02 Turks, 03 Antilleans, 04 Surinamese, 05 Poles, 06 native Dutch"
+battery,soc_meet_sh,"Share at association meetings (SIM 2020): 01 own group, 02 native Dutch, 03 other migration background"
+battery,soc_belong,"Sense of belonging (SIM 2020 group A): 01 colleagues, 02 fellow students, 03 neighbourhood; _assoc at association meetings"
+battery,soc_sh,"Share of network with a background (SIM 2020): _frnd good friends, _acq acquaintances, _col colleagues, _edu fellow students, _nbh neighbourhood; item 01 own group, 02 native Dutch, 03 other migration background"
+battery,med_use,"Media used in a normal week (SIM 2020): 01 TV, 02 radio, 03 newspapers, 04 magazines, 05 books, 06 social media, 07 none"
+battery,med_d,"Days per week (SIM 2020): 01-06 TV (public NL, commercial NL, origin, streaming, Arabic, other foreign), 07-11 radio (NL, origin, streaming, Arabic, other foreign), 12-17 newspapers/news sites (NL paper, NL sites, origin paper, origin sites, Arabic, other foreign), 18-20 magazines (NL, origin, other foreign), 21-23 books (Dutch, origin language, other), 24 social media"
+battery,med_int,"Interest in news (SIM 2020 A): 01 domestic, 02 country of origin, 03 other foreign"
+battery,med_amt,"Amount in Dutch media (SIM 2020 A): 01 news about country of origin, 02 persons with migration background on TV"
+battery,med_pos,"Reporting in Dutch media is negative/positive (SIM 2020 A): 01 country of origin, 02 own origin group, 03 persons with migration background, 04 Muslims"
+battery,med_*_cat,"Media frequency classes (SIM 2015): med_tv_nl_cat, med_tv_orig_cat, med_web_orig_cat"
+battery,disc_sit,"Situational discrimination (SIM 2020 B): 01 job application, 02 at work, 03 at school, 04 street/shops/public transport, 05 club/sport, 06 going out"
+battery,rel_id,"Religious identification (agree): 01 faith important part of self, 02 hurts when faith is criticised, 03 often thinks about being religious"
+battery,hlth_role,"Role limitations past 4 weeks: 01 achieved less (physical), 02 could not do activities (physical), 03 achieved less (emotional), 04 less careful (emotional)"
+battery,hlth_mh4,"Mental health past 4 weeks, 4-point (SIM 2015): 01 calm, 02 downhearted, 03 energy"
+battery,hlth_mhi,"Mental health past 4 weeks, 6-point (SIM 2020): 01 nervous, 02 downhearted, 03 calm, 04 energy (B), 05 so down nothing cheers up, 06 happy, 07 slept well (B), 08 lonely (B)"
+battery,hlth_care_rcv,"Help received past 12 months (SIM 2020): 01 informal, 02 professional, 03 paid domestic help, 04 someone else, 05 none, 06 don't know; _rcv3 single question SIM 2015"
+battery,hlth_care_bar,"Reasons for not getting (more) help (SIM 2020): 01-08 persons who received help, 11-18 persons who received none; items: does not know how, not eligible, too expensive, bad experiences, family cannot help, professionals cannot help, applied but not received, other"
+battery,lab_cond,"Working conditions (SIM 2015): 01 dangerous work, 02 physically heavy, 03 working very fast"
+battery,trn_gov,"Origin-country government (SIM 2015): 01 should not interfere, 02 good if it engages"
+battery,hh_nchd_*_reg,"Number of children in the household enrolled by level (registry 2014/15): bo, vo, ve, mbo, hbo, wo"
+battery,mig_mot_*_reg,"Rank of presumed migration motive (CBS, SIM 2015): lab, asy, fam, stu"
+battery,svy_eval,"Opinion of the interview (SIM 2011): 01 interesting, 02 annoying, 03 too long, 04 too difficult, 05 privacy, 06 other"
+battery,int_eff,"Effects of the civic integration programme (SING 2009, SIM 2011; agree): 01 Dutch improved, 02 easier to find work, 03 met more people, 04 easier to start education, 05 self-confidence (SIM 2011), 06 learned Dutch faster in daily life, 07 know better how things work in NL (SING 2009)"
+battery,trn_remit,"Recipients of money/goods sent to the origin country (SIM 2006, SING 2009, SIM 2011): 01 partner, 02 children, 03 parents, 04 other family, 05 others, 06 organisations"
+battery,soc_act,"Attends meetings/activities of (SIM 2006, SING 2009, SIM 2011): 01 sports club, 02 leisure organisation, 03 neighbourhood/tenants, 04 trade union, 05 migrant organisation, 06 political party, 07 religious organisation, 08 nature/environment/solidarity, 09 other, 10 none, 11 library (SIM 2006)"
+battery,soc_spt,"Sport practised (SIM 2006, SIM 2011; mentioned): 01 athletics, 02 motor sports, 03 badminton, 04 basketball, 05 fitness/aerobics, 06 golf, 07 gymnastics, 08 handball, 09 hockey, 10 korfball, 11 horse riding, 12 skating, 13 inline skating, 14 softball/baseball, 15 squash, 16 table tennis, 17 tennis, 18 cycling, 19 jogging, 20 martial arts, 21 football, 22 volleyball, 23 walking, 24 sailing/rowing/canoeing/surfing, 25 swimming, 26 other"
+battery,disc_yn,"Discrimination experienced (SING 2009, SIM 2011; yes/no): 01 at work, 02 looking for a job, 03 official bodies, 04 elsewhere (street, going out)"
+battery,hous_nbhd,"Neighbourhood (agree): 01 feels at home, 02 people treat each other pleasantly, 03 prefers neighbourhood with many from the own group (SING 2009, SIM 2011), 04 much contact with direct neighbours, 05 much contact with other residents (LAS 2004/05)"
+battery,inc_ben_yrs / inc_ben_mo,"Duration of benefit receipt (SIM 2011): 01 social assistance, 02 unemployment, 03 disability, 04 pension, 05 student grant, 06 other, 07 alimony"
+battery,fam_par,"Parenting behaviour (SIM 2011): 01 sticks to 'no', 02 slaps, 03 fixed rules, 04 explains punishment, 05 asks where the child has been"
+battery,fam_chdbeh,"Child behaviour, parent-reported (SIM 2011): 01 liked by other children, 02 somatic complaints, 03 fights, 04 unhappy, 05 wrong friends"
+battery,fam_par_att,"Parenting attitudes (SIM 2011): 01 parenting is difficult, 02 child does not listen"
+battery,fam_val_rank,"Ranking of child-rearing values (SIM 2011): 01 own opinion, 02 school results, 03 religious person, 04 behaving properly, 05 considerate of others"
+battery,fam_par_adv,"Parenting advice received (SIM 2011): 01 parents(-in-law), 02 neighbours/friends, 03 child care/school, 04 youth health centre, 05 social work"
+battery,geo_nbhd_n,"Neighbourhood residents by origin (registry, SIM 2011): 01 native Dutch, 02 Moroccan, 03 Antillean, 04 other non-western, 05 other western, 06 Surinamese, 07 Turkish"
+battery,att_admit,"Government should be strict in admitting (LAS 2004/05, agree): 01 political refugees, 02 economic migrants, 03 a resident's wife from abroad, 04 someone with a needed occupation"
+battery,att_mar / att_sur / att_dut,"Traits attributed to Moroccans / Surinamese (SIM 2006; 01 sociable, 02 honest, 03 hospitable, 04 stingy, 05 rude) and to native Dutch (att_dut, 13 traits; SPVA 2002, SIM 2006)"
+battery,soc_mem_act,"How active as a member of the organisation (LAS 2004/05; very / somewhat / hardly): 01 sports club ... 08 nature, environment or solidarity organisation (same order as soc_act)"
+battery,soc_vol,"Does voluntary work for (LAS 2004/05, mentioned): 01 sports club ... 08 nature/environment/solidarity, 09 other (same order as soc_act)"
+battery,soc_vol_sport,"Voluntary work for the sports club (LAS 2004/05): 01 board, 02 committee, 03 training/coaching, 04 referee/jury, 05 events, 06 canteen, 07 cleaning, 08 other"
+battery,fam_chd_spt,Sport practised by the selected child (SIM 2006): same 26 categories as soc_spt
+battery,soc_sh_frnd / soc_sh_acq / soc_sh_col / soc_sh_edu / soc_sh_nbh,"Share of good friends / acquaintances / colleagues / fellow students / neighbourhood residents (SIM 2020): 01 own origin group, 02 native Dutch, 03 other migration background"
+battery,soc_vwn_imp,"Importance of VluchtelingenWerk for (SING 2009): 01 getting to know Dutch society, 02 learning Dutch, 03 finding work, 04 making Dutch friends"
+battery,trn_recv,"Money or goods received from (SIM 2006, yes/no): 01 partner or ex-partner, 02 parents, 03 other family or friends, 04 study grant or organisation"
+battery,cul_music_w / cul_drama_w / cul_draw_w / cul_pc_w,"Setting of amateur arts practice (LAS 2004/05, mentioned): 01 community centre, 02 mosque/church, 03 group of friends, 04 association, 05 school for the arts, 06 other"
+battery,fam_care03_t,"Childcare used for a child aged 0-3 (LAS 2004/05, mentioned): 01 playgroup, 02 day nursery, 03 childminder, 04 paid babysitter elsewhere, 05 paid babysitter at home, 06 grandparents, 07 unpaid family, 08 unpaid friends, 09 other"
+battery,fam_care411_t,"After-school care for a child aged 4-11 (LAS 2004/05, mentioned): 01 out-of-school care, 02 childminder, 03 paid babysitter elsewhere, 04 paid babysitter at home, 05 grandparents, 06 unpaid family, 07 unpaid friends, 08 other"
+battery,fam_div,"Division of household tasks (LAS 2004/05; mostly respondent / mostly partner / both / someone else): 01 shopping, 02 cooking, 03 laundry, 04 looking after the children, 05 taking children to school"
+battery,fam_frstchd / fam_futchd,"Women's work attitudes at the birth of the first child / about future children (LAS 2004/05, agree): 01 mother should be at home, 02 world too small without work, 03 good childcare first, 04 money / hard to work with children, 05 partner wanted me to work / money, 06 enjoy work"
+battery,fam_noleave,"Reasons for not taking parental leave (LAS 2004/05, mentioned): 01 partner took it, 02 income loss, 03 unknown scheme, 04 already part-time, 05 enough childcare, 06 partner had no work, 07 no work, 08 employer refused, 09 work did not allow, 10 bad for career, 11 used days off, 12 other"
+battery,fam_illcare_noleave / fam_sickcare_noleave,"Reasons for not taking care leave for a seriously ill person / a sick family member (LAS 2004/05): 01 too few days off / enough holiday days, 02 did not know the scheme, 03 other"
+battery,hlth_care_give_to / hlth_care_give_type / hlth_care_rcv_from / hlth_care_rcv_type,"Informal care given (to whom; which type) and received (from whom; which type), LAS 2004/05, multiple response (see labels)"
+battery,hh_oth_rel,"Relation to the respondent of other household members 1-8, not partner or child (SING 2009)"
+battery,lab_accept,"Would accept a job that is (SIM 2006): 01 temporary (6 months), 02 two hours daily travel, 03 below education level, 04 heavy and dirty, 05 stressful, 06 requires moving, 07 no income increase"
+battery,lab_sat,"Work satisfaction (SIM 2006, agree): 01 interesting work, 02 pleasant atmosphere, 03 promotion opportunities, 04 autonomy, 05 paid too little"
+battery,med_ch,"Channels mostly watched for (LAS 2004/05; Dutch vs origin-group channels): 01 news, 02 films, 03 series, 04 shows, 05 cultural programmes, 06 talk shows"
+battery,med_pc_else,"Uses a computer elsewhere (LAS 2004/05, mentioned): 01 nowhere else, 02 work, 03 school, 04 internet cafe, 05 library, 06 community centre, 07 family/friends, 08 mosque, 09 elsewhere"
+battery,med_web_use,"Uses the internet for (LAS 2004/05): 01 information, 02 ordering/buying, 03 banking, 04 surfing, 05 e-mail, 06 chatting"
+battery,mig_prev_yr / mig_prev_dur,Year and length of up to ten earlier stays in the Netherlands (SING 2009; coarsened in the deposit)
+battery,pol_dem,"Democracy (LAS 2004/05, agree): 01 democracy better than any other form of government, 02 better with a few strong leaders"
+battery,pol_eff,"Political efficacy (LAS 2004/05, agree): 01 people like me have no influence, 02 ministers out for their own interests, 03 government does enough for people like me"
+battery,tim_slot,LAS 2004/05 diary: main activity in 72 quarter-hour slots from 06:00 to 24:00 (activity codes act43)
+battery,tim_act,"LAS 2004/05 diary: hours spent per activity over the diary day, 01 sleeping/resting ... 43 other (same 43 activity codes as tim_slot)"
+battery,tim_att,"Time orientation statements (LAS 2004/05, agree): 01 clear picture of life in five years, 02 likes to plan, 03 lives in the present, 04 cannot do without a watch, 05 annoyed by lateness, 06 always short of time, 07 fixed moments, 08 decides timing myself, 09 Sunday shopping good, 10 longer opening hours"
