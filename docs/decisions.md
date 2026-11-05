@@ -364,3 +364,15 @@ Data: 2 cells differ from v0.4.7 (one SPVN 2003 member: `dem_gen` system-missing
 - Rendering: the HTML converter renders the blocks as `<details class='more'>`; the Word copy, which cannot fold, prints each block's title as a bold run-in heading marked *(more detail)* followed by its content (`code/tools/md_to_word.py`); GitHub renders the blocks natively. A converter bug that set text between two `*` as italics inside formulas (`svy_key*1e11 ... id_hh*100` in the identifier labels, `*_cat` in the conventions) is fixed: an asterisk glued to a word no longer opens italics.
 
 Build identity `e3bb14c27781` (code changed; 44 checks pass); the data files are those of build `78eaf53395fc`, unchanged.
+
+## 19. v0.4.8, codebook revision 2: the dataset first, only the surveys covered (5 Nov 2026)
+
+At Stefano's request: readers should learn what the dataset is before reading how the codebook works, and the codebook should not mention the earlier SPVA waves (1988-1998), which are not part of the release.
+
+- The codebook now opens with a paragraph on the dataset itself: the eight surveys (2002-2020), the 55,157 persons and the origin groups they cover, the 1,642 variables and their themes, the shared naming, coding and missing-value scheme, that the surveys are repeated cross-sections, and that the file is rebuilt from the DANS deposits rather than redistributed. The paragraph on how the codebook is organized follows it.
+- Section 1 opens with the surveys covered and their two designs (two ISEO household samples, six CBS/SCP person samples with native Dutch reference samples) instead of the SPVA series since 1988.
+- `svy_id`: the identifiers paragraph gives the numbering of the surveys covered (SPVA 2002 = 5 ... SIM 2020 = 12; room left for surveys added later); the variable note no longer reserves codes for the earlier waves. The README's opening line is aligned.
+- Kept on purpose: `svy_panel1st` (SPVA 2002) records the earlier SPVA wave in which a respondent was first interviewed ('First in SPVA 1998' ...), and its note that 22% of SPVA 2002 respondents also took part in 1998. These describe the SPVA 2002 respondents, not available data.
+- The `svy_id` value labels for codes 1-4 remain in the data files' label set (they are never used in the data and the codebook shows only observed codes).
+
+Data values unchanged; the `svy_id` note changes in the R files (attribute `impd_notes`); the Stata file carries the new note from its next run.

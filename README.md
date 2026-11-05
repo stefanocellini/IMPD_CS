@@ -1,6 +1,6 @@
 # IMPD — Integrated Migrant Panel Dataset: public (DANS) component
 
-Harmonization of the publicly archived Dutch migrant surveys (SPVA series and successors) into one
+Harmonization of eight Dutch surveys of persons with a migration background (SPVA 2002 to SIM 2020), archived at DANS, into one
 person-level file with English, theme-stemmed variable names, reproducible in **R** and in **Stata**
 from the DANS zip files and a set of CSV crosswalks.
 

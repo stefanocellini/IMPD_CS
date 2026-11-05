@@ -86,7 +86,7 @@ V("id_mem", "id", "Household member number within household", "GEZLIDNR", "GEZLI
   notes="0 = head, 1-9 = children by age rank, 10 = partner, 11-18 = other members.")
 
 V("svy_id", "svy", "Survey (wave) identifier", valueset="survey", universe=U_ALL, derive="svy_id",
-  notes="Registry in crosswalks/surveys.csv. SPVA 1988-1998 reserved for later inclusion.")
+  notes="Numbered chronologically; the registry of surveys is crosswalks/surveys.csv.")
 V("svy_name", "svy", "Survey (wave) name", type="str", universe=U_ALL, derive="svy_name")
 V("svy_year", "svy", "Fieldwork year", type="num", universe=U_ALL, derive="svy_year",
   notes="SPVA 2002 fieldwork ran 2002-2003; SPVN 2003 fieldwork 2003.")
