@@ -4,7 +4,7 @@ Harmonization of eight Dutch surveys of persons with a migration background (SPV
 person-level file with English, theme-stemmed variable names, reproducible in **R** and in **Stata**
 from the DANS zip files and a set of CSV crosswalks.
 
-Version 0.4.8 — **SPVA 2002** (DANS P1684), **SPVN 2003** (refugee-group SPVA, DANS P1753), **LAS 2004/05** (easy-dataset:40215), **SIM 2006** (easy-dataset:40304), **SING 2009** (easy-dataset:51530, CBS-protected partial release), **SIM 2011** (easy-dataset:67677, V3), **SIM 2015** (easy-dataset:239464, CCF) and **SIM 2020** (easy-dataset:259562, CCF): 55,157 persons x 1,642 harmonized variables, every variable of every deposit harmonized. Development history is in `docs/decisions.md`.
+Version 0.4.9 — **SPVA 2002** (DANS P1684), **SPVN 2003** (refugee-group SPVA, DANS P1753), **LAS 2004/05** (easy-dataset:40215), **SIM 2006** (easy-dataset:40304), **SING 2009** (easy-dataset:51530, CBS-protected partial release), **SIM 2011** (easy-dataset:67677, V3), **SIM 2015** (easy-dataset:239464, CCF) and **SIM 2020** (easy-dataset:259562, CCF): 55,157 persons x 1,642 harmonized variables, every variable of every deposit harmonized. Development history is in `docs/decisions.md`.
 
 > **Repeated cross-sections, not a panel.** The public component stacks independent cross-sectional surveys with different target populations, age ranges and weights; `id_person` identifies a record within one survey and does not follow persons across surveys. Codebook section 1 lists, per survey, who was eligible and which weight applies. Identifiers are built from the immutable `svy_key` (fieldwork year), so they do not change when a survey is added.
 
@@ -41,7 +41,7 @@ IMPD_public/
 ├── data/
 │   ├── raw/                   unzipped deposits (created by the pipeline)
 │   ├── interim/               plain copies of the source files (.rds/.dta) and intermediate builds
-│   └── derived/               impd_public_v0_4_8.{dta,rds,csv}, impd_public_v0_4_8_source_<survey>.{dta,rds}
+│   └── derived/               impd_public_v0_4_9.{dta,rds,csv}, impd_public_v0_4_9_source_<survey>.{dta,rds}
 └── docs/                    codebook.html (with variable finder) / codebook.md / codebook_variables.csv, comparability.csv, value_map_review.csv, routing_check.csv, example_analysis.md, harmonization.md (how the harmonization works, for collaborators), decisions.md, run_log.md, BUILD_ID; word/ holds Word copies of the Markdown documents (derived, not build outputs)
 ```
 

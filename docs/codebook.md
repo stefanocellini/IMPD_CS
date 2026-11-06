@@ -1,18 +1,18 @@
-# IMPD public component — Codebook v0.4.8
+# IMPD public component — Codebook v0.4.9
 
 The **Integrated Migrant Panel Dataset (IMPD)**, public component, brings eight Dutch surveys of persons with a migration background, held between 2002 and 2020, together in one harmonized person-level file: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015 and SIM 2020. It covers 55,157 persons - the four largest origin groups (Turkish, Moroccan, Surinamese, Antillean/Aruban), refugee groups (Afghan, Iraqi, Iranian, former Yugoslav, Somali), Polish and Chinese migrants, and native Dutch reference samples - with 1,642 variables on demography, migration history, language, education, work, income, housing, health, social contacts, family, attitudes, religion and identity. Every variable has an English name grouped by theme, one coding across the surveys, and missing-value codes that say why a value is missing. The surveys are repeated cross-sections: the same persons are not followed from one survey to the next. The file is rebuilt in R or Stata from the survey files archived at DANS; the survey data themselves are not redistributed.
 
 This codebook documents that file: what it contains, how each variable was built from the source surveys, and how to use it. It serves two kinds of reader. **Researchers who want to analyse the data** should begin with *Start here*, which walks through the steps of an analysis and links to the reference sections. **Readers who want to check or reproduce a variable** will find the rules in sections 2-3 and the evidence per variable in section 5. Section 1 describes the surveys, sections 2-3 the conventions and the questionnaires; section 4 is the index of all variables; section 5 holds one collapsible entry per variable. The shaded *more detail* blocks open on a click; they hold the full rules and survey-by-survey specifics, so the visible text stays short.
 
-*Generated 2026-11-05 16:19 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `61d030d3dfa9` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development.*
+*Generated 2026-11-06 12:13 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `9d9ccc95b93f` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development.*
 
 ## Start here
-For researchers who want to run an analysis with the IMPD: the six steps below take you from the DANS deposits to a reported result, and each points to the section that holds the reference material. `docs/example_analysis.md` follows the same steps on one question asked in all eight surveys, in R and Stata.
+For researchers who want to run an analysis with the IMPD: the six steps below take you from the DANS deposits to a reported result, and each points to the section that holds the reference material. `docs/example_analysis.md` follows the same steps on one question asked in all eight surveys, in R (which also needs the `survey` package) and Stata (version 17 or later).
 - **Rebuild the data.** The built file cannot be redistributed: rebuild it from the DANS deposits with `code/R/run_all.R` or `code/Stata/run_all.do` (instructions in the README).
 - **Find measures.** Search the variable finder (HTML) or the [Variable index](#index) (section 4) and check that the measure exists in your surveys; `docs/codebook_variables.csv` is the same index as a table.
 - **Inspect the measures.** Open their [Variable descriptions](#descriptions) (section 5): the exact question per survey, how the value was obtained, the categories and recodes, who was eligible, and how comparable the surveys are. A comparability class is a reading aid, not a certification.
 - **Define your study population.** Section 1 ([What this dataset is](#what)) describes who was sampled in each survey; each measure's eligibility statement says who was asked. `svy_routing_mig`, `dem_eth`, `dem_gen` and `svy_resptype` identify the groups.
-- **Check the joint sample.** `impd_sample()` and `impd_universe()` (`code/R/impd_tools.R`, `code/Stata/impd_tools.do`) show per survey how many complete cases remain and why records drop out; they stop when a survey would disappear from the model unnoticed.
+- **Check the joint sample.** `impd_sample` (R: `code/R/impd_tools.R`; Stata: `code/Stata/impd_tools.do`) shows per survey how many complete cases remain and why records drop out, and stops when a survey would disappear from the model unnoticed; `impd_universe()` (R only) prints the eligibility statements of a set of variables.
 - **Run and report the analysis.** State the population, the [weighting and pooling choice](#weights) and the final sample by survey.
 
 ## 1. What this dataset is {#what}
@@ -311,7 +311,7 @@ Alongside the harmonized file, each survey has a **companion source file** with 
 
 <details class='more'><summary>Companion source files and weights</summary>
 
-**Companion source files** `impd_public_v0_4_8_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
+**Companion source files** `impd_public_v0_4_9_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
 
 </details>
 
@@ -572,7 +572,7 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`dem_prtnr_age_cat5y`](#dem_prtnr_age_cat5y) | Partner's age in 5-year classes | cat |  |  | LFTPART |  |  | CATLFT5JRPART |  |  | Respondents with a partner (LAS 2004/05, SIM 2011) |
 | [`dem_hhpos4`](#dem_hhpos4) | Position in the household: head, partner of the head, co-resident child, other (SIM 2006) | cat |  |  |  | GEZINPOS |  |  |  |  | All respondents (SIM 2006) |
 | [`dem_prtnr_eth`](#dem_prtnr_eth) | Origin group of the partner (SIM 2006: based on the respondent's answers) | cat |  |  |  | ETNPART | ETNGRPPA |  |  |  | Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them); Respondents with a partner (SIM 2006, SING 2009) |
-| [`dem_prtnr_gen`](#dem_prtnr_gen) | Migrant generation of the partner (SIM 2006: based on the respondent's answers) | cat |  |  | GENPART | GENPART | GENPART |  |  |  | Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them); Respondents whose partner has a migration background (LAS 2004/05, SIM 2006); Respondents with a partner (SING 2009; partners of native Dutch respondents are coded by the same rule, so a native partner born in the Netherlands appears as second generation) |
+| [`dem_prtnr_gen`](#dem_prtnr_gen) | Migrant generation of the partner (SIM 2006: based on the respondent's answers) | cat |  |  | GENPART | GENPART | GENPART |  |  |  | Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them); Respondents with a migration background who have a partner, whatever the partner's origin (LAS 2004/05); partners of native Dutch respondents are not classed (.c); Respondents with a migration background who have a partner, whatever the partner's origin (SIM 2006); partners of native Dutch respondents are not classed (.c); Respondents with a partner (SING 2009; partners of native Dutch respondents are coded by the same rule, so a native partner born in the Netherlands appears as second generation) |
 | [`dem_prtnr_flex`](#dem_prtnr_flex) | Partner can start work an hour later if needed (answered by the partner in the supplementary partner interview) | cat |  |  | PFLEXW |  |  |  |  |  | Working partners of male Turkish, Moroccan and Antillean respondents with children under 12 who took part in the supplementary partner interview (47 cases, LAS 2004/05) |
 | [`dem_prtnr_hrs_want`](#dem_prtnr_hrs_want) | Hours per week the respondent would like the partner to work outside the home | num |  |  | PRTWERK |  |  |  |  |  | Respondents who work, are unemployed, homemaker or work-disabled and live with a partner (LAS 2004/05) |
 | [`dem_age_cat3`](#dem_age_cat3) | Age in 3 classes (15-24, 25-44, 45+): common coarse age variable of all surveys | cat |  |  |  |  | LFTCAT3 |  |  |  | All persons aged 15 or older (SING 2009: as delivered; other surveys: derived from dem_age_cat; persons under 15 in the SPVA/SPVN rosters are .c) |
@@ -3133,7 +3133,7 @@ Frequencies (unweighted):
 - Universe: All household members (roster)
 - Sources (file level): SPVA 2002 `GEBLAND` (ro,pp,hh); SPVN 2003 `GEBLAND` (ro,pp,hh)
 - Derived: `brthcntry_group` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
-- Notes: Harmonized to Landentabel (Tabel 34) codes; survey lists only distinguish the target-group countries, NL and 'other'. SIM 2015/2020: derived from dem_eth x dem_gen (CBS definition), see wording note.
+- Notes: Harmonized to Landentabel (Tabel 34) codes; survey lists only distinguish the target-group countries, NL and 'other'. Observed in SPVA 2002 / SPVN 2003 only; in the person samples inferred from origin group and generation - see dem_brthcntry_src before relying on it. SIM 2015/2020: derived from dem_eth x dem_gen (CBS definition), see wording note.
 - Subject: self · Reported by: constructed (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent for the cited item; roster members not interviewed: the head of household's roster report; interviewed members: the mini questionnaire (SPVA 2002, SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003 · derived where the inputs exist: LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003)
@@ -3179,7 +3179,7 @@ Frequencies (unweighted):
 - Theme: Demography and household position (`dem`) · Scope: person · Type: cat · Value set: `brthcntry_src`
 - Universe: All household members (roster)
 - Derived: `brthcntry_src` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
-- Notes: 1 = country of birth as collected (SPVA 2002, SPVN 2003 household roster); 2 = inferred under the CBS definition in the person samples (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020), whose public files contain no country of birth: first generation -> the country of the origin group (Chinese 6022, Caribbean 7011 aggregate), second generation and natives -> Netherlands; 'other'/unknown origin groups of the first generation are .d.
+- Notes: 1 = country of birth as collected (SPVA 2002, SPVN 2003 household roster); 2 = inferred under the CBS definition in the person samples (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020), whose public files contain no country of birth: first generation -> the country of the origin group (Chinese 6022, Caribbean 7011 aggregate), second generation and natives -> Netherlands; 'other'/unknown origin groups of the first generation are .d. The inference is a proxy, not an observation: 22 native-origin respondents inferred as born in the Netherlands nevertheless have an arrival year (LAS 2004/05 12, SIM 2006 2, SIM 2011 7, SING 2009 1; in SIM 2006 the arrival year was asked only of those who reported a birthplace outside the Netherlands), so some of them were born abroad. Where country of birth is central to an analysis, condition on this flag (follow-up audit of v0.4.8).
 - Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020)
 - Availability: derived: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Comparability: **derived** (auto) — derived by rule 'brthcntry_src' in every survey where the inputs exist; see the variable note
@@ -3779,7 +3779,7 @@ Missing values:
 - Theme: Demography and household position (`dem`) · Scope: person · Type: num
 - Universe: Heads of household (main questionnaire) (SPVA 2002); Respondents with children (SIM 2011); Respondents with children not (all) living at home (SIM 2015)
 - Sources (file level): SPVA 2002 `NUITWKI` (pp,hh); SIM 2011 `NIETINWKIND` (main); SIM 2015 `nietinwkind` (main)
-- Subject: child · Reported by: respondent (SIM 2011, SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: child · Reported by: respondent (SIM 2011, SIM 2015); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2011, SIM 2015 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2020
 - Routing (harmonized variables): `dem_has_chd` in {1} (SPVA 2002, SIM 2011, SIM 2015)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -3789,7 +3789,7 @@ Missing values:
 |---|---|---|---|
 | Source variable | `NUITWKI` (main M1b) — *Aantal uitwonende kinderen* | `NIETINWKIND` (main VRAAG 101) — *Hoeveel kinderen wonen niet (meer) bij u in huis?* | `nietinwkind` (cawi Q101; CAPI Q101) — *Hoeveel kinderen wonen niet (meer) bij u in huis?* |
 | How obtained | proxy report (respondent about the child) | proxy report (respondent about the child) | proxy report (respondent about the child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent | respondent |
 | Person / entity described | child | child | child |
 | Question / statement shown or read to respondent | Hoeveel uitwonende kinderen heeft u? | Hoeveel kinderen wonen niet (meer) bij u in huis? | Hoeveel kinderen wonen niet (meer) bij u in huis? |
 | Interviewer recording / assessment instruction (questionnaire) |  | ENQ: Het gaat hier niet om kinderen die tijdelijk niet aanwezig zijn.; ENQ: NOTEER AANTAL KINDEREN DAT NIET BIJ RESPONDENT IN HUIS WOONT |  |
@@ -8439,7 +8439,7 @@ Frequencies (unweighted):
 - Theme: Education (`edu`) · Scope: person · Type: cat · Value set: `bridge_class`
 - Universe: Other interviewed household members aged 12+ who follow a bridge class (mini questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `BRUGKLAS` (pp)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (mini questionnaire: interviewed members other than the head only; heads were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -8449,7 +8449,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `BRUGKLAS` (main B2d) — *Soort brugklas* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (mini questionnaire: interviewed members other than the head only; heads were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | Wat voor soort schoolopleiding volgt u? Het gaat hier NIET om de naam van de school. |
 | Interviewer recording / assessment instruction (questionnaire) | ENQ.: opleiding zo nauwkeurig mogelijk noteren. |
@@ -11071,7 +11071,7 @@ Missing values:
 - Theme: Labour market (`lab`) · Scope: person · Type: cat · Value set: `hours12`
 - Universe: Other interviewed household members aged 12+ (mini questionnaire; heads of household were not asked) (SPVN 2003); Employees who did not report contractual hours (SIM 2015)
 - Sources (file level): SPVN 2003 `W12UPW` (pp); SIM 2015 `urenwr1x` (main)
-- Subject: self · Reported by: respondent (SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVN 2003)
+- Subject: self · Reported by: respondent (SIM 2015); respondent (mini questionnaire: interviewed members other than the head only; heads were not asked) (SPVN 2003)
 - Availability: collected: SPVN 2003, SIM 2015 · not collected: SPVA 2002, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2020
 - Routing (harmonized variables): printed condition not translated (SPVN 2003, SIM 2015)
 - Comparability: **approximate match** (auto) — same question, different answer options or scales (harmonized codes): see the wording table
@@ -11081,7 +11081,7 @@ Missing values:
 |---|---|---|
 | Source variable | `W12UPW` (main VRAAG 30601) — *Werkt meer of minder dan 12 uur per week (alleen mini's)* | `urenwr1x` (cawi Q515; CAPI Q515) — *Werkt u meer of minder dan 12 uur per week?* |
 | How obtained | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent |
+| Information supplied by | respondent (mini questionnaire: interviewed members other than the head only; heads were not asked) | respondent |
 | Person / entity described | self | self |
 | Question / statement shown or read to respondent | Werkt u meer of minder dan 12 uur per week | Werkt u meer of minder dan 12 uur per week? |
 | Response / recording categories (questionnaire codes) | 1=minder dan 12 uur per week; 2=12 uur of meer per week | 1=minder dan 12 uur per week; 2=12 uur per week of meer |
@@ -14301,7 +14301,7 @@ Frequencies (unweighted):
 - Theme: Housing and neighbourhood (`hous`) · Scope: person · Type: cat · Value set: `nbhd_pleasant4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006)
 - Sources (file level): SPVA 2002 `FIJNBRT` (pp,hh); SIM 2006 `FIJNBRT` (main)
-- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006 · not collected: SPVN 2003, LAS 2004/05, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -14311,7 +14311,7 @@ Frequencies (unweighted):
 |---|---|---|
 | Source variable | `FIJNBRT` (main L6a) — *Prettig om in deze buurt te wonen* | `FIJNBRT` (main VRAAG 1420) — *Vindt u het prettig om in deze buurt te wonen?* |
 | How obtained | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent |
 | Person / entity described | self | self |
 | Question / statement shown or read to respondent | Ik wil u nu nog twee vragen stellen over de buurt waarin u woont. Vindt u het prettig om in deze buurt te wonen? | Ik stel nu vragen over de buurt waar u woont. Vindt u het prettig om in deze buurt te wonen? |
 | Response / recording categories (questionnaire codes) | 1=ja, prettig; 2=ja, gaat wel; 3=nee, niet prettig; 4=nee, helemaal niet prettig | 1=ja, prettig; 2=ja, gaat wel; 3=nee, niet prettig; 4=nee, helemaal niet prettig |
@@ -14375,7 +14375,7 @@ Frequencies (unweighted):
 - Theme: Housing and neighbourhood (`hous`) · Scope: person · Type: cat · Value set: `nbhd_foreigners`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006)
 - Sources (file level): SPVA 2002 `AANTBL` (pp,hh); SIM 2006 `AANTBL` (main)
-- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006 · not collected: SPVN 2003, LAS 2004/05, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -14385,7 +14385,7 @@ Frequencies (unweighted):
 |---|---|---|
 | Source variable | `AANTBL` (main L6b) — *Mening over aantal buitenlanders in buurt* | `AANTBL` (main VRAAG 1425) — *Wat vindt u van het aantal allochtonen in uw buurt?* |
 | How obtained | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent |
 | Person / entity described | self | self |
 | Question / statement shown or read to respondent | Wat vindt u van het aantal buitenlanders in uw buurt? | Wat vindt u van het aantal allochtonen in uw buurt? |
 | Response / recording categories (questionnaire codes) | 1=te veel buitenlanders; 2=prima; 3=te weinig buitenlanders | 1=te veel allochtonen; 2=prima; 3=te weinig allochtonen |
@@ -15881,7 +15881,7 @@ Frequencies (unweighted):
 - Universe: All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002); Other interviewed household members aged 12+ (mini questionnaire; heads of household were not asked) (SPVN 2003); All respondents (LAS 2004/05; natives asked about contact with persons with a migration background, VRTIJDAL); All respondents (SIM 2006; natives asked about contact with persons with a migration background, VRTIJDN); A random half of the respondents with a migration background (SING 2009: CAPI script field exp2431 = 1; no split indicator delivered, the other half is .c); All respondents (SIM 2011; natives asked about persons with a migration background); All respondents (SIM 2015; natives: leisure contact with persons with a migration background); All respondents (SIM 2020; same)
 - Sources (file level): SPVA 2002 `VRTIJDNL` (pp,hh); SPVN 2003 `VRTIJDNL` (pp); LAS 2004/05 `VRTIJDNL` | `VRTIJDAL` (main) - first non-missing in this order; SIM 2006 `VRTIJDNL` | `VRTIJDN` (main) - first non-missing in this order; SING 2009 `VRTIJDNL` (main); SIM 2011 `VRTIJDNL` (main); SIM 2015 `vrtijdnl` (main); SIM 2020 `vrtijdnl` (main)
 - Notes: SPVN 2003: asked in the mini questionnaire only. SING 2009: asked to a random half of the respondents with a migration background - the CAPI script gates Q2630 on 'exp2431 = 1', the only item of SING 2009 with such a field; the deposit (READ ME, fieldwork report) does not document the split and delivers no indicator; 3,017 of 5,952 were asked, balanced across origin group, sex and age class.
-- Subject: self · Reported by: respondent (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
+- Subject: self · Reported by: respondent (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002); respondent (mini questionnaire: interviewed members other than the head only; heads were not asked) (SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2011, SIM 2015, SIM 2020); `svy_routing_mig` in {1} (LAS 2004/05 `VRTIJDNL`, SIM 2006 `VRTIJDNL`, SING 2009); `svy_routing_mig` in {0} (LAS 2004/05 `VRTIJDAL`, SIM 2006 `VRTIJDN`)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table; a group fill is unresolved in the script printout
@@ -15891,7 +15891,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|---|
 | Source variable | `VRTIJDNL` (main I2d) — *Contact in vrije tijd met autochtonen* | `VRTIJDNL` (main VRAAG 3101 (H1a)) — *Gaat in vrije tijd om met Nederlanders (alleen mini's)* | `VRTIJDNL` (main VRAAG 139) — *Frequentie omgaan met (witte) Nederlanders* | `VRTIJDAL` (main VRAAG 140) — *Frequentie omgaan met allochtone Nederlanders* | `VRTIJDNL` (main VRAAG 975) — *Gaat u in uw vrije tijd vaak, soms of nooit om met autochtone Nederlanders?* | `VRTIJDN` (main VRAAG 1010) — *Heeft u in uw vrije tijd vaak, soms of nooit contact met allochtonen?* | `VRTIJDNL` (main VRAAG 2630) — *Gaat u in uw vrije tijd vaak, soms of nooit om met autochtone Nederlanders?* | `VRTIJDNL` (main VRAAG 780) — *Gaat u in uw vrije tijd vaak, soms of nooit om met <autochtone Nederlanders/a...* | `vrtijdnl` (cawi Q780; CAPI Q780) — *Gaat u in uw vrije tijd vaak, soms of nooit om met <autochtone Neder* | `vrtijdnl` (main Q780) — *Hoe vaak gaat u in uw vrije tijd om met <aut. NL / pers. met mig>?* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent | respondent | respondent | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (mini questionnaire: interviewed members other than the head only; heads were not asked) | respondent | respondent | respondent | respondent | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self | self | self | self | self | self |
 | Question / statement shown or read to respondent | Gaat u in uw vrije tijd wel eens om met (blanke) Nederlanders? | H. Gaat u in uw vrije tijd wel eens om met Nederlanders? | Gaat u in uw vrije tijd vaak, soms of nooit om met (witte) Nederlanders? | Gaat u in uw vrije tijd vaak, soms of nooit om met allochtone Nederlanders? | Gaat u in uw vrije tijd vaak, soms of nooit om met autochtone Nederlanders? | Heeft u in uw vrije tijd vaak, soms of nooit contact met allochtonen? | Gaat u in uw vrije tijd vaak, soms of nooit om met autochtone Nederlanders? | Gaat u in uw vrije tijd vaak, soms of nooit om met <?>? | Gaat u in uw vrije tijd vaak, soms of nooit om met <autochtone Nederlandse/allochtonen>? | Gaat u in uw vrije tijd vaak, soms of nooit om met <autochtone Nederlandse/ personen met een migratieachtergrond >? |
 | Response / recording categories (questionnaire codes) | 1=ja, vaak; 2=ja, soms; 3=nee, nooit | 1=ja, vaak; 2=ja, soms; 3=nee, nooit; 7=weet niet | 1=ja, vaak; 2=ja, soms; 3=nee, nooit | 1=ja, vaak; 2=ja, soms; 3=nee, nooit | 1=ja, vaak; 2=ja, soms; 3=nee, nooit | 1=ja, vaak; 2=ja, soms; 3=nee, nooit | 1=vaak; 2=soms; 3=nooit | 1=vaak; 2=soms; 3=nooit | 1=vaak; 2=soms; 3=nooit | 1=vaak; 2=soms; 3=nooit |
@@ -15961,7 +15961,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `sex`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `GSLUITWK` (pp,hh)
-- Subject: selected child · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: selected child · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -15971,7 +15971,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `GSLUITWK` (main M2a) — *Geslacht uitwonend kind* |
 | How obtained | proxy report (respondent about the selected child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | selected child |
 | Question / statement shown or read to respondent | Ik wil u nu een paar vragen stellen over uw kind dat niet meer thuis woont. Is dit kind een man of een vrouw? |
 | Response / recording categories (questionnaire codes) | 1=man; 2=vrouw |
@@ -15996,7 +15996,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: year
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `JRUITWK` (pp,hh)
-- Subject: selected child · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: selected child · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16006,7 +16006,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `JRUITWK` (main M2b) — *Geboortejaar uitwonend kind* |
 | How obtained | proxy report (respondent about the selected child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | selected child |
 | Question / statement shown or read to respondent | In welk jaar is dit kind geboren? |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 9999=geen informatie |
@@ -16041,7 +16041,7 @@ Missing values:
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `residence4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `WPKIND` (pp,hh)
-- Subject: selected child · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: selected child · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16051,7 +16051,7 @@ Missing values:
 |---|---|
 | Source variable | `WPKIND` (main M2c) — *Woonplaats kind* |
 | How obtained | proxy report (respondent about the selected child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | selected child |
 | Question / statement shown or read to respondent | In welke plaats of welk land woont dit kind? |
 | Response / recording categories (questionnaire codes) | 1=in Nederland, zelfde gemeente als respondent; 2=in Nederland, in een andere gemeente dan respondent; 3=in het land van herkomst; 4=elders |
@@ -16078,7 +16078,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq7_contact`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `ZIENKIND` (pp,hh)
-- Subject: selected child · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: selected child · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16088,7 +16088,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `ZIENKIND` (main M2d) — *Afgelopen 12 maanden kind gezien* |
 | How obtained | proxy report (respondent about the selected child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | selected child |
 | Question / statement shown or read to respondent | Hoe vaak heeft u dit kind in de afgelopen 12 maanden gezien? |
 | Interviewer recording / assessment instruction (questionnaire) | ENQ.: laat kaart zien |
@@ -16119,7 +16119,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq7_contact`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `TELEKIND` (pp,hh)
-- Subject: selected child · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: selected child · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16129,7 +16129,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `TELEKIND` (main M2e) — *Afgelopen 12 maanden contact kind gehad* |
 | How obtained | proxy report (respondent about the selected child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | selected child |
 | Question / statement shown or read to respondent | Hoe vaak heeft u in de afgelopen 12 maanden telefonisch, schriftelijk of per e-mail contact gehad met dit kind? |
 | Interviewer recording / assessment instruction (questionnaire) | ENQ.: laat kaart zien |
@@ -16160,7 +16160,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_help`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `HULPVKI` (pp,hh)
-- Subject: selected child · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: selected child · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16170,7 +16170,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `HULPVKI` (main M2f) — *Hulp van kind gekregen* |
 | How obtained | proxy report (respondent about the selected child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | selected child |
 | Question / statement shown or read to respondent | Heeft u van dit kind in de afgelopen 3 maanden wel eens hulp gekregen met praktische zaken, zoals klusjes doen in huis, dingen lenen of meegaan naar de dokter? |
 | Response / recording categories (questionnaire codes) | 1=ja, meerdere keren; 2=ja, een enkele keer; 3=nee |
@@ -16196,7 +16196,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_help`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `ADVVKI` (pp,hh)
-- Subject: selected child · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: selected child · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16206,7 +16206,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `ADVVKI` (main M2g) — *Advies van kind gekregen* |
 | How obtained | proxy report (respondent about the selected child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | selected child |
 | Question / statement shown or read to respondent | Heeft u van dit kind in de afgelopen 3 maanden wel eens goede raad of advies gekregen? |
 | Response / recording categories (questionnaire codes) | 1=ja, meerdere keren; 2=ja, een enkele keer; 3=nee |
@@ -16232,7 +16232,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_help`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `HULPAKI` (pp,hh)
-- Subject: selected child · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: selected child · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16242,7 +16242,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `HULPAKI` (main M2h) — *Hulp aan kind gegeven* |
 | How obtained | proxy report (respondent about the selected child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | selected child |
 | Question / statement shown or read to respondent | En andersom, heeft u aan dit kind in de afgelopen 3 maanden wel eens hulp gegeven met praktische zaken, zoals klusjes doen in huis, dingen lenen of meegaan naar de dokter? |
 | Response / recording categories (questionnaire codes) | 1=ja, meerdere keren; 2=ja, een enkele keer; 3=nee |
@@ -16268,7 +16268,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_help`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `ADVAKI` (pp,hh)
-- Subject: selected child · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: selected child · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16278,7 +16278,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `ADVAKI` (main M2i) — *Advies aan kind gegeven* |
 | How obtained | proxy report (respondent about the selected child) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | selected child |
 | Question / statement shown or read to respondent | En heeft u aan dit kind in de afgelopen 3 maanden wel eens goede raad of advies gegeven ? |
 | Response / recording categories (questionnaire codes) | 1=ja, meerdere keren; 2=ja, een enkele keer; 3=nee |
@@ -16304,7 +16304,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `parents_alive`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `LEEFOUD` (pp,hh)
-- Subject: parent · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: parent · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16314,7 +16314,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `LEEFOUD` (main M3 (2)) — *Zijn ouders nog in leven* |
 | How obtained | proxy report (respondent about the parent) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | parent |
 | Question / statement shown or read to respondent | Nu willen we een aantal vragen over uw ouders stellen. Zijn uw ouders nog in leven? |
 | Response / recording categories (questionnaire codes) | 1=beiden; 2=alleen vader; 3=alleen moeder; 4=geen van beiden |
@@ -16340,7 +16340,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `parent_asked`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `OUDGESP` (pp,hh)
-- Subject: parent · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: parent · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16350,7 +16350,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `OUDGESP` (main M4a) — *Over wie gaan vragen* |
 | How obtained | proxy report (respondent about the parent) |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | parent |
 | Question / statement shown or read to respondent | Over uw ouder die het eerst na u jarig is, wil ik graag een paar vragen stellen. Is dit uw vader of uw moeder? |
 | Response / recording categories (questionnaire codes) | 1=vader; 2=moeder |
@@ -16375,7 +16375,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: year
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `JROUD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16385,7 +16385,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `JROUD` (main M4b) — *Geboortejaar ouder* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | In welk jaar is uw vader/moeder geboren? |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 9999=geen informatie |
@@ -16420,7 +16420,7 @@ Missing values:
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `residence4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `WPOUD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16430,7 +16430,7 @@ Missing values:
 |---|---|
 | Source variable | `WPOUD` (main M4c) — *Woonplaats ouder* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | In welke plaats of welk land woont uw vader/moeder? |
 | Response / recording categories (questionnaire codes) | 1=in Nederland, zelfde gemeente als respondent; 2=in Nederland, in een andere gemeente dan respondent; 3=in het land van herkomst; 4=elders |
@@ -16457,7 +16457,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq7_contact`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `ZIENOUD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16467,7 +16467,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `ZIENOUD` (main M4d) — *Afgelopen 12 maanden ouder gezien* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | Hoe vaak heeft u uw vader/moeder in de afgelopen 12 maanden gezien? |
 | Interviewer recording / assessment instruction (questionnaire) | ENQ.: laat kaart zien |
@@ -16498,7 +16498,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq7_contact`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `TELEOUD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16508,7 +16508,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `TELEOUD` (main M4e) — *Afgelopen 12 maanden contact ouder* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | Hoe vaak heeft u in de afgelopen 12 maanden telefonisch, schriftelijk of per e-mail contact gehad met uw vader/moeder? |
 | Interviewer recording / assessment instruction (questionnaire) | ENQ.: laat kaart zien |
@@ -16539,7 +16539,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_help`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `HULPVOUD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16549,7 +16549,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `HULPVOUD` (main M4f) — *Hulp van ouder gekregen* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | Heeft u van uw vader/moeder in de afgelopen 3 maanden wel eens hulp gekregen met praktische zaken, zoals klusjes doen in huis, dingen lenen of meegaan naar de dokter? |
 | Response / recording categories (questionnaire codes) | 1=ja, meerdere keren; 2=ja, een enkele keer; 3=nee |
@@ -16575,7 +16575,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_help`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `ADVVOUD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16585,7 +16585,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `ADVVOUD` (main M4g) — *Advies van ouder gekregen* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | Heeft u van uw vader/moeder in de afgelopen 3 maanden wel eens goede raad of advies gekregen? |
 | Response / recording categories (questionnaire codes) | 1=ja, meerdere keren; 2=ja, een enkele keer; 3=nee |
@@ -16611,7 +16611,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_help`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `HULPAOUD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16621,7 +16621,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `HULPAOUD` (main M4h) — *Hulp aan ouder gegeven* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | En andersom, heeft u aan uw vader/moeder in de afgelopen 3 maanden wel eens hulp gegeven met praktische zaken, zoals klusjes doen in huis, dingen lenen of meegaan naar de dokter? |
 | Response / recording categories (questionnaire codes) | 1=ja, meerdere keren; 2=ja, een enkele keer; 3=nee |
@@ -16647,7 +16647,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_help`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `ADVAOUD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16657,7 +16657,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `ADVAOUD` (main M4i) — *Advies aan ouder gegeven* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | En heeft u aan uw vader/moeder in de afgelopen 3 maanden wel eens goede raad of advies gegeven? |
 | Response / recording categories (questionnaire codes) | 1=ja, meerdere keren; 2=ja, een enkele keer; 3=nee |
@@ -16683,7 +16683,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_nso`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `VERPLFAM` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16693,7 +16693,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `VERPLFAM` (main M5c) — *Voel me verplicht iets voor familie te doen* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | De meeste mensen doen wel eens iets voor hun familie. Kunt u zeggen of het volgende voor u nooit, soms of vaak van toepassing is? |
 | Question / statement shown or read to respondent | als ik iets voor mijn familie doe, is het omdat ik me daartoe verplicht voel |
@@ -16720,7 +16720,7 @@ Frequencies (unweighted):
 - Theme: Family relations (NKPS module) (`fam`) · Scope: person · Type: cat · Value set: `freq3_nso`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `GEEFFAM` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -16730,7 +16730,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `GEEFFAM` (main M5c) — *Doe iets voor familie omdat ik om ze geef* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | De meeste mensen doen wel eens iets voor hun familie. Kunt u zeggen of het volgende voor u nooit, soms of vaak van toepassing is? |
 | Question / statement shown or read to respondent | als ik iets voor mijn familie doe, is dat omdat ik om mijn familie geef |
@@ -18231,7 +18231,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006, SING 2009, SIM 2015, SIM 2020); All interviewed persons (SIM 2011)
 - Sources (file level): SPVA 2002 `CULTDIV` (pp,hh); SIM 2006 `CULTDIV` (main); SING 2009 `CULTDIV` (main); SIM 2011 `CULTDIV` (main); SIM 2015 `cultdiv` (main); SIM 2020 `cultdiv` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020 · not collected: SPVN 2003, LAS 2004/05
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020)
 - Comparability: **approximate match** (auto) — same question, different answer options or scales (harmonized codes): see the wording table
@@ -18241,7 +18241,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|
 | Source variable | `CULTDIV` (main L1) — *Goed als samenleving uit verschillende culturen bestaat* | `CULTDIV` (main VRAAG 1265) — *Het is goed als een samenleving bestaat uit mensen* | `CULTDIV` (main VRAAG 2930) — *Vraag 2930.1: Uitspraak: Het is goed als een samenleving bestaat uit mensen v...* | `CULTDIV` (main VRAAG 890) — *In hoeverre bent u het eens met de volgende uitspraak? Het is goed als een sa...* | `cultdiv` (cawi Q890; CAPI Q890) — *Het is goed als een samenleving bestaat uit mensen van verschillende* | `cultdiv` (main Q890) — *Het is goed als een samenleving bestaat uit mensen van verschillende culturen* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self | self |
 | Introduction / lead-in (questionnaire) | Wat vindt u van de volgende stellingen? Bij deze en enkele volgende vragen zijn de antwoordmogelijkheden die u kunt kiezen: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? |  | ... aangeven of u het eens of oneens bent met de volgende uitspraken? U kunt kiezen uit vijf antwoorden: *helemaal mee eens *mee eens *niet mee eens\niet mee oneens *niet mee eens *helemaal niet mee eens. |
 | Question / statement shown or read to respondent | het is goed als een samenleving bestaat uit mensen van verschillende culturen | Het is goed als een samenleving bestaat uit mensen van verschillende culturen | Het is goed als een samenleving bestaat uit mensen van verschillende culturen | Het is goed als een samenleving bestaat uit mensen van verschillende culturen | Het is goed als een samenleving bestaat uit mensen van verschillende culturen. | Het is goed als een samenleving bestaat uit mensen van verschillende culturen. |
@@ -18273,7 +18273,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `BEHCULT` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18283,7 +18283,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `BEHCULT` (main L1) — *Moeilijk om cultuur te behouden en geaccepteerd te worden* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Wat vindt u van de volgende stellingen? Bij deze en enkele volgende vragen zijn de antwoordmogelijkheden die u kunt kiezen: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. |
 | Question / statement shown or read to respondent | het is moeilijk om in Nederland geaccepteerd te worden als je je eigen cultuur wilt behouden |
@@ -18312,7 +18312,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006, SING 2009); All interviewed persons (SIM 2011)
 - Sources (file level): SPVA 2002 `ASIELMAK` (pp,hh); SIM 2006 `ASIELMAK` (main); SING 2009 `ASIELMAK` (main); SIM 2011 `ASIELMAKA` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006, SING 2009, SIM 2011 · not collected: SPVN 2003, LAS 2004/05, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006, SING 2009, SIM 2011)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -18322,7 +18322,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|
 | Source variable | `ASIELMAK` (main L1) — *Moet makkelijker worden om asiel te krijgen* | `ASIELMAK` (main VRAAG 1265 (2)) — *Het moet makkelijker worden om in Nederland asiel te krijgen* | `ASIELMAK` (main VRAAG 2930 (2)) — *Vraag 2930.2: Uitspraak: Het moet makkelijker worden om in Nederland asiel te...* | `ASIELMAKA` (main VRAAG 891A) — *In hoeverre bent u het eens met de volgende uitspraak? Het moet makkelijker w...* |
 | How obtained | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self |
 | Introduction / lead-in (questionnaire) | Wat vindt u van de volgende stellingen? Bij deze en enkele volgende vragen zijn de antwoordmogelijkheden die u kunt kiezen: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? |
 | Question / statement shown or read to respondent | het moet makkelijker worden om in Nederland asiel te krijgen | Het moet makkelijker worden om in Nederland asiel te krijgen | Het moet makkelijker worden om in Nederland asiel te krijgen | Het moet makkelijker worden om in Nederland asiel te krijgen Nederland blijven |
@@ -18354,7 +18354,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006, SING 2009); All interviewed persons (SIM 2011)
 - Sources (file level): SPVA 2002 `RECHTUIT` (pp,hh); SIM 2006 `RECHTUIT` (main); SING 2009 `RECHTUIT` (main); SIM 2011 `RECHTUIT` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006, SING 2009, SIM 2011 · not collected: SPVN 2003, LAS 2004/05, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006, SING 2009, SIM 2011)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -18364,7 +18364,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|
 | Source variable | `RECHTUIT` (main L1) — *Buitenlanders moeten zelfde rechten hebben als Nederlanders* | `RECHTUIT` (main VRAAG 1265 (3)) — *Allochtonen die legaal in Nederland mogen wonen, moeten zelfde sociale zekerh...* | `RECHTUIT` (main VRAAG 2930 (3)) — *Vraag 2930.3: Uitspraak: Allochtonen die in Nederland wonen, m,oeten dezelfde...* | `RECHTUIT` (main VRAAG 892) — *In hoeverre bent u het eens met de volgende uitspraak? Allochtonen die legaal...* |
 | How obtained | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self |
 | Introduction / lead-in (questionnaire) | Wat vindt u van de volgende stellingen? Bij deze en enkele volgende vragen zijn de antwoordmogelijkheden die u kunt kiezen: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? |
 | Question / statement shown or read to respondent | legaal aanwezige buitenlanders moeten dezelfde rechten op sociale zekerheid hebben als Nederlanders . | Allochtonen die legaal in Nederland mogen wonen, moeten dezelfde rechten op sociale zekerheid hebben als autochtone Nederlanders | Allochtonen die legaal in Nederland wonen, moeten dezelfde rechten op sociale zekerheid hebben als autochtone Nederlanders | Allochtonen die legaal in Nederland mogen wonen, moeten dezelfde rechten op sociale zekerheid hebben als autochtone Nederlanders |
@@ -18396,7 +18396,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006, SING 2009, SIM 2015); All interviewed persons (SIM 2011)
 - Sources (file level): SPVA 2002 `VEELALLO` (pp,hh); SIM 2006 `VEELALLO` (main); SING 2009 `VEELALLO` (main); SIM 2011 `VEELALLO` (main); SIM 2015 `veelallo` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006, SING 2009, SIM 2011, SIM 2015 · not collected: SPVN 2003, LAS 2004/05, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006, SING 2009, SIM 2011, SIM 2015)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -18406,7 +18406,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|
 | Source variable | `VEELALLO` (main L1) — *In Nederland wonen te veel allochtonen* | `VEELALLO` (main VRAAG 1265 (4)) — *Er wonen in Nederland te veel allochtonen* | `VEELALLO` (main VRAAG 2930 (4)) — *Vraag 2930.4: Uitspraak: Er wonen in Nederland te veel allochtonen* | `VEELALLO` (main VRAAG 893) — *In hoeverre bent u het eens met de volgende uitspraak? Er wonen in Nederland ...* | `veelallo` (cawi Q893; CAPI Q893) — *Er wonen in Nederland te veel allochtonen.* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self |
 | Introduction / lead-in (questionnaire) | Wat vindt u van de volgende stellingen? Bij deze en enkele volgende vragen zijn de antwoordmogelijkheden die u kunt kiezen: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? |  |
 | Question / statement shown or read to respondent | in Nederland wonen te veel allochtonen | Er wonen in Nederland te veel allochtonen | Er wonen in Nederland te veel allochtonen | Er wonen in Nederland te veel allochtonen | Er wonen in Nederland te veel allochtonen. |
@@ -18438,7 +18438,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `NACCALLO` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18448,7 +18448,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `NACCALLO` (main L1) — *Allochtonen worden in Nederland niet geaccepteerd* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Wat vindt u van de volgende stellingen? Bij deze en enkele volgende vragen zijn de antwoordmogelijkheden die u kunt kiezen: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. |
 | Question / statement shown or read to respondent | allochtonen worden in Nederland niet geaccepteerd |
@@ -18477,7 +18477,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `ECONAFH` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18487,7 +18487,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `ECONAFH` (main L1) — *Economie afhankelijk van allochtonen* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Wat vindt u van de volgende stellingen? Bij deze en enkele volgende vragen zijn de antwoordmogelijkheden die u kunt kiezen: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. |
 | Question / statement shown or read to respondent | sommige sectoren van de economie kunnen alleen blijven draaien omdat er allochtonen werken |
@@ -18516,7 +18516,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006, SING 2009, SIM 2015); All interviewed persons (SIM 2011)
 - Sources (file level): SPVA 2002 `SLECHTWK` (pp,hh); SIM 2006 `SLECHTWK` (main); SING 2009 `SLECHTWK` (main); SIM 2011 `SLECHTWK` (main); SIM 2015 `slechtwk` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006, SING 2009, SIM 2011, SIM 2015 · not collected: SPVN 2003, LAS 2004/05, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006, SING 2009, SIM 2011, SIM 2015)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -18526,7 +18526,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|
 | Source variable | `SLECHTWK` (main L1) — *Wijk gaat er niet op vooruit met veel allochtonen* | `SLECHTWK` (main VRAAG 1265 (5)) — *Het is slecht voor een wijk als er veel allochtonen* | `SLECHTWK` (main VRAAG 2930 (5)) — *Vraag 2930.5: Uitspraak: Het is slecht voor een wijk als er te veel allochton...* | `SLECHTWK` (main VRAAG 894) — *In hoeverre bent u het eens met de volgende uitspraak? Het is slecht voor een...* | `slechtwk` (cawi Q894; CAPI Q894) — *Het is slecht voor een wijk als er veel allochtonen komen wonen.* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self |
 | Introduction / lead-in (questionnaire) | Wat vindt u van de volgende stellingen? Bij deze en enkele volgende vragen zijn de antwoordmogelijkheden die u kunt kiezen: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? |  |
 | Question / statement shown or read to respondent | een wijk gaat er niet op vooruit als er veel allochtonen komen te wonen | Het is slecht voor een wijk als er veel allochtonen komen wonen | Het is slecht voor een wijk als er veel allochtonen wonen | Het is slecht voor een wijk als er veel allochtonen komen wonen | Het is slecht voor een wijk als er veel allochtonen komen wonen. |
@@ -18558,7 +18558,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All interviewed persons aged 12+ (main and mini questionnaire) (SPVN 2003); All respondents (SIM 2006, SING 2009, SIM 2011); All respondents (SIM 2015), incl. the native reference sample; All respondents (SIM 2020), incl. the native reference sample
 - Sources (file level): SPVA 2002 `KANSALLO` (pp,hh); SPVN 2003 `KANSALLO` (hh); SIM 2006 `KANSALLO` (main); SING 2009 `KANSALLO` (main); SIM 2011 `KANSALLO` (main); SIM 2015 `kansallo` (main); SIM 2020 `kansallo` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020 · not collected: LAS 2004/05
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -18568,7 +18568,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|
 | Source variable | `KANSALLO` (main L3) — *Als buitenlander krijg je alle kansen* | `KANSALLO` (main VRAAG 202) — *Als buitenlander krijg je alle kansen* | `KANSALLO` (main VRAAG 1275) — *In Nederland krijg je als allochtoon alle kansen* | `KANSALLO` (main VRAAG 2940) — *Vraag 2940.1: Uitspraak: In Nederland krijg je als allochtoon alle kansen* | `KANSALLO` (main VRAAG 895) — *In hoeverre bent u het eens met de volgende uitspraak? In Nederland krijg je ...* | `kansallo` (cawi Q895; CAPI Q895) — *In Nederland krijg je als allochtoon alle kansen.* | `kansallo` (main Q895) — *In Nederland krijg je als persoon met een migratieachtergrond alle kansen* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self | self | self |
 | Introduction / lead-in (questionnaire) | Ik leg u enkele uitspraken en meningen voor over de Nederlandse samenleving. Wilt u zeggen in hoeverre u het daar mee eens bent? | In hoeverre bent u het eens met de volgende stelling? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? |  |  |
 | Question / statement shown or read to respondent | in Nederland krijg je als buitenlander alle kansen | In Nederland krijg je als buitenlander alle kansen | in Nederland krijg je als allochtoon alle kansen | In Nederland krijg je als allochtoon alle kansen | In Nederland krijg je als allochtoon alle kansen | In Nederland krijg je als allochtoon alle kansen. | In Nederland krijg je als persoon met een migratieachtergrond alle kansen. |
@@ -18602,7 +18602,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `NLVIJAND` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18612,7 +18612,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `NLVIJAND` (main L3) — *Nederland staat vijandig tegenover buitenlanders* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik leg u enkele uitspraken en meningen voor over de Nederlandse samenleving. Wilt u zeggen in hoeverre u het daar mee eens bent? |
 | Question / statement shown or read to respondent | Nederland staat vijandig tegenover buitenlanders |
@@ -18641,7 +18641,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All interviewed persons aged 12+ (main and mini questionnaire) (SPVN 2003); All respondents (SIM 2006, SING 2009, SIM 2011); All respondents (SIM 2015), incl. the native reference sample; All respondents (SIM 2020), incl. the native reference sample
 - Sources (file level): SPVA 2002 `RESPRECH` (pp,hh); SPVN 2003 `RESPRECH` (hh); SIM 2006 `RESPRECH` (main); SING 2009 `RESPRECH` (main); SIM 2011 `RESPRECH` (main); SIM 2015 `resprech` (main); SIM 2020 `resprech` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020 · not collected: LAS 2004/05
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -18651,7 +18651,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|
 | Source variable | `RESPRECH` (main L3) — *Rechten als buitenlander gerespecteerd* | `RESPRECH` (main VRAAG 202 (2)) — *Rechten als buitenlander gerespecteerd* | `RESPRECH` (main VRAAG 1275 (2)) — *In Nederland worden je rechten als allochtoon gerespecteerd* | `RESPRECH` (main VRAAG 2940 (2)) — *Vraag 2940.2: Uitspraak: Als allochtoon in Nederland worden je rechten geresp...* | `RESPRECH` (main VRAAG 896) — *In hoeverre bent u het eens met de volgende uitspraak? In Nederland worden je...* | `resprech` (cawi Q896; CAPI Q896) — *In Nederland worden je rechten als allochtoon gerespecteerd.* | `resprech` (main Q896) — *In Nederland worden je rechten als persoon met een migr.achtergr. gerespecteerd* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self | self | self |
 | Introduction / lead-in (questionnaire) | Ik leg u enkele uitspraken en meningen voor over de Nederlandse samenleving. Wilt u zeggen in hoeverre u het daar mee eens bent? | In hoeverre bent u het eens met de volgende stelling? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? |  |  |
 | Question / statement shown or read to respondent | in Nederland worden je rechten als buitenlander gerespecteerd | In Nederland worden je rechten als buitenlander gerespecteerd | in Nederland worden je rechten als allochtoon gerespecteerd | Als allochtoon in Nederland worden je rechten gerespecteerd | in Nederland worden je rechten als allochtoon gerespecteerd | In Nederland worden je rechten als allochtoon gerespecteerd. | In Nederland worden je rechten als persoon met een migratieachtergrond gerespecteerd. |
@@ -18685,7 +18685,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All interviewed persons aged 12+ (main and mini questionnaire) (SPVN 2003); All respondents (SIM 2006, SING 2009, SIM 2011); All respondents (SIM 2015), incl. the native reference sample; All respondents (SIM 2020), incl. the native reference sample
 - Sources (file level): SPVA 2002 `NLGASTV` (pp,hh); SPVN 2003 `NLGASTV` (hh); SIM 2006 `NLGASTV` (main); SING 2009 `NLGASTV` (main); SIM 2011 `NLGASTV` (main); SIM 2015 `nlgastv` (main); SIM 2020 `nlgastv` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020 · not collected: LAS 2004/05
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -18695,7 +18695,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|
 | Source variable | `NLGASTV` (main L3) — *Nederland is gastvrij* | `NLGASTV` (main VRAAG 202 (3)) — *Nederland is gastvrij* | `NLGASTV` (main VRAAG 1275 (3)) — *Nederland is een gastvrij land voor allochtonen* | `NLGASTV` (main VRAAG 2940 (3)) — *Vraag 2940.3: Uitspraak: Nederland is een gastvrij land voor allochtonen* | `NLGASTV` (main VRAAG 897) — *In hoeverre bent u het eens met de volgende uitspraak? Nederland is een gastv...* | `nlgastv` (cawi Q897; CAPI Q897) — *Nederland is een gastvrij land voor allochtonen.* | `nlgastv` (main Q897) — *Nederland is een gastvrij land voor personen met een migratieachtergrond* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self | self | self |
 | Introduction / lead-in (questionnaire) | Ik leg u enkele uitspraken en meningen voor over de Nederlandse samenleving. Wilt u zeggen in hoeverre u het daar mee eens bent? | In hoeverre bent u het eens met de volgende stelling? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? |  |  |
 | Question / statement shown or read to respondent | Nederland is een gastvrij land voor buitenlanders | Nederland is een gastvrij land voor buitenlanders | Nederland is een gastvrij land voor allochtonen | Nederland is een gastvrij land voor allochtonen | Nederland is een gastvrij land voor allochtonen | Nederland is een gastvrij land voor allochtonen. | Nederland is een gastvrij land voor personen met een migratieachtergrond. |
@@ -18729,7 +18729,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `ONVERSCH` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18739,7 +18739,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `ONVERSCH` (main L3) — *Mensen zijn onverschillig tov buitenlanders* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik leg u enkele uitspraken en meningen voor over de Nederlandse samenleving. Wilt u zeggen in hoeverre u het daar mee eens bent? |
 | Question / statement shown or read to respondent | in Nederland zijn de mensen onverschillig ten opzichte van buitenlanders |
@@ -18768,7 +18768,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `RECHTVNL` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18778,7 +18778,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `RECHTVNL` (main L3) — *Als buitenlander word je rechtvaardig behandeld* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik leg u enkele uitspraken en meningen voor over de Nederlandse samenleving. Wilt u zeggen in hoeverre u het daar mee eens bent? |
 | Question / statement shown or read to respondent | in Nederland word je als buitenlander rechtvaardig behandeld |
@@ -18807,7 +18807,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `BEPERKNL` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18817,7 +18817,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `BEPERKNL` (main L3) — *Voor buitenlanders veel beperkingen* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik leg u enkele uitspraken en meningen voor over de Nederlandse samenleving. Wilt u zeggen in hoeverre u het daar mee eens bent? |
 | Question / statement shown or read to respondent | in Nederland zijn er voor buitenlanders veel beperkingen |
@@ -18846,7 +18846,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All interviewed persons aged 12+ (main and mini questionnaire) (SPVN 2003); All respondents (SIM 2006, SING 2009, SIM 2011); All respondents (SIM 2015), incl. the native reference sample; All respondents (SIM 2020), incl. the native reference sample
 - Sources (file level): SPVA 2002 `OPENCULT` (pp,hh); SPVN 2003 `OPENCULT` (hh); SIM 2006 `OPENCULT` (main); SING 2009 `OPENCULT` (main); SIM 2011 `OPENCULTA` (main); SIM 2015 `openculta` (main); SIM 2020 `openculta` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020 · not collected: LAS 2004/05
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -18856,7 +18856,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|
 | Source variable | `OPENCULT` (main L3) — *Nederland staat open voor buitenlandse culturen* | `OPENCULT` (main VRAAG 202 (4)) — *Nederland staat open voor buitenlandse culturen* | `OPENCULT` (main VRAAG 1275 (4)) — *Nederland staat open voor allochtone culturen* | `OPENCULT` (main VRAAG 2940 (4)) — *Vraag 2940.4: Uitspraak: Nederland staat open voor allochtone culturen* | `OPENCULTA` (main VRAAG 898A) — *In hoeverre bent u het eens met de volgende uitspraak? Nederland staat open v...* | `openculta` (cawi Q89801; CAPI Q89801) — *Nederland staat open voor allochtone culturen.* | `openculta` (main Q89801) — *Nederland staat open voor andere culturen* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self | self | self |
 | Introduction / lead-in (questionnaire) | Ik leg u enkele uitspraken en meningen voor over de Nederlandse samenleving. Wilt u zeggen in hoeverre u het daar mee eens bent? | In hoeverre bent u het eens met de volgende stelling? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? | In hoeverre bent u het eens met de volgende uitspraak? |  |  |
 | Question / statement shown or read to respondent | Nederland staat open voor buitenlandse culturen | Nederland staat open voor buitenlandse culturen | Nederland staat open voor allochtone culturen | Nederland staat open voor allochtone culturen | Nederland staat open voor allochtone culturen | Nederland staat open voor allochtone culturen. | Nederland staat open voor andere culturen. |
@@ -18890,7 +18890,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `FAMHECHT` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18900,7 +18900,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `FAMHECHT` (main M5a) — *Familiebanden zijn hecht* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Nu wil ik graag weten hoe u over uw familie denkt. Wilt u steeds aangeven in hoeverre u het met de volgende uitspraken eens bent? De vijf antwoordmogelijkheden zijn: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. |
 | Question / statement shown or read to respondent | de banden tussen de leden van mijn familie zijn heel hecht |
@@ -18929,7 +18929,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `GEBFAM` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18939,7 +18939,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `GEBFAM` (main M5a) — *Familieleden houden elkaar op de hoogte* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Nu wil ik graag weten hoe u over uw familie denkt. Wilt u steeds aangeven in hoeverre u het met de volgende uitspraken eens bent? De vijf antwoordmogelijkheden zijn: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. |
 | Question / statement shown or read to respondent | we houden elkaar op de hoogte van de belangrijkste gebeurtenissen in de familie |
@@ -18968,7 +18968,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `EIGGANG` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -18978,7 +18978,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `EIGGANG` (main M5a) — *Iedereen gaat binnen familie eigen gang* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Nu wil ik graag weten hoe u over uw familie denkt. Wilt u steeds aangeven in hoeverre u het met de volgende uitspraken eens bent? De vijf antwoordmogelijkheden zijn: helemaal mee eens, mee eens, niet mee eens/niet mee oneens, niet mee eens, helemaal niet mee eens. |
 | Question / statement shown or read to respondent | iedereen gaat binnen mijn familie zoveel mogelijk zijn eigen gang |
@@ -19007,7 +19007,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (LAS 2004/05); All interviewed persons (SIM 2011)
 - Sources (file level): SPVA 2002 `ZORGOUD` (pp,hh); LAS 2004/05 `OUDZRG` (main); SIM 2011 `KINDZORG` (main)
-- Subject: self · Reported by: respondent (LAS 2004/05, SIM 2011); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (LAS 2004/05, SIM 2011); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, LAS 2004/05, SIM 2011 · not collected: SPVN 2003, SIM 2006, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, LAS 2004/05, SIM 2011)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -19017,7 +19017,7 @@ Frequencies (unweighted):
 |---|---|---|---|
 | Source variable | `ZORGOUD` (main M5b) — *Kinderen moeten voor zieke ouders zorgen* | `OUDZRG` (main VRAAG 166) — *Kinderen horen ouders op leeftijd te verzorgen* | `KINDZORG` (main VRAAG 809) — *In hoeverre bent u het eens met de uitspraak? Kinderen moeten voor hun ouders...* |
 | How obtained | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent | respondent |
 | Person / entity described | self | self | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? |  | In hoeverre bent u het eens met de uitspraak...? |
 | Question / statement shown or read to respondent | kinderen zouden voor hun zieke ouders moeten zorgen | En wat vindt u van deze uitspraak?. Kinderen horen hun ouders te verzorgen, als die op leeftijd zijn. | Kinderen moeten voor hun ouders zorgen als deze hulp nodig hebben |
@@ -19048,7 +19048,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `OPPASKK` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19058,7 +19058,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `OPPASKK` (main M5b) — *Grootouders moeten op kleinkinderen passen* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? |
 | Question / statement shown or read to respondent | grootouders zouden bereid moeten zijn om regelmatig op de kleinkinderen te passen |
@@ -19087,7 +19087,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `FAMSTEUN` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19097,7 +19097,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `FAMSTEUN` (main M5b) — *Familie hoort bij zorgen terzijde te staan* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? |
 | Question / statement shown or read to respondent | als je zorgen hebt, hoort je familie je terzijde te staan |
@@ -19126,7 +19126,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `PROBFAM` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19136,7 +19136,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `PROBFAM` (main M5b) — *Problemen liever met familie bespreken* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? |
 | Question / statement shown or read to respondent | problemen bespreek ik liever met mijn familie dan met vrienden |
@@ -19165,7 +19165,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `OUDGELD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19175,7 +19175,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `OUDGELD` (main M5b) — *Normaal als ouders geld aan kk geven* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? |
 | Question / statement shown or read to respondent | het is heel normaal wanneer ouders geld geven als hun volwassen kinderen voor grote uitgaven komen te staan |
@@ -19204,7 +19204,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `REKFAM` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19214,7 +19214,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `REKFAM` (main M5b) — *Op familieleden moet je altijd kunnen rekenen* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? |
 | Question / statement shown or read to respondent | op familieleden moet je altijd kunnen rekenen |
@@ -19243,7 +19243,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `LIEVERVR` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19253,7 +19253,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `LIEVERVR` (main M5b) — *Liever vrienden dan familie over vloer* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? |
 | Question / statement shown or read to respondent | ik heb liever vrienden over de vloer dan familieleden |
@@ -19282,7 +19282,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006); All interviewed persons (SIM 2011)
 - Sources (file level): SPVA 2002 `KIBEZOUD` (pp,hh); SIM 2006 `KIBEZOUD` (main); SIM 2011 `KIBEZOUD` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SIM 2011); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006, SIM 2011); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006, SIM 2011 · not collected: SPVN 2003, LAS 2004/05, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006, SIM 2011)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -19292,7 +19292,7 @@ Frequencies (unweighted):
 |---|---|---|---|
 | Source variable | `KIBEZOUD` (main M5b (2)) — *Kk moeten 1 keer pw bij ouders op bezoek* | `KIBEZOUD` (main VRAAG 1055 (8)) — *Kinderen die dichtbij hun ouders wonen moeten er minstens 1 keer per week op ...* | `KIBEZOUD` (main VRAAG 808) — *In hoeverre bent u het eens met de uitspraak? Kinderen die dichtbij hun ouder...* |
 | How obtained | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent | respondent |
 | Person / entity described | self | self | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? (vervolg) | In hoeverre bent u het eens met de uitspraak...? | In hoeverre bent u het eens met de uitspraak...? |
 | Question / statement shown or read to respondent | kinderen die dichtbij wonen zouden minstens één keer per week bij hun ouders op bezoek moeten gaan | Kinderen die dichtbij hun ouders wonen moeten minstens 1 keer per week bij hun ouders op bezoek gaan. | Kinderen die dichtbij hun ouders wonen moeten minstens 1 keer per week bij hun ouders op bezoek gaan. |
@@ -19323,7 +19323,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `KLAARFAM` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19333,7 +19333,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `KLAARFAM` (main M5b (2)) — *Familieleden horen voor elkaar klaar te staan* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? (vervolg) |
 | Question / statement shown or read to respondent | familieleden horen voor elkaar klaar te staan, ook als ze elkaar niet aardig vinden |
@@ -19362,7 +19362,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `agree5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006, SING 2009); All interviewed persons (SIM 2011)
 - Sources (file level): SPVA 2002 `VERTRFAM` (pp,hh); SIM 2006 `VERTRFAM` (main); SING 2009 `VERTRFAM` (main); SIM 2011 `VERTRFAMA` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006, SING 2009, SIM 2011 · not collected: SPVN 2003, LAS 2004/05, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006, SING 2009, SIM 2011)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -19372,7 +19372,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|
 | Source variable | `VERTRFAM` (main M5b (2)) — *Vertrouw familie meer dan vrienden* | `VERTRFAM` (main VRAAG 1055 (7)) — *Ik vertrouw meer op mijn familie dan op mijn vrienden.* | `VERTRFAM` (main VRAAG 2760 (3)) — *Vraag 2760.3: Uitspraak: Ik vertrouw meer op mijn familie dan op mijn vrienden* | `VERTRFAMA` (main VRAAG 807A) — *In hoeverre bent u het eens met de uitspraak? Ik vertrouw meer op mijn famili...* |
 | How obtained | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self |
 | Introduction / lead-in (questionnaire) | En wat vindt u van de volgende uitspraken? (vervolg) | In hoeverre bent u het eens met de uitspraak...? | In hoeverre bent u het eens met de uitspraak...? | In hoeverre bent u het eens met de uitspraak...? |
 | Question / statement shown or read to respondent | ik vertrouw meer op mijn familie dan op vrienden | Ik vertrouw meer op mijn familie dan op mijn vrienden. | Ik vertrouw meer op mijn familie dan op mijn vrienden. | Ik vertrouw meer op mijn familie dan op mijn vrienden. |
@@ -19559,7 +19559,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `neighbour_choice`
 - Universe: Heads of household (main questionnaire) (SPVA 2002, SPVN 2003)
 - Sources (file level): SPVA 2002 `KEUSBUUR` (pp,hh); SPVN 2003 `KEUSBUUR` (hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003 · not collected: LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003)
 - Comparability: **exact match** (auto) — same question and answer options in every respondent-facing source
@@ -19569,7 +19569,7 @@ Frequencies (unweighted):
 |---|---|---|
 | Source variable | `KEUSBUUR` (main L2) — *Wie zou als buur gekozen worden* | `KEUSBUUR` (main VRAAG 203 (K2)) — *Wie zou als buur gekozen worden* |
 | How obtained | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (main questionnaire: heads of household) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent (main questionnaire: heads of household) |
 | Person / entity described | self | self |
 | Question / statement shown or read to respondent | Stel dat u nieuwe buren mag uitkiezen. Zou u het liefst naast een landgenoot wonen, naast een Nederlander, of maakt het u niet uit? | Stel dat u nieuwe buren mag uitkiezen. Zou u het liefst naast een landgenoot wonen, naast een Nederlander, of maakt het u niet uit? |
 | Response / recording categories (questionnaire codes) | 1=een landgenoot; 2=een Nederlander; 3=maakt niet uit | 1=een landgenoot; 2=een Nederlander; 3=maakt niet uit |
@@ -19595,7 +19595,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `living_nl5`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All interviewed persons aged 12+ (main and mini questionnaire) (SPVN 2003); All respondents (SIM 2006)
 - Sources (file level): SPVA 2002 `WONALGNL` (pp,hh); SPVN 2003 `WONALGNL` (pp,hh); SIM 2006 `WONALGNL` (main)
-- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
+- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVN 2003); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006 · not collected: LAS 2004/05, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -19605,7 +19605,7 @@ Frequencies (unweighted):
 |---|---|---|---|
 | Source variable | `WONALGNL` (main L5) — *Mening over wonen in Nederland* | `WONALGNL` (main VRAAG 206 (K4a)) — *Mening over wonen in Nederland* | `WONALGNL` (main VRAAG 1290) — *Hoe vindt u het om in Nederland te wonen?* |
 | How obtained | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent |
 | Person / entity described | self | self | self |
 | Question / statement shown or read to respondent | Hoe vindt u het al met al om in Nederland te wonen? | Hoe vindt u het om in Nederland te wonen? | Hoe vindt u het om in Nederland te wonen? |
 | Interviewer recording / assessment instruction (questionnaire) |  |  | (Enq.: lees voor) |
@@ -19674,7 +19674,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `parenting4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `OPVOEDNL` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19684,7 +19684,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `OPVOEDNL` (main L7) — *Mening over opvoeden kk door Ned ouders* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | Ik wil u nu een vraag stellen over de manier waarop Nederlandse ouders hun kinderen opvoeden. Vindt u dat ze dat goed, niet zo goed, slecht of zeer slecht doen? |
 | Response / recording categories (questionnaire codes) | 1=goed; 2=niet zo goed; 3=slecht; 4=zeer slecht |
@@ -19710,7 +19710,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `at_ease4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `GEMAKNL` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19720,7 +19720,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `GEMAKNL` (main L8) — *Voelt zich op gemak bij Nederlanders* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Question / statement shown or read to respondent | Voelt u zich met Nederlanders op uw gemak? |
 | Response / recording categories (questionnaire codes) | 1=ja, zeer; 2=ja, enigszins; 3=nee, niet zo; 4=nee, helemaal niet |
@@ -19746,7 +19746,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006)
 - Sources (file level): SPVA 2002 `GEZELLIG` (pp,hh); SIM 2006 `GEZELLIG` (main)
-- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006 · not collected: SPVN 2003, LAS 2004/05, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -19756,7 +19756,7 @@ Frequencies (unweighted):
 |---|---|---|
 | Source variable | `GEZELLIG` (main L9) — *Nederlanders zijn gezellig* | `GEZELLIG` (main VRAAG 1305) — *Nederlanders: Gezellig* |
 | How obtained | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent |
 | Person / entity described | self | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |  |
 | Question / statement shown or read to respondent | gezellig | In welke mate vindt u dat de volgende eigenschap past bij autochtone Nederlanders? gezellig |
@@ -19785,7 +19785,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006)
 - Sources (file level): SPVA 2002 `EERLIJK` (pp,hh); SIM 2006 `EERLIJK` (main)
-- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006 · not collected: SPVN 2003, LAS 2004/05, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -19795,7 +19795,7 @@ Frequencies (unweighted):
 |---|---|---|
 | Source variable | `EERLIJK` (main L9) — *Nederlanders zijn eerlijk* | `EERLIJK` (main VRAAG 1305 (2)) — *Nederlanders: Eerlijk* |
 | How obtained | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent |
 | Person / entity described | self | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |  |
 | Question / statement shown or read to respondent | eerlijk | In welke mate vindt u dat de volgende eigenschap past bij autochtone Nederlanders? eerlijk |
@@ -19824,7 +19824,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `GESLOTEN` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19834,7 +19834,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `GESLOTEN` (main L9) — *Nederlanders zijn gesloten* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |
 | Question / statement shown or read to respondent | gesloten |
@@ -19862,7 +19862,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `BELEEFD` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19872,7 +19872,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `BELEEFD` (main L9) — *Nederlanders zijn beleefd* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |
 | Question / statement shown or read to respondent | beleefd |
@@ -19900,7 +19900,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `BEMOEIZ` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -19910,7 +19910,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `BEMOEIZ` (main L9) — *Nederlanders zijn bemoeizuchtig* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |
 | Question / statement shown or read to respondent | bemoeizuchtig |
@@ -19938,7 +19938,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006)
 - Sources (file level): SPVA 2002 `GASTVRIJ` (pp,hh); SIM 2006 `GASTVRIJ` (main)
-- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006 · not collected: SPVN 2003, LAS 2004/05, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -19948,7 +19948,7 @@ Frequencies (unweighted):
 |---|---|---|
 | Source variable | `GASTVRIJ` (main L9) — *Nederlanders zijn gastvrij* | `GASTVRIJ` (main VRAAG 1305 (3)) — *Nederlanders: Gastvrij* |
 | How obtained | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent |
 | Person / entity described | self | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |  |
 | Question / statement shown or read to respondent | gastvrij | In welke mate vindt u dat de volgende eigenschap past bij autochtone Nederlanders? gastvrij |
@@ -19977,7 +19977,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002); All respondents (SIM 2006)
 - Sources (file level): SPVA 2002 `GIERIG` (pp,hh); SIM 2006 `GIERIG` (main)
-- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (SIM 2006); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002, SIM 2006 · not collected: SPVN 2003, LAS 2004/05, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SIM 2006)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
@@ -19987,7 +19987,7 @@ Frequencies (unweighted):
 |---|---|---|
 | Source variable | `GIERIG` (main L9) — *Nederlanders zijn gierig* | `GIERIG` (main VRAAG 1305 (4)) — *Nederlanders: Gierig* |
 | How obtained | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent |
 | Person / entity described | self | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |  |
 | Question / statement shown or read to respondent | gierig | In welke mate vindt u dat de volgende eigenschap past bij autochtone Nederlanders? gierig |
@@ -20016,7 +20016,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `NETJES` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -20026,7 +20026,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `NETJES` (main L9) — *Nederlanders zijn netjes* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |
 | Question / statement shown or read to respondent | netjes |
@@ -20054,7 +20054,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `VERDRAAG` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -20064,7 +20064,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `VERDRAAG` (main L9) — *Nederlanders zijn verdraagzaam* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |
 | Question / statement shown or read to respondent | verdraagzaam |
@@ -20092,7 +20092,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `HULPV` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -20102,7 +20102,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `HULPV` (main L9) — *Nederlanders zijn hulpvaardig* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |
 | Question / statement shown or read to respondent | hulpvaardig |
@@ -20130,7 +20130,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `WANTROUW` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -20140,7 +20140,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `WANTROUW` (main L9) — *Nederlanders zijn wantrouwig* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |
 | Question / statement shown or read to respondent | wantrouwig |
@@ -20168,7 +20168,7 @@ Frequencies (unweighted):
 - Theme: Attitudes and values (`att`) · Scope: person · Type: cat · Value set: `trait4`
 - Universe: Heads of household (main questionnaire) (SPVA 2002)
 - Sources (file level): SPVA 2002 `VRIENDL` (pp,hh)
-- Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002)
+- Subject: self · Reported by: respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002)
 - Availability: collected: SPVA 2002 · not collected: SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002)
 - Comparability: **wave-specific** (auto) — carried by one survey only
@@ -20178,7 +20178,7 @@ Frequencies (unweighted):
 |---|---|
 | Source variable | `VRIENDL` (main L9) — *Nederlanders zijn vriendelijk* |
 | How obtained | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) |
 | Person / entity described | self |
 | Introduction / lead-in (questionnaire) | Ik noem u een aantal eigenschappen die mensen kunnen hebben. Wilt u zeggen in welke mate u vindt dat Nederlanders die eigenschap hebben: zeer, een beetje, niet of helemaal niet? Nederlanders zijn |
 | Question / statement shown or read to respondent | vriendelijk |
@@ -20694,7 +20694,7 @@ Non-empty values by survey: SPVA2002 0, SPVN2003 374, LAS2004 0, SIM2006 0, SING
 - Theme: Discrimination (`disc`) · Scope: person · Type: cat · Value set: `freq5_disc`
 - Universe: Heads of household (main questionnaire) (SPVA 2002, SPVN 2003); Respondents with a migration background (SIM 2006, SIM 2011, SIM 2015); All respondents (SING 2009); All respondents (SIM 2020), incl. the native reference sample
 - Sources (file level): SPVA 2002 `DISCALG` (pp,hh); SPVN 2003 `DISCALG` (hh); SIM 2006 `DISCALG` (main); SING 2009 `DISCALG` (main); SIM 2011 `DISCALG` (main); SIM 2015 `discalg` (main); SIM 2020 `discalg` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020 · not collected: LAS 2004/05
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SING 2009, SIM 2020); `svy_routing_mig` in {1} (SIM 2006, SIM 2011, SIM 2015)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table; a group fill is unresolved in the script printout
@@ -20704,7 +20704,7 @@ Non-empty values by survey: SPVA2002 0, SPVN2003 374, LAS2004 0, SIM2006 0, SING
 |---|---|---|---|---|---|---|---|
 | Source variable | `DISCALG` (main L4a) — *Voorkomen dicriminatie* | `DISCALG` (main VRAAG 204 (K3a)) — *Voorkomen discriminatie* | `DISCALG` (main VRAAG 1280) — *Sommige mensen zeggen dat <LAND VAN HERKOMST> door Nederlanders worden gedisc...* | `DISCALG` (main VRAAG 2950) — *Sommige mensen zeggen dat allochtonen door Nederlanders worden gediscrimineerd.* | `DISCALG` (main VRAAG 900) — *Sommige mensen zeggen dat allochtonen door Nederlanders worden gediscrimineer...* | `discalg` (cawi Q900; CAPI Q900) — *Sommige mensen zeggen dat allochtonen door Nederlanders worden gedis* | `discalg` (main Q900) — *Hoe vaak gebeurt dit volgens u? - Discriminatie pers. met mig.* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self | self | self |
 | Question / statement shown or read to respondent | Sommige mensen zeggen dat Turken door Nederlanders worden gediscrimineerd. Wat is uw indruk hiervan? Gebeurt dit nooit, bijna nooit, af en toe, vaak of zeer vaak? | Sommige mensen zeggen dat <?> door Nederlanders worden gediscrimineerd. Wat is uw indruk hiervan? Gebeurt dit nooit, bijna nooit, af en toe, vaak of zeer vaak? | Sommige mensen zeggen dat <?> door Nederlanders worden gediscrimineerd. Gebeurt dit nooit, bijna nooit, af en toe, vaak of zeer vaak? | Sommige mensen zeggen dat allochtonen door Nederlanders worden gediscrimineerd. Gebeurt dit nooit, bijna nooit, af en toe, vaak of zeer vaak? | Sommige mensen zeggen dat allochtonen door Nederlanders worden gediscrimineerd. Gebeurt dit nooit, bijna nooit, af en toe, vaak of zeer vaak? | Sommige mensen zeggen dat allochtonen door Nederlanders worden gediscrimineerd. Gebeurt dit volgens u nooit, bijna nooit, af en toe, vaak of zeer vaak? | Sommige mensen zeggen dat personen met een migratieachtergrond door Nederlanders worden gediscrimineerd. Gebeurt dit volgens u nooit, bijna nooit, af en toe, vaak of zeer vaak? |
 | Response / recording categories (questionnaire codes) | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak; 7=weet niet | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak; 7=weet niet | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak; 7=weet niet | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak; 99=weet niet | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak; 92=weet niet |
@@ -20735,7 +20735,7 @@ Frequencies (unweighted):
 - Theme: Discrimination (`disc`) · Scope: person · Type: cat · Value set: `freq5_disc`
 - Universe: Heads of household (main questionnaire) (SPVA 2002, SPVN 2003); Respondents with a migration background (SIM 2006, SIM 2011, SIM 2015, SIM 2020); All respondents (SING 2009)
 - Sources (file level): SPVA 2002 `DISCZELF` (pp,hh); SPVN 2003 `DISCZELF` (hh); SIM 2006 `DISCZELF` (main); SING 2009 `DISCZELF` (main); SIM 2011 `DISCZELF` (main); SIM 2015 `disczelf` (main); SIM 2020 `disczelf` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
+- Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020); respondent (main questionnaire: heads of household only; other members were not asked) (SPVA 2002); respondent (main questionnaire: heads of household) (SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020 · not collected: LAS 2004/05
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SING 2009); `svy_routing_mig` in {1} (SIM 2006, SIM 2011, SIM 2015, SIM 2020)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table; a group fill is unresolved in the script printout
@@ -20745,7 +20745,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|
 | Source variable | `DISCZELF` (main L4b) — *Zelf gediscrimineerd* | `DISCZELF` (main VRAAG 205 (K3b)) — *Zelf gediscrimineerd* | `DISCZELF` (main VRAAG 1285) — *Bent u zelf wel eens gediscrimineerd door Nederlanders?* | `DISCZELF` (main VRAAG 2960) — *Bent u zelf wel eens gediscrimineerd?* | `DISCZELF` (main VRAAG 901) — *Bent u zelf wel eens gediscrimineerd door Nederlanders? Hoe vaak is dat gebeu...* | `disczelf` (cawi Q901; CAPI Q901) — *Bent u zelf wel eens gediscrimineerd door Nederlanders? Hoe vaak is* | `disczelf` (main Q901) — *Bent u zelf wel eens gediscrimineerd door autochtone Nederlanders?* |
 | How obtained | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report | respondent report |
-| Information supplied by | respondent (main questionnaire for heads, mini questionnaire for other interviewed members) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
+| Information supplied by | respondent (main questionnaire: heads of household only; other members were not asked) | respondent (main questionnaire: heads of household) | respondent | respondent | respondent | respondent | respondent |
 | Person / entity described | self | self | self | self | self | self | self |
 | Question / statement shown or read to respondent | Overkomt het uzelf wel eens dat u door Nederlanders wordt gediscrimineerd? Gebeurt dit u nooit, bijna nooit, af en toe, vaak of zeer vaak? | Overkomt het uzelf wel eens dat u door Nederlanders wordt gediscrimineerd? Gebeurt dit nooit, bijna nooit, af en toe, vaak of zeer vaak? | Bent u zelf wel eens gediscrimineerd door Nederlanders? Hoe vaak is dat gebeurd: nooit, bijna nooit, af en toe, vaak of zeer vaak? | Bent u zelf wel eens gediscrimineerd<?>? Hoe vaak is dat gebeurd: nooit, bijna nooit, af en toe, vaak of zeer vaak? | Bent u zelf wel eens gediscrimineerd door Nederlanders? Hoe vaak is dat gebeurd: nooit, bijna nooit, af en toe, vaak of zeer vaak? | Bent u zelf wel eens gediscrimineerd door Nederlanders? Hoe vaak is dat gebeurd: nooit, bijna nooit, af en toe, vaak of zeer vaak? | Bent u zelf wel eens gediscrimineerd door Nederlanders? Hoe vaak is dat gebeurd: nooit, bijna nooit, af en toe, vaak of zeer vaak? |
 | Response / recording categories (questionnaire codes) | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak; 7=weet niet | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak; 7=weet niet | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak; 7=weet niet | 1=nooit; 2=bijna nooit; 3=af en toe; 4=vaak; 5=zeer vaak; 99=weet niet |  |
@@ -42164,7 +42164,7 @@ Frequencies (unweighted):
 - Universe: Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them); Respondents with a partner (SIM 2006, SING 2009)
 - Sources (file level): SIM 2006 `ETNPART` (main); SING 2009 `ETNGRPPA` (main)
 - Derived: `partner_copy:dem_eth` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
-- Notes: SIM 2006 (ETNPART): the SCP construction follows the CBS definition in full - a partner born in the Netherlands takes the parents' country (243 cases in the deposit), a partner born in a target country whose parents were both born in the Netherlands is 5 'Nederlands' (5 cases), the 3 partners with an unknown country of birth are 6 'anders' (restricted component, 5 Nov 2026). SPVA 2002 / SPVN 2003: filled from the linked partner's own dem_eth (relationship layer, id_prtnr); the person samples hold the respondent's proxy report.
+- Notes: SIM 2006 (ETNPART): constructed by SCP from the partner's country of birth and the countries of birth of the partner's parents, as reported by the respondent (CBS origin definition: a partner born in the Netherlands takes a parent's country; a partner born abroad whose parents were both born in the Netherlands is Dutch). The parents' countries are not in the public deposit, so the construction cannot be retraced from it; in the public file 5 partners of Dutch origin (90) were born abroad (1 Antilles/Aruba, 4 other country). Checked against the CBS microdata by the restricted component, 5 Nov 2026. SPVA 2002 / SPVN 2003: filled from the linked partner's own dem_eth (relationship layer, id_prtnr); the person samples hold the respondent's proxy report.
 - Subject: partner · Reported by: constructed by the data producer from survey or registry inputs (see source definition) (SIM 2006, SING 2009); taken from the linked partner's record (id_prtnr); the base field's reporter applies: constructed by the data producer from survey or registry inputs (see source definition) (SPVA 2002, SPVN 2003)
 - Availability: collected: SIM 2006, SING 2009 · derived from the roster link: SPVA 2002, SPVN 2003 · not collected: LAS 2004/05, SIM 2011, SIM 2015, SIM 2020
 - Comparability: **mixed provenance** (auto) — the information is obtained differently across surveys (linked partner record vs constructed): see the 'How obtained' and 'Source definition' rows
@@ -42209,10 +42209,10 @@ Frequencies (unweighted):
 ### `dem_prtnr_gen` {#dem_prtnr_gen}
 **Migrant generation of the partner (SIM 2006: based on the respondent's answers)**
 - Theme: Demography and household position (`dem`) · Scope: person · Type: cat · Value set: `generation_prtnr`
-- Universe: Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them); Respondents whose partner has a migration background (LAS 2004/05, SIM 2006); Respondents with a partner (SING 2009; partners of native Dutch respondents are coded by the same rule, so a native partner born in the Netherlands appears as second generation)
+- Universe: Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them); Respondents with a migration background who have a partner, whatever the partner's origin (LAS 2004/05); partners of native Dutch respondents are not classed (.c); Respondents with a migration background who have a partner, whatever the partner's origin (SIM 2006); partners of native Dutch respondents are not classed (.c); Respondents with a partner (SING 2009; partners of native Dutch respondents are coded by the same rule, so a native partner born in the Netherlands appears as second generation)
 - Sources (file level): LAS 2004/05 `GENPART` (main); SIM 2006 `GENPART` (main); SING 2009 `GENPART` (main)
 - Derived: `partner_copy:dem_gen` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
-- Notes: LAS 2004/05, SIM 2006, SING 2009 (GENPART, SCP construction): 1 = partner born abroad, 2 = partner born in the Netherlands, native Dutch partners included - the parents' clause of the generation definition is not applied (SIM 2006 deposit: all 629 partners born in the Netherlands are 2, 418 of them of Dutch origin; SING 2009: code 2 = 1,324 against dem_prtnr_eth 90 = 1,192). Partners of native Dutch respondents are not classed (-9 'nvt: autochtoon' -> .c), whatever their origin. SPVA 2002 / SPVN 2003: the partner's own dem_gen through the roster link, where native members of migrant households also carry 2 (ISEO rule). The restricted component gives SIM 2006 the CBS definition (native partners 0) from the declared countries of birth. Established by the restricted component, 5 Nov 2026. SPVA 2002 / SPVN 2003: filled from the linked partner's own dem_gen (relationship layer, id_prtnr); the person samples hold the respondent's proxy report.
+- Notes: LAS 2004/05, SIM 2006, SING 2009 (GENPART, SCP construction): 1 = partner born abroad, 2 = partner born in the Netherlands, native Dutch partners included - the parents' clause of the generation definition is not applied (SIM 2006: all 629 partners coded 2 are born in the Netherlands, 418 of them of Dutch origin; SING 2009: code 2 = 1,324 against dem_prtnr_eth 90 = 1,192). Whose partners are classed differs: in LAS 2004/05 and SIM 2006 only the partners of respondents with a migration background (partners of native Dutch respondents are .c, whatever their origin); in SING 2009 the partners of native respondents too, by the same rule (of 949 native respondents, 42 partners born abroad = 1, 655 born in the Netherlands = 2). SPVA 2002 / SPVN 2003: the partner's own dem_gen through the roster link, where native members of migrant households also carry 2 (ISEO rule). The restricted component gives SIM 2006 the CBS definition (native partners 0). Established by the restricted component, 5 Nov 2026; scope corrected after the follow-up audit of v0.4.8. SPVA 2002 / SPVN 2003: filled from the linked partner's own dem_gen (relationship layer, id_prtnr); the person samples hold the respondent's proxy report.
 - Subject: partner · Reported by: constructed by the data producer from survey or registry inputs (see source definition) (LAS 2004/05, SIM 2006, SING 2009); taken from the linked partner's record (id_prtnr); the base field's reporter applies: constructed by the data producer from survey or registry inputs (see source definition) (SPVA 2002, SPVN 2003)
 - Availability: collected: LAS 2004/05, SIM 2006, SING 2009 · derived from the roster link: SPVA 2002, SPVN 2003 · not collected: SIM 2011, SIM 2015, SIM 2020
 - Comparability: **mixed provenance** (auto) — the information is obtained differently across surveys (linked partner record vs constructed): see the 'How obtained' and 'Source definition' rows
@@ -42227,7 +42227,7 @@ Frequencies (unweighted):
 | Question / statement shown or read to respondent | Not applicable - taken from the linked partner's own record (see the source definition row) | Not applicable - taken from the linked partner's own record (see the source definition row) | Not applicable - coded/constructed variable (see the source definition row) | Not applicable - coded/constructed variable (see the source definition row) | Not applicable - coded/constructed variable (see the source definition row) |
 | Source definition / derivation | Derived (partner_copy:dem_gen): the linked partner's own value of `dem_gen` (source `GENERAT` in this survey), copied through the roster link; no separate partner question was asked. Applicable records: heads of household and their co-resident partners (the other head/partner member of the roster, id_prtnr). .c = no co-resident partner record; .d = other household members (relationship not identifiable), and partners listed in the roster but not interviewed where the base item needs an interview - the base field's own missing tags are kept otherwise (roster demography such as sex, age and country of birth is available for roster-only partners). Coding: that of `dem_gen`. | Derived (partner_copy:dem_gen): the linked partner's own value of `dem_gen` (source `GENERAT` in this survey), copied through the roster link; no separate partner question was asked. Applicable records: heads of household and their co-resident partners (the other head/partner member of the roster, id_prtnr). .c = no co-resident partner record; .d = other household members (relationship not identifiable), and partners listed in the roster but not interviewed where the base item needs an interview - the base field's own missing tags are kept otherwise (roster demography such as sex, age and country of birth is available for roster-only partners). Coding: that of `dem_gen`. | Constructed variable (data producer's coding) - codebook: partner's generation from the partner's country of birth: 1 = born abroad, 2 = born in the Netherlands, native Dutch partners included; partners of native Dutch respondents are not classed (the parents' clause of the generation definition is not applied - SIM 2006 deposit, restricted component, 5 Nov 2026) | Constructed variable (data producer's coding) - codebook: partner's generation from the partner's country of birth: 1 = born abroad, 2 = born in the Netherlands, native Dutch partners included; partners of native Dutch respondents are not classed (the parents' clause of the generation definition is not applied - SIM 2006 deposit, restricted component, 5 Nov 2026) | Constructed variable (data producer's coding) - codebook: partner's generation from the partner's country of birth: 1 = born abroad, 2 = born in the Netherlands, native Dutch partners included; partners of native Dutch respondents are not classed (the parents' clause of the generation definition is not applied - SIM 2006 deposit, restricted component, 5 Nov 2026) |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 1=1e gen.; 2=2e gen. (-6e jr) | -3=weet niet; -4=Missing; -7=Sysmis; 1=1e Gen.; 2=2e Gen. (-6e jr) | -5=nvt; -9=nvt: autochtoon; 1=eerste generatie; 2=tweede generatie | -3=weet niet; -5=nvt; -9=nvt: autochtoon; 1=eerste generatie; 2=tweede generatie | 1=eerste generatie; 2=tweede generatie; 9=niet van toepassing |
-| Eligible records / population | Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them) | Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them) | Respondents whose partner has a migration background (LAS 2004/05) | Respondents whose partner has a migration background (LAS 2004/05, SIM 2006) | Respondents with a partner (SING 2009; partners of native Dutch respondents are coded by the same rule, so a native partner born in the Netherlands appears as second generation) |
+| Eligible records / population | Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them) | Heads of household and their co-resident partners (SPVA 2002, SPVN 2003), from the partner's own record via id_prtnr: .c no co-resident partner; .d other household members, and partners listed in the roster but not interviewed where the base item needs an interview (roster demography is available for them) | Respondents with a migration background who have a partner, whatever the partner's origin (LAS 2004/05); partners of native Dutch respondents are not classed (.c) | Respondents with a migration background who have a partner, whatever the partner's origin (SIM 2006); partners of native Dutch respondents are not classed (.c) | Respondents with a partner (SING 2009; partners of native Dutch respondents are coded by the same rule, so a native partner born in the Netherlands appears as second generation) |
 
 Frequencies (unweighted):
 

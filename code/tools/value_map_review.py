@@ -146,6 +146,17 @@ for r in vmap:
     if key in approvals and approvals[key] not in ('', r['target_value']):
         changed.append((r['survey'], r['target'], r['source_var'], r['source_value'], approvals[key], r['target_value']))
 
+# ---- 0b. every approval still has the mapping it approves: an approval whose value-map row (polarity) or whose row in
+#          either survey (reuse) no longer exists is ORPHANED - FAIL.  Deleting approved rows otherwise passed silently
+#          (follow-up audit of v0.4.8: the two GEENLID rows removed in a copy, review still PASS)
+VKEYS = {(r['survey'], r['source_var'].upper(), r['source_value'], r['target']) for r in vmap}
+orphaned = []
+for (kind, svy, sv, code, t) in approvals:
+    if kind == 'polarity' and (svy, sv, code, t) not in VKEYS:
+        orphaned.append((kind, svy, sv, code, t))
+    elif kind == 'reuse' and any((x, sv, code, t) not in VKEYS for x in svy.split('|')):
+        orphaned.append((kind, svy, sv, code, t))
+
 # ---- 1. reuse across surveys -------------------------------------------------------------------------------------
 by = collections.defaultdict(lambda: collections.defaultdict(dict))        # (target, SOURCE) -> survey -> {code: tv}
 for r in vmap:
@@ -234,11 +245,14 @@ for x in needs:
 print('CHANGED  %d approved row(s) or pair(s) whose mapping differs from the approved value (read the row again and re-sign it):' % len(changed))
 for x in changed:
     print('   %s %s <- %s %s: approved -> %s, now -> %s' % x)
+print('ORPHANED  %d approval(s) whose value-map row no longer exists (restore the row, or remove the approval):' % len(orphaned))
+for x in orphaned:
+    print('   %s %s %s %s -> %s' % x)
 unbound = sorted(set(unbound))
 print('UNBOUND  %d approval(s) without a target_value (an approval is bound to the mapping that was read; add the value):' % len(unbound))
 for x in unbound:
     print('   %s %s %s %s -> %s' % (x[0], x[1], x[2], x[3], x[4]))
-if fails or needs or reuse or overlaps or unbound or changed:
-    print('FAIL value-map review: %d polarity, %d unread two-valued labels, %d reuse pairs to approve, %d overlapping ranges, %d unbound approvals, %d changed after approval' % (len(fails), len(needs), len(reuse), len(overlaps), len(unbound), len(changed)))
+if fails or needs or reuse or overlaps or unbound or changed or orphaned:
+    print('FAIL value-map review: %d polarity, %d unread two-valued labels, %d reuse pairs to approve, %d overlapping ranges, %d unbound approvals, %d changed after approval, %d orphaned approvals' % (len(fails), len(needs), len(reuse), len(overlaps), len(unbound), len(changed), len(orphaned)))
     sys.exit(1)
 print('PASS value-map review: every two-valued mapping reads as a yes/no or is approved; every cross-survey reuse with differing labels is approved')

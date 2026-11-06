@@ -6,13 +6,14 @@
 # columns), every table is stretched to the text width with a wider first column, and the code font follows the base size.
 import os, re, shutil, subprocess, sys, tempfile, zipfile
 
-ROOT = os.environ.get("IMPD_ROOT", os.getcwd())
+ROOT = sys.argv[1] if len(sys.argv) > 1 else os.environ.get("IMPD_ROOT", os.getcwd())   # argument first: run_all.R passes the root
 OUT = os.path.join(ROOT, "docs", "word")
 DOCS = [  # (source, landscape, base font size in half-points, pandoc input format)
     ("README.md", False, 22, "gfm"),
     ("docs/decisions.md", False, 22, "gfm"),
     ("docs/run_log.md", False, 22, "gfm"),
     ("docs/example_analysis.md", True, 20, "gfm"),
+    ("docs/harmonization.md", False, 22, "gfm"),
     ("docs/codebook.md", True, 18, "gfm+attributes"),   # heading ids {#...} are attributes, not text
 ]
 LANDSCAPE = ('<w:sectPr><w:pgSz w:w="16838" w:h="11906" w:orient="landscape"/><w:pgMar w:top="720" w:right="720" '

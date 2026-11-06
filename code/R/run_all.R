@@ -13,6 +13,10 @@ setup_env <- new.env(); source(file.path(ROOT, "code", "R", "00_setup.R"), local
 py <- setup_env$find_python()
 if (length(py) && nzchar(Sys.which("pandoc"))) {
   message("\n==== Word copies (code/tools/md_to_word.py) ====")
-  system2(py[1], c(py[-1], "-I", shQuote(file.path(ROOT, "code", "tools", "md_to_word.py"))), env = paste0("IMPD_ROOT=", shQuote(ROOT)))
+  # the project root goes in as a command-line argument: system2(env = ...) prefixes the command with 'NAME=value',
+  # which works in a Unix shell but on Windows becomes the script name (follow-up audit of v0.4.8); the exit status is
+  # reported instead of a silent 'finished'
+  wrc <- system2(py[1], c(py[-1], "-I", shQuote(file.path(ROOT, "code", "tools", "md_to_word.py")), shQuote(ROOT)))
+  if (!identical(as.integer(wrc), 0L)) message(sprintf("Word copies FAILED (md_to_word.py exit status %s); the Markdown and HTML documents are the reference.", wrc)) else message("Word copies written to docs/word/.")
 } else message("\nWord copies skipped: a working Python 3 and pandoc are needed for code/tools/md_to_word.py (the Markdown and HTML documents are the reference).")
 message(sprintf("\nPipeline finished in %.1f minutes.", as.numeric(difftime(Sys.time(), t0, units = "mins"))))

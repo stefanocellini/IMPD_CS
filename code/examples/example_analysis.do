@@ -21,8 +21,10 @@ use "data/derived/`f'", clear
 * ---- step 4: population -----------------------------------------------------------------------------------------------
 * interviewed persons (no roster-only rows) of a known migrant origin group (dem_eth 1-11, which also drops the native
 * household members of SPVA 2002 - weight 0 - and 266 SPVN 2003 members without an origin code), first or second generation,
-* aged 15+ (dem_age_cat3 is valid in every survey)
-keep if inlist(svy_resptype, 1, 2, 4) & inrange(dem_eth, 1, 11) & inlist(dem_gen, 1, 2) & !missing(dem_age_cat3)
+* aged 15+ (dem_age_cat3 is valid in every survey), who received the migrant routing of the person-sample questionnaires
+* (svy_routing_mig 1; .e in the household surveys): 9 SIM 2006 respondents with a migrant origin code were routed as
+* natives and answered the natives' mirror question, which soc_leis_nl also holds
+keep if inlist(svy_resptype, 1, 2, 4) & inrange(dem_eth, 1, 11) & inlist(dem_gen, 1, 2) & !missing(dem_age_cat3) & svy_routing_mig != 0
 display as text _n "Analysis population (interviewed, migrant origin group, 15+):"
 tabulate svy_name
 

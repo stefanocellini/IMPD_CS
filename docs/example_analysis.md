@@ -2,7 +2,7 @@
 
 A walk through the workflow of the codebook's "Start here" - from finding the measures to reporting the analysis - on one question that every survey asked: how often do persons with a migration background spend their leisure time with native Dutch (`soc_leis_nl`), and how does this go together with problems speaking Dutch (`lang_prob_spk`)? The analysis is descriptive and correlational and is here to show the workflow - what the codebook entries tell you before you compute anything, what `impd_sample()` reveals about the joint sample, and how the weighting and pooling choices are stated - not to make a substantive claim.
 
-The scripts are `code/examples/example_analysis.R` and `code/examples/example_analysis.do` (run from the project root; they take the newest `data/derived/impd_public_v*` file). Their logs, `example_analysis_R.log` and `example_analysis_Stata.log`, are kept next to them: every cell and count below is identical in both engines, and the model coefficients agree to four decimals (the standard errors differ in the fourth decimal through the finite-sample correction of Stata's `vce(cluster)`).
+The scripts are `code/examples/example_analysis.R` and `code/examples/example_analysis.do` (run from the project root; they take the newest `data/derived/impd_public_v*` file; the R script also needs the `survey` package, the Stata script Stata 17 or later). Their logs, `example_analysis_R.log` and `example_analysis_Stata.log`, are kept next to them: every cell and count below is identical in both engines, and the model coefficients agree to four decimals (the standard errors differ in the fourth decimal through the finite-sample correction of Stata's `vce(cluster)`).
 
 ## Find the measures
 
@@ -25,11 +25,11 @@ The entries of `soc_leis_nl` and `lang_prob_spk` (codebook section 5) say five t
 2. **Natives were asked a mirror question** about contact with persons with a migration background (LAS 2004/05 and SIM 2006 as separate source variables `VRTIJDAL`/`VRTIJDN`, SIM 2011 onwards through the fill in one variable). `soc_leis_nl` therefore holds two different questions for the two populations; the analysis below keeps persons with a migration background only.
 3. **SPVN 2003 asked the item in the mini questionnaire only** (entry note and eligibility statement; source label *alleen mini's*): heads of household never saw it and are `.e` (`crosswalks/asked_to.csv`). The SPVN 2003 figures describe the other interviewed household members aged 12+, not heads - a different population from the other seven surveys, and the reason the SPVN 2003 rows below are read apart.
 4. **SING 2009 asked a random half** of the respondents with a migration background (script condition `exp2431 = 1`; the deposit carries no split indicator, so the harmonized routing row prints only `svy_routing_mig in {1}` and the half shows up as `.c` in the data). The estimate is unbiased for the SING population if the split is random, with half the sample size.
-5. **`lang_prob_spk` differs in who answered and in its categories.** SPVA 2002 asked heads of household only (main questionnaire); SPVN 2003 did not ask it; SIM 2020 asked it to the first generation only (routing row `dem_gen in {1}`, from the script's `Q9004,1`). SIM 2011/2015/2020 have a separate code 4 *does not speak Dutch* that the earlier surveys fold into *often* (entry note; SIM 2006's source label *ja, vaak moeite / spreekt geen Nederlands*). The scripts recode 4 to 1 explicitly - `ifelse(x == 4, 1, x)`, `cond(x == 4, 1, x)` - and assert that every 4 landed there, so that one three-class variable - never / sometimes / often or does not speak Dutch - has the same meaning in all seven surveys.
+5. **`lang_prob_spk` differs in who answered and in its categories.** SPVA 2002 asked heads of household only (main questionnaire); SPVN 2003 did not ask it; SIM 2020 asked it to the first generation only (routing row `dem_gen in {1}`, from the script's `Q9004,1`); one second-generation respondent nonetheless has an answer, a routing exception the scripts keep, so the SIM 2020 rows of Table 3 and the model hold 3,308 first-generation respondents and this one. SIM 2011/2015/2020 have a separate code 4 *does not speak Dutch* that the earlier surveys fold into *often* (entry note; SIM 2006's source label *ja, vaak moeite / spreekt geen Nederlands*). The scripts recode 4 to 1 explicitly - `ifelse(x == 4, 1, x)`, `cond(x == 4, 1, x)` - and assert that every 4 landed there, so that one three-class variable - never / sometimes / often or does not speak Dutch - has the same meaning in all seven surveys.
 
 ## Define the study population
 
-Interviewed persons (`svy_resptype` 1, 2 or 4: no roster-only rows) of a known migrant origin group (`dem_eth` 1-11), first or second generation (`dem_gen` 1 or 2), aged 15 or older (`dem_age_cat3` valid). The origin-group condition also drops two groups of household members that would otherwise sit in the file: the native Dutch members of SPVA 2002 migrant households (207 interviewed persons aged 15+ with `dem_eth` = 90 and `dem_gen` = 2; their household weight is 0) and 231 SPVN 2003 members without an origin-group code (plain missing in the source).
+Interviewed persons (`svy_resptype` 1, 2 or 4: no roster-only rows) of a known migrant origin group (`dem_eth` 1-11), first or second generation (`dem_gen` 1 or 2), aged 15 or older (`dem_age_cat3` valid), and - in the person samples - routed through the migrant version of the questionnaire (`svy_routing_mig` = 1; `.e` in SPVA/SPVN, which have no such routing). The routing condition matters because the item follows the route, not the origin code: 9 SIM 2006 respondents with a migrant origin code were routed as natives and answered the natives' mirror question (point 2 above); without the condition they enter Table 1 with an answer to a different question. The origin-group condition also drops two groups of household members that would otherwise sit in the file: the native Dutch members of SPVA 2002 migrant households (207 interviewed persons aged 15+ with `dem_eth` = 90 and `dem_gen` = 2; their household weight is 0) and 231 SPVN 2003 members without an origin-group code (plain missing in the source).
 
 Who that population is differs by survey (codebook section 1): households of four origin groups in 13 municipalities (SPVA 2002) and of five refugee groups in 12 municipalities (SPVN 2003); persons aged 15-64 in the 50 largest municipalities (LAS 2004/05); national samples aged 15+ (SIM 2006 onwards, SING 2009). The per-survey estimates are estimates for these populations, weighted with each survey's own `svy_wgt`.
 
@@ -44,7 +44,7 @@ impd_sample(a, c("soc_leis_nl", "dem_eth", "dem_gen", "dem_sex", "dem_age_cat3",
 | SPVA2002 | 7464 | 7184 | 0.962 |
 | SPVN2003 | 5077 | 1586 | 0.312 |
 | LAS2004 | 3424 | 3424 | 1.000 |
-| SIM2006 | 4212 | 4210 | 1.000 |
+| SIM2006 | 4203 | 4201 | 1.000 |
 | SING2009 | 5830 | 2953 | 0.507 |
 | SIM2011 | 3287 | 3287 | 1.000 |
 | SIM2015 | 5783 | 5783 | 1.000 |
@@ -63,7 +63,7 @@ Table 1. By survey and origin group
 | SPVA 2002 | 16.8 (2282) | 19.5 (1978) | 49.7 (1714) | 54.7 (1211) | | | | | | | |
 | SPVN 2003 (members, not heads) | | | | | 37.2 (408) | 35.9 (383) | 52.0 (322) | 56.8 (335) | 40.4 (138) | | |
 | LAS 2004/05 | 28.8 (946) | 37.0 (914) | 55.5 (760) | 55.4 (804) | | | | | | | |
-| SIM 2006 | 16.7 (1126) | 29.0 (1031) | 46.9 (1057) | 48.9 (996) | | | | | | | |
+| SIM 2006 | 18.5 (1124) | 24.8 (1030) | 46.5 (1055) | 49.1 (992) | | | | | | | |
 | SING 2009 (random half) | | | | | 38.8 (515) | 33.0 (508) | 43.8 (469) | | 31.5 (475) | 42.3 (501) | 29.7 (486) |
 | SIM 2011 | 16.2 (815) | 12.2 (829) | 35.8 (780) | 43.1 (863) | | | | | | | |
 | SIM 2015 | 24.4 (920) | 25.5 (951) | 45.5 (1045) | 49.2 (1112) | | | | | 22.8 (626) | 33.6 (1129) | |
@@ -76,13 +76,13 @@ Table 2. By survey and generation
 | SPVA 2002 | 25.8 (5471) | 47.2 (1714) |
 | SPVN 2003 (members, not heads) | 39.6 (1473) | 79.0 (113) |
 | LAS 2004/05 | 36.7 (2646) | 60.5 (778) |
-| SIM 2006 | 28.6 (3194) | 49.9 (1016) |
+| SIM 2006 | 26.2 (3187) | 49.9 (1014) |
 | SING 2009 (random half) | 33.8 (2763) | 71.9 (191) |
 | SIM 2011 | 18.6 (2269) | 35.6 (1018) |
 | SIM 2015 | 28.9 (4228) | 42.2 (1555) |
 | SIM 2020 | 30.8 (3309) | 46.8 (1243) |
 
-The generation definition itself differs (entry of `dem_gen`): SPVA/SPVN count persons who arrived before age 6 as second generation, the SIM surveys use the CBS definition (born in the Netherlands).
+The generation definition itself differs (entry of `dem_gen`): SPVA/SPVN count persons who arrived before age 6 as second generation, the later surveys count those born in the Netherlands. The shares of Tables 2 and 3 pool the origin groups of a survey; where a survey's weight is calibrated within origin groups (SING 2009), such a pooled share describes the survey's mixture of groups rather than a population total.
 
 Table 3. By survey and problems speaking Dutch (seven surveys)
 

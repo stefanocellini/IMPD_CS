@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_public\code/examples/example_analysis_Stata.log
   log type:  text
- opened on:   5 Nov 2026, 11:38:47
+ opened on:   6 Nov 2026, 12:49:25
 
 . do "code/Stata/impd_tools.do"
 
@@ -82,10 +82,10 @@ end of do-file
 . local f : word `: word count `files'' of `files'
 
 . display as text "Data file: `f'"
-Data file: impd_public_v0_4_8.dta
+Data file: impd_public_v0_4_9.dta
 
 . use "data/derived/`f'", clear
-(IMPD public v0.4.8 - harmonized person-level file (SPVA/SPVN/SIM))
+(IMPD public v0.4.9 - harmonized person-level file (SPVA/SPVN/SIM))
 
 . 
 . * ---- step 2/3: measures (codebook entries soc_leis_nl, lang_prob_spk; eligibility statements in docs/codebook_variables.csv)
@@ -93,9 +93,11 @@ Data file: impd_public_v0_4_8.dta
 . * ---- step 4: population -----------------------------------------------------------------------------------------------
 . * interviewed persons (no roster-only rows) of a known migrant origin group (dem_eth 1-11, which also drops the native
 . * household members of SPVA 2002 - weight 0 - and 266 SPVN 2003 members without an origin code), first or second generation,
-. * aged 15+ (dem_age_cat3 is valid in every survey)
-. keep if inlist(svy_resptype, 1, 2, 4) & inrange(dem_eth, 1, 11) & inlist(dem_gen, 1, 2) & !missing(dem_age_cat3)
-(15,528 observations deleted)
+. * aged 15+ (dem_age_cat3 is valid in every survey), who received the migrant routing of the person-sample questionnaires
+. * (svy_routing_mig 1; .e in the household surveys): 9 SIM 2006 respondents with a migrant origin code were routed as
+. * natives and answered the natives' mirror question, which soc_leis_nl also holds
+. keep if inlist(svy_resptype, 1, 2, 4) & inrange(dem_eth, 1, 11) & inlist(dem_gen, 1, 2) & !missing(dem_age_cat3) & svy_routing_mig != 0
+(15,537 observations deleted)
 
 . display as text _n "Analysis population (interviewed, migrant origin group, 15+):"
 
@@ -107,15 +109,15 @@ Analysis population (interviewed, migrant origin group, 15+):
 (wave) name |      Freq.     Percent        Cum.
 ------------+-----------------------------------
     LAS2004 |      3,424        8.64        8.64
-    SIM2006 |      4,212       10.63       19.27
-    SIM2011 |      3,287        8.29       27.56
-    SIM2015 |      5,783       14.59       42.16
-    SIM2020 |      4,552       11.49       53.64
+    SIM2006 |      4,203       10.61       19.25
+    SIM2011 |      3,287        8.30       27.55
+    SIM2015 |      5,783       14.60       42.14
+    SIM2020 |      4,552       11.49       53.63
    SING2009 |      5,830       14.71       68.35
-   SPVA2002 |      7,464       18.83       87.19
+   SPVA2002 |      7,464       18.84       87.19
    SPVN2003 |      5,077       12.81      100.00
 ------------+-----------------------------------
-      Total |     39,629      100.00
+      Total |     39,620      100.00
 
 . 
 . * ---- step 5: joint sample per survey ----------------------------------------------------------------------------------
@@ -136,9 +138,9 @@ SPVN 2003 (SPVA refugee groups)      5077      1586   0.312
 LAS 2004/05      3424      3424   1.000  
       soc_leis_nl: 3424 valid / 0 .c / 0 .e / 0 other | dem_eth: 3424 valid / 0 .c / 0 .e / 0 other | dem_gen: 3424 valid / 0 .c / 0 .e / 0 other | dem_sex: 342
 > 4 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 3424 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3424 valid / 0 .c / 0 .e / 0 other |
-SIM 2006        4212      4210   1.000  
-      soc_leis_nl: 4210 valid / 2 .c / 0 .e / 0 other | dem_eth: 4212 valid / 0 .c / 0 .e / 0 other | dem_gen: 4212 valid / 0 .c / 0 .e / 0 other | dem_sex: 421
-> 2 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 4212 valid / 0 .c / 0 .e / 0 other | svy_wgt: 4212 valid / 0 .c / 0 .e / 0 other |
+SIM 2006        4203      4201   1.000  
+      soc_leis_nl: 4201 valid / 2 .c / 0 .e / 0 other | dem_eth: 4203 valid / 0 .c / 0 .e / 0 other | dem_gen: 4203 valid / 0 .c / 0 .e / 0 other | dem_sex: 420
+> 3 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 4203 valid / 0 .c / 0 .e / 0 other | svy_wgt: 4203 valid / 0 .c / 0 .e / 0 other |
 SING 2009       5830      2953   0.507  
       soc_leis_nl: 2954 valid / 2868 .c / 0 .e / 8 other | dem_eth: 5830 valid / 0 .c / 0 .e / 0 other | dem_gen: 5830 valid / 0 .c / 0 .e / 0 other | dem_sex: 
 > 5829 valid / 0 .c / 0 .e / 1 other | dem_age_cat3: 5830 valid / 0 .c / 0 .e / 0 other | svy_wgt: 5830 valid / 0 .c / 0 .e / 0 other |
@@ -166,8 +168,8 @@ SPVN 2003 (SPVA refugee groups)      5077         0   0.000   lang_prob_spk
       soc_leis_nl: 1586 valid / 0 .c / 3488 .e / 3 other | lang_prob_spk: 0 valid / 0 .c / 5077 .e / 0 other | svy_wgt: 5077 valid / 0 .c / 0 .e / 0 other |
 LAS 2004/05      3424      3424   1.000  
       soc_leis_nl: 3424 valid / 0 .c / 0 .e / 0 other | lang_prob_spk: 3424 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3424 valid / 0 .c / 0 .e / 0 other |
-SIM 2006        4212      4201   0.997  
-      soc_leis_nl: 4210 valid / 2 .c / 0 .e / 0 other | lang_prob_spk: 4203 valid / 9 .c / 0 .e / 0 other | svy_wgt: 4212 valid / 0 .c / 0 .e / 0 other |
+SIM 2006        4203      4201   1.000  
+      soc_leis_nl: 4201 valid / 2 .c / 0 .e / 0 other | lang_prob_spk: 4203 valid / 0 .c / 0 .e / 0 other | svy_wgt: 4203 valid / 0 .c / 0 .e / 0 other |
 SING 2009       5830      2954   0.507  
       soc_leis_nl: 2954 valid / 2868 .c / 0 .e / 8 other | lang_prob_spk: 5824 valid / 6 .c / 0 .e / 0 other | svy_wgt: 5830 valid / 0 .c / 0 .e / 0 other |
 SIM 2011        3287      3287   1.000  
@@ -193,9 +195,9 @@ SPVA 2002       7464      4072   0.546
 LAS 2004/05      3424      3424   1.000  
       soc_leis_nl: 3424 valid / 0 .c / 0 .e / 0 other | lang_prob_spk: 3424 valid / 0 .c / 0 .e / 0 other | dem_sex: 3424 valid / 0 .c / 0 .e / 0 other | dem_ag
 > e_cat3: 3424 valid / 0 .c / 0 .e / 0 other | dem_gen: 3424 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3424 valid / 0 .c / 0 .e / 0 other |
-SIM 2006        4212      4201   0.997  
-      soc_leis_nl: 4210 valid / 2 .c / 0 .e / 0 other | lang_prob_spk: 4203 valid / 9 .c / 0 .e / 0 other | dem_sex: 4212 valid / 0 .c / 0 .e / 0 other | dem_ag
-> e_cat3: 4212 valid / 0 .c / 0 .e / 0 other | dem_gen: 4212 valid / 0 .c / 0 .e / 0 other | svy_wgt: 4212 valid / 0 .c / 0 .e / 0 other |
+SIM 2006        4203      4201   1.000  
+      soc_leis_nl: 4201 valid / 2 .c / 0 .e / 0 other | lang_prob_spk: 4203 valid / 0 .c / 0 .e / 0 other | dem_sex: 4203 valid / 0 .c / 0 .e / 0 other | dem_ag
+> e_cat3: 4203 valid / 0 .c / 0 .e / 0 other | dem_gen: 4203 valid / 0 .c / 0 .e / 0 other | svy_wgt: 4203 valid / 0 .c / 0 .e / 0 other |
 SING 2009       5830      2953   0.507  
       soc_leis_nl: 2954 valid / 2868 .c / 0 .e / 8 other | lang_prob_spk: 5824 valid / 6 .c / 0 .e / 0 other | dem_sex: 5829 valid / 0 .c / 0 .e / 1 other | dem
 > _age_cat3: 5830 valid / 0 .c / 0 .e / 0 other | dem_gen: 5830 valid / 0 .c / 0 .e / 0 other | svy_wgt: 5830 valid / 0 .c / 0 .e / 0 other |
@@ -218,7 +220,7 @@ SIM 2020        4552      3309   0.727
 . * entry's note) - so recode 4 -> 1 explicitly (missing values stay missing) to get one three-class variable for all surveys
 . * (1 often/does not speak, 2 sometimes, 3 never)
 . generate byte lang3 = cond(lang_prob_spk == 4, 1, lang_prob_spk) if !missing(lang_prob_spk)
-(9,706 missing values generated)
+(9,697 missing values generated)
 
 . assert lang3 == 1 if lang_prob_spk == 4                                      // every 4 landed in 'often'
 
@@ -250,8 +252,8 @@ Fieldwork year                  |
     Mean                        |    0.288      0.370        0.555              0.554                                                                         
     Number of nonmissing values |      946        914          760                804                                                                         
   2006                          |                                                                                                                             
-    Mean                        |    0.167      0.290        0.469              0.489                                                                         
-    Number of nonmissing values |    1,126      1,031        1,057                996                                                                         
+    Mean                        |    0.185      0.248        0.465              0.491                                                                         
+    Number of nonmissing values |    1,124      1,030        1,055                992                                                                         
   2009                          |                                                                                                                             
     Mean                        |                                                        0.388   0.330     0.438                      0.315    0.423     0.297
     Number of nonmissing values |                                                          515     508       469                        475      501       486
@@ -302,10 +304,10 @@ Fieldwork year                  |
 >                    778
   2006                          |                                                                                                                                                                       
 >                       
-    Mean                        |                                                                        0.286                                                                                          
+    Mean                        |                                                                        0.262                                                                                          
 >                  0.499
-    Number of nonmissing values |                                                                        3,194                                                                                          
->                  1,016
+    Number of nonmissing values |                                                                        3,187                                                                                          
+>                  1,014
   2009                          |                                                                                                                                                                       
 >                       
     Mean                        |                                                                        0.338                                                                                          
@@ -379,7 +381,7 @@ Weights: svy_wgt rescaled to mean 1 within survey (each survey contributes in pr
 Clusters: household (id_hh) in SPVA 2002, the person elsewhere.  Survey fixed effects: within-survey association.
 
 . keep if !missing(often, svy_wgt, lang3, dem_sex)
-(12,600 observations deleted)
+(12,591 observations deleted)
 
 . bysort svy_id: egen double w1 = mean(svy_wgt)
 
@@ -462,5 +464,5 @@ Note: _cons estimates baseline odds.
       name:  <unnamed>
        log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_public\code/examples/example_analysis_Stata.log
   log type:  text
- closed on:   5 Nov 2026, 11:39:00
+ closed on:   6 Nov 2026, 12:49:45
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -60,10 +60,10 @@ foreach s in $SURVEYS {
         quietly merge 1:1 PERSNR using "`ids'", nogen keep(match)
     }
     else {
-        * rebuild the coalesced person frame of this survey (hh > pp > ro), as in 02_harmonize
-        use "$INT/`s'_ro.dta", clear
-        quietly merge 1:1 HHNUMMER GEZLIDNR using "$INT/`s'_pp.dta", update replace nogen
-        quietly merge 1:1 HHNUMMER GEZLIDNR using "$INT/`s'_hh.dta", update replace nogen
+        * the coalesced person frame of this survey, exactly as in 02_harmonize (impd_hh_merge: hh > pp > ro, with
+        * the declared merge exceptions - before v0.4.9 the companions were built without them)
+        impd_hh_merge `s'
+        drop _m1 _m2
         quietly merge 1:1 HHNUMMER GEZLIDNR using "`ids'", nogen keep(match)
     }
     impd_define_labels

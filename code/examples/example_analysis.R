@@ -23,8 +23,11 @@ print(as.data.frame(impd_universe(c("soc_leis_nl", "lang_prob_spk"), ROOT))[, c(
 # ---- step 4: population --------------------------------------------------------------------------------------------
 # interviewed persons (no roster-only rows) of a known migrant origin group (dem_eth 1-11, which also drops the native
 # household members of SPVA 2002 - weight 0 - and 266 SPVN 2003 members without an origin code), first or second
-# generation, aged 15+ (dem_age_cat3 is valid in every survey)
-a <- d %>% filter(num(svy_resptype) %in% c(1, 2, 4), num(dem_eth) %in% 1:11, num(dem_gen) %in% c(1, 2), !is.na(dem_age_cat3)) %>%
+# generation, aged 15+ (dem_age_cat3 is valid in every survey), who received the migrant routing of the person-sample
+# questionnaires (svy_routing_mig 1; .e in the household surveys): 9 SIM 2006 respondents with a migrant origin code
+# were routed as natives and answered the natives' mirror question, which soc_leis_nl also holds
+a <- d %>% filter(num(svy_resptype) %in% c(1, 2, 4), num(dem_eth) %in% 1:11, num(dem_gen) %in% c(1, 2), !is.na(dem_age_cat3),
+                  !(num(svy_routing_mig) %in% 0)) %>%
   mutate(survey = as.character(svy_name), year = svy_year)
 cat("\nAnalysis population (interviewed, migrant origin group, 15+):\n"); print(table(a$survey))
 

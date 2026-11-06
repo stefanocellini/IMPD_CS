@@ -21,35 +21,9 @@ foreach s in $SURVEYS {
         gen byte svy_resptype = 4
     }
     else {
-        * declared merge exceptions (crosswalks/merge_exceptions.csv, rule valid_over_sysmis): the system-missing code of a
-        * more detailed file yields to a less detailed file - blanked in the persons and heads files before the merges
-        * (mirrors code/R/02_harmonize.R)
-        local ppfile "$INT/`s'_pp.dta"
-        local hhfile "$INT/`s'_hh.dta"
-        frame cw_mergex: quietly levelsof rowid if survey == "`s'" & rule == "valid_over_sysmis", local(mxrows)
-        if "`mxrows'" != "" {
-            tempfile pp_mx hh_mx
-            foreach f in pp hh {
-                capture frame drop tmp_mx
-                frame create tmp_mx
-                frame tmp_mx {
-                    use "$INT/`s'_`f'.dta", clear
-                    foreach r of local mxrows {
-                        frame cw_mergex: local mxv = source_var[`r']
-                        frame cw_mergex: local mxc = sysmis_code[`r']
-                        capture confirm numeric variable `mxv'
-                        if !_rc quietly replace `mxv' = . if `mxv' == `mxc'
-                    }
-                    save "``f'_mx'", replace
-                }
-                frame drop tmp_mx
-                local `f'file "``f'_mx'"
-            }
-        }
-        use "$INT/`s'_ro.dta", clear
-        quietly merge 1:1 HHNUMMER GEZLIDNR using "`ppfile'", update replace gen(_m1)
+        * coalesced person frame with the declared merge exceptions (impd_hh_merge, 00_setup.do; shared with 04_build)
+        impd_hh_merge `s'
         gen byte svy_resptype = cond(inlist(_m1, 3, 4, 5), 2, 3)
-        quietly merge 1:1 HHNUMMER GEZLIDNR using "`hhfile'", update replace gen(_m2)
         quietly replace svy_resptype = 1 if inlist(_m2, 3, 4, 5)
         drop _m1 _m2
         gen double PERSNR = .

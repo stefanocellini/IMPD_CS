@@ -17,7 +17,7 @@ global CW   "$ROOT/crosswalks"
 global INT  "$ROOT/data/interim"
 global DER  "$ROOT/data/derived"
 global DOCS "$ROOT/docs"
-global IMPD_VERSION "0.4.8"
+global IMPD_VERSION "0.4.9"
 global VERTAG = subinstr("$IMPD_VERSION", ".", "_", .)
 capture mkdir "$ROOT/data"
 capture mkdir "$INT"
@@ -83,6 +83,41 @@ frame cw_surveys {
     }
 }
 * levels (files) of a survey: ro pp hh for household samples, main for flat person samples
+capture program drop impd_hh_merge
+program define impd_hh_merge
+    * household surveys: the coalesced person frame (heads > interviewed persons > roster), with the declared merge
+    * exceptions (crosswalks/merge_exceptions.csv, rule valid_over_sysmis) applied - the system-missing code of a more
+    * detailed file is blanked before the merge so that a valid value of a less detailed file stands.  Used by
+    * 02_harmonize (main file) and 04_build (source companions), so both see the same merged source view.
+    * Leaves _m1 (roster x persons) and _m2 (x heads) in memory.
+    args s
+    local ppfile "$INT/`s'_pp.dta"
+    local hhfile "$INT/`s'_hh.dta"
+    frame cw_mergex: quietly levelsof rowid if survey == "`s'" & rule == "valid_over_sysmis", local(mxrows)
+    if "`mxrows'" != "" {
+        tempfile pp_mx hh_mx
+        foreach f in pp hh {
+            capture frame drop tmp_mx
+            frame create tmp_mx
+            frame tmp_mx {
+                use "$INT/`s'_`f'.dta", clear
+                foreach r of local mxrows {
+                    frame cw_mergex: local mxv = source_var[`r']
+                    frame cw_mergex: local mxc = sysmis_code[`r']
+                    capture confirm numeric variable `mxv'
+                    if !_rc quietly replace `mxv' = . if `mxv' == `mxc'
+                }
+                save "``f'_mx'", replace
+            }
+            frame drop tmp_mx
+            local `f'file "``f'_mx'"
+        }
+    }
+    use "$INT/`s'_ro.dta", clear
+    quietly merge 1:1 HHNUMMER GEZLIDNR using "`ppfile'", update replace gen(_m1)
+    quietly merge 1:1 HHNUMMER GEZLIDNR using "`hhfile'", update replace gen(_m2)
+end
+
 capture program drop impd_levels
 program define impd_levels, rclass
     args s

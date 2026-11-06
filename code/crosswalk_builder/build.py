@@ -1093,6 +1093,11 @@ def supplied_by_text(w, r, sup):
     if key not in HHKEYS or not sup or sup.startswith(("constructed", "registry", "sample")): return sup
     files = r[f"files_{key}"]
     if r["scope"] == "household": return f"{sup} (household questionnaire, head of household), merged onto all members"
+    # the asked_to declaration decides before file membership (follow-up audit of v0.4.8: 74 of 75 declared items still
+    # read 'main questionnaire for heads, mini questionnaire for other members' because the variable sits in the pp file)
+    who = ASKED_TO.get((w["target"], key), ("",))[0]
+    if who == "heads": return f"{sup} (main questionnaire: heads of household only; other members were not asked)"
+    if who == "members": return f"{sup} (mini questionnaire: interviewed members other than the head only; heads were not asked)"
     if files == "hh": return f"{sup} (main questionnaire: heads of household)"
     if "ro" in files: return f"{sup} for the cited item; roster members not interviewed: the head of household's roster report; interviewed members: the mini questionnaire"
     if "pp" in files: return f"{sup} (main questionnaire for heads, mini questionnaire for other interviewed members)"

@@ -74,6 +74,33 @@ else {
     error 9
 }
 
+* household-survey merge exceptions (crosswalks/merge_exceptions.csv) in the Stata source companions: where the persons
+* file holds the declared system-missing code and the roster a valid value, the companion must carry the roster value
+* (mirrors check 17 of 99_checks.R; follow-up audit of v0.4.8: the companions were built without the exceptions)
+local mx_bad 0
+local mx_n 0
+frame cw_mergex: quietly levelsof rowid if rule == "valid_over_sysmis", local(mxall)
+foreach r of local mxall {
+    frame cw_mergex: local s = survey[`r']
+    frame cw_mergex: local v = source_var[`r']
+    frame cw_mergex: local c = sysmis_code[`r']
+    use HHNUMMER GEZLIDNR `v' using "$INT/`s'_ro.dta", clear
+    rename `v' ro_val
+    quietly merge 1:1 HHNUMMER GEZLIDNR using "$INT/`s'_pp.dta", keepusing(`v') keep(match) nogen
+    quietly keep if `v' == `c' & !missing(ro_val) & ro_val >= 0
+    gen double id_person = (${SVYKEY_`s'} * 1e9 + HHNUMMER) * 100 + GEZLIDNR
+    keep id_person ro_val
+    local mx_n = `mx_n' + _N
+    quietly merge 1:1 id_person using "$DER/impd_public_v${VERTAG}_source_`s'_stata.dta", keepusing(src_`v') keep(match) nogen
+    quietly count if src_`v' != ro_val
+    local mx_bad = `mx_bad' + r(N)
+}
+if `mx_bad' == 0 display as text "PASS household-survey merge exceptions applied in the Stata source companions (`mx_n' cell(s))"
+else {
+    display as error "FAIL `mx_bad' Stata source-companion cell(s) keep the system-missing code that a declared merge exception replaces"
+    error 9
+}
+
 * cf compares every variable of the Stata build with the same-named variable of the R build, observation by
 * observation (both sorted by id_person); tagged missing values compare equal only when the tag is the same.
 capture confirm file "$DER/impd_public_v${VERTAG}.dta"
