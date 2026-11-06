@@ -42,7 +42,7 @@ IMPD_public/
 │   ├── raw/                   unzipped deposits (created by the pipeline)
 │   ├── interim/               plain copies of the source files (.rds/.dta) and intermediate builds
 │   └── derived/               impd_public_v0_4_8.{dta,rds,csv}, impd_public_v0_4_8_source_<survey>.{dta,rds}
-└── docs/                    codebook.html (with variable finder) / codebook.md / codebook_variables.csv, comparability.csv, value_map_review.csv, routing_check.csv, example_analysis.md, decisions.md, run_log.md, BUILD_ID; word/ holds Word copies of the Markdown documents (derived, not build outputs)
+└── docs/                    codebook.html (with variable finder) / codebook.md / codebook_variables.csv, comparability.csv, value_map_review.csv, routing_check.csv, example_analysis.md, harmonization.md (how the harmonization works, for collaborators), decisions.md, run_log.md, BUILD_ID; word/ holds Word copies of the Markdown documents (derived, not build outputs)
 ```
 
 ## Start here
