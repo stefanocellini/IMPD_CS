@@ -130,6 +130,43 @@ Every structural check passed: both codes are valid `yesno` values and the count
 
 ## Adding a survey
 
+### In plain words
+
+The crosswalk builder is the program that writes the tables in `crosswalks/`, which R and Stata then follow. For each survey it needs two kinds of information.
+
+1. **Facts about the survey:**
+   - what the deposit is called and where it comes from;
+   - how it codes missing values (in SIM 2020, -5 means not asked and -3 don't know);
+   - where the questionnaire is;
+   - which printed routing rules apply.
+2. **The variable mapping:** lines such as "the harmonized `dem_sex` comes from this survey's `geslacht`; code 1 stays 1, code 2 stays 2". These play the role of `rename` and `recode` lines in Stata, written down as a table instead of run as commands.
+
+Each survey has its own settings file in the folder `code/crosswalk_builder/surveys/`. Think of it as a binder with one form per survey: `sim2020.py` is the SIM 2020 form, with labelled headings for each fact. When the builder runs, it reads every form in the folder. A form with a missing heading, or two forms claiming the same survey, stops it with a message. In Stata terms, it is a master do-file that `include`s every do-file in a folder, each one setting up one survey.
+
+The forms are written in Python notation, so quotes, commas and brackets have to be right. Adding a survey is still form-filling, done by copying the form of a similar survey, not programming. The one exception is a questionnaire laid out differently from every earlier one (step 4 below).
+
+What to do, and where, for a new survey (here a hypothetical SIM 2025 with key `sim2025`):
+
+| What you do | Where | How |
+|---|---|---|
+| Put the DANS deposit in place | `Surveys/` | copy the zip |
+| Create the survey's form | `code/crosswalk_builder/surveys/sim2025.py` | copy `sim2020.py` (or the most similar survey) and fill in the new survey's details |
+| Map the variables | the same file, in `declare()` at the bottom | one line per variable: attach to a harmonized variable, create a new one, or skip with a reason |
+| Add an answer scale no survey has used before (rare) | `code/crosswalk_builder/valuesets.py` | one `vs()` line |
+| Register the survey | `code/crosswalk_builder/build.py` | run it once: `python code/crosswalk_builder/build.py`; it records the new survey and then stops, as expected |
+| Read the deposit's metadata | `code/R/00a_source_metadata.R` | run it: `Rscript code/R/00a_source_metadata.R` (it unzips the deposit) |
+| Build the crosswalks | `code/crosswalk_builder/build.py` | run it again; it lists what is still unmapped and stops until everything is mapped or skipped |
+| Sign the value maps the builder cannot read by itself | `crosswalks/label_approvals.csv` | one row per item, with the value you read |
+| Note where the question only approximately matches earlier waves | `crosswalks/comparability_review.csv` | one row per harmonized variable concerned |
+| Derivation rules specific to the survey (rare) | `code/R/03_derive.R` and `code/Stata/03_derive.do` | the same rule in both |
+| Build the data | `code/R/run_all.R`, then `code/Stata/run_all.do` | run both; check `docs/run_log.md` and the Stata comparison |
+| Record the decision | `docs/decisions.md` | a new numbered section |
+| Commit | the Git repository | GitHub Desktop, with the version and build identity in the message |
+
+The import, harmonization, build and codebook code in R and Stata need no change: they read the survey from the crosswalks.
+
+### Step by step
+
 A new survey, such as a later SIM wave, is one file: `code/crosswalk_builder/surveys/<key>.py`. The builder finds every module in that folder, checks it, and collects its contents into the crosswalks. Nothing in `build.py`, `declare.py` or the R and Stata code has to be edited for a survey that uses an existing questionnaire layout.
 
 **1. Put the deposit in place.** Copy the DANS zip into `Surveys/`. The pipeline unzips it into `data/raw/<key>/` the first time it runs.
