@@ -3,5 +3,5 @@ spvn2003,^TAALINTA$,interview administration,0,interviewer,block instruction P1a
 las2004,^TAALINT$,interview administration,0,interviewer,block instruction VRAAG 404-406: the questions must not be put to the respondent but answered by the interviewer,ENQ.: De volgende vragen dienen niet aan de respondent gesteld te worden maar moeten door u beantwoord worden. In welke taal is het gesprek gevoerd met de respondent?
 las2004,^DAT(DAG|MND)$,interview administration,0,interviewer,date of the interview noted by the interviewer,
 las2004,^ETNGRP$,registry/sample data,0,sample frame (origin group of the register-based sample),"'Respondent behoort tot volgende groep' is the sample classification shown to the interviewer (the LAS samples were drawn by origin group from the municipal population registers, fieldwork report appendix 1a), not a question",
-sim2020,^etngba$,registry/sample data,0,sample frame / population register (GBA),Q9001 is marked [SAMPLE DATA],
 sim2015,^etngba$,registry/sample data,0,sample frame / population register (GBA),the same sample-data field as SIM 2020 Q9001 (variable name etngba = origin group from the GBA; data label 'Respondent behoort tot volgende GROEP'),
+sim2020,^etngba$,registry/sample data,0,sample frame / population register (GBA),Q9001 is marked [SAMPLE DATA],

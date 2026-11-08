@@ -33,7 +33,7 @@ IMPD_public/
 │   ├── name_glossary.csv      abbreviations and battery prefixes used in variable names
 │   └── cpi.csv                CPI index, 2015 = 100
 ├── code/
-│   ├── crosswalk_builder/     Python: how the crosswalks were authored (valuesets.py, variables.py, variables_sim.py, variables_2004_2011.py, variables_links.py, glossary_*.py) and generated (build.py, questionnaires.py, declare.py)
+│   ├── crosswalk_builder/     Python: how the crosswalks were authored (surveys/<key>.py one setup file per survey; valuesets.py, variables.py, variables_sim.py, variables_2004_2011.py, variables_links.py, glossary_*.py) and generated (build.py, questionnaires.py, declare.py)
 │   ├── R/                     00_setup 00a_source_metadata 01_import 02_harmonize 03_derive 04_build 05_codebook 99_checks run_all; impd_tools.R (impd_sample helper for analyses)
 │   └── Stata/                 00_setup 01_import 02_harmonize 03_derive 04_build 05_codebook 99_checks run_all; impd_tools.do (impd_sample)
 │   ├── examples/              example_analysis.R / .do and their logs: the worked example of docs/example_analysis.md
@@ -41,7 +41,7 @@ IMPD_public/
 ├── data/
 │   ├── raw/                   unzipped deposits (created by the pipeline)
 │   ├── interim/               plain copies of the source files (.rds/.dta) and intermediate builds
-│   └── derived/               impd_public_v0_4_9.{dta,rds,csv}, impd_public_v0_4_9_source_<survey>.{dta,rds}
+│   └── derived/               impd_public_v0_4_10.{dta,rds,csv}, impd_public_v0_4_10_source_<survey>.{dta,rds}
 └── docs/                    codebook.html (with variable finder) / codebook.md / codebook_variables.csv, comparability.csv, value_map_review.csv, routing_check.csv, example_analysis.md, harmonization.md (how the harmonization works, for collaborators), decisions.md, run_log.md, BUILD_ID; word/ holds Word copies of the Markdown documents (derived, not build outputs)
 ```
 
@@ -77,8 +77,8 @@ Takes about ten minutes for the eight surveys (the codebook step is the slowest)
 `data/interim/*.dta` (written by `Rscript code/R/01_import.R`; Stata cannot read SPSS portable files).
 Writes `data/derived/*_stata.dta` (`compress`ed, hence smaller than the R `.dta`; with `notes` per variable) and, when the R build is present, compares the two builds cell by cell with `cf` (identical; see docs/run_log.md).
 
-**Rebuilding the crosswalks** (only when adding a survey or changing a decision): edit
-`code/crosswalk_builder/variables.py` (SPVA/SPVN), `variables_sim.py` (SIM 2015/2020), `variables_2004_2011.py` (LAS, SIM 2006, SING, SIM 2011), `variables_links.py` (relationship layer) or `valuesets.py`, then `Rscript code/R/00a_source_metadata.R` and
+**Rebuilding the crosswalks** (only when adding a survey or changing a decision; adding a survey is described step by step in `docs/harmonization.md`, "Adding a survey"): edit
+`code/crosswalk_builder/surveys/<key>.py` (survey setup), `variables.py` (SPVA/SPVN), `variables_sim.py` (SIM 2015/2020), `variables_2004_2011.py` (LAS, SIM 2006, SING, SIM 2011), `variables_links.py` (relationship layer) or `valuesets.py`, then `Rscript code/R/00a_source_metadata.R` and
 `python code/crosswalk_builder/build.py` (needs pyreadstat, pandas, openpyxl and pdftotext). The builder refuses to build if a source variable
 is unclaimed, a target is unknown, or a harmonized code is not in its value set, and warns when an observed
 source code would end up unlabelled.

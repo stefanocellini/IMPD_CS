@@ -35,21 +35,10 @@ ROOT = os.environ.get("IMPD_ROOT", os.getcwd())
 OUT_TXT = os.path.join(ROOT, "data", "interim", "questionnaires")
 OUT_CSV = os.path.join(ROOT, "crosswalks", "questionnaire_items.csv")
 
-SOURCES = [
-    # survey, instrument, pdf path (relative to ROOT), parser, (start, end) regexes slicing the text to the questionnaire (or None)
-    ("spva2002", "main", "data/raw/spva2002/dat/p1684.pdf", "spva", None),
-    ("spvn2003", "main", "data/raw/spvn2003/SPVA2003 Codeboek.pdf", "spvn", None),
-    # LAS 2004/05: the questionnaire is appendix 1a of the fieldwork report (pp. 25-91), followed by the show cards and
-    # the interviewer instructions (appendix 1b), which repeat the diary questions with form codes
-    ("las2004", "main", "data/raw/las2004/LAS Leefsituatie Allochtone Stedelingen 2004-2005/Bijlage 3 Veldwerkverslag LAS 2004-2005.pdf", "vk_hc",
-     (r"^VRAAG 9001\b", r"^KAARTENBOEKJE BEHOREND BIJ")),
-    ("sim2006", "main", "data/raw/sim2006/SIM Survey Immigration Minorities 2006/V3996 klvr 9 aug.pdf", "vk_script", None),
-    ("sing2009", "main", "data/raw/sing2009/SING09-VRAGENLIJST_LAATSTE VERSIE nov09.pdf", "vk_script", None),
-    ("sim2011", "main", "data/raw/sim2011/Bijlagen/Bijlage_g_-_Hardcopy_vragenlijst.pdf", "vk_hc", None),
-    ("sim2015", "cawi", "data/raw/sim2015/Docu/SIM2015_Vragenlijst_CAWI.pdf", "tns", None),
-    ("sim2015", "capi", "data/raw/sim2015/Docu/SIM2015_Vragenlijst_CAPI.pdf", "tns", None),
-    ("sim2020", "main", "data/raw/sim2020/documentatie/SIM2020 Vragenlijst.pdf", "tns", None),
-]
+# the questionnaire PDF(s) of every survey, from the survey modules (surveys/<key>.py: QUESTIONNAIRES):
+# (survey, instrument, pdf path relative to ROOT, parser, (start, end) regexes slicing the text to the questionnaire or None)
+import surveys as _surveys
+SOURCES = _surveys.QUESTIONNAIRES
 
 COLS = ["survey", "instrument", "qid", "qnames", "block", "split_half", "subitem_splits", "routing",
         "randomization", "intro", "question_text", "proposition", "format", "answer_options", "subitems", "kind", "block_text"]
@@ -62,53 +51,9 @@ COLS = ["survey", "instrument", "qid", "qnames", "block", "split_half", "subitem
 OUT_CONSTR = os.path.join(ROOT, "crosswalks", "questionnaire_constructed.csv")
 CONSTRUCTED = {}
 # SCP/Veldkamp constructs in the LAS 2004/05, SIM 2006, SING 2009 and SIM 2011 deposits: these questionnaires print no list
-# of derived variables, so the descriptions are written from the data labels and the SCP documentation (name -> description)
-_GEN = "generation from the respondent's and parents' countries of birth (first generation = born abroad; second = born in the Netherlands with at least one parent born abroad)"
-_GENP = "partner's generation from the partner's country of birth: 1 = born abroad, 2 = born in the Netherlands, native Dutch partners included; partners of native Dutch respondents are not classed (the parents' clause of the generation definition is not applied - SIM 2006 deposit, restricted component, 5 Nov 2026)"
-_ETN = "origin group from the respondent's and parents' countries of birth (CBS definition: a person belongs to a group when he/she or at least one parent was born in that country)"
-_BB = "labour-force position (employed >= 12 hours a week / unemployed and seeking work / not in the labour force) from the questions on paid work, hours and job search"
-_OND = "full-time education participation from the questions on current education and main activity"
-CONSTRUCTED_MANUAL = {
-    "las2004": {
-        "GEZINPO2": "position in the household (SCP recode of the household roster)", "GENERAT": _GEN, "GENPART": _GENP,
-        "GEZSAMST": "household composition from the household roster", "SAMHSH": "household composition (CBS typology) from the household roster",
-        "OPLBLNL": "country where education was followed (Netherlands / abroad / both) from the education history questions",
-        "ONDPART": _OND, "BERBEV": "labour-force membership from the questions on paid work and hours", "BB_NED": _BB,
-        "POSWRK": "position in the job (employee / self-employed / ...) from the employment questions", "BERNIV": "occupational level (SCP coding of the occupation description)",
-        "URENWRK": "weekly working hours (recode of the hours questions)", "URENWERK": "total weekly working hours of all jobs",
-        "MAATPOS": "societal position (SCP typology combining work, education, benefits and household care)",
-        "VERDTYP": "earner type of the couple (single / one-and-a-half / dual earner ...) from the respondent's and partner's working hours",
-        "GVERDTYP": "preferred earner type of the couple from the respondent's and partner's preferred working hours",
-        "DAG": "day of the week covered by the time-use diary (fieldwork administration)",
-        "WEEGDAG": "weighting factor for the time-use diary (SCP)", "WEEGDAGC": "weighting/correction factor for the time-use diary (SCP)",
-    },
-    "sim2006": {
-        "ETNGRP": _ETN, "GENERAT": _GEN, "ETNPART": "partner's " + _ETN, "GENPART": _GENP,
-        "GRPLS": "size class of the municipality of residence (CBS, from the sample address)", "ONDPART": _OND,
-        "MAXDIP1": "highest diploma obtained, 4 classes, respondents not in education (recode of the education questions)",
-        "MAXDIPN1": "highest education level, 4 classes, including the current education of those still in education",
-        "BB_NED": _BB, "UITKEER": "receives a benefit (any of the benefit questions)", "URENCAT": "weekly working hours in categories (recode of the hours question)",
-        "INKCAT": "monthly income in categories (recode of the income questions)",
-    },
-    "sing2009": {
-        "ETNGRP": _ETN, "GENERAT": _GEN, "ETNGRPPA": "partner's " + _ETN, "GENPART": _GENP, "BB_NED": _BB,
-        "UURWRKC4": "contractual working hours in 4 categories (recode of the hours question)",
-        "MAXDIPN1": "highest education level, including the current education of those still in education (recode of the education questions)",
-        "VERBLIJF": "length of stay in the Netherlands (year of interview minus year of arrival)",
-        "LFTCAT3": "age in 3 categories", "LFTPARTC": "partner's age in 3 categories",
-        "BMI": "body mass index from self-reported height and weight, respondents 18 and over",
-    },
-    "sim2011": {
-        "ETNGRP": _ETN, "GENERAT": _GEN, "ONDPART": _OND, "BB_NED": _BB,
-        "MAXDIP1": "highest diploma obtained, 4 classes, respondents not in education (recode of the education questions)",
-        "MAXDSCH": "highest diploma obtained so far, including those in education (detailed)", "MAXDSCH1": "highest diploma obtained so far, including those in education, 4 classes",
-        "MAXDIPNU": "highest education level including the current education (detailed)", "MAXDIPN1": "highest education level including the current education, 4 classes",
-        "URENCAT": "weekly working hours in categories (recode of the hours question)",
-        "CATLFT5JR": "age in 5-year classes", "CATLFT5JRPART": "partner's age in 5-year classes",
-        **{f"AANT{k}": f"number of residents of {v} origin in the respondent's neighbourhood (CBS neighbourhood count attached by SCP to the sample address)"
-           for k, v in [("AUT", "Dutch"), ("MAR", "Moroccan"), ("ANT", "Antillean"), ("ONW", "other non-western"), ("OW", "other western"), ("SUR", "Surinamese"), ("TUR", "Turkish")]},
-    },
-}
+# of derived variables, so the descriptions are written from the data labels and the SCP documentation (name -> description);
+# they live in the survey modules (surveys/<key>.py: CONSTRUCTED; shared texts in surveys/_shared.py)
+CONSTRUCTED_MANUAL = _surveys.CONSTRUCTED
 DERIVED_AT = {}       # survey -> {NAME: qid}: constructed variables printed after the question block they derive from     # survey -> {name: description}: variables the codebooks list as constructed (no questionnaire item)
 
 

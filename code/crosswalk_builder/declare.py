@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-IMPD crosswalk builder — declaration helpers shared by variables.py (SPVA 2002 / SPVN 2003)
-and variables_sim.py (SIM 2015 / SIM 2020).
+IMPD crosswalk builder — declaration helpers shared by the variable files (variables*.py) and by the
+declare() function a survey module (surveys/<key>.py) may define.
+
+Each survey module carries a short code KW ("02", "15", ...).  V() takes the source variable for that survey as
+s<KW>= and its universe as u<KW>= (or sources= / universes= keyed by survey key), so adding a survey needs no
+change here.
 
 V(...)  declares a harmonized (target) variable and, per survey, the source variable feeding it.
 M(...)  declares a value-level recode (one row of value_map.csv).
@@ -15,11 +19,11 @@ native sample, CONTOU_N).  R and Stata implement the same precedence: a valid va
 first that is not .c (not applicable) wins; otherwise .c.
 """
 from valuesets import VALUESETS
+import surveys as _surveys
 
-# survey keys in the order of surveys.csv; adding a survey = adding its key here and a kwarg in V()
-SURVEY_KEYS = ["spva2002", "spvn2003", "las2004", "sim2006", "sing2009", "sim2011", "sim2015", "sim2020"]
-SRC_KW = {"s02": "spva2002", "s03": "spvn2003", "s04": "las2004", "s06": "sim2006", "s09": "sing2009", "s11": "sim2011",
-          "s15": "sim2015", "s20": "sim2020"}
+# survey keys in the order of surveys.csv, from the survey modules (surveys/<key>.py); V() takes s<KW>= / u<KW>= for each
+SURVEY_KEYS = list(_surveys.KEYS)
+SRC_KW = {"s" + kw: key for kw, key in _surveys.KW.items()}
 
 VARS = []            # variable_map rows
 VMAP = []            # value_map rows
@@ -37,18 +41,18 @@ def parts(src):
 
 
 def V(target, theme, label, s02=None, s03=None, valueset=None, type="cat", scope="person",
-      universe="", notes="", include=1, yn12=False, derive="", s15=None, s20=None, wording="",
-      u02="", u03="", u15="", u20="", s04=None, s06=None, s09=None, s11=None, u04="", u06="", u09="", u11=""):
+      universe="", notes="", include=1, yn12=False, derive="", wording="", sources=None, universes=None, **per_survey):
     """Declare a harmonized variable.
-    s02/s03/s04/s06/s09/s11/s15/s20: source variable names in SPVA 2002 / SPVN 2003 / LAS 2004 / SIM 2006 / SING 2009 /
-    SIM 2011 / SIM 2015 / SIM 2020 (None if absent).
+    s<KW>=: source variable name in the survey whose module has that KW (s02 SPVA 2002, s03 SPVN 2003, s04 LAS 2004/05,
+    s06 SIM 2006, s09 SING 2009, s11 SIM 2011, s15 SIM 2015, s20 SIM 2020; None if absent); u<KW>=: survey-specific
+    universe text.  Equivalently sources={"sim2020": "VAR"} / universes={"sim2020": "text"} by survey key.  s02, s03 can
+    also be given positionally (older declarations).
     yn12: source codes 1=yes 2=no -> harmonized 1=yes 0=no (value_map rows generated for every source).
     include: 1 = in main file; 0 = retained only in the *_source file (pure recode / duplicate).
     derive: name of a derivation rule implemented identically in R and Stata (03_derive).
     scope: 'person' or 'household' (household-scope items are taken from the head and merged onto members
            in hh/pp/ro surveys; in flat surveys they are simply the respondent's values).
     wording: curated note on wording or answer-scale differences between surveys (codebook wording table).
-    u02/u03/u15/u20: survey-specific universe (who was asked) when it differs from `universe`.
     """
     assert target not in _seen, f"duplicate target {target}"
     assert len(target) <= 32, f"name too long for Stata: {target}"
@@ -56,8 +60,15 @@ def V(target, theme, label, s02=None, s03=None, valueset=None, type="cat", scope
     if valueset is not None and not valueset.startswith("src_"):
         assert valueset in VALUESETS, f"unknown valueset {valueset} for {target}"
     _seen.add(target)
-    src = {"spva2002": s02 or "", "spvn2003": s03 or "", "las2004": s04 or "", "sim2006": s06 or "", "sing2009": s09 or "",
-           "sim2011": s11 or "", "sim2015": s15 or "", "sim2020": s20 or ""}
+    per_survey.update(s02=s02, s03=s03)
+    src, univ = {k: "" for k in SURVEY_KEYS}, {}
+    for name, val in per_survey.items():
+        assert name[:1] in ("s", "u") and name[1:] in _surveys.KW, f"V({target}): unknown argument {name}"
+        if val: (src if name[0] == "s" else univ)[_surveys.KW[name[1:]]] = val
+    for k, val in (sources or {}).items():
+        assert k in src, f"V({target}): unknown survey {k}"
+        src[k] = val
+    univ.update(universes or {})
     row = dict(target=target, theme=theme, label_en=label, scope=scope, type=type,
                valueset=valueset or "", universe_en=universe, notes=notes, include_main=include, derive=derive)
     for k in SURVEY_KEYS:
@@ -69,10 +80,9 @@ def V(target, theme, label, s02=None, s03=None, valueset=None, type="cat", scope
                 M(target, k, p, 1, 1); M(target, k, p, 2, 0)
     if wording:
         WORDING_NOTES[target] = wording
-    for kw, txt in (("spva2002", u02), ("spvn2003", u03), ("las2004", u04), ("sim2006", u06), ("sing2009", u09), ("sim2011", u11),
-                    ("sim2015", u15), ("sim2020", u20)):
-        if txt:
-            UNIVERSES[(target, kw)] = txt
+    for k in SURVEY_KEYS:
+        if univ.get(k):
+            UNIVERSES[(target, k)] = univ[k]
 
 
 def M(target, survey, source_var, source_value, target_value, note=""):

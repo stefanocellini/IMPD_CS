@@ -1,4 +1,8 @@
 survey,rule_type,match,target,note
+spva2002,label,^geen informatie$,.d,Codes 9/99/999/9999/99999 where so labelled
+spva2002,label,^weet niet$,.a,Codes 7/97 where so labelled
+spva2002,declared,^(7|97)$,.a,SPSS user-missing codes declared in the file (source_missing.csv): ISEO convention 7/97 = don't know
+spva2002,declared,.*,.d,Other declared user-missing codes (9/99/999/9999/99999 = geen informatie)
 spvn2003,code,-7,.,Sysmis (not applicable / routed out / not in questionnaire)
 spvn2003,code,-4,.d,Missing / no information
 spvn2003,code,-3,.a,Don't know
@@ -10,10 +14,36 @@ spvn2003,label,^(missing|geen informatie)$,.d,
 spvn2003,label,^sysmis$,.,
 spvn2003,declared,^(0|7|97|98|997|9997)$,.a,"Declared user-missing codes that follow the ISEO don't-know convention (0 in year/month/amount items, 7, 97/997/9997, 98)"
 spvn2003,declared,.*,.d,Other declared user-missing codes (9/10/99/999 = no information)
-spva2002,label,^geen informatie$,.d,Codes 9/99/999/9999/99999 where so labelled
-spva2002,label,^weet niet$,.a,Codes 7/97 where so labelled
-spva2002,declared,^(7|97)$,.a,SPSS user-missing codes declared in the file (source_missing.csv): ISEO convention 7/97 = don't know
-spva2002,declared,.*,.d,Other declared user-missing codes (9/99/999/9999/99999 = geen informatie)
+las2004,code,-7,.c,'vragenblok niet gesteld' (block not asked to this group / version)
+las2004,code,-5,.c,'niet van toepassing'
+las2004,code,-3,.a,'weet niet'
+las2004,code,-4,.a,'weet niet' (education variables)
+las2004,code,-2,.b,"'wil niet zeggen, geen informatie'"
+las2004,code,-9,.c,'nvt: autochtoon' (native Dutch sample)
+las2004,label,^weet niet,.a,"positive 'weet niet (\ geen antwoord)' codes (9, 99, 999, 9999) unless mapped"
+las2004,label,^wil niet zeggen,.b,"positive refusal codes (GEZINK 99, STEMWS 14) unless mapped: STEMINT 5 'wil niet zeggen' is a printed answer option and keeps code 5 of vote_int5"
+las2004,label,geen informatie|^onbekend,.d,"e.g. 99 'geen informatie' in the age classes, 99 'onbekend' in burgst"
+las2004,label,^niet van toepassing|^nvt|niet gesteld|^sysmis|^volgt geen opleiding|^geen vragenlijst,.c,
+sim2006,code,-5,.c,'niet van toepassing'
+sim2006,code,-3,.a,'weet niet'
+sim2006,code,-2,.b,'wil niet zeggen/geen opgave'
+sim2006,code,-7,.c,'niet in vragenlijst': item not in the questionnaire version of this group
+sim2006,code,-8,.d,'ten onrechte niet beantwoord' (interview program error)
+sim2006,code,-4,.d,'missing'
+sim2006,code,-9,.c,'nvt: autochtoon' (native Dutch sample)
+sim2006,label,^niet van toepassing|^nvt,.c,Positive codes labelled not applicable (unless mapped)
+sim2006,label,^weet niet,.a,
+sing2009,label,^weet niet,.a,7/8/96 'weet niet' (also 'weet niet \ geen antwoord')
+sing2009,label,^geen antwoord|wil niet zeggen,.b,6/7/97/98/997/99997 'geen antwoord / wil niet zeggen'
+sing2009,label,^niet van toepassing|^nvt,.c,8/9/98/99/998/999/9998/9999: routing and the native sample
+sim2011,code,-5,.c,"Niet van toepassing: question not asked (routing, group) - 537,139 cells"
+sim2011,code,-3,.a,Weet niet / geen antwoord
+sim2011,code,-2,.b,Wil niet zeggen / geen antwoord
+sim2011,code,-4,.d,Missing
+sim2011,code,-1,.c,Undocumented code used where a question was not asked (persons with paid work in HFDACT/urencat; a few hours values)
+sim2011,code,-9,.c,'nvt: autochtoon' (native Dutch sample)
+sim2011,label,^niet van toepassing,.c,Positive codes labelled not applicable (unless mapped)
+sim2011,label,^weet niet,.a,
 sim2015,code,-7,.,Sysmis in SCP-constructed variables
 sim2015,code,-2,.c,"'blanc': question not presented (routing) - 314,198 cells"
 sim2015,code,-5,.c,Niet van toepassing
@@ -37,33 +67,3 @@ sim2020,code,-1,.d,Wrong question or answer option in the Farsi questionnaire (u
 sim2020,label,refusal,.d,'Anders/Refusal/Don't know' (9) in CCF-coarsened _kl variables: other and missing cannot be separated
 sim2020,label,^weet niet,.a,
 sim2020,label,^niet van toepassing$,.c,
-sim2011,code,-5,.c,"Niet van toepassing: question not asked (routing, group) - 537,139 cells"
-sim2011,code,-3,.a,Weet niet / geen antwoord
-sim2011,code,-2,.b,Wil niet zeggen / geen antwoord
-sim2011,code,-4,.d,Missing
-sim2011,code,-1,.c,Undocumented code used where a question was not asked (persons with paid work in HFDACT/urencat; a few hours values)
-sim2011,code,-9,.c,'nvt: autochtoon' (native Dutch sample)
-sim2011,label,^niet van toepassing,.c,Positive codes labelled not applicable (unless mapped)
-sim2011,label,^weet niet,.a,
-sim2006,code,-5,.c,'niet van toepassing'
-sim2006,code,-3,.a,'weet niet'
-sim2006,code,-2,.b,'wil niet zeggen/geen opgave'
-sim2006,code,-7,.c,'niet in vragenlijst': item not in the questionnaire version of this group
-sim2006,code,-8,.d,'ten onrechte niet beantwoord' (interview program error)
-sim2006,code,-4,.d,'missing'
-sim2006,code,-9,.c,'nvt: autochtoon' (native Dutch sample)
-sim2006,label,^niet van toepassing|^nvt,.c,Positive codes labelled not applicable (unless mapped)
-sim2006,label,^weet niet,.a,
-las2004,code,-7,.c,'vragenblok niet gesteld' (block not asked to this group / version)
-las2004,code,-5,.c,'niet van toepassing'
-las2004,code,-3,.a,'weet niet'
-las2004,code,-4,.a,'weet niet' (education variables)
-las2004,code,-2,.b,"'wil niet zeggen, geen informatie'"
-las2004,code,-9,.c,'nvt: autochtoon' (native Dutch sample)
-las2004,label,^weet niet,.a,"positive 'weet niet (\ geen antwoord)' codes (9, 99, 999, 9999) unless mapped"
-las2004,label,^wil niet zeggen,.b,"positive refusal codes (GEZINK 99, STEMWS 14) unless mapped: STEMINT 5 'wil niet zeggen' is a printed answer option and keeps code 5 of vote_int5"
-las2004,label,geen informatie|^onbekend,.d,"e.g. 99 'geen informatie' in the age classes, 99 'onbekend' in burgst"
-las2004,label,^niet van toepassing|^nvt|niet gesteld|^sysmis|^volgt geen opleiding|^geen vragenlijst,.c,
-sing2009,label,^weet niet,.a,7/8/96 'weet niet' (also 'weet niet \ geen antwoord')
-sing2009,label,^geen antwoord|wil niet zeggen,.b,6/7/97/98/997/99997 'geen antwoord / wil niet zeggen'
-sing2009,label,^niet van toepassing|^nvt,.c,8/9/98/99/998/999/9998/9999: routing and the native sample

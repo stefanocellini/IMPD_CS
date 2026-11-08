@@ -17,7 +17,7 @@ global CW   "$ROOT/crosswalks"
 global INT  "$ROOT/data/interim"
 global DER  "$ROOT/data/derived"
 global DOCS "$ROOT/docs"
-global IMPD_VERSION "0.4.9"
+global IMPD_VERSION "0.4.10"
 global VERTAG = subinstr("$IMPD_VERSION", ".", "_", .)
 capture mkdir "$ROOT/data"
 capture mkdir "$INT"

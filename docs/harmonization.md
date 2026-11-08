@@ -46,7 +46,7 @@ Before any survey is mapped, the harmonized file is defined:
 
 ## 3. Declaring the mapping, survey by survey
 
-This is the substantive work. It is written in Python (`code/crosswalk_builder/variables.py` for SPVA/SPVN, `variables_2004_2011.py`, `variables_sim.py`), using a few short declaration functions from `declare.py`:
+This is the substantive work. It is written in Python, using a few short declaration functions from `declare.py`. Each survey has its own setup file, `code/crosswalk_builder/surveys/<key>.py`. That file holds the registry entry, missing-value conventions, questionnaire and routing. The variable declarations of the eight current surveys are in `variables.py` (SPVA/SPVN), `variables_2004_2011.py` and `variables_sim.py`. A survey added later keeps its declarations in its own setup file instead (see [Adding a survey](#adding-a-survey)). The declaration functions are:
 
 - `V(...)` declares a target: theme, label, value set, and the source variable in each survey.
 - `M(...)` / `A(...)` give the **value map**: which source code becomes which target code (e.g. `ANDLAND` 1 -> 0, 2 -> 1).
@@ -126,3 +126,48 @@ Every structural check passed: both codes are valid `yesno` values and the count
 2. Run `python code/crosswalk_builder/build.py`. If the value-map review lists rows, read each against its labels and sign it in `crosswalks/label_approvals.csv` with the value you read.
 3. Run `code/R/run_all.R`, then `code/Stata/run_all.do`; check `docs/run_log.md` and the Stata comparison.
 4. Record the decision in `docs/decisions.md`, then commit with the version and build identity in the message.
+
+
+## Adding a survey
+
+A new survey, such as a later SIM wave, is one file: `code/crosswalk_builder/surveys/<key>.py`. The builder finds every module in that folder, checks it, and collects its contents into the crosswalks. Nothing in `build.py`, `declare.py` or the R and Stata code has to be edited for a survey that uses an existing questionnaire layout.
+
+**1. Put the deposit in place.** Copy the DANS zip into `Surveys/`. The pipeline unzips it into `data/raw/<key>/` the first time it runs.
+
+**2. Create the survey file.** Copy the module of the most similar survey: `sim2020.py` for a flat CAWI/CAPI wave, `sim2006.py` for a deposit without a person identifier. Then edit each part. The builder refuses to run if a required part is missing, if two modules share a key, survey id or `KW`, or if the file name and `SURVEY["key"]` differ.
+
+| Part | What it holds | Ends up in |
+|---|---|---|
+| `KW` | A short code, e.g. `"25"`. `V()` then takes `s25=` (source variable) and `u25=` (universe) for this survey | declarations |
+| `LABEL` | Display name, e.g. `"SIM 2025"` | codebook, `surveys.csv` |
+| `SURVEY` | Registry entry: `svy_id` (next chronological number), name, year, `status="included"`, `key`, `structure` (`"flat"` or household files), DANS identifiers, file names inside the zip, encoding, identifier and weight variables, missing-value scheme | `surveys.csv` |
+| `ZIP_SHA256` | sha256 of the zip as downloaded | `surveys.csv` (provenance) |
+| `ELIGIBLE`, `WEIGHTS` | Target population and weight guidance, one sentence each | codebook section 1 |
+| `MISSING_RULES` | How the file codes missing values: explicit codes, label patterns, or SPSS-declared codes, each mapped to `.a`–`.d` | `missing_rules.csv` |
+| `QUESTIONNAIRES` | The questionnaire PDF(s), the parser to read them with, and optionally the text span to read | wording and routing tables |
+
+Optional parts, needed only when the survey has the feature: `DESIGN` (mode, split half, languages; codebook section 3.2), `ROUTING_RULES` and `ROUTING_EXCEPTIONS` (printed routing conditions and where the data contradict them), `ACQ_OVERRIDES` (how an item was collected, where the parser cannot tell), `CONSTRUCTED` (variables built by the data producer, with no question), `PREFER_INSTRUMENT` (parallel questionnaires, as in SIM 2015), `LINK_BY_QNUM` (a questionnaire without variable names, linked by question number, as in SIM 2006 and SING 2009), and for household surveys `MERGE_EXCEPTIONS` and `MUNICIPALITIES`.
+
+**3. Read the source metadata.** Run the builder once: `python code/crosswalk_builder/build.py`. It writes the registry (`crosswalks/surveys.csv`) first and then stops with errors about the new survey, which has neither metadata nor declarations yet. That is expected. Then run `Rscript code/R/00a_source_metadata.R`: it unzips the deposit and reads the file's declared missing values and observed codes, which the builder needs.
+
+**4. Check the questionnaire parser.** The existing parsers are `tns` (SIM 2015, SIM 2020), `spva`, `spvn`, `vk_hc` and `vk_script`. If the new questionnaire has a layout none of them reads, write a `parse_*` function in `questionnaires.py` and add it to `PARSERS`. This is the only change outside the survey file, and the parser regression checks in `build.py` show whether the old questionnaires still parse as before. Items that the automatic name match cannot link get an `L(survey, source_var, qid)` line.
+
+**5. Declare the variables.** Write a `declare()` function in the survey file. In it, every source variable is either attached to a target or skipped with a reason:
+
+Source variable names below are illustrative.
+
+```python
+def declare():
+    from declare import A, V, M, U, W, L, SKIP
+    A("dem_sex", "sim2025", "geslacht", pairs=[(1, 1), (2, 2)])     # existing target
+    A("lab_emp", "sim2025", "WERK", yn12=True, u="aged 15-74")      # existing yes/no target, own universe
+    V("dem_newitem", "dem", "Label of a new item", s25="NIEUW",
+      u25="all respondents", valueset="yesno", yn12=True)            # new target
+    SKIP("sim2025", "INTERVIEWER_ID", "fieldwork administration")
+```
+
+`A()` attaches the survey's variable to a target that already exists, with its value map (`pairs`) and universe (`u`). `V()` creates a new target. `M()` adds a single value-map row, `U()` a universe, `W()` a wording note. A new value set (`vs()` in `valuesets.py`) is needed only for an answer scale no survey has used before. While the declarations are incomplete, run the builder with `IMPD_PARTIAL=1`: it then lists the unclaimed source variables instead of stopping.
+
+**6. Build and review.** Without `IMPD_PARTIAL`, the builder must run with no unclaimed source variable. Read each row of the value-map review against its labels and sign it in `crosswalks/label_approvals.csv` with the value you read (section 4). Where the new survey's question matches a target only approximately, classify the target in `crosswalks/comparability_review.csv` (class, note, reviewer, date).
+
+**7. Run the engines.** R and Stata read the survey from the crosswalks, so the import, harmonize, build and codebook steps need no edit. Two places hold survey-specific rules: `03_derive.R`/`03_derive.do` (derivation rules such as the SIM 2020 split-half items) and `99_checks.R`. A new derivation needs the same rule in both engines. Then follow [Making a change](#making-a-change) steps 3 and 4: run R and Stata, record the decision in `docs/decisions.md`, commit.

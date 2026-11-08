@@ -35,80 +35,18 @@ import variables_2004_2011           # LAS 2004/05, SIM 2006, SING 2009, SIM 201
 import variables_links               # relationship layer: partner link and copies for the household surveys (v0.4.2)
 from declare import parts as src_parts, VARS, VMAP, WORDING_NOTES, WORDING_LINKS, UNIVERSES, ASKED_TO, SURVEY_KEYS, SKIPPED
 import questionnaires
+import surveys as SV                # one module per survey: surveys/<key>.py (registry, missing rules, questionnaire, routing ...)
+for _declare in SV.DECLARE:          # declarations kept in a survey module (surveys added after the one-file-per-survey layout)
+    _declare()
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 RAW = os.path.join(ROOT, "data", "raw")
 CW = os.path.join(ROOT, "crosswalks")
 os.makedirs(CW, exist_ok=True)
 
-SURVEYS = [
-    dict(svy_id=1, svy_name="SPVA1988", svy_year=1988, status="not yet included", title="Sociale Positie en Voorzieningengebruik Allochtonen 1988"),
-    dict(svy_id=2, svy_name="SPVA1991", svy_year=1991, status="not yet included", title="Sociale Positie en Voorzieningengebruik Allochtonen 1991"),
-    dict(svy_id=3, svy_name="SPVA1994", svy_year=1994, status="not yet included", title="Sociale Positie en Voorzieningengebruik Allochtonen 1994"),
-    dict(svy_id=4, svy_name="SPVA1998", svy_year=1998, status="not yet included", title="Sociale Positie en Voorzieningengebruik Allochtonen 1998"),
-    dict(svy_id=5, svy_name="SPVA2002", svy_year=2002, status="included", key="spva2002", structure="hh_pp_ro",
-         title="Sociale positie en voorzieningengebruik van allochtonen 2002 (SPVA 2002)", dans_id="P1684", doi="10.17026/dans-xdt-cynn", access="open",
-         groups="Turks; Moroccans; Surinamese; Antilleans/Arubans", fieldwork="Veldkamp Marktonderzoek (2002-2003); SEOR/ISEO & SCP", mode="Face-to-face (PAPI), household sample",
-         zipfile="Surveys/SPVA 2002.zip", file_hh="dat/p1684a.por", file_pp="dat/p1684b.por", file_ro="dat/p1684c.por", file_main="", encoding="cp1252",
-         id_var="", weight_var="WEEG", sysmis_tag="",
-         missing_scheme="system-missing + labelled codes 9/99/999/9999 'geen informatie', 7/97 'weet niet'"),
-    dict(svy_id=6, svy_name="SPVN2003", svy_year=2003, status="included", key="spvn2003", structure="hh_pp_ro",
-         title="Sociale positie en voorzieningengebruik van allochtonen 2003 - refugee groups (SPVA/SPVN 2003)", dans_id="P1753", doi="10.17026/dans-x7u-vkfm", access="open",
-         groups="Afghans; Iraqis; Iranians; former Yugoslavs; Somalis", fieldwork="Veldkamp (2003); ISEO Erasmus University", mode="Face-to-face (CAPI), household sample",
-         zipfile="Surveys/SPVN 2003.zip", file_hh="spvnhh.sav", file_pp="spvntt.sav", file_ro="spvnag.sav", file_main="", encoding="latin1",
-         id_var="", weight_var="WEEG", sysmis_tag="",
-         missing_scheme="explicit codes -7 sysmis, -4 missing, -3 don't know, -2 refusal; labelled 997/9997/0 'weet niet'; 'Onbekend' in code lists"),
-    dict(svy_id=7, svy_name="LAS2004", svy_year=2004, status="included", key="las2004", structure="flat",
-         title="Leefsituatie Allochtone Stedelingen 2004-2005 (LAS 2004/05)", dans_id="easy-dataset:40215", doi="10.17026/dans-zqg-uqn8", access="request_permission",
-         groups="Turks; Moroccans; Surinamese; Antilleans/Arubans; native Dutch reference sample (50 largest municipalities)",
-         fieldwork="Veldkamp with TNS NIPO interviewers (Oct 2004 - May 2005); SCP", mode="Face-to-face (CAPI); person sample 15-64 from the GBA of the 50 largest municipalities",
-         zipfile="Surveys/LAS 2004 2005.zip", file_hh="", file_pp="", file_ro="", file_main="LAS Leefsituatie Allochtone Stedelingen 2004-2005/LAS 2005.por", encoding="latin1",
-         id_var="INTNR", weight_var="WEEGTOT", sysmis_tag="c",
-         missing_scheme="explicit codes -7 question block not asked, -5 not applicable (incl. system missing), -3 don't know, -2 refusal/no information, -9 'nvt: autochtoon'; 9/99 'weet niet/geen antwoord' in code lists"),
-    dict(svy_id=8, svy_name="SIM2006", svy_year=2006, status="included", key="sim2006", structure="flat",
-         title="Survey Integratie Minderheden 2006 (SIM 2006)", dans_id="easy-dataset:40304", doi="10.17026/dans-2z9-6eqc", access="request_permission",
-         groups="Turks; Moroccans; Surinamese; Antilleans/Arubans; native Dutch reference sample",
-         fieldwork="Veldkamp / TNS NIPO, ERC for Turkish and Moroccan interviews (Mar 2006 - Jan 2007); SCP", mode="Face-to-face (CAPI); nationwide person sample 15+ from the GBA (CBS, at least 10 addresses per municipality)",
-         zipfile="Surveys/SIM 2006.zip", file_hh="", file_pp="", file_ro="", file_main="SIM Survey Immigration Minorities 2006/SIM2006_c1_dans230909 edit_1_beveiligd.sav", encoding="utf-8",
-         id_var="impd_rownum", weight_var="WEEGTOT", sysmis_tag="c",
-         missing_scheme="explicit codes -5 not applicable, -3 don't know, -2 refusal/no answer, -7 not in questionnaire, -8 wrongly unanswered, -1 (undocumented), -9 'nvt: autochtoon'; system missing = routing"),
-    dict(svy_id=9, svy_name="SING2009", svy_year=2009, status="included", key="sing2009", structure="flat",
-         title="Survey Integratie Nieuwe Groepen 2009 (SING 2009), CBS-protected public version", dans_id="easy-dataset:51530", doi="10.17026/dans-xnn-ky48", access="request_permission",
-         groups="Afghans; Iraqis; Iranians; Somalis; Poles; Chinese; native Dutch reference sample",
-         fieldwork="Veldkamp / TNS NIPO (Feb 2009 - Feb 2010); SCP; CBS sample and statistical protection", mode="Face-to-face (CAPI); person sample 15+ from the GBA; only the questions listed in the deposit's READ ME are released, years and durations in classes",
-         zipfile="Surveys/SING 2009.zip", file_hh="", file_pp="", file_ro="", file_main="SINGDANS veilig.por", encoding="latin1",
-         id_var="impd_rownum", weight_var="WEEGHERK", sysmis_tag="c",
-         missing_scheme="system missing = routing / not released; labelled codes 7/97 'weet niet' or 'geen antwoord, wil niet zeggen', 8/9/98/99 'niet van toepassing'"),
-    dict(svy_id=10, svy_name="SIM2011", svy_year=2011, status="included", key="sim2011", structure="flat",
-         title="Survey Integratie Minderheden 2011 (SIM 2011), DANS version V3", dans_id="easy-dataset:67677", doi="10.17026/dans-2a2-77kp", access="request_permission",
-         groups="Turks; Moroccans; Surinamese; Antilleans/Arubans; native Dutch reference sample",
-         fieldwork="GfK with Labyrinth interviewers (Nov 2010 - Apr 2011); SCP; CBS statistical protection (mu-Argus)", mode="Face-to-face (CAPI) main survey (the mixed-mode experiment is not in this deposit); person sample 15+ from the GBA",
-         zipfile="Surveys/SIM 2011.zip", file_hh="", file_pp="", file_ro="", file_main="SIM 2011V3.sav", encoding="windows-1252",
-         id_var="volgnummer", weight_var="weegtot", sysmis_tag="d",
-         missing_scheme="explicit codes -5 not applicable, -3 don't know/no answer, -2 refusal, -4 missing, -1 (undocumented), -9 'nvt: autochtoon'; 9 'niet van toepassing' in some code lists"),
-    dict(svy_id=11, svy_name="SIM2015", svy_year=2015, status="included", key="sim2015", structure="flat",
-         title="Survey Integratie Minderheden 2015 (SIM 2015), CCF public version v4", dans_id="easy-dataset:239464", doi="10.17026/dans-x63-dq58", access="request_permission",
-         groups="Turks; Moroccans; Surinamese; Antilleans/Arubans; Somalis; Poles (1st generation, registered 2004+); native Dutch reference sample",
-         fieldwork="TNS NIPO/Veldkamp and Labyrinth (Jan-Jul 2015); SCP", mode="Sequential mixed mode: CAWI, then CAPI; person sample 15+ from the BRP",
-         zipfile="Surveys/SIM 2015.zip", file_hh="", file_pp="", file_ro="", file_main="Data/SIM2015_CCF_v4.sav", encoding="utf-8",
-         id_var="volgnummer", weight_var="eindgewicht", sysmis_tag="d",
-         missing_scheme="explicit codes -2 blanc (routing), -3 don't know/no answer, -5 not applicable, -1/98 refusal, -4 no education, -6/96 'diversen', -7 sysmis; label 2147483622 '[-2]Blanc' never occurs"),
-    dict(svy_id=12, svy_name="SIM2020", svy_year=2020, status="included", key="sim2020", structure="flat",
-         title="Survey Integratie Minderheden 2020 (SIM 2020), CCF public version v2", dans_id="easy-dataset:259562", doi="10.17026/dans-26h-xn4n", access="request_permission",
-         groups="Turks; Moroccans; Surinamese; Caribbean Dutch (incl. BES); Somalis; Poles (1st generation, registered 2004+); Iranians; native Dutch reference sample",
-         fieldwork="Labyrinth Onderzoek & Advies (Mar 2020 - Jan 2021, during covid); SCP", mode="CAWI (90%) with CAPI follow-up for five groups (10%, incl. 15 video interviews); person sample 15+ from the BRP; split-half questionnaire",
-         zipfile="Surveys/SIM 2020.zip", file_hh="", file_pp="", file_ro="", file_main="SIM2020 CCF v2.sav", encoding="utf-8-double",
-         id_var="Volgnummer", weight_var="eindgewicht", sysmis_tag="d",
-         missing_scheme="explicit codes -5 not applicable/routing, -3 don't know, -2 refusal, -4 no answer, -6 don't know/no answer, -1 Farsi questionnaire error; 9 'Anders/Refusal/Don't know' in coarsened (_kl) variables; 92 'anders'"),
-]
+SURVEYS = SV.REGISTRY                # surveys/<key>.py: SURVEY (plus REGISTRY_ONLY rows of surveys not yet included)
 INCLUDED = [s for s in SURVEYS if s["status"] == "included"]
-# sha256 of the DANS zip files as downloaded (computed on the project laptop, 29 Oct 2026; recomputed when the zip is present)
-ZIP_SHA256_KNOWN = {
-    "spva2002": "91166a194661265f0efafc97828639a8f41b1ef930639adecb00b99794a9d10e", "spvn2003": "96556f53090b5e84fcd3d6aa29c43339391d9363c4b9984a5e2334147cd48011",
-    "las2004": "cb67573d71e1d645e41578f1811517a0ddd2d9e7b2d4a3b7ca8807ca0e93a0bc", "sim2006": "5c666899708dcc2900dbfa1861bfaedcb9faa9ae2aac05974664491e61001d31",
-    "sing2009": "b4d3aea4cf56a8e7671e1dc5203878cf3764b30024b29aeb4b664b25304bb774", "sim2011": "78d8bf29ef6378ed654429c13540994cf9d53e02e06363644c6827f81ed81baa",
-    "sim2015": "5269492b473f786ed80effa7288bcf223feb20d4d1a65dccadf0dabf1ea3bde5", "sim2020": "cc4518f30693f382739982db33e76cc338fa05a339b1266f70d9aa8a8533ea95",
-}
+ZIP_SHA256_KNOWN = SV.ZIP_SHA256      # sha256 of the DANS zips as downloaded (surveys/<key>.py: ZIP_SHA256)
 # svy_key: immutable survey key used to build id_person / id_hh (the fieldwork year; fixed at first inclusion, never
 # renumbered).  svy_id is the chronological display/order number and may shift when an earlier wave is inserted.
 for s_ in SURVEYS:
@@ -133,28 +71,10 @@ for s_ in INCLUDED:
     s_["file_sha256"] = ";".join(hashes)
     zp = os.path.join(ROOT, s_["zipfile"])
     s_["zip_sha256"] = _sha256(zp) if os.path.exists(zp) else ZIP_SHA256_KNOWN.get(s_["key"], "")
-ELIG = {   # eligible sample / target population and weight guidance per survey (codebook section 1, README)
-    "spva2002": ("Households of Turkish, Moroccan, Surinamese and Antillean/Aruban origin in 13 municipalities (ISEO; the native comparison sample is not in the DANS deposit). Rows: all roster members; interviewed persons = heads (main questionnaire) and members aged 12+ (mini); children and non-interviewed members are roster-only records with head-reported demography.",
-                 "svy_wgt: ISEO design/post-stratification weight of the household (merged onto every member). Not a population weight across surveys; observations are clustered within households (id_hh)."),
-    "spvn2003": ("Households of Afghan, Iraqi, Iranian, former-Yugoslav and Somali origin in 12 municipalities (ISEO). Same row structure as SPVA 2002.",
-                 "svy_wgt: ISEO household weight; cluster on id_hh."),
-    "las2004":  ("Persons aged 15-64 of Turkish, Moroccan, Surinamese, Antillean/Aruban and native Dutch origin in the 50 largest municipalities (GBA sample, CBS); 228 persons belong to an oversample of working men and women (svy_oversample).",
-                 "svy_wgt (weegtot): Veldkamp/SCP weight to the population of the 50 largest municipalities; svy_wgt_grp (weegherk): weight within origin group (mean 1 per group); svy_wgt_raise (ophtot): raising factor to population totals. Diary analyses: tim_wgt / tim_wgt_corr."),
-    "sim2006":  ("Persons aged 15+ of Turkish, Moroccan, Surinamese, Antillean/Aruban and native Dutch origin, nationwide GBA sample (CBS).",
-                 "svy_wgt (weegtot): CBS weight to the national population of the five groups; svy_wgt_grp (weegherk): within origin group; svy_wgt_raise (ophtot): raising factor."),
-    "sing2009": ("Persons aged 15+ of Afghan, Iraqi, Iranian, Somali, Chinese, Polish (short-stay, registered < 5 years) and native Dutch origin, nationwide two-stage GBA sample (CBS); partial release (see section 3).",
-                 "svy_wgt = svy_wgt_grp (weegherk): within-origin-group weight, the only general weight in the deposit; svy_wgt_pool: separate weight for the short-stay Polish sample. No weight to a pooled national population is supplied."),
-    "sim2011":  ("Persons aged 15+ of Turkish, Moroccan, Surinamese, Antillean/Aruban and native Dutch origin, nationwide GBA sample stratified by municipality size (CBS); main CAPI study only.",
-                 "svy_wgt (weegtot): CBS weight to the national population (origin x sex, household size/marital status, municipality stratum, generation, age); svy_wgt_grp (weegherk): within origin group; svy_wgt_raise (ophtot): raising factor."),
-    "sim2015":  ("Persons aged 15+ of Turkish, Moroccan, Surinamese, Antillean/Aruban, Somali, Polish (first generation registered 2004+) and native Dutch origin, nationwide BRP sample (CBS).",
-                 "svy_wgt (eindgewicht): CBS calibration weight scaled to the population; svy_wgt_alt: alternative weighting model; svy_wgt_start: inverse selection probability."),
-    "sim2020":  ("Persons aged 15+ of Turkish, Moroccan, Surinamese, Caribbean-Dutch, Somali, Polish (first generation registered 2004+), Iranian and native Dutch origin, nationwide BRP sample (CBS); split-half questionnaire (svy_split).",
-                 "svy_wgt (eindgewicht): CBS calibration weight scaled to the population."),
-}
+ELIG = SV.ELIG                       # eligible sample / weights per survey (surveys/<key>.py: ELIGIBLE, WEIGHTS)
 for s_ in SURVEYS:
     s_["eligible"], s_["weights"] = ELIG.get(s_.get("key", ""), ("", ""))
-SLABEL = {"spva2002": "SPVA 2002", "spvn2003": "SPVN 2003", "las2004": "LAS 2004/05", "sim2006": "SIM 2006", "sing2009": "SING 2009",
-          "sim2011": "SIM 2011", "sim2015": "SIM 2015", "sim2020": "SIM 2020"}      # display names (codebook, notes)
+SLABEL = SV.LABEL                    # display names (surveys/<key>.py: LABEL)
 for s_ in SURVEYS:                                                                   # display name travels with the registry (surveys.csv: label)
     s_["label"] = SLABEL.get(s_["svy_name"].lower(), re.sub(r"^([A-Z]+)(\d{4})$", r"\1 \2", s_["svy_name"]))
 KEYS = [s["key"] for s in INCLUDED]
@@ -284,85 +204,7 @@ for row in VARS:
         vs(row["valueset"], [(c, l) for c, l in sorted(vl.items()) if c >= 0 and not re.match(r"^(onbekend|weet niet|missing|sysmis|diversen|wil niet)", l.strip(), re.I)])
 
 # ------------------------------------------------------------------ missing rules (data, read by both engines)
-missing_rules = [
-    # SPVN 2003
-    dict(survey="spvn2003", rule_type="code", match="-7", target=".", note="Sysmis (not applicable / routed out / not in questionnaire)"),
-    dict(survey="spvn2003", rule_type="code", match="-4", target=".d", note="Missing / no information"),
-    dict(survey="spvn2003", rule_type="code", match="-3", target=".a", note="Don't know"),
-    dict(survey="spvn2003", rule_type="code", match="-2", target=".b", note="Refusal (wil niet zeggen)"),
-    dict(survey="spvn2003", rule_type="label", match="^weet niet$", target=".a", note="Labelled don't-know codes (997, 9997, 0 in year/month variables)"),
-    dict(survey="spvn2003", rule_type="label", match="^wil niet zeggen$", target=".b", note=""),
-    dict(survey="spvn2003", rule_type="label", match="^onbekend$", target=".d", note="Unknown place/country in code lists (97, 997)"),
-    dict(survey="spvn2003", rule_type="label", match="^(missing|geen informatie)$", target=".d", note=""),
-    dict(survey="spvn2003", rule_type="label", match="^sysmis$", target=".", note=""),
-    dict(survey="spvn2003", rule_type="declared", match="^(0|7|97|98|997|9997)$", target=".a", note="Declared user-missing codes that follow the ISEO don't-know convention (0 in year/month/amount items, 7, 97/997/9997, 98)"),
-    dict(survey="spvn2003", rule_type="declared", match=".*", target=".d", note="Other declared user-missing codes (9/10/99/999 = no information)"),
-    # SPVA 2002
-    dict(survey="spva2002", rule_type="label", match="^geen informatie$", target=".d", note="Codes 9/99/999/9999/99999 where so labelled"),
-    dict(survey="spva2002", rule_type="label", match="^weet niet$", target=".a", note="Codes 7/97 where so labelled"),
-    dict(survey="spva2002", rule_type="declared", match="^(7|97)$", target=".a", note="SPSS user-missing codes declared in the file (source_missing.csv): ISEO convention 7/97 = don't know"),
-    dict(survey="spva2002", rule_type="declared", match=".*", target=".d", note="Other declared user-missing codes (9/99/999/9999/99999 = geen informatie)"),
-    # SIM 2015 (TNS NIPO conventions)
-    dict(survey="sim2015", rule_type="code", match="-7", target=".", note="Sysmis in SCP-constructed variables"),
-    dict(survey="sim2015", rule_type="code", match="-2", target=".c", note="'blanc': question not presented (routing) - 314,198 cells"),
-    dict(survey="sim2015", rule_type="code", match="-5", target=".c", note="Niet van toepassing"),
-    dict(survey="sim2015", rule_type="code", match="-3", target=".a", note="Weet niet / geen antwoord"),
-    dict(survey="sim2015", rule_type="code", match="-1", target=".b", note="Wil niet zeggen"),
-    dict(survey="sim2015", rule_type="code", match="-4", target=".d", note="'Missing' in SCP-constructed variables; 'geen opleiding' in education items is mapped explicitly (.c)"),
-    dict(survey="sim2015", rule_type="code", match="-6", target=".d", note="'Diversen' in SCP-constructed education variables (uncodable)"),
-    dict(survey="sim2015", rule_type="label", match="^blanc$", target=".c", note=""),
-    dict(survey="sim2015", rule_type="label", match="^wil niet zeggen$", target=".b", note="Code 98 in huisbui"),
-    dict(survey="sim2015", rule_type="label", match="^weet niet", target=".a", note="Labelled don't-know codes incl. 'weet niet \\ niet van toepassing' (99)"),
-    dict(survey="sim2015", rule_type="label", match="^niet van toepassing$", target=".c", note="Codes 4 (inburgering items) and 9 (conherk)"),
-    dict(survey="sim2015", rule_type="label", match="^(sysmis)$", target=".", note=""),
-    dict(survey="sim2015", rule_type="label", match="^missing$", target=".d", note=""),
-    dict(survey="sim2015", rule_type="label", match="^diversen$", target=".d", note="Unless mapped explicitly to an 'other' category (value_map takes precedence)"),
-    # SIM 2020 (Labyrinth conventions + CCF coarsening)
-    dict(survey="sim2020", rule_type="code", match="-5", target=".c", note="'nvt binnen vragenlijst': question not presented (routing, split half, group) - 476,736 cells"),
-    dict(survey="sim2020", rule_type="code", match="-3", target=".a", note="Weet niet"),
-    dict(survey="sim2020", rule_type="code", match="-2", target=".b", note="Wil niet antwoorden"),
-    dict(survey="sim2020", rule_type="code", match="-4", target=".b", note="Geen antwoord"),
-    dict(survey="sim2020", rule_type="code", match="-6", target=".a", note="Weet niet / geen antwoord / wil niet zeggen / neutraal (combined code)"),
-    dict(survey="sim2020", rule_type="code", match="-1", target=".d", note="Wrong question or answer option in the Farsi questionnaire (unless mapped explicitly)"),
-    dict(survey="sim2020", rule_type="label", match="refusal", target=".d", note="'Anders/Refusal/Don't know' (9) in CCF-coarsened _kl variables: other and missing cannot be separated"),
-    dict(survey="sim2020", rule_type="label", match="^weet niet", target=".a", note=""),
-    dict(survey="sim2020", rule_type="label", match="^niet van toepassing$", target=".c", note=""),
-    # SIM 2011 (Veldkamp CAPI; CBS protection): explicit codes
-    dict(survey="sim2011", rule_type="code", match="-5", target=".c", note="Niet van toepassing: question not asked (routing, group) - 537,139 cells"),
-    dict(survey="sim2011", rule_type="code", match="-3", target=".a", note="Weet niet / geen antwoord"),
-    dict(survey="sim2011", rule_type="code", match="-2", target=".b", note="Wil niet zeggen / geen antwoord"),
-    dict(survey="sim2011", rule_type="code", match="-4", target=".d", note="Missing"),
-    dict(survey="sim2011", rule_type="code", match="-1", target=".c", note="Undocumented code used where a question was not asked (persons with paid work in HFDACT/urencat; a few hours values)"),
-    dict(survey="sim2011", rule_type="code", match="-9", target=".c", note="'nvt: autochtoon' (native Dutch sample)"),
-    dict(survey="sim2011", rule_type="label", match="^niet van toepassing", target=".c", note="Positive codes labelled not applicable (unless mapped)"),
-    dict(survey="sim2011", rule_type="label", match="^weet niet", target=".a", note=""),
-    # SIM 2006 (Veldkamp): explicit codes in some variables, system-missing for most routing (surveys.csv sysmis_tag = c)
-    dict(survey="sim2006", rule_type="code", match="-5", target=".c", note="'niet van toepassing'"),
-    dict(survey="sim2006", rule_type="code", match="-3", target=".a", note="'weet niet'"),
-    dict(survey="sim2006", rule_type="code", match="-2", target=".b", note="'wil niet zeggen/geen opgave'"),
-    dict(survey="sim2006", rule_type="code", match="-7", target=".c", note="'niet in vragenlijst': item not in the questionnaire version of this group"),
-    dict(survey="sim2006", rule_type="code", match="-8", target=".d", note="'ten onrechte niet beantwoord' (interview program error)"),
-    dict(survey="sim2006", rule_type="code", match="-4", target=".d", note="'missing'"),
-    dict(survey="sim2006", rule_type="code", match="-9", target=".c", note="'nvt: autochtoon' (native Dutch sample)"),
-    dict(survey="sim2006", rule_type="label", match="^niet van toepassing|^nvt", target=".c", note="Positive codes labelled not applicable (unless mapped)"),
-    dict(survey="sim2006", rule_type="label", match="^weet niet", target=".a", note=""),
-    # LAS 2004/05 (Veldkamp .por): -7 block not asked, -5 nvt, -3 weet niet, -2 wil niet zeggen/geen informatie, -4 weet niet (education),
-    # -9 'nvt: autochtoon'; positive 9/99/999 'weet niet / geen antwoord' codes caught by label; system-missing = routed (sysmis_tag = c)
-    dict(survey="las2004", rule_type="code", match="-7", target=".c", note="'vragenblok niet gesteld' (block not asked to this group / version)"),
-    dict(survey="las2004", rule_type="code", match="-5", target=".c", note="'niet van toepassing'"),
-    dict(survey="las2004", rule_type="code", match="-3", target=".a", note="'weet niet'"),
-    dict(survey="las2004", rule_type="code", match="-4", target=".a", note="'weet niet' (education variables)"),
-    dict(survey="las2004", rule_type="code", match="-2", target=".b", note="'wil niet zeggen, geen informatie'"),
-    dict(survey="las2004", rule_type="code", match="-9", target=".c", note="'nvt: autochtoon' (native Dutch sample)"),
-    dict(survey="las2004", rule_type="label", match="^weet niet", target=".a", note="positive 'weet niet (\\ geen antwoord)' codes (9, 99, 999, 9999) unless mapped"),
-    dict(survey="las2004", rule_type="label", match="^wil niet zeggen", target=".b", note="positive refusal codes (GEZINK 99, STEMWS 14) unless mapped: STEMINT 5 'wil niet zeggen' is a printed answer option and keeps code 5 of vote_int5"),
-    dict(survey="las2004", rule_type="label", match="geen informatie|^onbekend", target=".d", note="e.g. 99 'geen informatie' in the age classes, 99 'onbekend' in burgst"),
-    dict(survey="las2004", rule_type="label", match="^niet van toepassing|^nvt|niet gesteld|^sysmis|^volgt geen opleiding|^geen vragenlijst", target=".c", note=""),
-    # SING 2009 (Veldkamp .por, CBS-protected): positive labelled codes only
-    dict(survey="sing2009", rule_type="label", match="^weet niet", target=".a", note="7/8/96 'weet niet' (also 'weet niet \\ geen antwoord')"),
-    dict(survey="sing2009", rule_type="label", match="^geen antwoord|wil niet zeggen", target=".b", note="6/7/97/98/997/99997 'geen antwoord / wil niet zeggen'"),
-    dict(survey="sing2009", rule_type="label", match="^niet van toepassing|^nvt", target=".c", note="8/9/98/99/998/999/9998/9999: routing and the native sample"),
-]
+missing_rules = SV.MISSING_RULES      # surveys/<key>.py: MISSING_RULES, in survey order
 CODE_RULES = {k: set() for k in KEYS}
 LABEL_RULES = {k: [] for k in KEYS}
 for r in missing_rules:
@@ -459,7 +301,7 @@ SNAME = {s["key"]: SLABEL[s["key"]] for s in INCLUDED}
 STRUCTURE = {s["key"]: s["structure"] for s in INCLUDED}
 HH_GENERIC = {"All household members (roster)", "All interviewed persons aged 12+ (main and mini questionnaire)", "All interviewed persons",
               "Heads of household (main questionnaire)", "Heads of household"}
-_SV = r"(?:SPVA|SPVN|LAS|SIM|SING) \d{4}(?:/\d{2})?"
+_SV = r"(?:" + "|".join(sorted({s_["label"].split(" ")[0] for s_ in SURVEYS})) + r") \d{4}(?:/\d{2})?"   # survey labels in universe texts: series names from the registry (SPVA, SPVN, LAS, SIM, SING)
 _RE_SVLIST = re.compile(r"\s*\((" + _SV + r"(?:(?:,| and|;) " + _SV + r")*)\)\s*$")        # '... (SIM 2006, SIM 2011)' at the end
 _RE_ONLY = re.compile(r",?\s*\b" + _SV + r"(?: and " + _SV + r")? only\s*$")             # legacy '..., SPVA 2002 only'
 _RE_TRAIL = re.compile(r",\s*" + _SV + r"(?:(?:,| and) " + _SV + r")*\s*$")                 # legacy '..., SIM 2015 and SIM 2020'
@@ -543,11 +385,11 @@ for it in qitems:
         if nm: by_name.setdefault((k, nm), []).append(it)
     for m in re.finditer(r"\b(\d{3,6}) ([A-Z][A-Z0-9_]{2,}) ", it["subitems"] + " "):
         by_name.setdefault((k, m.group(2)), []).append(it)
-    if k in ("spva2002", "spvn2003"):
+    if STRUCTURE[k] != "flat":                                # household surveys: name tokens of the hh/pp/ro questionnaires
         for tok in it["qnames"].split(";"):
             if tok: by_token.setdefault((k, tok), []).append(it)
-PREFER = {"sim2015": "cawi"}            # SIM 2015: CAWI and CAPI questionnaires are parallel; CAWI is the reference, CAPI differences in capi_qid
-NUM_LINK = {"sim2006", "sing2009"}      # questionnaires without variable names: link by the question number in the data label
+PREFER = SV.PREFER                      # surveys/<key>.py: PREFER_INSTRUMENT (SIM 2015: CAWI is the reference, CAPI differences in capi_qid)
+NUM_LINK = SV.NUM_LINK                  # surveys/<key>.py: LINK_BY_QNUM - questionnaires without variable names: link by the question number in the data label
 
 
 def _overlap(a, b):
@@ -697,95 +539,19 @@ for row in VARS:
 # a printed condition (regex on the routing text of a question) to the harmonized variable that carries the same information
 # and the values under which the question was asked; 99_checks.R verifies every linked variable against its gates in the data
 # and the codebook prints the gates per survey.  (crosswalks/routing_rules.csv)
-ROUTING_RULES = [
-    # survey,   pattern (case-insensitive regex on the routing text),                    gate,              allowed,     description, Q-references the rule consumes
-    ("las2004",  r"INDIEN ALLOCHTOON",                                                   "svy_routing_mig", "1",         "persons with a migration background (migrant routing of the script)", "9001"),
-    ("las2004",  r"INDIEN AUTOCHTOON",                                                   "svy_routing_mig", "0",         "native reference sample (native routing)", "9001"),
-    ("las2004",  r"INDIEN TURK, ?MAROKKAAN",                                             "dem_eth",         "1,2",       "Turkish and Moroccan respondents", ""),
-    ("las2004",  r"INDIEN MOSLIM",                                                       "rel_den_cat",     "2",         "Muslims", ""),
-    ("las2004",  r"INDIEN VROUW",                                                        "dem_sex",         "2",         "women", "35"),
-    ("las2004",  r"INDIEN (BETAALD WERK|WERKEND)",                                       "lab_emp",         "1",         "persons with paid work", "500"),
-    ("las2004",  r"INDIEN GEEN (BETAALD )?WERK",                                         "lab_emp",         "0",         "persons without paid work", ""),
-    ("las2004",  r"INDIEN (?!NIET )(GEHUWD OF SAMENWONEND|PARTNER\b)",                   "dem_prtnr_st",    "1,2,3,4",   "persons with a partner - married, cohabiting or living apart together: the LAS data show the 'GEHUWD OF SAMENWONEND' items were asked to LAT partners as well", ""),
-    ("las2004",  r"INDIEN NIET GEHUWD OF SAMENWONEND",                                   "dem_prtnr_st",    "0,4",       "persons without a co-resident partner", ""),
-    ("las2004",  r"INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b",                       "dem_has_chd",     "1",         "persons with children", ""),
-    ("las2004",  r"INDIEN GODSDIENST/RELIGIE",                                           "rel_any",         "1",         "persons who belong to a religion", ""),
-    ("las2004",  r"INDIEN NIET (IN NEDERLAND )?GEBOREN",                                 "dem_gen",         "1",         "first generation (born abroad)", "20"),
-    ("sim2006",  r"IF \[ (?!#)\s*Q9001 , 1 TO 4(?! ?,)",                                "svy_routing_mig", "1",         "persons with a migration background (migrant routing of the script)", "9001"),
-    ("sim2006",  r"IF \[ # ?Q9001 , 5(?! ?,)",                                          "svy_routing_mig", "1",         "persons with a migration background (migrant routing of the script)", "9001"),
-    ("sim2006",  r"IF \[ (?!#)\s*Q9001 , 5(?! ?,)",                                    "svy_routing_mig", "0",         "native reference sample (native routing)", "9001"),
-    ("sim2006",  r"IF \[ (?!#)\s*Q9001 , 1 , 2(?! ?,)",                                "dem_eth",         "1,2",       "Turkish and Moroccan respondents", "9001"),
-    ("sim2006",  r"IF \[ (?!#)\s*Q9001 , 3 , 4 , 5(?! ?,)",                            "dem_eth",         "3,4,90",    "Surinamese, Antillean and native Dutch respondents", "9001"),
-    ("sim2006",  r"IF \[ (?!#)\s*Q35 , 2(?! ?,)",                                      "dem_sex",         "2",         "women", "35"),
-    ("sim2006",  r"IF \[ (?!#)\s*Q43 , 1(?! ?,)",                                      "dem_prtnr_st",    "1,2,3,4",   "persons with a partner", "43"),
-    ("sim2006",  r"IF \[ (?!#)\s*Q500 , 1(?! ?,)",                                     "lab_emp",         "1",         "persons with paid work", "500"),
-    ("sim2006",  r"IF \[ (?!#)\s*Q920 , 1(?! ?,)",                                     "rel_any",         "1",         "persons who belong to a religion", "920"),
-    ("sim2006",  r"IF \[ (?!#)\s*Q930 , 1 TO 6(?! ?,)",                                "rel_den_cat",     "2",         "Muslims", "930"),
-    ("sing2009", r"INDIEN \[ # ?Q40 , 8(?! ?,)",                                        "svy_routing_mig", "1",         "persons with a migration background (migrant routing of the script)", "40,9001"),
-    ("sing2009", r"INDIEN \[ (?!#)\s*Q80 , 2(?! ?,)",                                  "dem_sex",         "2",         "women", "80"),
-    ("sing2009", r"INDIEN \[ (?!#)\s*Q860 , 1(?! ?,)",                                 "lab_emp",         "1",         "persons with paid work", "860"),
-    ("sing2009", r"INDIEN \[ (?!#)\s*Q2990 , 1(?! ?,)",                                "rel_any",         "1",         "persons who belong to a religion", "2990"),
-    ("sing2009", r"INDIEN \[ (?!#)\s*Q3000 , 1 TO 6(?! ?,)",                           "rel_den_cat",     "2",         "Muslims", "3000"),
-    ("sim2011",  r"INDIEN (RESPONDENT )?ALLOCHTOON",                                     "svy_routing_mig", "1",         "persons with a migration background (migrant routing of the script)", "9001"),
-    ("sim2011",  r"INDIEN (RESPONDENT )?AUTOCHTOON",                                     "svy_routing_mig", "0",         "native reference sample (native routing)", "9001"),
-    ("sim2011",  r"INDIEN MOSLIM",                                                       "rel_den_cat",     "2",         "Muslims", "930"),
-    ("sim2011",  r"INDIEN (Q920 ?= ?1|GELOVIG)",                                         "rel_any",         "1",         "persons who belong to a religion", "920"),
-    ("sim2011",  r"INDIEN VROUW",                                                        "dem_sex",         "2",         "women", "35"),
-    ("sim2011",  r"INDIEN PARTNER \(Q43 ?= ?1\)",                                      "dem_has_prtnr",   "1",         "persons with a partner", "43"),
-    ("sim2011",  r"INDIEN BETAALD WERK \(Q500 ?= ?1\)|INDIEN WERKEND",                 "lab_emp",         "1",         "persons with paid work", "500"),
-    ("sim2011",  r"INDIEN GEEN BETAALD WERK",                                            "lab_emp",         "0",         "persons without paid work", "500"),
-    ("sim2011",  r"INDIEN NIET IN NEDERLAND GEBOREN",                                    "dem_gen",         "1",         "first generation (born abroad)", "20"),
-    ("sim2015",  r"ASK ONLY IF not Q9001 ?= ?7|not Q9001=7",                             "svy_routing_mig", "1",         "persons with a migration background (migrant routing of the script)", "9001"),
-    ("sim2015",  r"ASK ONLY IF Q920 ?= ?1",                                              "rel_any",         "1",         "persons who belong to a religion", "920"),
-    ("sim2015",  r"ASK ONLY IF Q930 ?= ?1,2,3,4,5,6",                                    "rel_den_cat",     "2",         "Muslims", "930"),
-    ("sim2015",  r"ASK ONLY IF Q43 ?= ?1|IF Q43 ?= ?1",                                  "dem_has_prtnr",   "1",         "persons with a partner", "43"),
-    ("sim2015",  r"ASK ONLY IF Q500 ?= ?1",                                              "lab_emp",         "1",         "persons with paid work", "500"),
-    ("sim2015",  r"ASK ONLY IF Q35 ?= ?2",                                               "dem_sex",         "2",         "women", "35"),
-    ("sim2015",  r"not Q20 ?= ?5",                                                       "dem_gen",         "1",         "first generation (born abroad)", "20"),
-    ("sim2020",  r"IF NOT (Q)?9001 ?= ?7|Q9001 IS NOT 7",                               "svy_routing_mig", "1",         "persons with a migration background (migrant routing of the script)", "9001"),
-    ("sim2020",  r"Q9004 ?, ?1\b|Q9004 ?= ?1\b|NOT Q9004 ?= ?2\b",                    "dem_gen",         "1",         "first generation (sample-data field GENERATIE: the language, Dutch-course and migration items of SIM 2020 went to the first generation only)", "9004"),
-    ("sim2020",  r"IF Q920 ?= ?1",                                                       "rel_any",         "1",         "persons who belong to a religion", "920"),
-    ("sim2020",  r"IF \[?Q43,1\]?",                                                    "dem_has_prtnr",   "1",         "persons with a partner", "43"),
-    ("sim2020",  r"IF \[?Q35,2",                                                        "dem_sex",         "2",         "women", "35"),
-    ("sim2020",  r"IF \[?Q500,1\]?|IF WERKZAAM",                                       "lab_emp",         "1",         "persons with paid work", "500"),
-    ("sim2020",  r"IF \[?Q930,1-5\]?|IF Q930 ?= ?1,2,3,4,5",                           "rel_den_cat",     "2",         "Muslims", "930"),
-    ("sim2020",  r"MOSLIM OF CHRISTEN",                                                   "rel_den_cat",     "2,3",       "Muslims and Christians", "930"),
-    ("sim2020",  r"IF SCHOOLGAAND",                                                       "edu_cur_lvl3",    "1,2,3",     "persons currently in education (any level)", ""),
-    ("spva2002", r"INDIEN (NU )?(LOONDIENST|WERKEND|BETAALD WERK)",                      "lab_emp",         "1",         "persons with paid work", "500"),
-    ("spva2002", r"INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b",                       "dem_has_chd",     "1",         "persons with children", ""),
-    ("spvn2003", r"INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b",                       "dem_has_chd",     "1",         "persons with children", ""),
-    ("spva2002", r"INDIEN GEHUWD",                                                       "dem_mar",         "1",         "married persons", ""),
-    ("spva2002", r"INDIEN GODSDIENST/KERK/RELIGIE|INDIEN GELOVIG",                       "rel_any",         "1",         "persons who belong to a religion", "920"),
-]
+ROUTING_RULES = SV.ROUTING_RULES      # surveys/<key>.py: ROUTING_RULES (survey, pattern, gate, allowed, description, consumes)
 assert not any(";" in e for *_, e, _ in ROUTING_RULES), "routing rule descriptions must not contain ';' (gate separator)"
 write("routing_rules.csv", [dict(survey=a, pattern=b, gate=c, allowed=d, description=e, consumes=f) for a, b, c, d, e, f in ROUTING_RULES], ["survey", "pattern", "gate", "allowed", "description", "consumes"])
 # printed conditions that do not gate the item they are printed with (sub-items of a grid share one routing block; the
 # data show the item was asked more widely): the gate is not applied and the reason is printed in the codebook
-ROUTING_EXCEPTIONS = [
-    # survey,   source variable (regex),        gate,       reason
-    ("sim2020", r"^contacterbij_(studie|buurt)$", "lab_emp",      "the condition 'IF WERKZAAM' governs the sibling item contacterbij_baan (contacts at work), this item was asked regardless of employment"),
-    ("sim2020", r"^contacterbij_(baan|buurt)$",   "edu_cur_lvl3", "the condition 'IF SCHOOLGAAND' governs the sibling item contacterbij_studie (contacts at school), this item was asked regardless of enrolment"),
-    ("sim2015", r"^anveel",                       "svy_routing_mig", "the script also prints 'Niet stellen indien (Q9001=7 AND Q766=5 AND Q765=5)', the data show the native reference sample was asked (about four in five natives have values)"),
-    ("sim2015", r"^CATreligie$",                  "rel_any",      "CATreligie is a constructed category variable that codes respondents without a religion (Q920 = no) as 0 = none, the spoken question Q930 was asked to religious respondents only"),
-    ("sim2011", r"^oplblnl$",                     "svy_routing_mig", "oplblnl is a constructed variable (the native reference sample is coded 3 = education in the Netherlands only), the spoken question Q235 was asked to migrants only"),
-    ("sim2015", r"^anveel",                       "soc_cont_nbr_org", "the printed 'ASK ONLY IF not Q766=5 and not Q765=5' is contradicted by the script's own 'Niet stellen indien (Q9001=7 AND Q766=5 AND Q765=5)' and by the data (about one in six values come from respondents with code 5)"),
-    ("sim2015", r"^anveel",                       "soc_cont_frnd_org", "the printed 'ASK ONLY IF not Q766=5 and not Q765=5' is contradicted by the script's own 'Niet stellen indien (Q9001=7 AND Q766=5 AND Q765=5)' and by the data (about one in six values come from respondents with code 5)"),
-    ("spvn2003", r"^NLCURS$",                     "int_crs",      "printed 'INDIEN [ Q41 , 2 ]' (no inburgering course), the data show 672 of 3,246 values come from respondents who did follow an inburgering course (INBCURS = 1), so the routing was not applied as printed"),
-    ("sim2020",  r"^oplnl$",                      "edu_cntry",    "printed 'IF NOT Q235=1', the data show the question was asked to all respondents (1,355 values from respondents who reported education abroad only, 291 of them 'ja')"),
-    ("sim2020",  r"^stemherk2$",                  "dem_eth",      "stemherk2 is the Caribbean variant of Q8531 STEMHERK (linked by name prefix), the printed 'IF Q9001 IS NOT 3, 7' belongs to the origin-country variant, and the data show stemherk2 holds values for Antillean/Aruban respondents only (dem_eth = 4)"),
-    ("spvn2003", r"^ARBINK2$",                    "inc_lab",      "printed 'INDIEN [ Q141 , 9997 , 9999 ]' (amount unknown or refused); the deposited ARBINK1 holds an amount for most respondents who answered the category question (round amounts, i.e. back-filled by the data producer), so the harmonized inc_lab is not missing for them"),
-    ("spvn2003", r"^UITKINK2$",                   "inc_ben_amt",  "printed 'INDIEN [ Q149 , 9997 , 9999 ]' (amount unknown or refused); the deposited UITKINK1 holds an amount for the respondents who answered the category question (back-filled by the data producer), so the harmonized inc_ben_amt is not missing for them"),
-]
+ROUTING_EXCEPTIONS = SV.ROUTING_EXCEPTIONS   # surveys/<key>.py: ROUTING_EXCEPTIONS
 write("routing_exceptions.csv", [dict(survey=a, source_var=b, gate=c, reason=d) for a, b, c, d in ROUTING_EXCEPTIONS], ["survey", "source_var", "gate", "reason"])
 # household surveys (SPVA/SPVN): the merge takes a source variable from the most detailed file (heads > interviewed persons >
 # roster), a file's explicit system-missing code included.  A declared exception lets a valid value of a less detailed file
 # stand in where the more detailed file holds only the system-missing code (v0.4.8, follow-up audit of v0.4.7: one SPVN 2003
 # generation code).  Not applied in general: the same code also marks derived not-applicable values that agree with the
 # chosen self-report (the age bands of a member whose self-reported age is 12 against a roster age of 17; decisions 1).
-MERGE_EXCEPTIONS = [
-    # survey,    source variable, system-missing code, rule,               reason
-    ("spvn2003", "GENERAT",       -7,                  "valid_over_sysmis", "the interviewed-persons file holds the system-missing code (-7) for one member whose roster record carries a valid generation code (2) consistent with the self-reported age (17) and country of birth; the construction failed in the self-report only - the roster value is the best available report"),
-]
+MERGE_EXCEPTIONS = SV.MERGE_EXCEPTIONS       # surveys/<key>.py: MERGE_EXCEPTIONS
 write("merge_exceptions.csv", [dict(survey=a, source_var=b, sysmis_code=c, rule=d, reason=e) for a, b, c, d, e in MERGE_EXCEPTIONS], ["survey", "source_var", "sysmis_code", "rule", "reason"])
 _RE_FILL = re.compile(r"vul in|PUT IN|fill <\?>|Vraagtekst|inladen|tonen|Help-?(button|tekst)|[\u201c\u201d\"]|ADD TO|REMOVE FROM|SAVE IN|DISPLAY", re.I)   # text fills, option/display script and quoted alternative wordings, not routing
 _RE_ALT = re.compile(r"\\|\bor\b|\bOF (INDIEN|IF|ALS)\b|\bOF\b(?=[^()]*\bQ ?\d)", re.I)      # alternatives between conditions: not decomposable into per-variable gates
@@ -1044,17 +810,7 @@ HHKEYS = [s_["key"] for s_ in INCLUDED if s_["structure"] != "flat"]
 # coded variables are processed from inputs.  Rules are phrase-based and deliberately narrow (an 'ENQ.:' note attached to a
 # real question does not make the item interviewer-acquired); declared cases override them (ACQ_OVERRIDES, written to
 # crosswalks/acquisition_overrides.csv).  Rows the rules cannot settle are listed in crosswalks/acquisition_review.csv.
-ACQ_OVERRIDES = [
-    # survey,    source variable (regex), acquisition,                       respondent-facing, supplied by,  note, exact instruction text (wrapped lines rejoined from the PDF; '' = as parsed)
-    ("spvn2003", r"^TAALINTA$", "interview administration", 0, "interviewer", "block instruction P1a-P2b: the questions must not be put to the respondent(s) but answered by the interviewer",
-     "Enq.: de volgende vragen dienen niet aan de respondent(en) gesteld te worden maar moeten door u zelf beantwoord worden. P1a. Enq.: in welke taal is het gesprek met de hoofdrespondent gevoerd?"),
-    ("las2004",  r"^TAALINT$",  "interview administration", 0, "interviewer", "block instruction VRAAG 404-406: the questions must not be put to the respondent but answered by the interviewer",
-     "ENQ.: De volgende vragen dienen niet aan de respondent gesteld te worden maar moeten door u beantwoord worden. In welke taal is het gesprek gevoerd met de respondent?"),
-    ("las2004",  r"^DAT(DAG|MND)$", "interview administration", 0, "interviewer", "date of the interview noted by the interviewer", ""),
-    ("las2004",  r"^ETNGRP$",   "registry/sample data", 0, "sample frame (origin group of the register-based sample)", "'Respondent behoort tot volgende groep' is the sample classification shown to the interviewer (the LAS samples were drawn by origin group from the municipal population registers, fieldwork report appendix 1a), not a question", ""),
-    ("sim2020",  r"^etngba$",   "registry/sample data", 0, "sample frame / population register (GBA)", "Q9001 is marked [SAMPLE DATA]", ""),
-    ("sim2015",  r"^etngba$",   "registry/sample data", 0, "sample frame / population register (GBA)", "the same sample-data field as SIM 2020 Q9001 (variable name etngba = origin group from the GBA; data label 'Respondent behoort tot volgende GROEP')", ""),
-]
+ACQ_OVERRIDES = SV.ACQ_OVERRIDES             # surveys/<key>.py: ACQ_OVERRIDES
 write("acquisition_overrides.csv", [dict(survey=a, source_var=b, acquisition=c, respondent_facing=d, supplied_by=e, note=f, instruction_text=g) for a, b, c, d, e, f, g in ACQ_OVERRIDES],
       ["survey", "source_var", "acquisition", "respondent_facing", "supplied_by", "note", "instruction_text"])
 ACQ_PHRASES = [   # applied only when the row has no respondent prompt, or its prompt is itself an 'ENQ.:' instruction
@@ -1278,53 +1034,11 @@ print(f"  wording: {sum(1 for r in wording_rows if r['qid'])} of {len(wording_ro
       f"{sum(1 for r in wording_rows if not r['qid'] and r['match'] != 'none')} documented as constructed/registry/administrative; "
       f"{len(unlinked)} unlinked (main-file targets): {', '.join(unlinked[:40])}{' ...' if len(unlinked) > 40 else ''}")
 
-design = [
-    dict(survey="spva2002", aspect="mode", text="Face-to-face interviews at home (paper questionnaires); main questionnaire for the head of household, mini questionnaire for other members aged 12+, cultural-integration module for one child aged 15+. Turkish/Arabic translated questionnaires available for the Turkish and Moroccan groups."),
-    dict(survey="spva2002", aspect="order", text="Fixed question order (paper); no randomisation. Question blocks: general/household/migration, education, labour, income, health, language, group, social contacts, cultural integration, religion, imaging, family relations."),
-    dict(survey="spva2002", aspect="versions", text="One questionnaire version per group; differences limited to the answer categories for mother tongue and ethnic subgroup."),
-    dict(survey="spvn2003", aspect="mode", text="Face-to-face (CAPI) interviews; main questionnaire (15 blocks) for heads, mini questionnaire for members aged 12+, separate health and cultural-integration blocks for the partner and one child aged 15+; Dutch, English or French."),
-    dict(survey="spvn2003", aspect="order", text="Fixed question order; no randomisation."),
-    dict(survey="las2004", aspect="mode", text="Face-to-face CAPI interviews (Veldkamp with TNS NIPO interviewers) with persons aged 15-64 sampled by CBS from the GBA of the 50 largest municipalities (Turks, Moroccans, Surinamese, Antilleans/Arubans, native Dutch); only the sampled person was interviewed. Fieldwork October 2004 - May 2005; corrected response 45% (Turks 47%, Moroccans 44%, Surinamese 38%, Antilleans 47%, natives 50%). An extra sample of working mothers with children under 12 was drawn in March 2005 in nine municipalities and the working partners of male Turkish, Moroccan and Antillean respondents with young children were asked a supplementary interview (47 cases; items marked '+ P' in the questionnaire, of which only dem_prtnr_flex survives as a separate variable); svy_oversample flags the resulting oversample of working men and women (228 cases)."),
-    dict(survey="las2004", aspect="order", text="Fixed block order A-X; no rotation or randomisation reported. Questions on the murder of Theo van Gogh were added about two weeks into the fieldwork (universe: respondents interviewed after that point)."),
-    dict(survey="las2004", aspect="routing", text="One programmed questionnaire with group routing (INDIEN ALLOCHTOON / AUTOCHTOON / TURK, MAROKKAAN / MOSLIM / NIET IN NEDERLAND GEBOREN); the native reference sample skips the migration, language, integration and Islam blocks (.c). The time-use diary (block X) was administered by the interviewer at the end of the interview, for 'yesterday', in 72 quarter-hour slots from 06:00 to 24:00 with a 43-code activity card (tim_slot01-72, tim_act01-43; day of the week in tim_weekday, diary weights tim_wgt and tim_wgt_corr); it was skipped when the interview had run long and completed by 74% of respondents (Turks 71%, Moroccans 65%, natives 87%)."),
-    dict(survey="las2004", aspect="languages", text="Written Turkish and Moroccan-Arabic translations (two independent translators, reconciled with SCP) supported interviews in Dutch; respondents with language problems were re-approached by 17 Turkish and Moroccan interviewers (128 interviews)."),
-    dict(survey="las2004", aspect="release", text="The DANS file holds the questionnaire variables, SCP constructs (societal position, earner type, labour-force status) and weights (svy_wgt, svy_wgt_grp, svy_wgt_raise); no registry linkage. The questionnaire itself is appendix 1a of the deposited fieldwork report."),
-    dict(survey="sim2006", aspect="mode", text="Face-to-face CAPI interviews (Veldkamp/TNS NIPO, with ERC interviewers for Turkish and Moroccan respondents) with persons aged 15+ sampled by CBS from the GBA nationwide (at least 10 addresses per municipality); a paper version existed for interviewers without a laptop. Fieldwork March 2006 - January 2007; corrected response 53% (Moroccans 50%, Turks 60%, Antilleans 54%, Surinamese 46%, natives 55%); 5,250 interviews. Part of the sample received two postage stamps with the invitation letter as an incentive experiment."),
-    dict(survey="sim2006", aspect="order", text="Fixed block order A-P; no rotation or randomisation reported."),
-    dict(survey="sim2006", aspect="routing", text="Only the sampled person answered (the partner could be present). Items on Islam were routed to Muslims by the script; a respondent counted as native Dutch when both parents were born in the Netherlands. Answer cards were collected in a card booklet and read out literally. The deposited questionnaire is the CAPI script printout, which carries no variable names: items are linked to the data through the question number in the data labels and the option order of multiple-response questions."),
-    dict(survey="sim2006", aspect="languages", text="Turkish and Moroccan-Arabic written translations (one translator, independent check); first-generation Turks and Moroccans who arrived at 15 or older were assigned to co-ethnic interviewers where possible, with gender matching."),
-    dict(survey="sing2009", aspect="mode", text="Face-to-face CAPI interviews (Veldkamp/TNS NIPO; 243 native and 60 bilingual interviewers) with persons aged 15+ sampled by CBS from the GBA in two stages (municipalities, then persons): Afghans, Iraqis, Iranians, Somalis, Chinese, Poles and a native Dutch reference sample. The Polish sample was redesigned after a pilot to short-stay Poles (less than five years registered), 532 of whom completed a Polish self-completion version on the interviewer's laptop. Fieldwork February 2009 - February 2010; corrected response 43% (Iranians 44%, Iraqis 48%, Afghans 49%, Somalis 38%, Chinese 38%, Poles 42%, natives 46%); 6,911 interviews."),
-    dict(survey="sing2009", aspect="order", text="Fixed block order A-U; no rotation reported. One item, Q2630 (leisure-time contact with native Dutch, soc_leis_nl), was asked to a random half of the respondents with a migration background (CAPI script field exp2431 = 1); the deposit documents neither the split nor an indicator for it, so the half is visible only as .c on that variable (3,017 of 5,952 asked; the follow-up Q2640 went to both halves)."),
-    dict(survey="sing2009", aspect="routing", text="Natives skip the migration-history and civic-integration blocks (shorter questionnaire, 40 instead of 56 minutes); Chinese respondents could skip the religion items. Respondents aged 15-17 were asked to call in a parent for the household-income questions (hh_inc_band_par). The deposited questionnaire is the CAPI script printout without variable names (linked via the question numbers in the data labels)."),
-    dict(survey="sing2009", aspect="languages", text="Questionnaire, letter and folder translated into Farsi, Arabic, Dari, Somali, Chinese and Polish (DaVinci Vertalingen, checked by co-ethnic interviewers) and programmed in CAPI; short-stay respondents were approached by bilingual interviewers where possible."),
-    dict(survey="sing2009", aspect="release", text="Partial release: the DANS file contains only the questions listed in the deposit's READ ME (the rest is available through CBS Remote Access), and years and durations are coarsened into classes: age and partner's age in 3 classes (15-24, 25-44, 45+), length of stay 0-5/5-10/10-15/15+ years, year of marriage and of first arrival in decade bands, contractual hours in 4 classes, education in 4 classes. The IMPD keeps these as the SING-only `_cat` variants (e.g. dem_age_cat3, mig_dur_nl_cat4). The release is also statistically protected: in some variables real values are replaced by 'don't know' / 'not applicable' / 'other' codes (sex for 2 respondents, marital status 71, origin group 85 - the 'unknown' group -, generation 29 besides the natives, year of marriage 39, small categories of the household-position items recoded to 98), household size and the number of children are top-coded at 6, and the BMI is delivered in classes; the resulting .d / unknown values are protection, not non-response. The CBS microdata hold the unprotected values."),
-    dict(survey="sim2011", aspect="mode", text="Face-to-face CAPI interviews at home (GfK with Labyrinth co-ethnic interviewers), no proxies, with persons aged 15+ sampled by CBS from the GBA stratified in six municipality strata (Turks, Moroccans, Surinamese, Antilleans/Arubans, native Dutch). Fieldwork from November 2010 for about five months; corrected response Turks 54%, Moroccans 50%, Surinamese 43%, Antilleans 48%, natives 55%; 4,125 interviews. A parallel mixed-mode experiment (web, then telephone, then face-to-face; 2,698 respondents, shortened web questionnaire) is NOT in the DANS deposit: all records have onderzoek = main study and methode = CAPI (svy_fw_phase records the two fieldwork phases, the second being a re-approach of non-respondents by another interviewer)."),
-    dict(survey="sim2011", aspect="order", text="Fixed block order A-U; no rotation or randomisation reported. Ranking question Q1073 (fam_val_rank) asks for a 1-5 order of child-rearing values."),
-    dict(survey="sim2011", aspect="routing", text="Group routing as in SIM 2006 (natives .c for migrant-only items; Islam items to Muslims). Partner items Q53-70, 225, 230 are proxy answers by the respondent. Respondents aged 15-17 were asked to call in a parent for the household questions (suffix _par). The deposit is statistically protected (mu-Argus on sex x 5-year age class) and version 3 removed the open-answer variables; the questionnaire is the hardcopy of the CAPI script (appendix g), which prints variable names next to the questions."),
-    dict(survey="sim2011", aspect="languages", text="Turkish and Moroccan-Arabic translations (SIM 2006 versions reused, new items double-translated); Berber (138 interviews), Papiamento (121) and Surinamese languages (11) used orally as fallback (svy_lang_hh, svy_lang_oth). All Turkish and Moroccan respondents were interviewed by co-ethnic interviewers, Surinamese and Antilleans half by native interviewers."),
-    dict(survey="sim2015", aspect="mode", text="Sequential mixed mode: web (CAWI) invitation first, face-to-face (CAPI) follow-up of non-respondents by bilingual interviewers (TNS NIPO and Labyrinth); CAWI and CAPI questionnaires are parallel (questionnaire_items.csv holds both; wording.csv references the CAWI version with the CAPI question id in capi_qid)."),
-    dict(survey="sim2015", aspect="order", text="Fixed block order with randomised item order within batteries: Q801-Q815 and Q813-Q817 (opinion statements), Q895-Q89801 (opinions on NL), Q770 contact with groups and Q859-Q865 feeling thermometers (groups presented in random order, own group always last; Jews never first)."),
-    dict(survey="sim2015", aspect="routing", text="Many items asked only to respondents with a migration background (ASK ONLY IF not Q9001=7); the native reference sample gets mirrored wording ('allochtone' instead of 'autochtone' contacts)."),
-    dict(survey="sim2015", aspect="languages", text="Questionnaire available in Dutch, Turkish, Moroccan Arabic, Polish and Somali (CAWI language choice; language variable not in the public file)."),
-    dict(survey="sim2020", aspect="mode", text="CAWI (90%) with CAPI follow-up only for the Caribbean, Moroccan, Somali, Surinamese and Turkish groups (10%) because of covid; 15 CAPI interviews by video call (WhatsApp). Fieldwork 11 March 2020 - 17 January 2021 with CAPI suspended during lockdowns."),
-    dict(survey="sim2020", aspect="split_half", text="Respondents randomly assigned within origin group to A or B (svy_split). Only A: political participation (POL_4, HERK_3), institutional trust (VERTWORG), belonging (CONTACTERBIJ, ORGANBIJ), media interest and positioning (NIEUWS_3, FREQNIEU, FREQAANT, POS_4). Only B: opinion statements STELL_8_12 and STELL_1_7_5, religion items BIJBKOR and KORZELFINT, mental health items MENTALGEZ_4_4, 8_3, 8_4, BEZOEKMOG, HUISARTS, PIJN, situational discrimination DISCZELF2, Zwarte Piet items."),
-    dict(survey="sim2020", aspect="order", text="Fixed block order with randomised item order within batteries: Q801-Q804, Q813-Q817, Q895-Q89801, Q965-Q967."),
-    dict(survey="sim2020", aspect="versions", text="Six script versions (svy_qversion); version differences are not documented in the fieldwork report. Early CAWI interviews ran on versions 1-3."),
-    dict(survey="sim2020", aspect="languages", text="Dutch, Turkish, Moroccan Arabic, Polish, Somali, Farsi (svy_lang_q); a Farsi error in two items is flagged in the source (code -1)."),
-    dict(survey="sim2020", aspect="wording", text="Group terms updated: 'allochtoon' -> 'persoon met een migratieachtergrond' in most items; 'autochtone Nederlanders' retained in contact items. Text fills per group (<HERKGRP>, <LVH>)."),
-]
+design = SV.DESIGN                   # surveys/<key>.py: DESIGN (codebook section 3.2)
 write("questionnaire_design.csv", design, ["survey", "aspect", "text"])
 
 # municipalities: survey code -> CBS code (2006 list, External/Municipality codes/2006-gemeenten-op-code.xls)
-MUN = {("spva2002", 1): ("0363", "Amsterdam"), ("spva2002", 2): ("0599", "Rotterdam"), ("spva2002", 3): ("0518", "'s-Gravenhage"),
-       ("spva2002", 4): ("0344", "Utrecht"), ("spva2002", 5): ("0772", "Eindhoven"), ("spva2002", 6): ("0153", "Enschede"),
-       ("spva2002", 8): ("0034", "Almere"), ("spva2002", 10): ("0484", "Alphen aan den Rijn"), ("spva2002", 11): ("0748", "Bergen op Zoom"),
-       ("spva2002", 13): ("0018", "Hoogezand-Sappemeer"), ("spva2002", 15): ("0503", "Delft"), ("spva2002", 16): ("0505", "Dordrecht"),
-       ("spva2002", 17): ("0281", "Tiel"),
-       ("spvn2003", 1): ("0363", "Amsterdam"), ("spvn2003", 2): ("0599", "Rotterdam"), ("spvn2003", 3): ("0518", "'s-Gravenhage"),
-       ("spvn2003", 4): ("0344", "Utrecht"), ("spvn2003", 5): ("0772", "Eindhoven"), ("spvn2003", 6): ("0153", "Enschede"),
-       ("spvn2003", 7): ("0034", "Almere"), ("spvn2003", 8): ("0268", "Nijmegen"), ("spvn2003", 9): ("0503", "Delft"),
-       ("spvn2003", 10): ("0080", "Leeuwarden"), ("spvn2003", 11): ("0855", "Tilburg"), ("spvn2003", 12): ("0014", "Groningen")}
+MUN = SV.MUNICIPALITIES              # surveys/<key>.py: MUNICIPALITIES
 mun_rows = []
 for (k, code), (cbs, name) in MUN.items():
     srclab = source_vars[(k, "GEMEENTE")]["vl"].get(code, "")

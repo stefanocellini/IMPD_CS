@@ -1,4 +1,9 @@
 survey,pattern,gate,allowed,description,consumes
+spva2002,INDIEN (NU )?(LOONDIENST|WERKEND|BETAALD WERK),lab_emp,1,persons with paid work,500
+spva2002,INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b,dem_has_chd,1,persons with children,
+spva2002,INDIEN GEHUWD,dem_mar,1,married persons,
+spva2002,INDIEN GODSDIENST/KERK/RELIGIE|INDIEN GELOVIG,rel_any,1,persons who belong to a religion,920
+spvn2003,INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b,dem_has_chd,1,persons with children,
 las2004,INDIEN ALLOCHTOON,svy_routing_mig,1,persons with a migration background (migrant routing of the script),9001
 las2004,INDIEN AUTOCHTOON,svy_routing_mig,0,native reference sample (native routing),9001
 las2004,"INDIEN TURK, ?MAROKKAAN",dem_eth,"1,2",Turkish and Moroccan respondents,
@@ -51,8 +56,3 @@ sim2020,"IF \[?Q500,1\]?|IF WERKZAAM",lab_emp,1,persons with paid work,500
 sim2020,"IF \[?Q930,1-5\]?|IF Q930 ?= ?1,2,3,4,5",rel_den_cat,2,Muslims,930
 sim2020,MOSLIM OF CHRISTEN,rel_den_cat,"2,3",Muslims and Christians,930
 sim2020,IF SCHOOLGAAND,edu_cur_lvl3,"1,2,3",persons currently in education (any level),
-spva2002,INDIEN (NU )?(LOONDIENST|WERKEND|BETAALD WERK),lab_emp,1,persons with paid work,500
-spva2002,INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b,dem_has_chd,1,persons with children,
-spvn2003,INDIEN (UITWONENDE |THUISWONENDE )?KINDEREN\b,dem_has_chd,1,persons with children,
-spva2002,INDIEN GEHUWD,dem_mar,1,married persons,
-spva2002,INDIEN GODSDIENST/KERK/RELIGIE|INDIEN GELOVIG,rel_any,1,persons who belong to a religion,920

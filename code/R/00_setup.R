@@ -23,7 +23,7 @@ dir.create(P("data", "interim"), showWarnings = FALSE, recursive = TRUE)
 dir.create(P("data", "derived"), showWarnings = FALSE, recursive = TRUE)
 dir.create(P("docs"), showWarnings = FALSE, recursive = TRUE)
 
-IMPD_VERSION <- "0.4.9"
+IMPD_VERSION <- "0.4.10"
 LOG <- character(0)
 logmsg <- function(...) { m <- sprintf(...); message(m); LOG <<- c(LOG, m); invisible(m) }
 
