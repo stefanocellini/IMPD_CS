@@ -178,21 +178,39 @@ SKIP(S11, "ONDERZOEK",
 ::: column
 - **pairs=**: the value map for this source: a code, a range lo-hi, a quoted string, or * for any other value, to a harmonized code or .a .b .c .d
 - **u=**: this survey's universe, when it differs from the target's
-- **SKIP()**: deliberately not harmonized, with the reason; the builder stops while any source variable is neither mapped nor skipped
+- **SKIP()**: deliberately not harmonized, with the reason; nothing in a deposit is forgotten silently
 
-What the builder writes to crosswalks/value_map.csv:
+What the builder wrote to crosswalks/value_map.csv, read from the file:
 
-```
-mig_transit,spvn2003,ANDLAND,1,1
-mig_transit,spvn2003,ANDLAND,2,0
-mig_transit,sing2009,ANDLAND,1,0
-mig_transit,sing2009,ANDLAND,2,1
-```
+{{table: crosswalks/value_map.csv | target=mig_transit | columns=survey,source_var,source_value,target_value}}
 :::
 ::::::
 
 ::: notes
 A() is the function written for adding a wave: it attaches one source variable of a later survey to a target that already exists, with its recodes and its universe in one call. Notice the mig_transit line: the SING 2009 answer options are not yes/no, so the pairs invert the codes, and the note says why. The four value_map rows are what the two engines actually read.
+:::
+
+## One variable, every table that mentions it
+
+:::::: columns
+::: column
+The `mig_transit` row of crosswalks/variable_map.csv:
+
+{{record: crosswalks/variable_map.csv | target=mig_transit | columns=target,theme,label_en,valueset,src_spvn2003,src_sing2009,universe_en | cell=80}}
+:::
+::: column
+Its row in crosswalks/universes.csv, where a survey's universe differs from the target's:
+
+{{table: crosswalks/universes.csv | target=mig_transit | columns=survey,universe | labels}}
+
+And in docs/routing_check.csv, as the gate of the SING 2009 arrival-year item:
+
+{{table: docs/routing_check.csv | target=mig_yr_arr_cat5 | survey=sing2009 | columns=source_var,gate,n_values,n_outside,verdict | head=item,gate,values,outside,verdict}}
+:::
+::::::
+
+::: notes
+Everything the pipeline knows about mig_transit is in these tables, and these tables are all that the R and Stata engines read. The slide is pulled from the files at build time: if a row changes, the slide changes with it.
 :::
 
 ## Step 4 · One settings file per survey
@@ -229,6 +247,25 @@ LINK_BY_QNUM = True
 Every survey-level fact lives in one module: the registry entry that becomes a row of surveys.csv, the zip hash, the eligibility and weight text, the missing-value conventions, the questionnaire PDF and its parser, and, where the survey has them, routing rules, acquisition overrides, constructed variables and merge exceptions. A survey added later also keeps its variable declarations in this file, in a declare() function at the bottom.
 :::
 
+## A survey's conventions, as the engines read them
+
+:::::: columns
+::: column
+The SING 2009 row of crosswalks/surveys.csv:
+
+{{record: crosswalks/surveys.csv | svy_name=SING2009 | columns=svy_name,svy_year,zipfile,file_main,id_var,weight_var,sysmis_tag,missing_scheme | cell=72}}
+:::
+::: column
+Its rows in crosswalks/missing_rules.csv, in the order the engines apply them:
+
+{{table: crosswalks/missing_rules.csv | survey=sing2009 | columns=rule_type,match,target,note | head=rule,match,tag,note | cell=34}}
+:::
+::::::
+
+::: notes
+The settings file of the previous slide becomes these rows. The engines never see the Python: they read surveys.csv to find the deposit, the identifier and the weight, and missing_rules.csv to translate the survey's own missing codes into the five tags. A pattern on the value label ('^weet niet') catches every variable that uses that label, whatever its code.
+:::
+
 # Reading the questionnaires
 
 ## Step 5 · Reading the questionnaires: layouts, not meaning
@@ -261,18 +298,31 @@ Nothing here understands a question. The parser recognises the typography of a l
 
 ## Same variable name, different question: mig_transit
 
-The codebook's wording table for one variable, generated from the crosswalks and the parsed questionnaires.
+The wording of one variable in crosswalks/wording.csv, parsed from the questionnaires, surveys in columns:
 
-| | SPVN 2003 | SING 2009 |
-|---|---|---|
-| Source variable | ANDLAND, main questionnaire, VRAAG 24 | ANDLAND, VRAAG 430 |
-| Question | Bent u gedurende de periode tussen vertrek uit … en aankomst in Nederland ook nog in andere landen geweest? | Bent u toen direct naar Nederland gekomen of heeft u een periode van minimaal 3 maanden in een ander land gewoond? |
-| Answer options | 1 = ja; 2 = nee | 1 = direct naar Nederland gekomen; 2 = eerst in ander(e) land(en) gewoond |
-| Value map to mig_transit | 1 → 1, 2 → 0 | 1 → 0, 2 → 1 |
-| Routing that depends on it | none | year of arrival asked only if ANDLAND = 2: {{sing_transit_values}} values, {{sing_transit_outside}} outside the gate |
+{{table: crosswalks/wording.csv | target=mig_transit | columns=survey,source_var,qid,question_text,answer_options | head=Survey,Source variable,Question number,Question read to the respondent,Answer options | labels | transpose | cell=150}}
 
 ::: notes
-This is the standing documentation requirement made concrete: for every harmonized item whose wording changed across surveys, a table with surveys in columns. Here it shows why the SING 2009 mapping has to be inverted relative to SPVN 2003: the first option is the direct route, not "yes". The last row is the routing check confirming the mapping against the data: the arrival-year question went only to those now coded 1.
+This is the standing documentation requirement made concrete: for every harmonized item whose wording changed across surveys, a table with surveys in columns. Here it shows why the SING 2009 mapping has to be inverted relative to SPVN 2003: the first option is the direct route, not "yes". The routing check two slides back confirms the mapping against the data: the arrival-year question went only to those now coded 1 ({{sing_transit_values}} values, {{sing_transit_outside}} outside the gate).
+:::
+
+## The codebook entry, generated: mig_transit
+
+:::::: columns
+::: column
+From docs/codebook.md:
+
+{{codebook: mig_transit | keep=Theme,Universe,Availability,Recodes | strip=\s*\(source code → harmonized code;[^)]*\) | cell=100}}
+:::
+::: column
+Its frequency table, for the two surveys that carry it:
+
+{{codebook-freq: mig_transit | columns=code,label,SPVN2003,SING2009}}
+:::
+::::::
+
+::: notes
+The entry is assembled from the tables of the previous slides and the built data: label and value set from variable_map, the universes, the availability per survey, the comparability class, the recodes from value_map, and the counts from the data. The full entry also carries the wording table and the per-survey reporter. Not collected (.e) is the count for the six surveys without the item; .c marks the SING 2009 respondents routed past it (the second generation).
 :::
 
 # Checking
@@ -365,6 +415,16 @@ Both excerpts are abridged from the real functions. The point is the symmetry: t
 The checks deliberately start from the released files rather than from the build's own objects, so a bug in the pipeline cannot vouch for itself. The routing check is the one place where the questionnaire text is confronted with the data; it found parser mistakes (conditions printed before the header they govern) and it confirmed the mig_transit correction. The full table is docs/routing_check.csv.
 :::
 
+## What the run log says
+
+The first lines of docs/run_log.md for build {{build_id}}, as the checks wrote them:
+
+{{lines: docs/run_log.md | match=^- PASS | rows=12 | strip=^-\s* | width=64}}
+
+::: notes
+The run log is written by 99_checks.R from the released files, one line per check, and it is where a failed check would appear. These lines are read from the file at build time, so the deck shows the log of the build it names.
+:::
+
 ## Step 9 · Reading every mapping against its labels
 
 :::::: columns
@@ -388,6 +448,27 @@ SING 2009 ANDLAND had been given SPVN's rows: 1 → 1, 2 → 0. Both codes were 
 
 ::: notes
 This step was written in the restricted-component work and adopted by the public component in v0.4.7, then hardened in v0.4.8 and v0.4.9. It is the one check that does not rely on the data: it reads the mapping against the printed labels, and it exists so that an error of the mig_transit kind is prevented by the pipeline rather than found by review. The full reading table is docs/value_map_review.csv; approvals are signed in crosswalks/label_approvals.csv.
+:::
+
+## The label review, as recorded: mig_transit
+
+:::::: columns
+::: column
+Its rows in docs/value_map_review.csv, source label beside target label:
+
+{{table: docs/value_map_review.csv | target=mig_transit | columns=survey,source_value,source_label,target_value,target_value_label | head=Survey,Code,Source label,→,Label | labels | cell=45}}
+
+The SING 2009 rows read as inverted yes/no: a POLARITY finding until a person signs them.
+:::
+::: column
+The signed rows in crosswalks/label_approvals.csv:
+
+{{table: crosswalks/label_approvals.csv | target=mig_transit | columns=source_value,target_value,reason,date | head=Code,→,Reason,Date | cell=70}}
+:::
+::::::
+
+::: notes
+The review table is the whole value map with both labels side by side; these four rows are the mig_transit part. The approval rows carry the value that was read, so if the mapping were changed again the approval would no longer match and the build would fail (CHANGED), and if the row were deleted the approval would be ORPHANED.
 :::
 
 ## Three layers of trust
@@ -426,6 +507,23 @@ Cite the version together with the build identity. The data never enter the repo
 
 ::: notes
 Because the SIM deposits are request-permission, the public deliverable is code, crosswalks and codebook rather than a data file. That makes the generated documentation and the build identity the things a user actually receives, and the reason the codebook cannot be allowed to drift from the data. This deck follows the same rule: its numbers come from docs/facts.csv, computed at every build.
+:::
+
+## Every correction is a numbered decision
+
+:::::: columns
+::: column
+{{section: docs/decisions.md | 15 | chars=430}}
+:::
+::: column
+The most recent sections of docs/decisions.md:
+
+{{toc: docs/decisions.md | last=7 | cell=52}}
+:::
+::::::
+
+::: notes
+The decisions log is the narrative record: what was found, by whom, what changed and by how many cells. The excerpt is the opening of the section that recorded the mig_transit inversion; the table of contents is read from the file's headings. The log has {{n_decisions}} numbered sections at this build.
 :::
 
 # In practice

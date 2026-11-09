@@ -161,11 +161,13 @@ def main():
                 continue
             x, y, w, h = boxes[idx]
             ph.left, ph.top, ph.width, ph.height = Inches(x), Inches(y), Inches(w), Inches(h)
+            ph._element.find("p:txBody/a:bodyPr", NS).set("anchor", "t")      # text starts at the top of its box
             if idx == 0:
                 set_list_style(ph._element, [(tsize, tcol, True, False)])
                 ph._element.find("p:txBody/a:bodyPr", NS).set("anchor", "b" if kind in ("text",) else "t")
-            elif name == "Comparison" and idx in (1, 3):     # column headings
-                set_list_style(ph._element, [(bsize + 2, INK, True, False)])
+            elif name == "Comparison" and idx in (1, 3):     # pandoc puts a column's text here when a table follows it:
+                set_list_style(ph._element, [(bsize, bcol, False, True), (bsize - 2, bcol, False, True),
+                                             (bsize - 2, bcol, False, True)])   # same type as the body, not a heading
             elif name == "Content with Caption" and idx == 2:
                 set_list_style(ph._element, [(bsize + 1, INK, False, False)])
             else:

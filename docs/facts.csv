@@ -1,6 +1,6 @@
 name,value,description,source
 version,0.4.10,IMPD public component version,code/R/00_setup.R
-build_id,70759d027906,"build identity (sha256 of crosswalks and code, first 12 hex digits)",docs/BUILD_ID
+build_id,8ce1529f2c25,"build identity (sha256 of crosswalks and code, first 12 hex digits)",docs/BUILD_ID
 build_date,2026-11-09,date of the build,docs/BUILD_ID
 build_month,November 2026,month of the build,docs/BUILD_ID
 n_surveys,8,surveys included,crosswalks/surveys.csv
@@ -34,4 +34,4 @@ link_las2004_manual,59,las2004 variables linked to their question by manual,cros
 link_sim2020_name,158,sim2020 variables linked to their question by name,crosswalks/wording.csv
 link_sim2020_manual,81,sim2020 variables linked to their question by manual,crosswalks/wording.csv
 link_sim2020_prefix,14,sim2020 variables linked to their question by prefix,crosswalks/wording.csv
-n_decisions,21,numbered sections of the decisions log,docs/decisions.md
+n_decisions,22,numbered sections of the decisions log,docs/decisions.md
