@@ -1,6 +1,6 @@
-# IMPD public component v0.4.10 — run log (build 3765926035dc)
+# IMPD public component v0.4.10 — run log (build 70759d027906)
 
-Built 2026-11-08 10:28 with R 4.3.3 (x86_64-pc-linux-gnu) on Linux; packages: haven 2.5.4, dplyr 1.1.4, readr 2.1.5, stringr 1.5.1, tidyr 1.3.1, purrr 1.0.2, openssl 2.1.1, jsonlite 1.8.8.
+Built 2026-11-09 12:19 with R 4.3.3 (x86_64-pc-linux-gnu) on Linux; packages: haven 2.5.4, dplyr 1.1.4, readr 2.1.5, stringr 1.5.1, tidyr 1.3.1, purrr 1.0.2, openssl 2.1.1, jsonlite 1.8.8.
 
 Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data files in crosswalks/surveys.csv): SPVA2002 91166a194661, SPVN2003 96556f53090b, LAS2004 cb67573d71e1, SIM2006 5c666899708d, SING2009 b4d3aea4cf56, SIM2011 78d8bf29ef63, SIM2015 5269492b473f, SIM2020 cc4518f30693.
 

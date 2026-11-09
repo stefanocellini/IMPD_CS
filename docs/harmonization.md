@@ -110,6 +110,7 @@ Each layer catches a different kind of error. None replaces the others.
 - **The build identity** (`docs/BUILD_ID`) is a hash of the crosswalks and the code. Two people with the same identity are using the same rules; cite it with the version number.
 - **Git** keeps the history: every change is a visible, reversible commit. Commit after a build whose checks pass, with the version and build identity in the message.
 - The data are never in the repository: anyone with access to the DANS deposits rebuilds them.
+- **Presentations** follow the same rule as the codebook. A deck is a Markdown file in `docs/slides/` whose numbers are fact names, filled from `docs/facts.csv` at every build and turned into a PowerPoint file in the NIDI style (`docs/slides/README.md`).
 
 ## A worked example: `mig_transit`
 

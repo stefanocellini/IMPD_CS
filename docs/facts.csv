@@ -1,0 +1,37 @@
+name,value,description,source
+version,0.4.10,IMPD public component version,code/R/00_setup.R
+build_id,70759d027906,"build identity (sha256 of crosswalks and code, first 12 hex digits)",docs/BUILD_ID
+build_date,2026-11-09,date of the build,docs/BUILD_ID
+build_month,November 2026,month of the build,docs/BUILD_ID
+n_surveys,8,surveys included,crosswalks/surveys.csv
+year_first,2002,fieldwork year of the first survey,crosswalks/surveys.csv
+year_last,2020,fieldwork year of the last survey,crosswalks/surveys.csv
+n_survey_flat,6,person-sample surveys (one person file),crosswalks/surveys.csv
+n_survey_hh,2,"household surveys (heads, persons, roster files)",crosswalks/surveys.csv
+n_persons,55157,persons in the main file,docs/run_log.md
+n_vars_main,1642,harmonized variables in the main file,crosswalks/variable_map.csv
+n_targets,1671,harmonized variables declared (main file and source-only),crosswalks/variable_map.csv
+n_cells,90567794,cells of the main file (persons x variables),"docs/run_log.md, crosswalks/variable_map.csv"
+n_checks,44,checks passed in the R build,docs/run_log.md
+n_checks_fail,0,checks failed in the R build,docs/run_log.md
+n_source_vars,2684,source variables in the deposits,crosswalks/source_variables.csv
+n_skipped,10,source variables deliberately not harmonized,crosswalks/source_skipped.csv
+n_valuesets,342,value sets,crosswalks/valuesets.csv
+n_crosswalks,28,crosswalk tables,crosswalks/
+n_vmap_rows,2985,value-map rows,crosswalks/value_map.csv
+n_approvals,165,signed label approvals,crosswalks/label_approvals.csv
+n_parsers,5,questionnaire parsers (layouts),code/crosswalk_builder/questionnaires.py
+routing_pairs,697,source x gate pairs in the routing check,docs/routing_check.csv
+routing_hold,630,routing pairs that hold exactly,docs/routing_check.csv
+routing_exc,67,routing pairs that hold with listed exceptions,docs/routing_check.csv
+routing_fail,0,routing pairs that fail,docs/routing_check.csv
+sing_transit_values,1405,SING 2009 arrival-year values behind the mig_transit gate,docs/routing_check.csv
+sing_transit_outside,0,of which outside the gate,docs/routing_check.csv
+link_sim2006_qnum,294,sim2006 variables linked to their question by qnum,crosswalks/wording.csv
+link_sim2006_manual,74,sim2006 variables linked to their question by manual,crosswalks/wording.csv
+link_las2004_name,495,las2004 variables linked to their question by name,crosswalks/wording.csv
+link_las2004_manual,59,las2004 variables linked to their question by manual,crosswalks/wording.csv
+link_sim2020_name,158,sim2020 variables linked to their question by name,crosswalks/wording.csv
+link_sim2020_manual,81,sim2020 variables linked to their question by manual,crosswalks/wording.csv
+link_sim2020_prefix,14,sim2020 variables linked to their question by prefix,crosswalks/wording.csv
+n_decisions,21,numbered sections of the decisions log,docs/decisions.md
