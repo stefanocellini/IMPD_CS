@@ -31,6 +31,7 @@
 /docs/word/
 /docs/slides/*.pptx
 /docs/codebook_stata.txt
+/docs/run_log_stata.txt
 
 # Editor and OS clutter
 __pycache__/

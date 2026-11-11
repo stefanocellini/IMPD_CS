@@ -2,13 +2,13 @@
       name:  <unnamed>
        log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_public\code/examples/example_analysis_Stata.log
   log type:  text
- opened on:   6 Nov 2026, 12:49:25
+ opened on:  11 Nov 2026, 16:24:58
 
 . do "code/Stata/impd_tools.do"
 
-. * impd_tools.do : helpers for analyses of the IMPD public file (not part of the build).
+. * impd_tools.do : helpers for analyses of the IMPD-CS file (not part of the build).
 . *   do code/Stata/impd_tools.do
-. *   use data/derived/impd_public_v0_4_6.dta, clear
+. *   use data/derived/impd_cs_v0_4_6.dta, clear
 . *   impd_sample dem_sex dem_age_cat3 edu_dipl_hi_lvl3 lab_emp
 . *
 . * impd_sample varlist [, surveys(numlist) nostop]
@@ -75,17 +75,17 @@
 . 
 end of do-file
 
-. local files : dir "data/derived" files "impd_public_v?_?_?.dta"
+. local files : dir "data/derived" files "impd_cs_v?_?_?.dta"
 
 . local files : list sort files
 
 . local f : word `: word count `files'' of `files'
 
 . display as text "Data file: `f'"
-Data file: impd_public_v0_4_9.dta
+Data file: impd_cs_v0_5_1.dta
 
 . use "data/derived/`f'", clear
-(IMPD public v0.4.9 - harmonized person-level file (SPVA/SPVN/SIM))
+(IMPD-CS v0.5.1 build 7069c412771c - harmonized person-level file)
 
 . 
 . * ---- step 2/3: measures (codebook entries soc_leis_nl, lang_prob_spk; eligibility statements in docs/codebook_variables.csv)
@@ -464,5 +464,5 @@ Note: _cons estimates baseline odds.
       name:  <unnamed>
        log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_public\code/examples/example_analysis_Stata.log
   log type:  text
- closed on:   6 Nov 2026, 12:49:45
+ closed on:  11 Nov 2026, 16:25:10
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------

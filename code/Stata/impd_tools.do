@@ -1,4 +1,4 @@
-* impd_tools.do : helpers for analyses of the IMPD public file (not part of the build).
+* impd_tools.do : helpers for analyses of the IMPD-CS file (not part of the build).
 *   do code/Stata/impd_tools.do
 *   use data/derived/impd_cs_v0_4_6.dta, clear
 *   impd_sample dem_sex dem_age_cat3 edu_dipl_hi_lvl3 lab_emp

@@ -17,8 +17,18 @@ global CW   "$ROOT/crosswalks"
 global INT  "$ROOT/data/interim"
 global DER  "$ROOT/data/derived"
 global DOCS "$ROOT/docs"
-global IMPD_VERSION "0.5.0"
+global IMPD_VERSION "0.5.1"
 global VERTAG = subinstr("$IMPD_VERSION", ".", "_", .)
+* build identity: sha256 over the crosswalks and the code, computed by the R side (00_setup.R) and written to docs/BUILD_ID
+* by 01_import.R and 99_checks.R; Stata reads it to label its files and its run log with the identity of what it built from
+global BUILD_ID "unknown"
+capture {
+    tempname fh
+    file open `fh' using "$DOCS/BUILD_ID", read text
+    file read `fh' line
+    file close `fh'
+    global BUILD_ID : word 1 of `line'
+}
 capture mkdir "$ROOT/data"
 capture mkdir "$INT"
 capture mkdir "$DER"

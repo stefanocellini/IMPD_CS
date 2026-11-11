@@ -435,3 +435,15 @@ Two colleagues want to use the data. Decided (Stefano): they obtain the DANS dep
 - **Release.** Version 0.5.0, tagged `v0.5.0`, with release notes. Data unchanged since v0.4.9. Build identity `3909c309f969` (the Word-copy script gained the user guide after a first build, `69e8061a2f02`, whose data and documents are the same); R: 44 checks pass, the main file and the eight companions cell-identical to v0.4.10 (and so to v0.4.9); Stata (StataNow 19 SE, log `data/interim/stata_run_v050.log`): all checks pass and the build is identical to R in every cell of every variable. The R worked example was rerun on the renamed file with the same results; the Stata twin was not rerun (data unchanged).
 
 Acceptance for the release itself: the first clean build on a colleague's machine must reproduce the build identity and the 44 PASS; the guide asks for that report as an issue.
+
+## 24. v0.5.1: the two engines on an equal footing (11 Nov 2026)
+
+Stefano: give equal weight to R and Stata for running the harmonization. The guide and the README had presented the Stata pipeline as optional, after the R build. The fact that stays: three deposits are SPSS portable files, which Stata cannot read, so reading the deposits (`01_import.R`) is one R command for everyone. From there the two pipelines are complete and independent, and the documents now say so.
+
+- `docs/user_guide.md` and the README describe three steps: read the deposits (R, once, two minutes), build in R, build in Stata, the last two as equals, each with its outputs and its way of verifying.
+- The Stata pipeline writes its own run log: `run_all.do` logs the whole run to `docs/run_log_stata.txt` (not tracked) and then extracts the verdict lines into `docs/run_log_stata.md` (tracked), the counterpart of `docs/run_log.md`.
+- `01_import.R` writes `docs/BUILD_ID` as well as `99_checks.R`, so a Stata-only user has the identity of the crosswalks and code the build used; `00_setup.do` reads it, and the Stata files' dataset labels, the Stata codebook and the Stata run log carry it.
+- The dataset labels of the R-written files said "IMPD public"; both engines now label their files `IMPD-CS v<version> build <identity> - …`.
+- Both worked examples were rerun on the renamed file (same results; the logs now name `impd_cs_v0_5_1`).
+
+Data unchanged (cell-identical to v0.5.0). Build identity `7069c412771c`; R: 44 checks pass; Stata (StataNow 19 SE, `docs/run_log_stata.md`): all checks pass and the build is identical to R in every cell.

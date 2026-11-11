@@ -1,4 +1,4 @@
-# run_all.R : run the complete IMPD public-component pipeline.
+# run_all.R : run the complete IMPD-CS pipeline in R.
 #   Rscript code/R/run_all.R          (from the IMPD root)
 # Steps: 01 import -> 02 harmonize -> 03 derive -> 04 build -> 05 codebook -> 99 checks; then the Word copies
 # and the slide decks (code/tools/md_to_word.py, code/tools/make_deck.py)

@@ -45,7 +45,7 @@ forvalues i = 1/`NV' {
     notes `t': IMPD v$IMPD_VERSION; crosswalks/variable_map.csv, value_map.csv; docs/codebook.html
 }
 compress
-label data "IMPD public v$IMPD_VERSION - harmonized person-level file (SPVA/SPVN/SIM)"
+label data "IMPD-CS v$IMPD_VERSION build $BUILD_ID - harmonized person-level file"
 save "$DER/impd_cs_v${VERTAG}_stata.dta", replace
 display as text "Main file: `=_N' persons x `=c(k)' variables -> impd_cs_v${VERTAG}_stata.dta"
 
@@ -100,7 +100,7 @@ foreach s in $SURVEYS {
     order id_person id_hh svy_id svy_resptype
     label values svy_id vs_survey
     compress
-    label data "IMPD public v$IMPD_VERSION - ${SVYNAME_`s'} source variables (Dutch labels)"
+    label data "IMPD-CS v$IMPD_VERSION build $BUILD_ID - ${SVYNAME_`s'} source variables (Dutch labels)"
     save "$DER/impd_cs_v${VERTAG}_source_`s'_stata.dta", replace
     display as text "Source file ${SVYNAME_`s'}: `=_N' persons x `=c(k)' variables"
 }

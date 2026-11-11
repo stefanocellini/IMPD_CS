@@ -46,3 +46,7 @@ for (i in seq_len(nrow(INCLUDED))) {
     logmsg("%s %s: %d rows x %d vars  (%s)", s$svy_name, lvl, nrow(d), ncol(d), basename(f))
   }
 }
+# the build identity (00_setup.R: sha256 over the crosswalks and the code) is written here as well as by 99_checks.R,
+# so that a user who reads the deposits with this step and harmonizes in Stata has the identity of what Stata reads
+writeLines(sprintf("%s v%s %s", BUILD_ID, IMPD_VERSION, format(Sys.time(), "%Y-%m-%d %H:%M %Z")), P("docs", "BUILD_ID"))
+logmsg("Build identity %s written to docs/BUILD_ID", BUILD_ID)

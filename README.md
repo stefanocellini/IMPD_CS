@@ -6,7 +6,7 @@ Harmonization of eight Dutch surveys of persons with a migration background (SPV
 person-level file with English, theme-stemmed variable names, reproducible in **R** and in **Stata**
 from the DANS zip files and a set of CSV crosswalks.
 
-Version 0.5.0 — **SPVA 2002** (DANS P1684), **SPVN 2003** (refugee-group SPVA, DANS P1753), **LAS 2004/05** (easy-dataset:40215), **SIM 2006** (easy-dataset:40304), **SING 2009** (easy-dataset:51530, CBS-protected partial release), **SIM 2011** (easy-dataset:67677, V3), **SIM 2015** (easy-dataset:239464, CCF) and **SIM 2020** (easy-dataset:259562, CCF): 55,157 persons x 1,642 harmonized variables, every variable of every deposit harmonized. Development history is in `docs/decisions.md`.
+Version 0.5.1 — **SPVA 2002** (DANS P1684), **SPVN 2003** (refugee-group SPVA, DANS P1753), **LAS 2004/05** (easy-dataset:40215), **SIM 2006** (easy-dataset:40304), **SING 2009** (easy-dataset:51530, CBS-protected partial release), **SIM 2011** (easy-dataset:67677, V3), **SIM 2015** (easy-dataset:239464, CCF) and **SIM 2020** (easy-dataset:259562, CCF): 55,157 persons x 1,642 harmonized variables, every variable of every deposit harmonized. Development history is in `docs/decisions.md`.
 
 > **Repeated cross-sections, not a panel.** IMPD-CS (CS for cross-sections) stacks independent cross-sectional surveys with different target populations, age ranges and weights; `id_person` identifies a record within one survey and does not follow persons across surveys. Codebook section 1 lists, per survey, who was eligible and which weight applies. Identifiers are built from the immutable `svy_key` (fieldwork year), so they do not change when a survey is added. The panel in the project's name is IMPD-P, the registry-linked component built separately on the CBS microdata.
 
@@ -44,7 +44,7 @@ IMPD_public/
 │   ├── raw/                   unzipped deposits (created by the pipeline)
 │   ├── interim/               plain copies of the source files (.rds/.dta) and intermediate builds
 │   └── derived/               impd_cs_v0_4_10.{dta,rds,csv}, impd_cs_v0_4_10_source_<survey>.{dta,rds}
-└── docs/                    codebook.html (with variable finder) / codebook.md / codebook_variables.csv, comparability.csv, value_map_review.csv, routing_check.csv, example_analysis.md, harmonization.md (how the harmonization works, for collaborators), decisions.md, run_log.md, BUILD_ID, facts.csv (every number the slide decks quote, computed at each build); word/ holds Word copies of the Markdown documents (derived, not build outputs); slides/ holds the slide decks: Markdown sources, the NIDI template, and the PowerPoint files built from them (see docs/slides/README.md)
+└── docs/                    codebook.html (with variable finder) / codebook.md / codebook_variables.csv, comparability.csv, value_map_review.csv, routing_check.csv, example_analysis.md, harmonization.md (how the harmonization works, for collaborators), decisions.md, run_log.md (R) and run_log_stata.md (Stata), BUILD_ID, facts.csv (every number the slide decks quote, computed at each build); user_guide.md (for users: from the deposits to a verified build); word/ holds Word copies of the Markdown documents (derived, not build outputs); slides/ holds the slide decks: Markdown sources, the NIDI template, and the PowerPoint files built from them (see docs/slides/README.md)
 ```
 
 ## Start here
@@ -73,12 +73,14 @@ This is a Git repository. It holds everything needed to rebuild and document the
 
 ## Running
 
+Two engines, one preparation step. The harmonization exists as an R pipeline and as a Stata pipeline; both read the same crosswalks and produce the same file, compared cell by cell at every release. Reading the deposits is R's job for everyone, because three deposits are SPSS portable files that Stata cannot read. Step by step for a new user: `docs/user_guide.md`.
+
+**Reading the deposits** (R; once): from the `IMPD_public` root, `Rscript code/R/01_import.R`. Unzips the eight deposits, verifies each data file's checksum, writes plain copies to `data/interim/` (`.rds` and `.dta`) and the build identity to `docs/BUILD_ID`. Two minutes. The R pipeline below includes it.
+
 **R** (haven, dplyr, readr, stringr, tidyr, purrr, openssl, jsonlite; `00_setup.R` stops with the names of any that are missing): from the `IMPD_public` root, `Rscript code/R/run_all.R`.
 Takes about ten minutes for the eight surveys (the codebook step is the slowest). Writes data/derived/, docs/codebook.*, docs/run_log.md and stops if a check fails. The questionnaire-text extraction needs `pdftotext` (poppler) and runs inside the crosswalk builder, not in the R pipeline.
 
-**Stata 16+**: from the `IMPD_public` root, `do code/Stata/run_all.do`. Needs the plain copies of the source files in
-`data/interim/*.dta` (written by `Rscript code/R/01_import.R`; Stata cannot read SPSS portable files).
-Writes `data/derived/*_stata.dta` (`compress`ed, hence smaller than the R `.dta`; with `notes` per variable) and, when the R build is present, compares the two builds cell by cell with `cf` (identical; see docs/run_log.md).
+**Stata 16+**: from the `IMPD_public` root, `do code/Stata/run_all.do`. Takes about 25 minutes. Writes `data/derived/*_stata.dta` (`compress`ed, hence smaller than the R `.dta`; with `notes` per variable), `docs/codebook_stata.txt`, and its run log: `docs/run_log_stata.md` (the verdicts of the checks, with the build identity) and `docs/run_log_stata.txt` (the whole run). Stops if a check fails. When the R build is present, the last check compares the two builds cell by cell with `cf` (identical; see both run logs).
 
 **Rebuilding the crosswalks** (only when adding a survey or changing a decision; adding a survey is described step by step in `docs/harmonization.md`, "Adding a survey"): edit
 `code/crosswalk_builder/surveys/<key>.py` (survey setup), `variables.py` (SPVA/SPVN), `variables_sim.py` (SIM 2015/2020), `variables_2004_2011.py` (LAS, SIM 2006, SING, SIM 2011), `variables_links.py` (relationship layer) or `valuesets.py`, then `Rscript code/R/00a_source_metadata.R` and
@@ -107,7 +109,7 @@ limitations and `docs/codebook.html` for every variable.
 
 Cite the version together with the build identity, and the DANS deposits of the surveys you use (below). `CITATION.cff` holds the metadata (GitHub: *Cite this repository*); each release is archived on Zenodo with a DOI.
 
-> Cellini, S. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.0, build `<docs/BUILD_ID>`. NIDI-KNAW. https://github.com/stefanocellini/IMPD_public
+> Cellini, S. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.1, build `<docs/BUILD_ID>`. NIDI-KNAW. https://github.com/stefanocellini/IMPD_public
 
 ## Citing the sources
 

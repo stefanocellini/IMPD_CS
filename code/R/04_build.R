@@ -35,7 +35,7 @@ for (i in seq_len(nrow(vm))) {
 
 ver <- gsub("\\.", "_", IMPD_VERSION)
 out_base <- P("data", "derived", sprintf("impd_cs_v%s", ver))
-attr(main, "label") <- sprintf("IMPD public v%s - harmonized person-level file (SPVA/SPVN/SIM)", IMPD_VERSION)
+attr(main, "label") <- sprintf("IMPD-CS v%s build %s - harmonized person-level file", IMPD_VERSION, BUILD_ID)
 saveRDS(main, paste0(out_base, ".rds"))
 write_dta(main, paste0(out_base, ".dta"), version = 14)
 # CSV convenience export: numeric codes only; tagged missing types are not representable (use .dta/.rds)
@@ -68,7 +68,7 @@ for (i in seq_len(nrow(INCLUDED))) {
     src[[paste0("src_", v)]] <- x
   }
   src$svy_id <- labelled(as.numeric(src$svy_id), labels = setNames(VALUESETS$code[VALUESETS$valueset == "survey"], VALUESETS$label_en[VALUESETS$valueset == "survey"]))
-  attr(src, "label") <- sprintf("IMPD public v%s - %s source variables (Dutch labels)", IMPD_VERSION, INCLUDED$svy_name[i])
+  attr(src, "label") <- sprintf("IMPD-CS v%s build %s - %s source variables (Dutch labels)", IMPD_VERSION, BUILD_ID, INCLUDED$svy_name[i])
   saveRDS(src, sprintf("%s_source_%s.rds", out_base, key))
   write_dta(src, sprintf("%s_source_%s.dta", out_base, key), version = 14)
   logmsg("Source file %s: %d persons x %d variables -> %s_source_%s.{dta,rds}", INCLUDED$svy_name[i], nrow(src), ncol(src), basename(out_base), key)

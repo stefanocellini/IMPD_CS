@@ -4,7 +4,7 @@
 use "$DER/impd_cs_v${VERTAG}_stata.dta", clear
 capture log close cbk
 log using "$DOCS/codebook_stata.txt", replace text name(cbk)
-display "IMPD-CS v$IMPD_VERSION - Stata build, `c(current_date)'"
+display "IMPD-CS v$IMPD_VERSION build $BUILD_ID - Stata build, `c(current_date)'"
 describe
 codebook, compact
 log close cbk
