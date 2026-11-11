@@ -1,5 +1,7 @@
 # IMPD-CS — Integrated Migrant Panel Dataset, cross-sectional component
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24141874.svg)](https://doi.org/10.5281/zenodo.24141874)
+
 **New here?** `docs/user_guide.md` takes you from the DANS deposits to a verified build and a first analysis. How to cite: `CITATION.cff`. Licence: `LICENSE` (code MIT; crosswalks and documents CC BY 4.0).
 
 Harmonization of eight Dutch surveys of persons with a migration background (SPVA 2002 to SIM 2020), archived at DANS, into one
@@ -69,7 +71,7 @@ This is a Git repository. It holds everything needed to rebuild and document the
 - **To work with it:** clone the repository, download the eight deposits from DANS (`Surveys/Sources.txt`; six need a *request permission* agreement) into `Surveys/` under the file names in `crosswalks/surveys.csv` (column `zipfile`, e.g. `Surveys/SIM 2006.zip`), and run the pipeline below. The R build writes `docs/BUILD_ID`; a clone of commit X rebuilds the build identity recorded in that commit.
 - **Line endings:** `.gitattributes` switches off line-ending conversion, so every file is stored byte for byte (the crosswalk CSVs use CRLF, the code LF). The build identity is a hash over these bytes, so a converted checkout would report a different identity for the same content.
 - **Commits:** commit after a build whose checks pass (`docs/run_log.md`), with the version and build identity in the message; record substantive decisions in `docs/decisions.md` as before.
-- **Releases:** a tagged release (`v0.5.0`, …) marks a state meant for use outside the project; its release notes say what changed since the previous one, and Zenodo archives each release with a DOI. Between releases the build identity tells revisions apart. Questions, problems and requests for a variable or a recode: GitHub issues on this repository, naming the version and the build identity.
+- **Releases:** a tagged release (`v0.5.1`, …) marks a state meant for use outside the project; its release notes say what changed since the previous one, and Zenodo archives each release with a DOI of its own under the concept DOI [10.5281/zenodo.24141874](https://doi.org/10.5281/zenodo.24141874). Between releases the build identity tells revisions apart. Questions, problems and requests for a variable or a recode: GitHub issues on this repository, naming the version and the build identity.
 
 ## Running
 
@@ -107,9 +109,11 @@ limitations and `docs/codebook.html` for every variable.
 
 ## Citing IMPD-CS
 
-Cite the version together with the build identity, and the DANS deposits of the surveys you use (below). `CITATION.cff` holds the metadata (GitHub: *Cite this repository*); each release is archived on Zenodo with a DOI.
+Cite the version together with the build identity, and the DANS deposits of the surveys you use (below). `CITATION.cff` holds the metadata (GitHub: *Cite this repository*). Each release is archived on Zenodo with a DOI of its own; the concept DOI https://doi.org/10.5281/zenodo.24141874 covers all versions and resolves to the latest release.
 
-> Cellini, S. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.1, build `<docs/BUILD_ID>`. NIDI-KNAW. https://github.com/stefanocellini/IMPD_CS
+> Cellini, S. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.1, build `7069c412771c`. NIDI-KNAW. https://doi.org/10.5281/zenodo.24141875
+
+For a later version, take the version, the build identity (`docs/BUILD_ID`) and the version DOI from that release's Zenodo record.
 
 ## Citing the sources
 

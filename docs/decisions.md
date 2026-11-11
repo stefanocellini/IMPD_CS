@@ -451,3 +451,13 @@ Data unchanged (cell-identical to v0.5.0). Build identity `7069c412771c`; R: 44 
 ## 25. Repository renamed `IMPD_CS` (11 Nov 2026)
 
 Stefano: the GitHub repository is to carry the component's name. It is now `https://github.com/stefanocellini/IMPD_CS` (GitHub redirects the old address, `stefanocellini/IMPD_public`, including clones and links that still use it). The README's folder tree and run instructions, `CITATION.cff` (`repository-code`, `license-url`; version brought to 0.5.1) and the guide's clone command name the new address. The project folder on disk may keep whatever name it has: no code refers to it, every path is relative to the project root. Documents only; the crosswalks and code are unchanged, so the build identity remains `7069c412771c` and the tag `v0.5.1` is moved to this commit.
+
+## 26. v0.5.1 published; Zenodo DOIs (11 Nov 2026)
+
+The first release outside the project is out: GitHub release `v0.5.1` on commit `4d72605` (build `7069c412771c`), repository public, Zenodo integration switched on before publishing. Zenodo archived the release as record 24141875 and took the metadata from `CITATION.cff`.
+
+- **Version DOI** 10.5281/zenodo.24141875 (this release); **concept DOI** 10.5281/zenodo.24141874 (all versions; resolves to the latest release). Recorded in `CITATION.cff` (`doi`, `identifiers`) and in the README (badge, *Citing IMPD-CS*, *Releases*). The README's citation now names the identity of the released build instead of a placeholder; a later version takes its own identity and version DOI from its Zenodo record.
+- The codebook header keeps pointing to `CITATION.cff` rather than printing the DOI itself: printing it means a change to `05_codebook.R`, hence a new build identity and a rebuild in both engines, which is not worth it for a line that the citation file already carries. To be done with the next code change (read the DOI from `CITATION.cff`, never a literal in the code).
+- GitHub's release page created the tag; a stray second tag named `4d72605` on the same commit appeared alongside it on GitHub (origin unknown; the session's proxy cannot delete tags). Harmless — Zenodo reacts to releases, not tags — but to be deleted from the repository's *Tags* page.
+
+Documents only; data and build identity unchanged.
