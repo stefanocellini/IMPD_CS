@@ -43,7 +43,7 @@ Do not unzip, rename or edit anything inside. The pipeline unzips each deposit i
 
 ## 3. Get the repository
 
-Either clone it with Git (`git clone https://github.com/stefanocellini/IMPD_public.git`, or GitHub Desktop), or download a release as a zip from the repository's *Releases* page and unzip it. Use a release (a tagged version such as `v0.5.1`) rather than an arbitrary commit: a release is a state meant for use, with release notes.
+Either clone it with Git (`git clone https://github.com/stefanocellini/IMPD_CS.git`, or GitHub Desktop), or download a release as a zip from the repository's *Releases* page and unzip it. Use a release (a tagged version such as `v0.5.1`) rather than an arbitrary commit: a release is a state meant for use, with release notes.
 
 Keep the folder out of a synced cloud folder (OneDrive, Dropbox) if you can: the build writes 2 GB and the syncing has been seen to serve stale copies of files.
 

@@ -13,7 +13,7 @@ Version 0.5.1 — **SPVA 2002** (DANS P1684), **SPVN 2003** (refugee-group SPVA,
 > **Access note.** SPVA 2002 and SPVN 2003 are open-access deposits; the six SCP surveys (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020) are DANS *request permission* deposits under the DANS licence. The built data file therefore cannot be shared, not even between colleagues: the deliverable is this repository (code, crosswalks, codebook), and every user rebuilds the data from the eight DANS deposits placed in `Surveys/`, under the conditions accepted at DANS.
 
 ```
-IMPD_public/
+IMPD_CS/
 ├── Surveys/                 DANS zip deposits, as downloaded (never modified)
 ├── External/                classifications and price indices (country, municipality, occupation, industry, CPI); Sources.txt
 ├── crosswalks/              the harmonization, as data (read by both pipelines)
@@ -75,12 +75,12 @@ This is a Git repository. It holds everything needed to rebuild and document the
 
 Two engines, one preparation step. The harmonization exists as an R pipeline and as a Stata pipeline; both read the same crosswalks and produce the same file, compared cell by cell at every release. Reading the deposits is R's job for everyone, because three deposits are SPSS portable files that Stata cannot read. Step by step for a new user: `docs/user_guide.md`.
 
-**Reading the deposits** (R; once): from the `IMPD_public` root, `Rscript code/R/01_import.R`. Unzips the eight deposits, verifies each data file's checksum, writes plain copies to `data/interim/` (`.rds` and `.dta`) and the build identity to `docs/BUILD_ID`. Two minutes. The R pipeline below includes it.
+**Reading the deposits** (R; once): from the `IMPD_CS` root, `Rscript code/R/01_import.R`. Unzips the eight deposits, verifies each data file's checksum, writes plain copies to `data/interim/` (`.rds` and `.dta`) and the build identity to `docs/BUILD_ID`. Two minutes. The R pipeline below includes it.
 
-**R** (haven, dplyr, readr, stringr, tidyr, purrr, openssl, jsonlite; `00_setup.R` stops with the names of any that are missing): from the `IMPD_public` root, `Rscript code/R/run_all.R`.
+**R** (haven, dplyr, readr, stringr, tidyr, purrr, openssl, jsonlite; `00_setup.R` stops with the names of any that are missing): from the `IMPD_CS` root, `Rscript code/R/run_all.R`.
 Takes about ten minutes for the eight surveys (the codebook step is the slowest). Writes data/derived/, docs/codebook.*, docs/run_log.md and stops if a check fails. The questionnaire-text extraction needs `pdftotext` (poppler) and runs inside the crosswalk builder, not in the R pipeline.
 
-**Stata 16+**: from the `IMPD_public` root, `do code/Stata/run_all.do`. Takes about 25 minutes. Writes `data/derived/*_stata.dta` (`compress`ed, hence smaller than the R `.dta`; with `notes` per variable), `docs/codebook_stata.txt`, and its run log: `docs/run_log_stata.md` (the verdicts of the checks, with the build identity) and `docs/run_log_stata.txt` (the whole run). Stops if a check fails. When the R build is present, the last check compares the two builds cell by cell with `cf` (identical; see both run logs).
+**Stata 16+**: from the `IMPD_CS` root, `do code/Stata/run_all.do`. Takes about 25 minutes. Writes `data/derived/*_stata.dta` (`compress`ed, hence smaller than the R `.dta`; with `notes` per variable), `docs/codebook_stata.txt`, and its run log: `docs/run_log_stata.md` (the verdicts of the checks, with the build identity) and `docs/run_log_stata.txt` (the whole run). Stops if a check fails. When the R build is present, the last check compares the two builds cell by cell with `cf` (identical; see both run logs).
 
 **Rebuilding the crosswalks** (only when adding a survey or changing a decision; adding a survey is described step by step in `docs/harmonization.md`, "Adding a survey"): edit
 `code/crosswalk_builder/surveys/<key>.py` (survey setup), `variables.py` (SPVA/SPVN), `variables_sim.py` (SIM 2015/2020), `variables_2004_2011.py` (LAS, SIM 2006, SING, SIM 2011), `variables_links.py` (relationship layer) or `valuesets.py`, then `Rscript code/R/00a_source_metadata.R` and
@@ -109,7 +109,7 @@ limitations and `docs/codebook.html` for every variable.
 
 Cite the version together with the build identity, and the DANS deposits of the surveys you use (below). `CITATION.cff` holds the metadata (GitHub: *Cite this repository*); each release is archived on Zenodo with a DOI.
 
-> Cellini, S. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.1, build `<docs/BUILD_ID>`. NIDI-KNAW. https://github.com/stefanocellini/IMPD_public
+> Cellini, S. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.1, build `<docs/BUILD_ID>`. NIDI-KNAW. https://github.com/stefanocellini/IMPD_CS
 
 ## Citing the sources
 

@@ -447,3 +447,7 @@ Stefano: give equal weight to R and Stata for running the harmonization. The gui
 - Both worked examples were rerun on the renamed file (same results; the logs now name `impd_cs_v0_5_1`).
 
 Data unchanged (cell-identical to v0.5.0). Build identity `7069c412771c`; R: 44 checks pass; Stata (StataNow 19 SE, `docs/run_log_stata.md`): all checks pass and the build is identical to R in every cell.
+
+## 25. Repository renamed `IMPD_CS` (11 Nov 2026)
+
+Stefano: the GitHub repository is to carry the component's name. It is now `https://github.com/stefanocellini/IMPD_CS` (GitHub redirects the old address, `stefanocellini/IMPD_public`, including clones and links that still use it). The README's folder tree and run instructions, `CITATION.cff` (`repository-code`, `license-url`; version brought to 0.5.1) and the guide's clone command name the new address. The project folder on disk may keep whatever name it has: no code refers to it, every path is relative to the project root. Documents only; the crosswalks and code are unchanged, so the build identity remains `7069c412771c` and the tag `v0.5.1` is moved to this commit.

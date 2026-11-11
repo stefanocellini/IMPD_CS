@@ -18,11 +18,11 @@ authors:
   - family-names: Cellini
     given-names: Stefano
     affiliation: "Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)"
-version: 0.5.0
+version: 0.5.1
 date-released: "2026-11-11"
-repository-code: "https://github.com/stefanocellini/IMPD_public"
+repository-code: "https://github.com/stefanocellini/IMPD_CS"
 license: MIT
-license-url: "https://github.com/stefanocellini/IMPD_public/blob/main/LICENSE"
+license-url: "https://github.com/stefanocellini/IMPD_CS/blob/main/LICENSE"
 keywords:
   - migration
   - integration
