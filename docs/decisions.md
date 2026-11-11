@@ -461,3 +461,7 @@ The first release outside the project is out: GitHub release `v0.5.1` on commit 
 - GitHub's release page created the tag; a stray second tag named `4d72605` on the same commit appeared alongside it on GitHub (origin unknown; the session's proxy cannot delete tags). Harmless — Zenodo reacts to releases, not tags — but to be deleted from the repository's *Tags* page.
 
 Documents only; data and build identity unchanged.
+
+## 27. Authorship (11 Nov 2026)
+
+Stefano: Frank van Tubergen and Matthijs Kalmijn are co-authors of IMPD-CS. Added, with the three NIDI e-mail addresses, to `CITATION.cff` (`authors`, each with affiliation and e-mail), the README citation and a new *Authors* line under *Citing IMPD-CS*, the copyright lines of `LICENSE` and `LICENSE-CC-BY-4.0.md`, and the guide's section 9 (e-mail for what does not belong in a public issue). Author order as given: Cellini, van Tubergen, Kalmijn. The Zenodo record of v0.5.1 still names one creator, as the citation file did at release time; Zenodo allows the creators of a published record to be edited without a new version, and the next release takes the three from `CITATION.cff` in any case. Documents only; build identity unchanged.

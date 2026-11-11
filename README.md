@@ -111,9 +111,11 @@ limitations and `docs/codebook.html` for every variable.
 
 Cite the version together with the build identity, and the DANS deposits of the surveys you use (below). `CITATION.cff` holds the metadata (GitHub: *Cite this repository*). Each release is archived on Zenodo with a DOI of its own; the concept DOI https://doi.org/10.5281/zenodo.24141874 covers all versions and resolves to the latest release.
 
-> Cellini, S. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.1, build `7069c412771c`. NIDI-KNAW. https://doi.org/10.5281/zenodo.24141875
+> Cellini, S., van Tubergen, F., & Kalmijn, M. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.1, build `7069c412771c`. NIDI-KNAW. https://doi.org/10.5281/zenodo.24141875
 
 For a later version, take the version, the build identity (`docs/BUILD_ID`) and the version DOI from that release's Zenodo record.
+
+Authors: Stefano Cellini (cellini@nidi.nl), Frank van Tubergen (tubergen@nidi.nl) and Matthijs Kalmijn (kalmijn@nidi.nl), Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW). For questions and problems, GitHub issues are preferred (they stay visible to every user); email for anything that does not belong in a public issue.
 
 ## Citing the sources
 

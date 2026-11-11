@@ -1,6 +1,6 @@
 # Creative Commons Attribution 4.0 International (CC BY 4.0)
 
-The crosswalks (`crosswalks/`), the documentation (`docs/`, `README.md`) and the citation file of IMPD-CS, © 2026 Stefano Cellini (NIDI-KNAW), are licensed under a Creative Commons Attribution 4.0 International License.
+The crosswalks (`crosswalks/`), the documentation (`docs/`, `README.md`) and the citation file of IMPD-CS, © 2026 Stefano Cellini, Frank van Tubergen and Matthijs Kalmijn (NIDI-KNAW), are licensed under a Creative Commons Attribution 4.0 International License.
 
 You are free to share and adapt this material for any purpose, including commercially, on condition that you give appropriate credit, link to the licence and indicate whether changes were made. The material is provided as is, without warranty.
 

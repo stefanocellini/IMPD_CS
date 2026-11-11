@@ -1,5 +1,6 @@
 IMPD-CS — Integrated Migrant Panel Dataset, cross-sectional component
-Copyright (c) 2026 Stefano Cellini, Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)
+Copyright (c) 2026 Stefano Cellini, Frank van Tubergen and Matthijs Kalmijn,
+Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)
 
 This repository holds code, crosswalks and documentation. It never holds the survey data: those are the
 DANS deposits listed in Surveys/Sources.txt, each under its own DANS licence, and anyone who uses them

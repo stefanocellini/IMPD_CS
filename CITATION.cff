@@ -18,6 +18,16 @@ authors:
   - family-names: Cellini
     given-names: Stefano
     affiliation: "Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)"
+    email: cellini@nidi.nl
+  - family-names: Tubergen
+    name-particle: van
+    given-names: Frank
+    affiliation: "Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)"
+    email: tubergen@nidi.nl
+  - family-names: Kalmijn
+    given-names: Matthijs
+    affiliation: "Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)"
+    email: kalmijn@nidi.nl
 version: 0.5.1
 date-released: "2026-11-11"
 doi: 10.5281/zenodo.24141875
