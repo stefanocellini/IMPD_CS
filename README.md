@@ -115,7 +115,7 @@ Cite the version together with the build identity, and the DANS deposits of the 
 
 For a later version, take the version, the build identity (`docs/BUILD_ID`) and the version DOI from that release's Zenodo record.
 
-Authors: Stefano Cellini (cellini@nidi.nl), Frank van Tubergen (tubergen@nidi.nl) and Matthijs Kalmijn (kalmijn@nidi.nl), Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW). For questions and problems, GitHub issues are preferred (they stay visible to every user); email for anything that does not belong in a public issue.
+Authors: Stefano Cellini (NIDI-KNAW; cellini@nidi.nl), Frank van Tubergen (NIDI-KNAW, Utrecht University and University of Groningen; tubergen@nidi.nl) and Matthijs Kalmijn (NIDI-KNAW and University of Groningen; kalmijn@nidi.nl). NIDI-KNAW is the Netherlands Interdisciplinary Demographic Institute of the Royal Netherlands Academy of Arts and Sciences. For questions and problems, GitHub issues are preferred (they stay visible to every user); email for anything that does not belong in a public issue.
 
 ## Citing the sources
 

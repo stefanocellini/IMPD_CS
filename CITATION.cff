@@ -22,11 +22,11 @@ authors:
   - family-names: Tubergen
     name-particle: van
     given-names: Frank
-    affiliation: "Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)"
+    affiliation: "Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW); Utrecht University; University of Groningen"
     email: tubergen@nidi.nl
   - family-names: Kalmijn
     given-names: Matthijs
-    affiliation: "Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)"
+    affiliation: "Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW); University of Groningen"
     email: kalmijn@nidi.nl
 version: 0.5.1
 date-released: "2026-11-11"
