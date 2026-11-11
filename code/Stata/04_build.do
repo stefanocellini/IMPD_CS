@@ -1,6 +1,6 @@
 * 04_build.do : order and write the harmonized file and the companion source files (mirrors code/R/04_build.R).
-*   data/derived/impd_public_v<version>_stata.dta              harmonized variables
-*   data/derived/impd_public_v<version>_source_<survey>_stata.dta   original source variables (src_ prefix)
+*   data/derived/impd_cs_v<version>_stata.dta              harmonized variables
+*   data/derived/impd_cs_v<version>_source_<survey>_stata.dta   original source variables (src_ prefix)
 * The "_stata" suffix keeps the Stata build apart from the R build so that 99_checks.do can compare them.
 use "$INT/derived_all_stata.dta", clear
 impd_define_labels
@@ -46,8 +46,8 @@ forvalues i = 1/`NV' {
 }
 compress
 label data "IMPD public v$IMPD_VERSION - harmonized person-level file (SPVA/SPVN/SIM)"
-save "$DER/impd_public_v${VERTAG}_stata.dta", replace
-display as text "Main file: `=_N' persons x `=c(k)' variables -> impd_public_v${VERTAG}_stata.dta"
+save "$DER/impd_cs_v${VERTAG}_stata.dta", replace
+display as text "Main file: `=_N' persons x `=c(k)' variables -> impd_cs_v${VERTAG}_stata.dta"
 
 * ---- companion source files (one per survey) ---------------------------------------------------
 foreach s in $SURVEYS {
@@ -101,6 +101,6 @@ foreach s in $SURVEYS {
     label values svy_id vs_survey
     compress
     label data "IMPD public v$IMPD_VERSION - ${SVYNAME_`s'} source variables (Dutch labels)"
-    save "$DER/impd_public_v${VERTAG}_source_`s'_stata.dta", replace
+    save "$DER/impd_cs_v${VERTAG}_source_`s'_stata.dta", replace
     display as text "Source file ${SVYNAME_`s'}: `=_N' persons x `=c(k)' variables"
 }

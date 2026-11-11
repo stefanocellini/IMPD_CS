@@ -1,5 +1,5 @@
 * 99_checks.do : structural checks on the Stata build and, when present, a cell-by-cell comparison with the R build.
-use "$DER/impd_public_v${VERTAG}_stata.dta", clear
+use "$DER/impd_cs_v${VERTAG}_stata.dta", clear
 isid id_person
 assert inlist(svy_resptype, 1, 2, 3, 4)
 foreach s in $SURVEYS {
@@ -91,7 +91,7 @@ foreach r of local mxall {
     gen double id_person = (${SVYKEY_`s'} * 1e9 + HHNUMMER) * 100 + GEZLIDNR
     keep id_person ro_val
     local mx_n = `mx_n' + _N
-    quietly merge 1:1 id_person using "$DER/impd_public_v${VERTAG}_source_`s'_stata.dta", keepusing(src_`v') keep(match) nogen
+    quietly merge 1:1 id_person using "$DER/impd_cs_v${VERTAG}_source_`s'_stata.dta", keepusing(src_`v') keep(match) nogen
     quietly count if src_`v' != ro_val
     local mx_bad = `mx_bad' + r(N)
 }
@@ -103,16 +103,16 @@ else {
 
 * cf compares every variable of the Stata build with the same-named variable of the R build, observation by
 * observation (both sorted by id_person); tagged missing values compare equal only when the tag is the same.
-capture confirm file "$DER/impd_public_v${VERTAG}.dta"
+capture confirm file "$DER/impd_cs_v${VERTAG}.dta"
 if _rc {
     display as text "R build not found - comparison skipped"
     exit
 }
-use "$DER/impd_public_v${VERTAG}.dta", clear
+use "$DER/impd_cs_v${VERTAG}.dta", clear
 sort id_person
 tempfile rbuild
 quietly save "`rbuild'"
-use "$DER/impd_public_v${VERTAG}_stata.dta", clear
+use "$DER/impd_cs_v${VERTAG}_stata.dta", clear
 sort id_person
 capture noisily cf _all using "`rbuild'", all
 local cf_rc = _rc

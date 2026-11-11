@@ -1,6 +1,6 @@
 # impd_tools.R : helpers for analyses of the IMPD public file (not part of the build).
 #   source("code/R/impd_tools.R")
-#   d <- readRDS("data/derived/impd_public_v0_4_6.rds")
+#   d <- readRDS("data/derived/impd_cs_v0_4_6.rds")
 #   impd_sample(d, c("dem_sex", "dem_age_cat3", "edu_dipl_hi_lvl3", "lab_emp"))
 #
 # impd_sample(): model-level eligibility report.  For a set of analysis variables it shows, per survey, how many records

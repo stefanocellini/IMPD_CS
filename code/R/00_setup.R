@@ -1,4 +1,4 @@
-# IMPD — Integrated Migrant Panel Dataset (public DANS component)
+# IMPD-CS — Integrated Migrant Panel Dataset, cross-sectional component (harmonized DANS deposits)
 # 00_setup.R : paths, packages, helper functions shared by all steps.
 #
 # Run the whole pipeline from the IMPD root with:   Rscript code/R/run_all.R
@@ -23,7 +23,7 @@ dir.create(P("data", "interim"), showWarnings = FALSE, recursive = TRUE)
 dir.create(P("data", "derived"), showWarnings = FALSE, recursive = TRUE)
 dir.create(P("docs"), showWarnings = FALSE, recursive = TRUE)
 
-IMPD_VERSION <- "0.4.10"
+IMPD_VERSION <- "0.5.0"
 LOG <- character(0)
 logmsg <- function(...) { m <- sprintf(...); message(m); LOG <<- c(LOG, m); invisible(m) }
 

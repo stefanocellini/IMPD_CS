@@ -2,7 +2,7 @@
 # Fails (stop) on structural errors; prints warnings for anything to look at.
 source(file.path(Sys.getenv("IMPD_ROOT", unset = getwd()), "code", "R", "00_setup.R"))
 
-out_base <- P("data", "derived", sprintf("impd_public_v%s", gsub("\\.", "_", IMPD_VERSION)))
+out_base <- P("data", "derived", sprintf("impd_cs_v%s", gsub("\\.", "_", IMPD_VERSION)))
 d <- readRDS(paste0(out_base, ".rds"))
 vm <- VARMAP %>% filter(include_main == 1)
 res <- character(0); ok <- function(cond, msg, ...) { m <- sprintf(msg, ...); res <<- c(res, sprintf("%s %s", if (cond) "PASS" else "FAIL", m)); if (!cond) warning(m, call. = FALSE); invisible(cond) }
@@ -331,7 +331,7 @@ mx_bad <- character(0); mx_rest <- character(0)
 for (key in INCLUDED$svy_key[INCLUDED$structure == "hh_pp_ro"]) {
   s <- INCLUDED[INCLUDED$svy_key == key, ]; k <- tolower(s$svy_name)         # file key (spva2002, spvn2003); svy_key is the id prefix
   ro <- readRDS(P("data", "interim", paste0(k, "_ro.rds"))); pp <- readRDS(P("data", "interim", paste0(k, "_pp.rds")))
-  comp <- readRDS(P("data", "derived", sprintf("impd_public_v%s_source_%s.rds", gsub("\\.", "_", IMPD_VERSION), k)))
+  comp <- readRDS(P("data", "derived", sprintf("impd_cs_v%s_source_%s.rds", gsub("\\.", "_", IMPD_VERSION), k)))
   kk <- function(d) interaction(d$HHNUMMER, d$GEZLIDNR)
   m_pp <- match(kk(pp), kk(ro)); ex <- MERGE_EXC[MERGE_EXC$survey == k, ]
   id_pp <- (key * 1e9 + pp$HHNUMMER) * 100 + pp$GEZLIDNR                     # id_person of the household surveys (03_derive)
@@ -356,7 +356,7 @@ pkgs <- IMPD_PACKAGES
 env <- paste(sprintf("%s %s", pkgs, sapply(pkgs, function(p) as.character(packageVersion(p)))), collapse = ", ")
 hashes <- paste(sprintf("%s %s", INCLUDED$svy_name, substr(INCLUDED$zip_sha256, 1, 12)), collapse = ", ")
 writeLines(sprintf("%s v%s %s", BUILD_ID, IMPD_VERSION, format(Sys.time(), "%Y-%m-%d %H:%M %Z")), P("docs", "BUILD_ID"))
-run <- c(sprintf("# IMPD public component v%s — run log (build %s)", IMPD_VERSION, BUILD_ID),
+run <- c(sprintf("# IMPD-CS v%s — run log (build %s)", IMPD_VERSION, BUILD_ID),
          sprintf("\nBuilt %s with R %s (%s) on %s; packages: %s.\n", format(Sys.time(), "%Y-%m-%d %H:%M"), getRversion(), R.version$platform, Sys.info()[["sysname"]], env),
          sprintf("Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data files in crosswalks/surveys.csv): %s.\n", hashes),
          "## Checks\n", paste0("- ", res), "\n## Step logs\n", paste0("- ", unlist(logs)))

@@ -1,0 +1,36 @@
+# Citation metadata for IMPD-CS (Citation File Format 1.2.0; GitHub shows it as "Cite this repository").
+# A Zenodo DOI is minted for each release and a concept DOI for all versions; the `identifiers` block below is
+# filled in once the first release has been archived.
+cff-version: 1.2.0
+message: >-
+  If you use IMPD-CS, cite it with its version and build identity (docs/BUILD_ID), and cite the DANS deposits
+  of the surveys you use (README.md, "Citing the sources").
+type: software
+title: "IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002-2020 (code, crosswalks and codebook)"
+abstract: >-
+  IMPD-CS is the cross-sectional component of the Integrated Migrant Panel Dataset. It harmonizes the DANS deposits
+  of eight Dutch surveys of persons with a migration background (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006,
+  SING 2009, SIM 2011, SIM 2015, SIM 2020) into one person-level file of repeated cross-sections, with English
+  theme-stemmed variable names, shared value sets and one missing-value scheme, reproducible in R and in Stata
+  from the deposits and a set of CSV crosswalks. The repository holds the code, the crosswalks and the generated
+  codebook; the data are rebuilt by each user from the DANS deposits.
+authors:
+  - family-names: Cellini
+    given-names: Stefano
+    affiliation: "Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)"
+version: 0.5.0
+date-released: "2026-11-11"
+repository-code: "https://github.com/stefanocellini/IMPD_public"
+license: MIT
+license-url: "https://github.com/stefanocellini/IMPD_public/blob/main/LICENSE"
+keywords:
+  - migration
+  - integration
+  - survey harmonization
+  - Netherlands
+  - SPVA
+  - SIM
+  - SING
+  - LAS
+  - repeated cross-sections
+  - DANS

@@ -45,7 +45,7 @@ def facts():
     add = lambda name, value, desc, src: out.append((name, value, desc, src))
 
     m = re.search(r'IMPD_VERSION\s*<-\s*"([^"]+)"', text("code", "R", "00_setup.R"))
-    add("version", m.group(1), "IMPD public component version", "code/R/00_setup.R")
+    add("version", m.group(1), "IMPD-CS version", "code/R/00_setup.R")
     bid = text("docs", "BUILD_ID").split()
     add("build_id", bid[0], "build identity (sha256 of crosswalks and code, first 12 hex digits)", "docs/BUILD_ID")
     built = datetime.date.fromisoformat(bid[2]) if len(bid) > 2 and re.match(r"\d{4}-\d\d-\d\d$", bid[2]) else datetime.date.today()

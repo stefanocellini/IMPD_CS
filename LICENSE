@@ -1,0 +1,37 @@
+IMPD-CS — Integrated Migrant Panel Dataset, cross-sectional component
+Copyright (c) 2026 Stefano Cellini, Netherlands Interdisciplinary Demographic Institute (NIDI-KNAW)
+
+This repository holds code, crosswalks and documentation. It never holds the survey data: those are the
+DANS deposits listed in Surveys/Sources.txt, each under its own DANS licence, and anyone who uses them
+does so under the conditions they accepted at DANS.
+
+Two licences apply, by folder:
+
+  code/               MIT License (below)
+  crosswalks/, docs/  Creative Commons Attribution 4.0 International (CC BY 4.0): see LICENSE-CC-BY-4.0.md
+  README.md, CITATION.cff
+
+Third-party material, not covered by either licence and kept under the terms of its producer:
+  External/           classification tables and price indices from CBS and RVIG (sources in External/Sources.txt)
+  crosswalks/wording.csv, wording_notes.csv, questionnaire_items.csv, questionnaire_constructed.csv,
+  questionnaire_design.csv, source_labels.csv, source_values.csv
+                      question wordings, answer options and value labels reproduced from the questionnaires and
+                      data files of the surveys, for documentation; their rights remain with the data producers
+                      (ISEO, SCP and the fieldwork agencies named in crosswalks/surveys.csv)
+
+----------------------------------------------------------------------------------------------------------------
+MIT License (code/)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and
+to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
+THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.

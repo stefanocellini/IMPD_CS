@@ -1,6 +1,6 @@
 * impd_tools.do : helpers for analyses of the IMPD public file (not part of the build).
 *   do code/Stata/impd_tools.do
-*   use data/derived/impd_public_v0_4_6.dta, clear
+*   use data/derived/impd_cs_v0_4_6.dta, clear
 *   impd_sample dem_sex dem_age_cat3 edu_dipl_hi_lvl3 lab_emp
 *
 * impd_sample varlist [, surveys(numlist) nostop]

@@ -1,4 +1,4 @@
-# IMPD public component - what enters the repository
+# IMPD-CS - what enters the repository
 #
 # Allow-list: everything is ignored unless listed here. The DANS deposits (Surveys/*.zip), everything built from
 # them (data/), and working folders never enter the repository, however a file is named.
@@ -6,6 +6,9 @@
 !/.gitignore
 !/.gitattributes
 !/README.md
+!/LICENSE
+!/LICENSE-CC-BY-4.0.md
+!/CITATION.cff
 !/code/
 !/crosswalks/
 !/docs/

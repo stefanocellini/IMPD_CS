@@ -14,6 +14,7 @@ DOCS = [  # (source, landscape, base font size in half-points, pandoc input form
     ("docs/run_log.md", False, 22, "gfm"),
     ("docs/example_analysis.md", True, 20, "gfm"),
     ("docs/harmonization.md", False, 22, "gfm"),
+    ("docs/user_guide.md", False, 22, "gfm"),
     ("docs/codebook.md", True, 18, "gfm+attributes"),   # heading ids {#...} are attributes, not text
 ]
 LANDSCAPE = ('<w:sectPr><w:pgSz w:w="16838" w:h="11906" w:orient="landscape"/><w:pgMar w:top="720" w:right="720" '

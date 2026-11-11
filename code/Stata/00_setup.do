@@ -1,4 +1,4 @@
-* IMPD - Integrated Migrant Panel Dataset (public DANS component)
+* IMPD-CS - Integrated Migrant Panel Dataset, cross-sectional component (harmonized DANS deposits)
 * 00_setup.do : paths, crosswalk frames and helper programs shared by all steps.
 *
 * Run the whole pipeline from the IMPD root folder with:   do code/Stata/run_all.do
@@ -17,7 +17,7 @@ global CW   "$ROOT/crosswalks"
 global INT  "$ROOT/data/interim"
 global DER  "$ROOT/data/derived"
 global DOCS "$ROOT/docs"
-global IMPD_VERSION "0.4.10"
+global IMPD_VERSION "0.5.0"
 global VERTAG = subinstr("$IMPD_VERSION", ".", "_", .)
 capture mkdir "$ROOT/data"
 capture mkdir "$INT"

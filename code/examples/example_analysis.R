@@ -10,7 +10,7 @@ options(width = 160, survey.lonely.psu = "adjust")
 ROOT <- Sys.getenv("IMPD_ROOT", unset = getwd())
 source(file.path(ROOT, "code", "R", "impd_tools.R"))
 sink(file.path(ROOT, "code", "examples", "example_analysis_R.log"), split = TRUE)
-f <- max(list.files(file.path(ROOT, "data", "derived"), "^impd_public_v[0-9_]+\\.rds$", full.names = TRUE))
+f <- max(list.files(file.path(ROOT, "data", "derived"), "^impd_cs_v[0-9_]+\\.rds$", full.names = TRUE))
 cat("Data file:", basename(f), "\n")
 d <- readRDS(f)
 num <- function(x) as.vector(unclass(x))                                 # drop labels, keep tagged NA as NA

@@ -1,6 +1,6 @@
-# IMPD public component v0.4.10 — run log (build 8ce1529f2c25)
+# IMPD-CS v0.5.0 — run log (build 3909c309f969)
 
-Built 2026-11-09 12:53 with R 4.3.3 (x86_64-pc-linux-gnu) on Linux; packages: haven 2.5.4, dplyr 1.1.4, readr 2.1.5, stringr 1.5.1, tidyr 1.3.1, purrr 1.0.2, openssl 2.1.1, jsonlite 1.8.8.
+Built 2026-11-11 15:00 with R 4.3.3 (x86_64-pc-linux-gnu) on Linux; packages: haven 2.5.4, dplyr 1.1.4, readr 2.1.5, stringr 1.5.1, tidyr 1.3.1, purrr 1.0.2, openssl 2.1.1, jsonlite 1.8.8.
 
 Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data files in crosswalks/surveys.csv): SPVA2002 91166a194661, SPVN2003 96556f53090b, LAS2004 cb67573d71e1, SIM2006 5c666899708d, SING2009 b4d3aea4cf56, SIM2011 78d8bf29ef63, SIM2015 5269492b473f, SIM2020 cc4518f30693.
 
@@ -68,13 +68,13 @@ Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data fil
 - CPI factors applied: 2002 -> x1.2386, 2003 -> x1.2131, 2004 -> x1.1987, 2006 -> x1.1659, 2009 -> x1.1062, 2011 -> x1.0675, 2015 -> x1.0000, 2020 -> x0.9302
 - Migrant routing in the person samples: LAS2004 3454 of 4096 (self-reported natives with migrant routing: 24); SIM2006 4208 of 5250 (self-reported natives with migrant routing: 0); SING2009 5952 of 6911 (self-reported natives with migrant routing: 3); SIM2011 3310 of 4125 (self-reported natives with migrant routing: 23); SIM2015 5783 of 6829 (self-reported natives with migrant routing: 0); SIM2020 4552 of 5323 (self-reported natives with migrant routing: 0)
 - Partner links in the household samples: SPVA2002 5098 linked persons, 1650 heads/partners without a co-resident partner, 0 in ambiguous rosters; SPVN2003 2454 linked persons, 2320 heads/partners without a co-resident partner, 0 in ambiguous rosters
-- Main file: 55157 persons x 1642 variables -> impd_public_v0_4_10.{dta,rds,csv}
-- Source file SPVA2002: 13504 persons x 339 variables -> impd_public_v0_4_10_source_spva2002.{dta,rds}
-- Source file SPVN2003: 9119 persons x 285 variables -> impd_public_v0_4_10_source_spvn2003.{dta,rds}
-- Source file LAS2004: 4096 persons x 571 variables -> impd_public_v0_4_10_source_las2004.{dta,rds}
-- Source file SIM2006: 5250 persons x 377 variables -> impd_public_v0_4_10_source_sim2006.{dta,rds}
-- Source file SING2009: 6911 persons x 247 variables -> impd_public_v0_4_10_source_sing2009.{dta,rds}
-- Source file SIM2011: 4125 persons x 374 variables -> impd_public_v0_4_10_source_sim2011.{dta,rds}
-- Source file SIM2015: 6829 persons x 241 variables -> impd_public_v0_4_10_source_sim2015.{dta,rds}
-- Source file SIM2020: 5323 persons x 280 variables -> impd_public_v0_4_10_source_sim2020.{dta,rds}
+- Main file: 55157 persons x 1642 variables -> impd_cs_v0_5_0.{dta,rds,csv}
+- Source file SPVA2002: 13504 persons x 339 variables -> impd_cs_v0_5_0_source_spva2002.{dta,rds}
+- Source file SPVN2003: 9119 persons x 285 variables -> impd_cs_v0_5_0_source_spvn2003.{dta,rds}
+- Source file LAS2004: 4096 persons x 571 variables -> impd_cs_v0_5_0_source_las2004.{dta,rds}
+- Source file SIM2006: 5250 persons x 377 variables -> impd_cs_v0_5_0_source_sim2006.{dta,rds}
+- Source file SING2009: 6911 persons x 247 variables -> impd_cs_v0_5_0_source_sing2009.{dta,rds}
+- Source file SIM2011: 4125 persons x 374 variables -> impd_cs_v0_5_0_source_sim2011.{dta,rds}
+- Source file SIM2015: 6829 persons x 241 variables -> impd_cs_v0_5_0_source_sim2015.{dta,rds}
+- Source file SIM2020: 5323 persons x 280 variables -> impd_cs_v0_5_0_source_sim2020.{dta,rds}
 - Routing gates checked against the data: 697 source x gate pairs, 630 hold, 67 hold with exceptions (<= 10% of values outside), 0 do not hold -> docs/routing_check.csv

@@ -1,14 +1,16 @@
-# IMPD — Integrated Migrant Panel Dataset: public (DANS) component
+# IMPD-CS — Integrated Migrant Panel Dataset, cross-sectional component
+
+**New here?** `docs/user_guide.md` takes you from the DANS deposits to a verified build and a first analysis. How to cite: `CITATION.cff`. Licence: `LICENSE` (code MIT; crosswalks and documents CC BY 4.0).
 
 Harmonization of eight Dutch surveys of persons with a migration background (SPVA 2002 to SIM 2020), archived at DANS, into one
 person-level file with English, theme-stemmed variable names, reproducible in **R** and in **Stata**
 from the DANS zip files and a set of CSV crosswalks.
 
-Version 0.4.9 — **SPVA 2002** (DANS P1684), **SPVN 2003** (refugee-group SPVA, DANS P1753), **LAS 2004/05** (easy-dataset:40215), **SIM 2006** (easy-dataset:40304), **SING 2009** (easy-dataset:51530, CBS-protected partial release), **SIM 2011** (easy-dataset:67677, V3), **SIM 2015** (easy-dataset:239464, CCF) and **SIM 2020** (easy-dataset:259562, CCF): 55,157 persons x 1,642 harmonized variables, every variable of every deposit harmonized. Development history is in `docs/decisions.md`.
+Version 0.5.0 — **SPVA 2002** (DANS P1684), **SPVN 2003** (refugee-group SPVA, DANS P1753), **LAS 2004/05** (easy-dataset:40215), **SIM 2006** (easy-dataset:40304), **SING 2009** (easy-dataset:51530, CBS-protected partial release), **SIM 2011** (easy-dataset:67677, V3), **SIM 2015** (easy-dataset:239464, CCF) and **SIM 2020** (easy-dataset:259562, CCF): 55,157 persons x 1,642 harmonized variables, every variable of every deposit harmonized. Development history is in `docs/decisions.md`.
 
-> **Repeated cross-sections, not a panel.** The public component stacks independent cross-sectional surveys with different target populations, age ranges and weights; `id_person` identifies a record within one survey and does not follow persons across surveys. Codebook section 1 lists, per survey, who was eligible and which weight applies. Identifiers are built from the immutable `svy_key` (fieldwork year), so they do not change when a survey is added.
+> **Repeated cross-sections, not a panel.** IMPD-CS (CS for cross-sections) stacks independent cross-sectional surveys with different target populations, age ranges and weights; `id_person` identifies a record within one survey and does not follow persons across surveys. Codebook section 1 lists, per survey, who was eligible and which weight applies. Identifiers are built from the immutable `svy_key` (fieldwork year), so they do not change when a survey is added. The panel in the project's name is IMPD-P, the registry-linked component built separately on the CBS microdata.
 
-> **Access note.** SPVA 2002 and SPVN 2003 are open-access deposits; the six SCP surveys (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020) are DANS *request permission* deposits under the DANS licence. The built data file therefore cannot be shared openly: the public deliverable is this repository (code, crosswalks, codebook), and every user rebuilds the data from the eight DANS deposits placed in `Surveys/`.
+> **Access note.** SPVA 2002 and SPVN 2003 are open-access deposits; the six SCP surveys (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020) are DANS *request permission* deposits under the DANS licence. The built data file therefore cannot be shared, not even between colleagues: the deliverable is this repository (code, crosswalks, codebook), and every user rebuilds the data from the eight DANS deposits placed in `Surveys/`, under the conditions accepted at DANS.
 
 ```
 IMPD_public/
@@ -41,7 +43,7 @@ IMPD_public/
 ├── data/
 │   ├── raw/                   unzipped deposits (created by the pipeline)
 │   ├── interim/               plain copies of the source files (.rds/.dta) and intermediate builds
-│   └── derived/               impd_public_v0_4_10.{dta,rds,csv}, impd_public_v0_4_10_source_<survey>.{dta,rds}
+│   └── derived/               impd_cs_v0_4_10.{dta,rds,csv}, impd_cs_v0_4_10_source_<survey>.{dta,rds}
 └── docs/                    codebook.html (with variable finder) / codebook.md / codebook_variables.csv, comparability.csv, value_map_review.csv, routing_check.csv, example_analysis.md, harmonization.md (how the harmonization works, for collaborators), decisions.md, run_log.md, BUILD_ID, facts.csv (every number the slide decks quote, computed at each build); word/ holds Word copies of the Markdown documents (derived, not build outputs); slides/ holds the slide decks: Markdown sources, the NIDI template, and the PowerPoint files built from them (see docs/slides/README.md)
 ```
 
@@ -60,13 +62,14 @@ Every generated codebook and run log carries a **build identity** (`docs/BUILD_I
 
 ## The repository
 
-This is a Git repository (private for now). It holds everything needed to rebuild and document the data, and none of the data:
+This is a Git repository. It holds everything needed to rebuild and document the data, and none of the data:
 
 - **Tracked:** `code/`, `crosswalks/`, `docs/` (codebook, decisions, run log, the value-map review table), `External/` (public CBS and RVIG classification files used by the crosswalks, with their sources in `External/Sources.txt`), `Surveys/Sources.txt` (where each DANS deposit comes from) and this README.
 - **Never tracked:** the DANS deposits (`Surveys/*.zip`), everything built from them (`data/`), the Word copies in `docs/word/` and the PowerPoint files in `docs/slides/` (both regenerated by `run_all.R`), and any working folder. `.gitignore` is an allow-list: a file enters only if its folder is listed there, and data formats (`.dta`, `.rds`, `.sav`, `.zip` ...) are refused wherever they appear.
 - **To work with it:** clone the repository, download the eight deposits from DANS (`Surveys/Sources.txt`; six need a *request permission* agreement) into `Surveys/` under the file names in `crosswalks/surveys.csv` (column `zipfile`, e.g. `Surveys/SIM 2006.zip`), and run the pipeline below. The R build writes `docs/BUILD_ID`; a clone of commit X rebuilds the build identity recorded in that commit.
 - **Line endings:** `.gitattributes` switches off line-ending conversion, so every file is stored byte for byte (the crosswalk CSVs use CRLF, the code LF). The build identity is a hash over these bytes, so a converted checkout would report a different identity for the same content.
 - **Commits:** commit after a build whose checks pass (`docs/run_log.md`), with the version and build identity in the message; record substantive decisions in `docs/decisions.md` as before.
+- **Releases:** a tagged release (`v0.5.0`, …) marks a state meant for use outside the project; its release notes say what changed since the previous one, and Zenodo archives each release with a DOI. Between releases the build identity tells revisions apart. Questions, problems and requests for a variable or a recode: GitHub issues on this repository, naming the version and the build identity.
 
 ## Running
 
@@ -100,11 +103,23 @@ Question wording, answer options, battery items, routing and randomisation are d
 `*_source_<survey>` files keep every original variable. See `docs/decisions.md` for the decisions and
 limitations and `docs/codebook.html` for every variable.
 
+## Citing IMPD-CS
+
+Cite the version together with the build identity, and the DANS deposits of the surveys you use (below). `CITATION.cff` holds the metadata (GitHub: *Cite this repository*); each release is archived on Zenodo with a DOI.
+
+> Cellini, S. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.0, build `<docs/BUILD_ID>`. NIDI-KNAW. https://github.com/stefanocellini/IMPD_public
+
 ## Citing the sources
 
-- Gijsberts, M. et al. / SEOR-ISEO & SCP (2005). *Sociale positie en voorzieningengebruik van allochtonen 2002 — SPVA 2002*. DANS. https://doi.org/10.17026/dans-xdt-cynn
-- ISEO, Erasmus University Rotterdam (2009). *Sociale positie en voorzieningengebruik van allochtonen 2003 (vluchtelingengroepen)*. DANS. https://doi.org/10.17026/dans-x7u-vkfm
-- Sociaal en Cultureel Planbureau (2022). *Survey Integratie Minderheden - SIM 2015 versie 3*. DANS. https://doi.org/10.17026/dans-x63-dq58
-- Sociaal en Cultureel Planbureau (2022). *Survey Integratie Minderheden 2020 - SIM2020*. DANS. https://doi.org/10.17026/dans-26h-xn4n
+The eight deposits, in the versions the crosswalks were built from (`Surveys/Sources.txt`; the pipeline verifies each data file's checksum). Each DANS page gives the full citation of its deposit:
+
+- Gijsberts, M. et al. / SEOR-ISEO & SCP (2005). *Sociale positie en voorzieningengebruik van allochtonen 2002 — SPVA 2002*, version 3.2. DANS. https://doi.org/10.17026/dans-xdt-cynn
+- ISEO, Erasmus University Rotterdam (2009). *Sociale positie en voorzieningengebruik van allochtonen 2003 (vluchtelingengroepen)*, version 2.1. DANS. https://doi.org/10.17026/dans-x7u-vkfm
+- Sociaal en Cultureel Planbureau. *Leefsituatie Allochtone Stedelingen 2004/2005 — LAS*, version 4.1. DANS. https://doi.org/10.17026/dans-zqg-uqn8
+- Sociaal en Cultureel Planbureau. *Survey Integratie Minderheden 2006 — SIM 2006*, version 4.0. DANS. https://doi.org/10.17026/dans-2z9-6eqc
+- Sociaal en Cultureel Planbureau. *Survey Integratie Nieuwe Groepen 2009 — SING 2009*, version 3.0 (CBS-protected public version). DANS. https://doi.org/10.17026/dans-xnn-ky48
+- Sociaal en Cultureel Planbureau. *Survey Integratie Minderheden 2011 — SIM 2011*, version 2.0. DANS. https://doi.org/10.17026/dans-2a2-77kp
+- Sociaal en Cultureel Planbureau (2022). *Survey Integratie Minderheden 2015 — SIM 2015*, version 2.0. DANS. https://doi.org/10.17026/dans-x63-dq58
+- Sociaal en Cultureel Planbureau (2022). *Survey Integratie Minderheden 2020 — SIM 2020*, version 2.0. DANS. https://doi.org/10.17026/dans-26h-xn4n
 - Fieldwork reports: TNS NIPO/Veldkamp (2015), *Veldwerkverslag SIM 2015*; Dagevos, J. & Kappelhof, J. (2022), *Survey integratie migranten 2020. Uitvoering van veldwerk ten tijde van corona* (SCP).
 - Classifications: RVIG Landelijke Tabellen (Tabel 34 Landentabel); CBS gemeentelijke indelingen; CBS SBC-92/ISCO and SBI schakelschema's; CBS StatLine 70936ENG (CPI). URLs and retrieval dates in `External/Sources.txt`.

@@ -10,7 +10,7 @@ set more off
 capture log close _all
 log using "code/examples/example_analysis_Stata.log", replace text
 do "code/Stata/impd_tools.do"
-local files : dir "data/derived" files "impd_public_v?_?_?.dta"
+local files : dir "data/derived" files "impd_cs_v?_?_?.dta"
 local files : list sort files
 local f : word `: word count `files'' of `files'
 display as text "Data file: `f'"

@@ -1,6 +1,6 @@
 # How the harmonization works
 
-This note explains, step by step, how the IMPD public component turns eight survey files into one harmonized person-level file. It is written for collaborators joining the project: read it before changing a crosswalk or the code. Users who only want to analyse the data need the codebook (`docs/codebook.html`), not this note.
+This note explains, step by step, how IMPD-CS (the cross-sectional component of the Integrated Migrant Panel Dataset, built from the DANS deposits) turns eight survey files into one harmonized person-level file. It is written for collaborators joining the project: read it before changing a crosswalk or the code. Users who only want to analyse the data need the codebook (`docs/codebook.html`), not this note.
 
 ## The principle
 

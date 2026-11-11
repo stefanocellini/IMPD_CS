@@ -3,7 +3,7 @@ title: How the IMPD harmonization works
 subtitle: From {{n_surveys}} survey deposits to one person-level file, and how the pipeline keeps itself honest
 author:
 - Stefano Cellini · NIDI
-- "IMPD public component v{{version}} · build {{build_id}} · {{build_month}}"
+- "IMPD-CS v{{version}} · build {{build_id}} · {{build_month}}"
 ---
 
 <!--
@@ -32,7 +32,7 @@ One harmonized person-level file from the public DANS versions of the Dutch migr
 | {{n_checks}} | checks rerun on every build |
 
 ::: notes
-The deck explains the method behind the public component of the IMPD: how {{n_surveys}} DANS deposits become one harmonized person-level file, and why the pipeline is built so that its own mistakes surface. Every number on these slides is computed from the repository at build {{build_id}}; the code examples are taken from the repository as it stands.
+The deck explains the method behind IMPD-CS, the cross-sectional component of the IMPD: how {{n_surveys}} DANS deposits become one harmonized person-level file, and why the pipeline is built so that its own mistakes surface. Every number on these slides is computed from the repository at build {{build_id}}; the code examples are taken from the repository as it stands.
 :::
 
 # The problem and the principle

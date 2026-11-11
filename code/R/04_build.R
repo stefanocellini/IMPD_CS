@@ -1,6 +1,6 @@
 # 04_build.R : label, order and write the harmonized person-level file and the companion source file.
-#   data/derived/impd_public_v<version>.dta / .rds / .csv          harmonized variables (English stems)
-#   data/derived/impd_public_v<version>_source.dta / .rds          original source variables (src_ prefix, Dutch labels)
+#   data/derived/impd_cs_v<version>.dta / .rds / .csv          harmonized variables (English stems)
+#   data/derived/impd_cs_v<version>_source.dta / .rds          original source variables (src_ prefix, Dutch labels)
 source(file.path(Sys.getenv("IMPD_ROOT", unset = getwd()), "code", "R", "00_setup.R"))
 
 all <- readRDS(P("data", "interim", "derived_all.rds"))
@@ -34,7 +34,7 @@ for (i in seq_len(nrow(vm))) {
 # integer-valued categorical/id columns stay double (tagged NAs require doubles); nothing else to coerce.
 
 ver <- gsub("\\.", "_", IMPD_VERSION)
-out_base <- P("data", "derived", sprintf("impd_public_v%s", ver))
+out_base <- P("data", "derived", sprintf("impd_cs_v%s", ver))
 attr(main, "label") <- sprintf("IMPD public v%s - harmonized person-level file (SPVA/SPVN/SIM)", IMPD_VERSION)
 saveRDS(main, paste0(out_base, ".rds"))
 write_dta(main, paste0(out_base, ".dta"), version = 14)
