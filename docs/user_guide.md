@@ -149,7 +149,7 @@ In Stata: `use "data/derived/impd_cs_v0_5_1_stata.dta", clear` after a Stata bui
 
 ## 9. Questions, problems, requests
 
-GitHub issues on the repository, naming the version and the build identity, and attaching `docs/run_log.md` when a build failed. For anything that does not belong in a public issue, email the authors (README, *Citing IMPD-CS*). Requests for a new harmonized variable, a different coding or an added survey go there too; `docs/harmonization.md` explains how the harmonization works and how a survey is added, for those who want to contribute.
+GitHub issues on the repository (a free GitHub account is needed to open one; reading them needs none), naming the version and the build identity, and attaching `docs/run_log.md` when a build failed. For anything that does not belong in a public issue, email the authors (README, *Citing IMPD-CS*). Requests for a new harmonized variable, a different coding or an added survey go there too; `docs/harmonization.md` explains how the harmonization works and how a survey is added, for those who want to contribute.
 
 ## 10. Updating to a new version
 
