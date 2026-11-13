@@ -1,6 +1,6 @@
 # Citation metadata for IMPD-CS (Citation File Format 1.2.0; GitHub shows it as "Cite this repository").
-# Zenodo archives each GitHub release: `doi` is the DOI of this version; the concept DOI under `identifiers`
-# covers all versions and resolves to the latest release.
+# Zenodo archives each GitHub release. `doi` is the concept DOI, which covers all versions and resolves to the
+# latest release; the DOI of each released version is listed under `identifiers` (added after its release).
 cff-version: 1.2.0
 message: >-
   If you use IMPD-CS, cite it with its version and build identity (docs/BUILD_ID), and cite the DANS deposits
@@ -28,9 +28,9 @@ authors:
     given-names: Matthijs
     affiliation: "Netherlands Interdisciplinary Demographic Institute; University of Groningen"
     email: kalmijn@nidi.nl
-version: 0.5.1
-date-released: "2026-11-11"
-doi: 10.5281/zenodo.24141875
+version: 0.5.2
+date-released: "2026-11-13"
+doi: 10.5281/zenodo.24141874
 identifiers:
   - type: doi
     value: 10.5281/zenodo.24141874

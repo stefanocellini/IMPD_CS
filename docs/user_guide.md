@@ -43,7 +43,7 @@ Do not unzip, rename or edit anything inside. The pipeline unzips each deposit i
 
 ## 3. Get the repository
 
-Either clone it with Git (`git clone https://github.com/stefanocellini/IMPD_CS.git`, or GitHub Desktop), or download a release as a zip from the repository's *Releases* page and unzip it. Use a release (a tagged version such as `v0.5.1`) rather than an arbitrary commit: a release is a state meant for use, with release notes.
+Either clone it with Git (`git clone https://github.com/stefanocellini/IMPD_CS.git`, or GitHub Desktop), or download a release as a zip from the repository's *Releases* page and unzip it. Use a release (a tagged version such as `v0.5.2`) rather than an arbitrary commit: a release is a state meant for use, with release notes.
 
 Keep the folder out of a synced cloud folder (OneDrive, Dropbox) if you can: the build writes 2 GB and the syncing has been seen to serve stale copies of files.
 
@@ -75,8 +75,8 @@ Rscript code/R/run_all.R
 
 | File | Content |
 |---|---|
-| `data/derived/impd_cs_v0_5_1.dta` / `.rds` / `.csv` | the harmonized file (version in the name) |
-| `data/derived/impd_cs_v0_5_1_source_<survey>.dta` / `.rds` | one companion per survey with every original variable, prefix `src_` |
+| `data/derived/impd_cs_v0_5_2.dta` / `.rds` / `.csv` | the harmonized file (version in the name) |
+| `data/derived/impd_cs_v0_5_2_source_<survey>.dta` / `.rds` | one companion per survey with every original variable, prefix `src_` |
 | `docs/codebook.html`, `docs/codebook.md` | the codebook of this build |
 | `docs/run_log.md`, `docs/BUILD_ID` | the checks and the build identity (section 5) |
 
@@ -92,8 +92,8 @@ The pipeline runs the same steps as the R one from the same crosswalks: `01_impo
 
 | File | Content |
 |---|---|
-| `data/derived/impd_cs_v0_5_1_stata.dta` | the harmonized file, compressed, with the codebook's notes attached to each variable (`notes dem_sex`) |
-| `data/derived/impd_cs_v0_5_1_source_<survey>_stata.dta` | one companion per survey with every original variable, prefix `src_` |
+| `data/derived/impd_cs_v0_5_2_stata.dta` | the harmonized file, compressed, with the codebook's notes attached to each variable (`notes dem_sex`) |
+| `data/derived/impd_cs_v0_5_2_source_<survey>_stata.dta` | one companion per survey with every original variable, prefix `src_` |
 | `docs/codebook_stata.txt` | `describe` and `codebook, compact` of the build |
 | `docs/run_log_stata.md`, `docs/run_log_stata.txt` | the verdicts of the checks, and the whole run (section 5) |
 
@@ -105,7 +105,7 @@ Three things say that your build is the one the release describes:
 
 1. **`docs/BUILD_ID`** holds the build identity: a 12-character fingerprint of the crosswalks and the code, followed by the version and the time. It is written by the import step (4.1), so both engines have it. It must equal the build identity stated in the release notes. If it does not, your copy of the repository differs from the release (section 7).
 2. **The run log.** R: `docs/run_log.md` lists the 44 checks, one line each, starting with `PASS` (43 and one `SKIP` when Python is not installed: the label review already ran when the crosswalks were built). Stata: `docs/run_log_stata.md` lists the verdicts of the Stata checks the same way, and names the build identity in its first line. In either engine a `FAIL` stops the pipeline before the files are written.
-3. **The counts.** 55,157 persons and 1,642 variables for version 0.5.1: in the R run log's first checks, and in the Stata pipeline's `04_build` message (`Main file: 55157 persons x 1642 variables`).
+3. **The counts.** 55,157 persons and 1,642 variables for version 0.5.2: in the R run log's first checks, and in the Stata pipeline's `04_build` message (`Main file: 55157 persons x 1642 variables`).
 
 With both engines built: the Stata log ends with `PASS Stata build identical to R build in every cell of every variable`.
 
@@ -122,7 +122,7 @@ Start with the codebook: open `docs/codebook.html` in a browser (it works offlin
 - **Check the joint sample before a model.** `impd_sample()` (`code/R/impd_tools.R`, `code/Stata/impd_tools.do`) reports, per survey, how many records have a valid value on every variable of a model and why the others drop out, and stops when a survey has no complete record. Use it so that a survey never disappears from a pooled model unnoticed.
 - **The worked example** `docs/example_analysis.md`, with its scripts in `code/examples/`, runs one question asked in all eight surveys through these steps in R and in Stata.
 
-In Stata: `use "data/derived/impd_cs_v0_5_1_stata.dta", clear` after a Stata build, or `use "data/derived/impd_cs_v0_5_1.dta", clear` after an R build; both carry variable and value labels, and the Stata-built file has the codebook's notes attached to each variable (`notes dem_sex`). In R: `readRDS("data/derived/impd_cs_v0_5_1.rds")`, with `haven` loaded for the labels and the tagged missing values.
+In Stata: `use "data/derived/impd_cs_v0_5_2_stata.dta", clear` after a Stata build, or `use "data/derived/impd_cs_v0_5_2.dta", clear` after an R build; both carry variable and value labels, and the Stata-built file has the codebook's notes attached to each variable (`notes dem_sex`). In R: `readRDS("data/derived/impd_cs_v0_5_2.rds")`, with `haven` loaded for the labels and the tagged missing values.
 
 ## 7. When something goes wrong
 
