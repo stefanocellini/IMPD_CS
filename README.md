@@ -33,7 +33,7 @@ Cite the version together with the build identity, and the DANS deposits of the 
 
 > Cellini, S., van Tubergen, F., & Kalmijn, M. (2026). *IMPD-CS: harmonized cross-sections of Dutch migrant surveys, 2002–2020 (code, crosswalks and codebook)*, version 0.5.2, build `63208c421151`. NIDI-KNAW. https://doi.org/10.5281/zenodo.24141874
 
-For a later version, take the version, the build identity (`docs/BUILD_ID`) and the version DOI from that release's Zenodo record.
+The concept DOI in the citation always resolves to the latest release; the version and the build identity pin the one you used. Each release also has a DOI of its own on Zenodo: v0.5.1 — https://doi.org/10.5281/zenodo.24141875; v0.5.2 — added here after its release. Cite the one you used if your journal asks for a version-specific DOI; `docs/BUILD_ID` of your own build gives the identity.
 
 Authors: Stefano Cellini (NIDI-KNAW; cellini@nidi.nl), Frank van Tubergen (NIDI-KNAW, Utrecht University and University of Groningen; tubergen@nidi.nl) and Matthijs Kalmijn (NIDI-KNAW and University of Groningen; kalmijn@nidi.nl). NIDI-KNAW is the Netherlands Interdisciplinary Demographic Institute of the Royal Netherlands Academy of Arts and Sciences. For questions and problems, GitHub issues are preferred (they stay visible to every user; a free GitHub account is needed to open one); email for anything that does not belong in a public issue.
 

@@ -1,8 +1,8 @@
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_public\code/examples/example_analysis_Stata.log
+       log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_CS\code/examples/example_analysis_Stata.log
   log type:  text
- opened on:  11 Nov 2026, 16:24:58
+ opened on:  13 Nov 2026, 18:07:42
 
 . do "code/Stata/impd_tools.do"
 
@@ -82,10 +82,10 @@ end of do-file
 . local f : word `: word count `files'' of `files'
 
 . display as text "Data file: `f'"
-Data file: impd_cs_v0_5_1.dta
+Data file: impd_cs_v0_5_2.dta
 
 . use "data/derived/`f'", clear
-(IMPD-CS v0.5.1 build 7069c412771c - harmonized person-level file)
+(IMPD-CS v0.5.2 build 63208c421151 - harmonized person-level file)
 
 . 
 . * ---- step 2/3: measures (codebook entries soc_leis_nl, lang_prob_spk; eligibility statements in docs/codebook_variables.csv)
@@ -462,7 +462,7 @@ Note: _cons estimates baseline odds.
 
 . log close
       name:  <unnamed>
-       log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_public\code/examples/example_analysis_Stata.log
+       log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_CS\code/examples/example_analysis_Stata.log
   log type:  text
- closed on:  11 Nov 2026, 16:25:10
+ closed on:  13 Nov 2026, 18:07:58
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
