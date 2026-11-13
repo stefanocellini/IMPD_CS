@@ -19,8 +19,7 @@ authors:
     given-names: Stefano
     affiliation: "Netherlands Interdisciplinary Demographic Institute"
     email: cellini@nidi.nl
-  - family-names: Tubergen
-    name-particle: van
+  - family-names: van Tubergen
     given-names: Frank
     affiliation: "Netherlands Interdisciplinary Demographic Institute; Utrecht University; University of Groningen"
     email: tubergen@nidi.nl
@@ -38,9 +37,15 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.24141875
     description: "Version DOI of IMPD-CS v0.5.1 (build 7069c412771c)"
+  - type: doi
+    value: 10.5281/zenodo.24202835
+    description: "Version DOI of IMPD-CS v0.5.2 (build 63208c421151)"
   - type: url
     value: "https://github.com/stefanocellini/IMPD_CS/releases/tag/v0.5.1"
     description: "GitHub release v0.5.1"
+  - type: url
+    value: "https://github.com/stefanocellini/IMPD_CS/releases/tag/v0.5.2"
+    description: "GitHub release v0.5.2"
 repository-code: "https://github.com/stefanocellini/IMPD_CS"
 license: MIT
 license-url: "https://github.com/stefanocellini/IMPD_CS/blob/main/LICENSE"
