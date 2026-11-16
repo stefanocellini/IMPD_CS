@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_CS\code/examples/example_analysis_Stata.log
   log type:  text
- opened on:  13 Nov 2026, 18:07:42
+ opened on:  16 Nov 2026, 14:31:59
 
 . do "code/Stata/impd_tools.do"
 
@@ -85,7 +85,7 @@ end of do-file
 Data file: impd_cs_v0_5_2.dta
 
 . use "data/derived/`f'", clear
-(IMPD-CS v0.5.2 build 63208c421151 - harmonized person-level file)
+(IMPD-CS v0.5.2 build 6a66dd302732 - harmonized person-level file)
 
 . 
 . * ---- step 2/3: measures (codebook entries soc_leis_nl, lang_prob_spk; eligibility statements in docs/codebook_variables.csv)
@@ -464,5 +464,5 @@ Note: _cons estimates baseline odds.
       name:  <unnamed>
        log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_CS\code/examples/example_analysis_Stata.log
   log type:  text
- closed on:  13 Nov 2026, 18:07:58
+ closed on:  16 Nov 2026, 14:32:13
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------

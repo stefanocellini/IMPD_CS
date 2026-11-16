@@ -1,6 +1,6 @@
-# IMPD-CS v0.5.2 - Stata run log (build 63208c421151)
+# IMPD-CS v0.5.2 - Stata run log (build 6a66dd302732)
 
-Built 13 Nov 2026 18:04:20 with Stata 19.5 SE on Windows; full output in docs/run_log_stata.txt. Each line is the verdict of one check of code/Stata/99_checks.do; the last compares the Stata build with the R build cell by cell when the R build is present.
+Built 16 Nov 2026 14:26:12 with Stata 19.5 SE on Windows; full output in docs/run_log_stata.txt. Each line is the verdict of one check of code/Stata/99_checks.do; the last compares the Stata build with the R build cell by cell when the R build is present.
 
 - PASS SPVA2002: heads = 4199, interviewed = 8321
 - PASS SPVN2003: heads = 3547, interviewed = 5594
