@@ -1126,18 +1126,18 @@ dem_age_cat5y,sim2011,CATLFT5JR,'09',9,
 dem_age_cat5y,sim2011,CATLFT5JR,'10',10,
 dem_age_cat5y,sim2011,CATLFT5JR,'11',11,
 dem_age_cat5y,sim2011,CATLFT5JR,'12',12,
-dem_age_cat,sim2011,CATLFT5JR,'01',1,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'02',1,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'03',2,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'04',2,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'05',3,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'06',3,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'07',4,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'08',4,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'09',5,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'10',5,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'11',6,70+ cannot be split into 65-74 / 75+: code 8
-dem_age_cat,sim2011,CATLFT5JR,'12',8,70+ cannot be split into 65-74 / 75+: code 8
+dem_age_cat,sim2011,CATLFT5JR,'01',1,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'02',1,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'03',2,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'04',2,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'05',3,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'06',3,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'07',4,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'08',4,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'09',5,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'10',5,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'11',6,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
+dem_age_cat,sim2011,CATLFT5JR,'12',8,"70+ cannot be split into 65-74 / 75+: code 8. The DANS protection step that moved some respondents aged 45-69 into 70+ (see dem_age_cat5y) carries over: 45-54, 55-64, 65-74 and 70+ are approximate for SIM 2011"
 dem_prtnr_age_cat5y,sim2011,CATLFT5JRPART,'01',1,
 dem_prtnr_age_cat5y,sim2011,CATLFT5JRPART,'02',2,
 dem_prtnr_age_cat5y,sim2011,CATLFT5JRPART,'03',3,
