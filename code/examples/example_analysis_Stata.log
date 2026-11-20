@@ -2,7 +2,7 @@
       name:  <unnamed>
        log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_CS\code/examples/example_analysis_Stata.log
   log type:  text
- opened on:  16 Nov 2026, 14:31:59
+ opened on:  20 Nov 2026, 10:50:02
 
 . do "code/Stata/impd_tools.do"
 
@@ -82,10 +82,10 @@ end of do-file
 . local f : word `: word count `files'' of `files'
 
 . display as text "Data file: `f'"
-Data file: impd_cs_v0_5_2.dta
+Data file: impd_cs_v0_5_3.dta
 
 . use "data/derived/`f'", clear
-(IMPD-CS v0.5.2 build 6a66dd302732 - harmonized person-level file)
+(IMPD-CS v0.5.3 build 112ec2af0871 - harmonized person-level file)
 
 . 
 . * ---- step 2/3: measures (codebook entries soc_leis_nl, lang_prob_spk; eligibility statements in docs/codebook_variables.csv)
@@ -130,8 +130,8 @@ Analysis population (interviewed, migrant origin group, 15+):
 impd_sample: 6 variable(s)
 survey       records  complete   share  not collected
 SPVA 2002       7464      7184   0.962  
-      soc_leis_nl: 7185 valid / 0 .c / 0 .e / 279 other | dem_eth: 7464 valid / 0 .c / 0 .e / 0 other | dem_gen: 7464 valid / 0 .c / 0 .e / 0 other | dem_sex: 7
-> 462 valid / 0 .c / 0 .e / 2 other | dem_age_cat3: 7464 valid / 0 .c / 0 .e / 0 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other |
+      soc_leis_nl: 7185 valid / 217 .c / 0 .e / 62 other | dem_eth: 7464 valid / 0 .c / 0 .e / 0 other | dem_gen: 7464 valid / 0 .c / 0 .e / 0 other | dem_sex: 
+> 7462 valid / 0 .c / 0 .e / 2 other | dem_age_cat3: 7464 valid / 0 .c / 0 .e / 0 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other |
 SPVN 2003 (SPVA refugee groups)      5077      1586   0.312  
       soc_leis_nl: 1586 valid / 0 .c / 3488 .e / 3 other | dem_eth: 5077 valid / 0 .c / 0 .e / 0 other | dem_gen: 5077 valid / 0 .c / 0 .e / 0 other | dem_sex: 
 > 5077 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 5077 valid / 0 .c / 0 .e / 0 other | svy_wgt: 5077 valid / 0 .c / 0 .e / 0 other |
@@ -163,7 +163,7 @@ SIM 2020        4552      4552   1.000
 impd_sample: 3 variable(s)
 survey       records  complete   share  not collected
 SPVA 2002       7464      4073   0.546  
-      soc_leis_nl: 7185 valid / 0 .c / 0 .e / 279 other | lang_prob_spk: 4093 valid / 0 .c / 3349 .e / 22 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other |
+      soc_leis_nl: 7185 valid / 217 .c / 0 .e / 62 other | lang_prob_spk: 4093 valid / 0 .c / 3349 .e / 22 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other |
 SPVN 2003 (SPVA refugee groups)      5077         0   0.000   lang_prob_spk
       soc_leis_nl: 1586 valid / 0 .c / 3488 .e / 3 other | lang_prob_spk: 0 valid / 0 .c / 5077 .e / 0 other | svy_wgt: 5077 valid / 0 .c / 0 .e / 0 other |
 LAS 2004/05      3424      3424   1.000  
@@ -190,8 +190,8 @@ r(459)
 impd_sample: 6 variable(s)
 survey       records  complete   share  not collected
 SPVA 2002       7464      4072   0.546  
-      soc_leis_nl: 7185 valid / 0 .c / 0 .e / 279 other | lang_prob_spk: 4093 valid / 0 .c / 3349 .e / 22 other | dem_sex: 7462 valid / 0 .c / 0 .e / 2 other | 
-> dem_age_cat3: 7464 valid / 0 .c / 0 .e / 0 other | dem_gen: 7464 valid / 0 .c / 0 .e / 0 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other |
+      soc_leis_nl: 7185 valid / 217 .c / 0 .e / 62 other | lang_prob_spk: 4093 valid / 0 .c / 3349 .e / 22 other | dem_sex: 7462 valid / 0 .c / 0 .e / 2 other |
+>  dem_age_cat3: 7464 valid / 0 .c / 0 .e / 0 other | dem_gen: 7464 valid / 0 .c / 0 .e / 0 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other |
 LAS 2004/05      3424      3424   1.000  
       soc_leis_nl: 3424 valid / 0 .c / 0 .e / 0 other | lang_prob_spk: 3424 valid / 0 .c / 0 .e / 0 other | dem_sex: 3424 valid / 0 .c / 0 .e / 0 other | dem_ag
 > e_cat3: 3424 valid / 0 .c / 0 .e / 0 other | dem_gen: 3424 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3424 valid / 0 .c / 0 .e / 0 other |
@@ -464,5 +464,5 @@ Note: _cons estimates baseline odds.
       name:  <unnamed>
        log:  C:\Users\StefanoC\OneDrive - KNAW\Desktop\IMPD_CS\code/examples/example_analysis_Stata.log
   log type:  text
- closed on:  16 Nov 2026, 14:32:13
+ closed on:  20 Nov 2026, 10:50:14
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
