@@ -14,7 +14,9 @@ SURVEY = dict(svy_id=6, svy_name="SPVN2003", svy_year=2003, status="included", k
          title="Sociale positie en voorzieningengebruik van allochtonen 2003 - refugee groups (SPVA/SPVN 2003)", dans_id="P1753", doi="10.17026/dans-x7u-vkfm", access="open",
          groups="Afghans; Iraqis; Iranians; former Yugoslavs; Somalis", fieldwork="Veldkamp (2003); ISEO Erasmus University", mode="Face-to-face (CAPI), household sample",
          zipfile="Surveys/SPVN 2003.zip", file_hh="spvnhh.sav", file_pp="spvntt.sav", file_ro="spvnag.sav", file_main="", encoding="latin1",
-         id_var="", weight_var="WEEG", sysmis_tag="",
+         # sysmis_tag: the file codes don't know / refusal / missing explicitly (missing_scheme below), so a blank
+         # cell means the item was routed past or not applicable -> .c (v0.5.3; audited in docs/decisions.md s. 31)
+         id_var="", weight_var="WEEG", sysmis_tag="c",
          missing_scheme="explicit codes -7 sysmis, -4 missing, -3 don't know, -2 refusal; labelled 997/9997/0 'weet niet'; 'Onbekend' in code lists")
 
 # sha256 of the DANS zip as downloaded (used when the zip is not present)

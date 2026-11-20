@@ -192,7 +192,7 @@ for (i in seq_len(nrow(vm))) {
       take <- take | (out == ".c" & grepl("^\\.", y) & y != ".c")
       out[take] <- y[take]
     }
-    # engine representation: plain '.' (system missing) appears only in household surveys; flat surveys tag it
+    # engine representation: the final pass in 03_derive tags every remaining plain '.' (system missing) per survey
     got <- tagcode(val(vm$target[i])[rows])
     got[got == "."] <- paste0(".", INCLUDED$sysmis_tag[INCLUDED$svy_id == sid])
     nfeed_cells <- nfeed_cells + length(out)
@@ -349,6 +349,17 @@ for (key in INCLUDED$svy_key[INCLUDED$structure == "hh_pp_ro"]) {
 }
 ok(length(mx_bad) == 0, "household-survey merge: %d declared exception(s) in crosswalks/merge_exceptions.csv took effect in the source companions%s; undeclared missing-code-over-valid cells kept by decision: %s",
    nrow(MERGE_EXC), if (length(mx_bad)) paste0(" - NOT for ", paste(mx_bad, collapse = ", ")) else "", if (length(mx_rest)) paste(mx_rest, collapse = ", ") else "none")
+
+# 18. missing-value scheme is closed: every missing value of every numeric variable carries a tag (.a-.e) in every
+#     survey - plain system-missing does not occur in the delivered file (since v0.5.3; decisions s. 31)
+unt <- character(0)
+for (t in vm$target[vm$type != "str"]) {
+  x <- d[[t]]
+  n <- if (is.double(x)) sum(is.na(x) & is.na(na_tag(x))) else sum(is.na(x))
+  if (n > 0) unt <- c(unt, sprintf("%s: %s", t, format(n, big.mark = ",")))
+}
+ok(length(unt) == 0, "every missing value of every numeric variable carries a tag (.a-.e); no plain system-missing%s",
+   if (length(unt)) paste0(" - EXCEPT ", paste(head(unt, 10), collapse = "; ")) else "")
 
 # ---- run log --------------------------------------------------------------------------------
 logs <- map(c("log_02_harmonize.txt", "log_03_derive.txt", "log_04_build.txt"), ~ if (file.exists(P("data", "interim", .x))) readLines(P("data", "interim", .x)) else character(0))

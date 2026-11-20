@@ -56,6 +56,19 @@ else {
     display as error "FAIL variables without (complete) value labels:`nolab'"
     exit 459
 }
+* missing-value scheme is closed: every missing value of every numeric variable carries a tag (.a-.e);
+* plain system-missing does not occur in the delivered file (since v0.5.3; docs/decisions.md s. 31)
+local unt ""
+frame cw_vm: quietly levelsof target if include_main == 1 & type != "str", local(numt) clean
+foreach t of local numt {
+    quietly count if `t' == .
+    if r(N) > 0 local unt "`unt' `t'(`=r(N)')"
+}
+if "`unt'" == "" display as text "PASS every missing value of every numeric variable carries a tag (.a-.e); no plain system-missing"
+else {
+    display as error "FAIL plain system-missing remains in:`unt'"
+    error 9
+}
 
 * ---- comparison with the R build -------------------------------------------------------------
 * value-map range grammar: either bound may be negative ("-9--1"); the same regular expression as impd_harmonize_var (00_setup.do)

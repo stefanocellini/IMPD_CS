@@ -13,7 +13,7 @@
 #     split_random        svy_split from the eight random_* source variables (SIM 2020)
 #     rel_merge20         rel_den_det: SIM 2020 second group list (religie2_kl, target rel_den_det20b) merged in
 #     rel_cat20           rel_den_cat from rel_den_det for SIM 2020
-#   system-missing values of flat surveys get the survey's sysmis_tag (surveys.csv): .d or .c
+#   final pass: remaining system-missing values get the survey's sysmis_tag (surveys.csv): .d or .c
 source(file.path(Sys.getenv("IMPD_ROOT", unset = getwd()), "code", "R", "00_setup.R"))
 
 all <- readRDS(P("data", "interim", "harmonized_all.rds"))
@@ -150,18 +150,6 @@ for (r in ROUTE) {
 }
 # CBS-derived motive ranks: system-missing = motive not among the presumed motives -> .c
 for (t in grep("^mig_mot_.*_reg$", names(all), value = TRUE)) { x <- all[[t]]; x[is_flat & is.na(x) & !is_tagged_na(x)] <- tagged_na("c"); all[[t]] <- x }
-# remaining system-missing values in flat surveys: tagged per survey (surveys.csv, sysmis_tag) - .d where the file
-# codes routing explicitly so that a blank carries no information (SIM 2011/2015/2020), .c where a blank is the
-# file's way of saying 'routed past the question' (SIM 2006, LAS 2004/05, SING 2009)
-for (i in which(INCLUDED$structure == "flat" & INCLUDED$sysmis_tag != "")) {
-  rows <- all$svy_id == INCLUDED$svy_id[i]; tg <- INCLUDED$sysmis_tag[i]
-  for (t in VARMAP$target[VARMAP$include_main == 1 & VARMAP$type != "str"]) {
-    if (!t %in% names(all)) next
-    x <- all[[t]]; sel <- rows & is.na(x) & !is_tagged_na(x)
-    if (any(sel)) { x[sel] <- tagged_na(tg); all[[t]] <- x }
-  }
-}
-
 # ---- rel_merge20 : second religion list of SIM 2020 (religie2_kl, value map of target rel_den_det20b)
 if (nrow(src20)) {
   d <- readRDS(P("data", "interim", "source_sim2020.rds"))
@@ -229,6 +217,20 @@ for (t in c("dem_has_prtnr", "dem_prtnr_cores")) {
   x <- all[[t]]; fill <- hhs & is_e(x)
   v <- ifelse(has_link, 1, ifelse(lat %in% 1, if (t == "dem_has_prtnr") 1 else 0, ifelse(is_hp & !amb, if (t == "dem_has_prtnr") 0 else tagged_na("c"), tagged_na("d"))))
   x[fill] <- v[fill]; all[[t]] <- x
+}
+
+# ---- final pass: remaining system-missing values, tagged per survey (surveys.csv, sysmis_tag) - .d where the file
+# codes routing explicitly so that a blank carries no information (SIM 2011/2015/2020), .c where a blank is the
+# file's way of saying 'routed past the question or not applicable' (SIM 2006, LAS 2004/05, SING 2009, and - since
+# v0.5.3, decisions s. 31 - SPVA 2002/SPVN 2003, whose files code every informative kind of missing explicitly).
+# Runs last because the relationship layer above reads untagged system-missing in the household surveys.
+for (i in which(INCLUDED$sysmis_tag != "")) {
+  rows <- all$svy_id == INCLUDED$svy_id[i]; tg <- INCLUDED$sysmis_tag[i]
+  for (t in VARMAP$target[VARMAP$include_main == 1 & VARMAP$type != "str"]) {
+    if (!t %in% names(all)) next
+    x <- all[[t]]; sel <- rows & is.na(x) & !is_tagged_na(x)
+    if (any(sel)) { x[sel] <- tagged_na(tg); all[[t]] <- x }
+  }
 }
 
 saveRDS(all, P("data", "interim", "derived_all.rds"))

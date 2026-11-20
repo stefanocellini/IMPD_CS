@@ -1,10 +1,10 @@
-# IMPD-CS — Codebook v0.5.2
+# IMPD-CS — Codebook v0.5.3
 
 **IMPD-CS** is the cross-sectional component of the Integrated Migrant Panel Dataset (IMPD). It brings eight Dutch surveys of persons with a migration background, held between 2002 and 2020, together in one harmonized person-level file: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015 and SIM 2020. It covers 55,157 persons - the four largest origin groups (Turkish, Moroccan, Surinamese, Antillean/Aruban), refugee groups (Afghan, Iraqi, Iranian, former Yugoslav, Somali), Polish and Chinese migrants, and native Dutch reference samples - with 1,642 variables on demography, migration history, language, education, work, income, housing, health, social contacts, family, attitudes, religion and identity. Every variable has an English name grouped by theme, one coding across the surveys, and missing-value codes that say why a value is missing. The surveys are repeated cross-sections: the same persons are not followed from one survey to the next. The file is rebuilt in R or Stata from the survey files archived at DANS; the survey data themselves are not redistributed.
 
 This codebook documents that file: what it contains, how each variable was built from the source surveys, and how to use it. It serves two kinds of reader. **Researchers who want to analyse the data** should begin with *Start here*, which walks through the steps of an analysis and links to the reference sections. **Readers who want to check or reproduce a variable** will find the rules in sections 2-3 and the evidence per variable in section 5. Section 1 describes the surveys, sections 2-3 the conventions and the questionnaires; section 4 is the index of all variables; section 5 holds one collapsible entry per variable. The shaded *more detail* blocks open on a click; they hold the full rules and survey-by-survey specifics, so the visible text stays short.
 
-*Generated 2026-11-16 13:48 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `6a66dd302732` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development. How to cite: `CITATION.cff` in the repository root.*
+*Generated 2026-11-20 09:57 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `112ec2af0871` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development. How to cite: `CITATION.cff` in the repository root.*
 
 ## Start here
 For researchers who want to run an analysis with the IMPD: the six steps below take you from the DANS deposits to a reported result, and each points to the section that holds the reference material. `docs/example_analysis.md` follows the same steps on one question asked in all eight surveys, in R (which also needs the `survey` package) and Stata (version 17 or later).
@@ -263,7 +263,7 @@ Missing values carry a reason, as Stata extended missing values (R: `haven::tagg
 | .d | No information | No information for another or unknown reason ('geen informatie', 'onbekend', unexplained empty cells). |
 | .e | Not collected (survey/questionnaire) | The variable is not in this survey, or the item was not in this person's questionnaire (e.g. roster-only members, or a heads-only item for other household members). |
 
-Plain system-missing (`.`) occurs only in SPVA/SPVN, whose files do not separate 'routed out' from 'not applicable'.
+Every missing value is tagged; plain system-missing (`.`) does not occur. In SPVA/SPVN, .c covers both 'routed out' and 'not applicable', which those files do not separate.
 
 <details class='more'><summary>Which source codes map to which missing tag, per survey</summary>
 
@@ -273,11 +273,11 @@ The full assignment rules, survey by survey:
 |---|---|---|
 | .a | Don't know | Source code labelled 'weet niet' / declared don't-know code (SPVN: -3, 0 in year/month items, 7, 97/997/9997; LAS 2004/05: -3, -4, 999 'weet niet, geen informatie'; SIM 2006: -3; SING 2009: labelled 'weet niet'; SIM 2011: -3; SIM 2015: -3; SIM 2020: -3, -6) |
 | .b | Refusal | Refusal / no answer: SPVN -2; LAS -2 and 'wil niet zeggen'; SIM 2006 -2; SING 'geen antwoord' / 'wil niet zeggen'; SIM 2011 -2; SIM 2015 -1 and 98 'wil niet zeggen'; SIM 2020 -2 'wil niet antwoorden' and -4 'geen antwoord' |
-| .c | Not applicable | Not applicable: routed past the question - LAS -5/-7/-9 and 'niet gesteld'; SIM 2006 -5, -7 'niet in vragenlijst', -9; SING 'niet van toepassing'; SIM 2011 -5, -9 'nvt: autochtoon' and -1 (undocumented, used where a question was not asked); SIM 2015 -2 'blanc' and -5; SIM 2020 -5 'nvt binnen vragenlijst'; SIM constructed/coarsened variables where the routing question says so (derive kl9_route); native reference sample for migrant-only items; SPVA/SPVN: explicit 'not applicable' codes only. In LAS 2004/05, SIM 2006 and SING 2009 every remaining system-missing value is .c (the files leave routed-out cells empty) |
+| .c | Not applicable | Not applicable: routed past the question - LAS -5/-7/-9 and 'niet gesteld'; SIM 2006 -5, -7 'niet in vragenlijst', -9; SING 'niet van toepassing'; SIM 2011 -5, -9 'nvt: autochtoon' and -1 (undocumented, used where a question was not asked); SIM 2015 -2 'blanc' and -5; SIM 2020 -5 'nvt binnen vragenlijst'; SIM constructed/coarsened variables where the routing question says so (derive kl9_route); native reference sample for migrant-only items; SPVA/SPVN: explicit 'not applicable' codes, and every remaining system-missing value (don't know / refusal / no information all carry labelled codes in those files, so a blank cell means the item was routed past or not applicable; audited per variable in docs/decisions.md s. 31). In LAS 2004/05, SIM 2006 and SING 2009 every remaining system-missing value is also .c (the files leave routed-out cells empty) |
 | .d | No information | No information: source code labelled 'geen informatie'/'missing'/'onbekend', SPVN -4, SIM 2006 -4/-8, SIM 2011 -4, SPSS user-missing codes declared in the SPVA file (9/99/999/9999), SIM 2020 code 9 'Anders/Refusal/Don't know' of the coarsened (_kl) variables, SIM 2015 -4/-6 in constructed variables, and any remaining system-missing value in the SIM 2011, 2015 and 2020 files |
 | .e | Not collected (survey/questionnaire) | Variable not in this survey, or item not in this respondent's questionnaire: in SPVA/SPVN a heads-file item for other members, any item for roster-only members, and the items of `crosswalks/asked_to.csv` that the persons file holds for both types but only one type was asked (main-questionnaire blocks L-M of SPVA 2002 for other members; mini-questionnaire items for heads). The split-half block of the other group in SIM 2020 is .c, not .e |
 
-Plain system-missing (`.`) occurs only in SPVA/SPVN and means the item was routed out or not applicable in the source (those files do not allow the two to be separated); in the person-sample surveys every missing value is tagged, with the survey-specific tag for untagged empty cells recorded in `crosswalks/surveys.csv` (`sysmis_tag`: .c for LAS 2004/05, SIM 2006 and SING 2009, whose files only leave routed-out cells empty; .d for SIM 2011-2020, where empty cells also arise from item non-response in constructed variables). Rules: `crosswalks/missing_rules.csv` (per survey: code rules, label rules, declared-code rules); the declared SPSS user-missing codes per variable: `crosswalks/source_missing.csv`; the routing rules for SIM constructed variables: `code/R/03_derive.R` (kl9_route).
+Every missing value is tagged: plain system-missing (`.` in Stata, untagged `NA` in R) does not occur in the delivered file. Empty cells in the source files get a survey-specific tag recorded in `crosswalks/surveys.csv` (`sysmis_tag`): .c for SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006 and SING 2009, whose files code every informative kind of missing explicitly and only leave routed-out or not-applicable cells empty; .d for SIM 2011-2020, where empty cells also arise from item non-response in constructed variables. In SPVA/SPVN the source does not distinguish 'routed past' from 'not applicable', so .c covers both (the blank patterns are audited per variable in `docs/decisions.md`, s. 31). Rules: `crosswalks/missing_rules.csv` (per survey: code rules, label rules, declared-code rules); the declared SPSS user-missing codes per variable: `crosswalks/source_missing.csv`; the routing rules for SIM constructed variables: `code/R/03_derive.R` (kl9_route).
 
 </details>
 
@@ -311,7 +311,7 @@ Alongside the harmonized file, each survey has a **companion source file** with 
 
 <details class='more'><summary>Companion source files and weights</summary>
 
-**Companion source files** `impd_cs_v0_5_2_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
+**Companion source files** `impd_cs_v0_5_3_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
 
 </details>
 
@@ -2572,7 +2572,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 |
 |---|---|---|---|
-| . | System missing | 2063 | 0 |
+| .c | Not applicable | 2063 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 3525 |
 
 ---
@@ -2649,8 +2649,7 @@ Frequencies (unweighted):
 | 5 | Entirely other language (own language) | 750 | 90 | 73 | 0 | 0 | 387 | 0 | 0 |
 | 6 | English (SPVN 2003) | 0 | 103 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | French (SPVN 2003) | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 815 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 815 | 0 | 0 |
 | .d | No information | 135 | 0 | 27 | 0 | 0 | 3 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 0 | 5250 | 6911 | 0 | 6829 | 5323 |
 
@@ -2693,7 +2692,7 @@ Frequencies (unweighted):
 | 4 | Mostly other language | 201 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Entirely other language (own language) | 466 | 29 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | English (SPVN 2003) | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2897 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2897 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 213 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -2735,8 +2734,7 @@ Frequencies (unweighted):
 | 5 | Polish | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 574 |
 | 6 | Somali | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 205 |
 | 7 | Farsi | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 391 |
-| . | System missing (not applicable / routed out) | 0 | 2240 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 4125 | 0 | 2 |
+| .c | Not applicable | 0 | 2240 | 0 | 0 | 0 | 4125 | 0 | 2 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 0 | 6829 | 0 |
 
 ---
@@ -2772,7 +2770,7 @@ Frequencies (unweighted):
 | 2 | Not at home | 627 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Refuses | 209 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Other | 196 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1667 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1667 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 116 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -2807,7 +2805,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 681 | 495 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 3385 | 3050 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 133 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -3041,7 +3039,7 @@ Frequencies (unweighted):
 | 8 | Other | 782 | 152 | 198 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Child living with one or two parents (LAS 2004/05) | 0 | 0 | 691 | 0 | 0 | 0 | 0 | 0 |
 | 10 | Child living with other relatives (LAS 2004/05) | 0 | 0 | 83 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 4742 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 4742 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 48 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -3088,7 +3086,7 @@ Frequencies (unweighted):
 | 11 | Chinese | 0 | 0 | 0 | 0 | 1005 | 0 | 0 | 0 |
 | 90 | Native Dutch / third generation | 243 | 0 | 666 | 1033 | 949 | 838 | 1046 | 771 |
 | 99 | Migrant group unknown | 0 | 0 | 0 | 0 | 85 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 266 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 266 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -3122,7 +3120,7 @@ Frequencies (unweighted):
 | 0 | No migration background (native Dutch reference sample) | 0 | 0 | 666 | 1033 | 949 | 838 | 1046 | 771 |
 | 1 | First generation (SPVA/SPVN: arrived aged 6 or older; SIM/CBS: born abroad) | 6908 | 5111 | 2651 | 3199 | 5539 | 2269 | 4228 | 3309 |
 | 2 | Second generation (SPVA/SPVN: born in NL or arrived before age 6; SIM/CBS: born in NL, parent(s) born abroad) | 6503 | 2441 | 779 | 1018 | 381 | 1018 | 1555 | 1243 |
-| . | System missing (not applicable / routed out) | 0 | 1567 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1567 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 93 | 0 | 0 | 0 | 42 | 0 | 0 | 0 |
 
 ---
@@ -3232,7 +3230,7 @@ Frequencies (unweighted):
 | 6045 | Yugoslavia (former) | 0 | 1407 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7011 | Netherlands Antilles / Aruba / Caribbean Netherlands (aggregate) | 1184 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9999 | Other country (unspecified) | 372 | 166 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1254 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1254 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 2266 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -3277,7 +3275,7 @@ Frequencies (unweighted):
 | 6045 | Yugoslavia (former) | 0 | 1447 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7011 | Netherlands Antilles / Aruba / Caribbean Netherlands (aggregate) | 1436 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9999 | Other country (unspecified) | 357 | 287 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 635 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 635 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1301 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -3396,8 +3394,7 @@ Frequencies (unweighted):
 | 0 | No partner (single) | 0 | 851 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes, partner living elsewhere | 81 | 1722 | 143 | 247 | 369 | 0 | 0 | 0 |
 | 2 | No | 676 | 132 | 1140 | 1953 | 2537 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3440 | 842 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 2813 | 3050 | 4005 | 0 | 0 | 0 |
+| .c | Not applicable | 3440 | 842 | 2813 | 3050 | 4005 | 0 | 0 | 0 |
 | .d | No information | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 0 | 0 | 0 | 4125 | 6829 | 5323 |
 
@@ -3445,12 +3442,11 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 1951 | 1528 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1951 | 1528 | 1696 | 2200 | 0 | 1890 | 0 | 0 |
 | .d | No information | 73 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 0 | 0 | 6911 | 0 | 6829 | 5323 |
 | .a | Don't know | 0 | 32 | 28 | 22 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 14 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1696 | 2200 | 0 | 1890 | 0 | 0 |
 
 ---
 
@@ -3495,11 +3491,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 1920 | 1581 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1920 | 1581 | 1711 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 166 | 0 | 4 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .b | Refusal | 0 | 0 | 1 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1711 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -3634,8 +3629,7 @@ Frequencies (unweighted):
 | 4 | Elsewhere in the world | 0 | 63 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Whereabouts unknown | 0 | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Other country, unspecified (SIM) | 0 | 0 | 0 | 14 | 0 | 8 | 38 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3250 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 4961 | 0 | 3899 | 6365 | 0 |
+| .c | Not applicable | 0 | 3250 | 0 | 4961 | 0 | 3899 | 6365 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
 
 ---
@@ -3671,8 +3665,7 @@ Frequencies (unweighted):
 | 2 | No, not (yet) in progress | 0 | 28 | 0 | 0 | 60 | 0 | 0 | 0 |
 | 3 | No, not planning to | 0 | 33 | 0 | 0 | 69 | 0 | 0 | 0 |
 | 4 | Not possible | 0 | 39 | 0 | 0 | 36 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3309 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 6677 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3309 | 0 | 0 | 6677 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 0 | 4125 | 6829 | 5323 |
 
 ---
@@ -3718,10 +3711,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 824 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 824 | 0 | 0 | 1839 | 2942 | 1505 | 2719 | 2348 |
 | .d | No information | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 1839 | 2942 | 1505 | 2719 | 2348 |
 
 ---
 
@@ -3766,10 +3758,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 824 | 1739 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 824 | 1739 | 0 | 2095 | 2932 | 1505 | 2719 | 2348 |
 | .d | No information | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2095 | 2932 | 1505 | 2719 | 2348 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 269 | 0 | 0 | 0 |
 
 ---
@@ -3850,7 +3841,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 1708 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 0 | 387 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1452 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1452 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -3886,8 +3877,7 @@ Frequencies (unweighted):
 | 2 | No, not (yet) in progress | 0 | 59 | 0 | 0 | 62 | 0 | 0 | 0 |
 | 3 | No, not planning to | 0 | 161 | 0 | 0 | 281 | 0 | 0 | 0 |
 | 4 | Not possible | 0 | 62 | 0 | 0 | 66 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3160 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 6458 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3160 | 0 | 0 | 6458 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 0 | 4125 | 6829 | 5323 |
 
 ---
@@ -4020,7 +4010,7 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | SING2009 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|
 | .d | No information | 2 | 0 | 8 | 0 | 0 |
-| . | System missing | 0 | 478 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 478 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 6829 | 5323 |
 
 ---
@@ -4062,7 +4052,7 @@ Frequencies (unweighted):
 | 7 | Mother with children | 1933 | 338 | 331 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Other | 400 | 49 | 198 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Child living with parents or relatives (LAS 2004/05) | 0 | 0 | 774 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1599 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1599 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -4109,10 +4099,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|
-| . | System missing | 824 | 1094 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 824 | 1094 | 0 | 0 | 0 | 5095 | 0 |
 | .d | No information | 87 | 0 | 0 | 19 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 0 | 4125 | 0 | 5323 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 5095 | 0 |
 
 ---
 
@@ -4155,7 +4144,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 733 | 1339 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 733 | 1339 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1466 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -4196,7 +4185,7 @@ Frequencies (unweighted):
 | 7 | 1750-2000 euro | 767 | 291 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | 2000-2250 euro | 3076 | 491 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | 2250 euro or more | 0 | 778 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 741 | 1339 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 741 | 1339 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1466 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -4229,7 +4218,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 733 | 1339 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 733 | 1339 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1466 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -4311,7 +4300,7 @@ Frequencies (unweighted):
 | 3 | The Hague | 2309 | 774 | 0 | 398 | 0 | 0 | 0 | 0 |
 | 4 | Utrecht | 1159 | 727 | 0 | 241 | 0 | 0 | 0 | 0 |
 | 5 | Other survey municipality | 4160 | 4776 | 0 | 3357 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 12 | 11 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 12 | 11 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -4353,7 +4342,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 12 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -4389,7 +4378,7 @@ Frequencies (unweighted):
 | 3 | Village | 0 | 271 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Refugee camp | 0 | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 0 | 24 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -4438,11 +4427,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 5879 | 3739 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5879 | 3739 | 1433 | 2030 | 0 | 1849 | 2577 | 2014 |
 | .d | No information | 1113 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 50 | 0 | 22 | 0 | 33 | 34 | 118 |
 | .b | Refusal | 0 | 0 | 53 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1433 | 2030 | 0 | 1849 | 2577 | 2014 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 0 | 6911 | 0 | 0 | 0 |
 
 ---
@@ -4485,8 +4473,8 @@ Frequencies (unweighted):
 | 10 | October | 0 | 416 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 11 | November | 0 | 378 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 12 | December | 0 | 439 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 209 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 1002 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 209 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -4531,8 +4519,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 209 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 83 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 209 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -4574,8 +4562,8 @@ Frequencies (unweighted):
 | 10 | October | 0 | 400 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 11 | November | 0 | 316 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 12 | December | 0 | 375 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 209 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 1312 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 209 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -4621,7 +4609,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 5879 | 3789 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5879 | 3789 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1116 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -4667,9 +4655,8 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 5879 | 3789 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5879 | 3789 | 1433 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1271 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1433 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -4721,8 +4708,7 @@ Frequencies (unweighted):
 | 17 | Came on holiday and stayed (SIM 2006/2011) | 0 | 0 | 0 | 46 | 0 | 48 | 0 | 0 |
 | 18 | Invited by the Dutch government (invited refugee; SING 2009) | 0 | 0 | 0 | 0 | 4 | 0 | 0 | 0 |
 | 19 | Religious persecution (SING 2009) | 0 | 0 | 0 | 0 | 77 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 294 | 209 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1433 | 2071 | 1358 | 1848 | 2577 | 0 |
+| .c | Not applicable | 294 | 209 | 1433 | 2071 | 1358 | 1848 | 2577 | 0 |
 | .d | No information | 109 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 0 | 0 | 0 | 0 | 0 | 5323 |
 
@@ -4770,8 +4756,8 @@ Frequencies (unweighted):
 | 13 | For a job / work | 0 | 44 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 14 | Safety | 0 | 29 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 15 | Invitation by the Dutch government | 0 | 30 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 43 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 91 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 43 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -4806,8 +4792,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 1722 | 0 | 0 | 4149 | 0 | 0 | 0 |
 | 1 | Yes | 0 | 1783 | 0 | 0 | 1404 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 1358 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 42 | 0 | 0 | 1358 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 0 | 4125 | 6829 | 5323 |
 
 ---
@@ -4910,9 +4895,9 @@ Frequencies (unweighted):
 | 9902 | Other Asia | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9903 | Other Europe | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9998 | Unidentifiable country name in source | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1778 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1778 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -4958,8 +4943,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 1778 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 219 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1778 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5057,8 +5042,8 @@ Frequencies (unweighted):
 | 9901 | Other Africa | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9902 | Other Asia | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9903 | Other Europe | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3128 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3128 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -5104,8 +5089,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 3118 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 120 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3118 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5177,8 +5162,8 @@ Frequencies (unweighted):
 | 7054 | United Arab Emirates | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7066 | Lithuania | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9901 | Other Africa | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3405 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3405 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -5223,8 +5208,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 3395 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 57 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3395 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5286,7 +5271,7 @@ Frequencies (unweighted):
 | 7045 | Kuwait | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7046 | India | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7054 | United Arab Emirates | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3489 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3489 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -5331,8 +5316,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 3478 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 30 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3478 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5365,7 +5350,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 2738 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 767 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -5399,7 +5384,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 2035 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 1470 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -5433,7 +5418,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 1857 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 1648 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -5467,7 +5452,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 3158 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 347 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -5501,7 +5486,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 3249 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 256 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -5535,7 +5520,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 3043 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 462 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -5569,7 +5554,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 3253 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 252 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -5614,8 +5599,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 2781 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2781 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5659,8 +5644,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 2078 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 10 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2078 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5704,8 +5689,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 1900 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 20 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1900 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5749,8 +5734,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 3200 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3200 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5794,8 +5779,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 3291 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3291 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5839,8 +5824,8 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 3085 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 23 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3085 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -5954,9 +5939,9 @@ Frequencies (unweighted):
 | 84 | Zuidlaren | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 85 | Zwijndrecht | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 86 | Zwolle | 0 | 12 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2791 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 18 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2791 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -6120,8 +6105,8 @@ Frequencies (unweighted):
 | 133 | Zuidlaren | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 134 | Zweelo | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 135 | Zwolle | 0 | 112 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2088 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2088 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -6389,8 +6374,8 @@ Frequencies (unweighted):
 | 236 | Zweeloo | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 237 | Zwijndrecht | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 238 | Zwolle | 0 | 45 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1905 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1905 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -6538,8 +6523,8 @@ Frequencies (unweighted):
 | 116 | Zuidwolde | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 117 | Zundert | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 118 | Zutphen | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3202 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3202 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -6633,8 +6618,8 @@ Frequencies (unweighted):
 | 62 | Wijk aan Zee | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 63 | Woensel | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 64 | Zwolle | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3294 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3294 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -6764,8 +6749,8 @@ Frequencies (unweighted):
 | 98 | Zoetermeer | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 99 | Zwijndrecht | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 100 | Zwolle | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3087 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3087 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -6806,8 +6791,7 @@ Frequencies (unweighted):
 | 2 | Dual: Dutch and other | 1886 | 451 | 0 | 1080 | 0 | 1188 | 1361 | 1305 |
 | 3 | Non-Dutch only | 2057 | 1740 | 0 | 627 | 0 | 348 | 1491 | 1095 |
 | 4 | Other / unspecified | 39 | 0 | 0 | 6 | 0 | 15 | 175 | 84 |
-| . | System missing (not applicable / routed out) | 193 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 666 | 1978 | 949 | 826 | 1046 | 771 |
+| .c | Not applicable | 193 | 1 | 666 | 1978 | 949 | 826 | 1046 | 771 |
 | .d | No information | 35 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 3430 | 0 | 5962 | 861 | 1112 | 592 |
 
@@ -6861,7 +6845,7 @@ Frequencies (unweighted):
 | 122 | Kurdish | 0 | 58 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 123 | Somali | 0 | 111 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 124 | Other nationality | 0 | 230 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -6908,7 +6892,7 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 2393 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2393 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 120 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
@@ -6951,7 +6935,7 @@ Frequencies (unweighted):
 | 10 | October | 0 | 182 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 11 | November | 0 | 127 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 12 | December | 0 | 172 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2393 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2393 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -6992,7 +6976,7 @@ Frequencies (unweighted):
 | 5 | Residence card for EU/EEA nationals | 0 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | No papers | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Other | 78 | 53 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3216 | 3850 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3216 | 3850 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -7046,7 +7030,7 @@ Frequencies (unweighted):
 | 211 | SPVN03: residence permit indefinite, asylum | 0 | 422 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 212 | SPVN03: residence card EU national (duplicate code) | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 214 | SPVN03: other | 0 | 53 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3216 | 3850 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3216 | 3850 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -7094,7 +7078,7 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 3850 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3850 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 85 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
@@ -7137,7 +7121,7 @@ Frequencies (unweighted):
 | 10 | October | 0 | 121 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 11 | November | 0 | 118 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 12 | December | 0 | 92 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3850 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3850 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -7174,9 +7158,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 673 | 2552 | 0 | 0 | 3414 | 1961 | 1658 | 0 |
 | 1 | Yes | 465 | 2372 | 0 | 0 | 2032 | 315 | 843 | 0 |
-| . | System missing (not applicable / routed out) | 6817 | 642 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 28 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 1465 | 1849 | 4328 | 0 |
+| .c | Not applicable | 6817 | 642 | 0 | 0 | 1465 | 1849 | 4328 | 0 |
 | .d | No information | 366 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 0 | 0 | 0 | 5323 |
 
@@ -7214,9 +7197,8 @@ Frequencies (unweighted):
 | 0 | No | 227 | 585 | 0 | 0 | 388 | 55 | 0 | 0 |
 | 1 | Yes, completed | 234 | 1391 | 0 | 0 | 1176 | 150 | 0 | 0 |
 | 2 | Still in progress (SPVN 2003) | 0 | 384 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7490 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 12 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 5347 | 3920 | 0 | 0 |
+| .c | Not applicable | 7490 | 3222 | 0 | 0 | 5347 | 3920 | 0 | 0 |
 | .d | No information | 370 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 0 | 0 | 6829 | 5323 |
 
@@ -7254,9 +7236,8 @@ Frequencies (unweighted):
 | 3 | Neither satisfied nor dissatisfied | 0 | 312 | 0 | 0 | 256 | 39 | 0 | 0 |
 | 4 | Dissatisfied | 0 | 180 | 0 | 0 | 185 | 32 | 0 | 0 |
 | 5 | Very dissatisfied | 0 | 24 | 0 | 0 | 47 | 11 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 60 | 0 | 0 | 0 | 4 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 4879 | 3810 | 0 | 0 |
+| .c | Not applicable | 0 | 3222 | 0 | 0 | 4879 | 3810 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 0 | 0 | 6829 | 5323 |
 
 ---
@@ -7295,8 +7276,8 @@ Frequencies (unweighted):
 | 6 | Practical information about the Netherlands | 0 | 37 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Other | 0 | 508 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Satisfied with nothing | 0 | 93 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1959 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 22 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1959 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -7335,8 +7316,8 @@ Frequencies (unweighted):
 | 6 | Levels too different / groups too mixed | 0 | 24 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Dissatisfied with nothing | 0 | 801 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Other | 0 | 324 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2078 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 32 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2078 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -7370,8 +7351,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 399 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 0 | 1210 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1853 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 85 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1853 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -7406,8 +7387,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 440 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 0 | 1221 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1853 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 33 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1853 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -7442,9 +7423,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 882 | 0 | 2082 | 3138 | 2771 | 2491 | 1513 |
 | 1 | Yes | 0 | 2364 | 0 | 1107 | 2308 | 539 | 1761 | 1796 |
-| . | System missing (not applicable / routed out) | 0 | 2336 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 12 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2061 | 1465 | 815 | 2577 | 2014 |
+| .c | Not applicable | 0 | 2336 | 0 | 2061 | 1465 | 815 | 2577 | 2014 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 0 | 0 | 0 | 0 | 0 |
 
 ---
@@ -7479,9 +7459,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 1871 | 0 | 0 | 877 | 87 | 0 | 0 |
 | 1 | Yes | 0 | 2030 | 0 | 0 | 1090 | 118 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1536 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 157 | 0 | 0 | 65 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 4879 | 3920 | 0 | 0 |
+| .c | Not applicable | 0 | 1536 | 0 | 0 | 4879 | 3920 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 0 | 0 | 6829 | 5323 |
 
 ---
@@ -7517,8 +7496,7 @@ Frequencies (unweighted):
 | 1 | Often/always | 994 | 158 | 744 | 945 | 757 | 840 | 1525 | 1110 |
 | 2 | Sometimes | 741 | 536 | 652 | 720 | 1118 | 448 | 828 | 731 |
 | 3 | Never | 916 | 815 | 539 | 653 | 1300 | 555 | 855 | 660 |
-| . | System missing (not applicable / routed out) | 1477 | 2038 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 2161 | 2932 | 3736 | 2282 | 3621 | 2822 |
+| .c | Not applicable | 1477 | 2038 | 2161 | 2932 | 3736 | 2282 | 3621 | 2822 |
 | .d | No information | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -7554,8 +7532,7 @@ Frequencies (unweighted):
 | 1 | Often/always | 1329 | 467 | 1259 | 1542 | 1061 | 1134 | 1548 | 1384 |
 | 2 | Sometimes | 1047 | 854 | 648 | 753 | 1355 | 514 | 772 | 707 |
 | 3 | Never | 557 | 773 | 288 | 448 | 914 | 397 | 419 | 376 |
-| . | System missing (not applicable / routed out) | 1227 | 1453 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1901 | 2507 | 3581 | 2080 | 4090 | 2856 |
+| .c | Not applicable | 1227 | 1453 | 1901 | 2507 | 3581 | 2080 | 4090 | 2856 |
 | .d | No information | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -7629,8 +7606,7 @@ Frequencies (unweighted):
 | 1 | Often/always | 769 | 0 | 466 | 548 | 1414 | 389 | 837 | 714 |
 | 2 | Sometimes | 804 | 0 | 606 | 627 | 1944 | 481 | 1366 | 1104 |
 | 3 | Never | 327 | 0 | 2382 | 3033 | 2585 | 2440 | 3580 | 1491 |
-| . | System missing (not applicable / routed out) | 2259 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 642 | 1042 | 968 | 815 | 1046 | 2014 |
+| .c | Not applicable | 2259 | 0 | 642 | 1042 | 968 | 815 | 1046 | 2014 |
 | .d | No information | 40 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -7667,7 +7643,7 @@ Frequencies (unweighted):
 | 2 | No, with difficulty | 0 | 600 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Yes, reasonably | 0 | 1151 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Yes, well | 0 | 1546 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 43 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 43 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -7765,7 +7741,7 @@ Frequencies (unweighted):
 | 1 | Good | 2643 | 2299 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Moderate | 1002 | 832 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Poor | 391 | 414 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 163 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -7802,7 +7778,7 @@ Frequencies (unweighted):
 | 1 | Good | 667 | 410 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Moderate | 359 | 157 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Poor | 366 | 83 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2601 | 2897 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2601 | 2897 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 206 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -7836,7 +7812,7 @@ Frequencies (unweighted):
 | 1 | Good | 0 | 2709 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Moderate | 0 | 989 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Poor | 0 | 497 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1399 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1399 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -7875,7 +7851,7 @@ Frequencies (unweighted):
 | 1 | Country of origin only | 2307 | 2656 | 981 | 0 | 0 | 728 | 2184 | 1355 |
 | 2 | Both origin country and Netherlands | 1986 | 1792 | 1094 | 0 | 0 | 1010 | 1203 | 1357 |
 | 3 | Netherlands only | 2650 | 703 | 1816 | 0 | 0 | 2118 | 2956 | 2611 |
-| . | System missing (not applicable / routed out) | 218 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 133 | 0 | 0 | 0 | 0 | 0 | 4 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 0 | 0 | 0 |
 
@@ -7910,9 +7886,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 1120 | 0 | 0 | 0 | 0 | 2396 | 2611 |
 | 1 | Yes | 0 | 4454 | 0 | 0 | 0 | 0 | 3387 | 2712 |
-| . | System missing (not applicable / routed out) | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 19 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 0 | 1046 | 0 |
+| .c | Not applicable | 0 | 1 | 0 | 0 | 0 | 0 | 1046 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 0 |
 
 ---
@@ -7959,12 +7934,11 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 3910 | 1140 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3910 | 1140 | 2038 | 2790 | 0 | 0 | 3432 | 0 |
 | .d | No information | 188 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 6911 | 4125 | 0 | 5323 |
 | .a | Don't know | 0 | 25 | 0 | 0 | 0 | 0 | 51 | 0 |
 | .b | Refusal | 0 | 0 | 18 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 2038 | 2790 | 0 | 0 | 3432 | 0 |
 
 ---
 
@@ -7997,9 +7971,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 1339 | 887 | 0 | 0 | 0 | 966 | 738 |
 | 1 | Yes | 0 | 3099 | 1171 | 0 | 0 | 0 | 2431 | 1941 |
-| . | System missing (not applicable / routed out) | 0 | 1140 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 16 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 2038 | 0 | 0 | 0 | 3432 | 2644 |
+| .c | Not applicable | 0 | 1140 | 2038 | 0 | 0 | 0 | 3432 | 2644 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
 
 ---
@@ -8045,8 +8018,8 @@ Frequencies (unweighted):
 | 12 | SPVN03: lower secondary | 0 | 658 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 13 | SPVN03: upper secondary | 0 | 1336 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 14 | SPVN03: higher education | 0 | 963 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3910 | 1156 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3910 | 1156 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 123 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8084,7 +8057,7 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1022 | 658 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 756 | 1336 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 212 | 963 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3910 | 1164 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3910 | 1164 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 123 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8127,8 +8100,8 @@ Frequencies (unweighted):
 | 18 | SPVN03: personal and social care | 0 | 94 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 19 | SPVN03: teacher training | 0 | 136 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 20 | SPVN03: other | 0 | 117 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2629 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2629 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -8163,8 +8136,8 @@ Frequencies (unweighted):
 | 0 | No | 0 | 2099 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes, had it evaluated | 0 | 909 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Evaluation in progress | 0 | 76 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2495 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2495 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -8199,8 +8172,8 @@ Frequencies (unweighted):
 | 2 | Rated equal | 0 | 395 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Rated lower | 0 | 458 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Not recognised in the Netherlands | 0 | 24 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 4685 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 4685 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -8234,7 +8207,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 6106 | 4217 | 0 | 4132 | 0 | 0 | 5346 | 4250 |
 | 1 | Yes | 1978 | 1376 | 0 | 1118 | 0 | 0 | 1483 | 1073 |
-| . | System missing (not applicable / routed out) | 218 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 19 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 0 | 0 |
 
@@ -8269,8 +8242,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 6460 | 4530 | 3400 | 0 | 0 | 0 | 315 | 206 |
 | 1 | Yes | 1614 | 1063 | 696 | 0 | 0 | 0 | 1167 | 867 |
-| . | System missing (not applicable / routed out) | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 0 | 5347 | 4250 |
+| .c | Not applicable | 218 | 0 | 0 | 0 | 0 | 0 | 5347 | 4250 |
 | .d | No information | 29 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
 
@@ -8309,7 +8281,7 @@ Frequencies (unweighted):
 | 3 | Evening education | 121 | 79 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Practical / apprenticeship | 66 | 54 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 26 | 40 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 218 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 33 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8345,7 +8317,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 6391 | 4351 | 3400 | 4421 | 0 | 3366 | 5662 | 0 |
 | 1 | Full-time | 1688 | 1243 | 696 | 829 | 0 | 759 | 1167 | 0 |
-| . | System missing (not applicable / routed out) | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 24 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 6911 | 0 | 0 | 5323 |
 
@@ -8388,9 +8360,8 @@ Frequencies (unweighted):
 | 5 | Upper general secondary (havo/vwo) | 220 | 165 | 90 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Higher professional (hbo) | 295 | 186 | 226 | 0 | 0 | 0 | 0 | 0 |
 | 7 | University (wo) | 125 | 144 | 91 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6324 | 4218 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 32 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 3164 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6324 | 4218 | 3164 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 114 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8428,7 +8399,7 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 562 | 455 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 676 | 473 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 420 | 330 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6324 | 4244 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6324 | 4244 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 209 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8466,7 +8437,7 @@ Frequencies (unweighted):
 | 3 | vmbo/havo | 41 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | havo/vwo | 55 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3862 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3862 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9382 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8505,8 +8476,8 @@ Frequencies (unweighted):
 | 3 | Technical | 212 | 251 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Care / health / services | 178 | 193 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 390 | 243 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6576 | 4310 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6576 | 4310 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8554,8 +8525,8 @@ Frequencies (unweighted):
 | 18 | SPVN03: personal and social care | 0 | 56 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 19 | SPVN03: teacher training | 0 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 20 | SPVN03: other | 0 | 75 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6576 | 4310 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6576 | 4310 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8600,7 +8571,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 6324 | 2958 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6324 | 2958 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 109 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8636,9 +8607,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2113 | 3079 | 0 | 0 | 0 | 0 | 871 | 1763 |
 | 1 | Yes | 2055 | 2503 | 0 | 0 | 0 | 0 | 4159 | 3560 |
-| . | System missing (not applicable / routed out) | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 11 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 0 | 1799 | 0 |
+| .c | Not applicable | 0 | 1 | 0 | 0 | 0 | 0 | 1799 | 0 |
 | .d | No information | 31 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 0 |
 
@@ -8680,9 +8650,8 @@ Frequencies (unweighted):
 | 5 | Upper general secondary (havo/vwo) | 191 | 54 | 243 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Higher professional (hbo) | 391 | 222 | 395 | 0 | 0 | 0 | 0 | 0 |
 | 7 | University (wo) | 203 | 142 | 165 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2200 | 1394 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 33 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 172 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2200 | 1394 | 172 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 79 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8722,8 +8691,8 @@ Frequencies (unweighted):
 | 3 | Technical | 656 | 369 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Care / health / services | 344 | 143 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 570 | 256 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5654 | 4497 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 11 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5654 | 4497 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 89 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8772,8 +8741,8 @@ Frequencies (unweighted):
 | 18 | SPVN03: personal and social care | 0 | 69 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 19 | SPVN03: teacher training | 0 | 19 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 20 | SPVN03: other | 0 | 82 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5654 | 4497 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 11 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5654 | 4497 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 89 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8809,9 +8778,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 480 | 275 | 0 | 0 | 0 | 0 | 833 | 715 |
 | 1 | Yes | 1132 | 831 | 0 | 0 | 0 | 0 | 3016 | 2589 |
-| . | System missing (not applicable / routed out) | 2556 | 4486 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 2 | 0 | 0 | 0 | 0 | 46 | 66 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 0 | 2934 | 1953 |
+| .c | Not applicable | 2556 | 4486 | 0 | 0 | 0 | 0 | 2934 | 1953 |
 | .d | No information | 31 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 0 |
 
@@ -8846,8 +8814,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 1083 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 0 | 471 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 4033 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 4033 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -8885,7 +8853,7 @@ Frequencies (unweighted):
 | 5 | Upper general secondary (havo/vwo) | 0 | 127 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Higher professional (hbo) | 0 | 48 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | University (wo) | 0 | 25 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 5123 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 5123 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -8928,8 +8896,8 @@ Frequencies (unweighted):
 | 18 | SPVN03: personal and social care | 0 | 21 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 19 | SPVN03: teacher training | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 20 | SPVN03: other | 0 | 37 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 5145 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 5145 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -8968,7 +8936,7 @@ Frequencies (unweighted):
 | 5 | Upper general secondary (havo/vwo) | 185 | 54 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Higher professional (hbo) | 358 | 196 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | University (wo) | 165 | 125 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1930 | 1108 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1930 | 1108 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 103 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9003,7 +8971,7 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 813 | 276 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 940 | 372 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 523 | 321 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1930 | 3043 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1930 | 3043 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 103 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9043,7 +9011,7 @@ Frequencies (unweighted):
 | 5 | Upper general secondary (havo/vwo) | 376 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Higher professional (hbo) | 453 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | University (wo) | 215 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1861 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1861 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9081,7 +9049,7 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1443 | 696 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 1397 | 1325 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 668 | 1077 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1861 | 1103 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1861 | 1103 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9116,8 +9084,7 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1443 | 696 | 0 | 1145 | 0 | 752 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 1397 | 1325 | 0 | 1150 | 0 | 1062 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 668 | 1077 | 0 | 660 | 0 | 661 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1861 | 1103 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 873 | 0 | 759 | 0 | 0 |
+| .c | Not applicable | 1861 | 1103 | 0 | 873 | 0 | 759 | 0 | 0 |
 | .d | No information | 108 | 0 | 0 | 0 | 0 | 11 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 
@@ -9156,7 +9123,7 @@ Frequencies (unweighted):
 | 5 | Upper general secondary (havo/vwo) | 547 | 0 | 0 | 0 | 0 | 405 | 0 | 0 |
 | 6 | Higher professional (hbo) | 477 | 0 | 0 | 0 | 0 | 480 | 0 | 0 |
 | 7 | University (wo) | 218 | 0 | 0 | 0 | 0 | 209 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 282 | 0 | 0 | 0 | 0 | 14 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 
@@ -9194,7 +9161,7 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1673 | 737 | 0 | 0 | 0 | 966 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 1651 | 1441 | 0 | 0 | 0 | 1281 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 695 | 1161 | 0 | 0 | 0 | 689 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 218 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 282 | 0 | 0 | 0 | 0 | 14 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 
@@ -9229,7 +9196,7 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1673 | 737 | 0 | 0 | 0 | 966 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 1651 | 1441 | 0 | 0 | 0 | 1281 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 695 | 1161 | 0 | 0 | 0 | 689 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 218 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 282 | 0 | 0 | 0 | 0 | 14 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 
@@ -9266,7 +9233,7 @@ Frequencies (unweighted):
 | 3 | Technical | 580 | 376 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Care / health / services | 340 | 165 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 555 | 274 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5613 | 4328 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5613 | 4328 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 50 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9313,7 +9280,7 @@ Frequencies (unweighted):
 | 18 | SPVN03: personal and social care | 0 | 76 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 19 | SPVN03: teacher training | 0 | 22 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 20 | SPVN03: other | 0 | 105 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5613 | 4328 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5613 | 4328 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 50 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9346,7 +9313,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Diploma Dutch secondary education | 1603 | 797 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Dropout from Dutch secondary education | 299 | 155 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5120 | 4642 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5120 | 4642 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1299 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9392,8 +9359,8 @@ Frequencies (unweighted):
 | 12 | SPVN03: lower secondary | 0 | 934 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 13 | SPVN03: upper secondary | 0 | 1019 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 14 | SPVN03: higher education | 0 | 925 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 243 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 568 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 243 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1460 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9432,8 +9399,7 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 805 | 1953 | 0 | 1007 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 566 | 925 | 0 | 506 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 474 | 568 | 0 | 465 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 243 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 761 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 243 | 0 | 761 | 0 | 0 | 0 | 0 |
 | .d | No information | 1460 | 0 | 0 | 9 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9478,8 +9444,8 @@ Frequencies (unweighted):
 | 12 | SPVN03: lower secondary | 0 | 731 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 13 | SPVN03: upper secondary | 0 | 751 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 14 | SPVN03: higher education | 0 | 374 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 92 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 491 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 92 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 925 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9518,8 +9484,7 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 890 | 1482 | 0 | 1105 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 452 | 374 | 0 | 403 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 267 | 491 | 0 | 248 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 92 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 506 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 92 | 0 | 506 | 0 | 0 | 0 | 0 |
 | .d | No information | 925 | 0 | 0 | 8 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9559,7 +9524,7 @@ Frequencies (unweighted):
 | 6 | Benefit only | 74 | 38 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Other, wants work | 335 | 288 | 485 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Other, not in labour force | 2561 | 1662 | 1562 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1096 | 354 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1096 | 354 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -9592,8 +9557,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not in labour force | 3187 | 2474 | 1585 | 1801 | 3016 | 1766 | 0 | 0 |
 | 1 | In labour force | 4038 | 2766 | 2511 | 3050 | 3887 | 2359 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1096 | 354 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 399 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1096 | 354 | 0 | 399 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 0 | 0 | 6829 | 5323 |
 
@@ -9626,7 +9590,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Other labour force | 3700 | 2106 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Registered unemployed | 338 | 660 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4283 | 2828 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4283 | 2828 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -9658,7 +9622,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Other labour force | 3552 | 1997 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Not working | 486 | 769 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4283 | 2828 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4283 | 2828 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -9693,8 +9657,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3718 | 3132 | 0 | 0 | 0 | 0 | 3083 | 2062 |
 | 1 | Yes | 3825 | 2222 | 0 | 0 | 0 | 0 | 3746 | 3261 |
-| . | System missing (not applicable / routed out) | 776 | 236 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 776 | 236 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 0 |
 
@@ -9738,8 +9702,7 @@ Frequencies (unweighted):
 | 5 | Retired / state pension | 331 | 88 | 71 | 405 | 0 | 410 | 507 | 471 |
 | 6 | Other | 87 | 122 | 101 | 117 | 0 | 60 | 254 | 153 |
 | 7 | No legal status (SPVN 2003) | 0 | 59 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 778 | 251 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 2051 | 2615 | 0 | 2065 | 3254 | 3261 |
+| .c | Not applicable | 778 | 251 | 2051 | 2615 | 0 | 2065 | 3254 | 3261 |
 | .d | No information | 112 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 6911 | 0 | 0 | 0 |
 
@@ -9785,11 +9748,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 1842 | 2544 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1842 | 2544 | 0 | 2328 | 0 | 0 | 0 | 0 |
 | .d | No information | 30 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 67 | 0 | 63 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2328 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -9834,7 +9796,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 475 | 3460 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 475 | 3460 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 102 | 90 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9872,7 +9834,7 @@ Frequencies (unweighted):
 | 3 | Intermediate | 756 | 443 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Higher | 226 | 161 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Scientific | 68 | 66 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 480 | 3460 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 480 | 3460 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 102 | 90 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9918,7 +9880,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 475 | 3441 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 475 | 3441 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 186 | 127 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -9960,7 +9922,7 @@ Frequencies (unweighted):
 | 6 | Public administration, education | 292 | 186 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Health and welfare | 365 | 205 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Culture and other services | 126 | 93 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 476 | 3441 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 476 | 3441 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 186 | 127 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10007,11 +9969,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 2399 | 2546 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2399 | 2546 | 0 | 2328 | 0 | 1804 | 3205 | 0 |
 | .d | No information | 151 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
 | .a | Don't know | 0 | 29 | 0 | 41 | 0 | 0 | 63 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2328 | 0 | 1804 | 3205 | 0 |
 
 ---
 
@@ -10054,11 +10015,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 3868 | 3397 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3868 | 3397 | 0 | 4206 | 0 | 0 | 0 | 0 |
 | .d | No information | 97 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 8 | 0 | 21 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 4206 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -10095,8 +10055,7 @@ Frequencies (unweighted):
 | 1 | Employee | 3573 | 2028 | 2143 | 2676 | 3133 | 2101 | 3321 | 0 |
 | 2 | Self-employed / own business | 221 | 146 | 110 | 246 | 517 | 220 | 425 | 0 |
 | 3 | Freelance | 26 | 48 | 27 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4494 | 3372 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1816 | 2328 | 3261 | 1804 | 3083 | 0 |
+| .c | Not applicable | 4494 | 3372 | 1816 | 2328 | 3261 | 1804 | 3083 | 0 |
 | .d | No information | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 0 | 0 | 0 | 5323 |
 
@@ -10144,11 +10103,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 4494 | 3442 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4494 | 3442 | 0 | 0 | 0 | 2024 | 0 | 0 |
 | .d | No information | 139 | 95 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 0 | 62 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 2024 | 0 | 0 |
 
 ---
 
@@ -10187,8 +10145,7 @@ Frequencies (unweighted):
 | 3 | Intermediate | 1080 | 554 | 646 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Higher | 439 | 251 | 272 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Scientific | 128 | 101 | 76 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4494 | 3442 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1917 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4494 | 3442 | 1917 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 139 | 95 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10236,11 +10193,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 4494 | 3712 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4494 | 3712 | 0 | 0 | 0 | 2024 | 0 | 0 |
 | .d | No information | 161 | 103 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 0 | 46 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 2024 | 0 | 0 |
 
 ---
 
@@ -10282,7 +10238,7 @@ Frequencies (unweighted):
 | 6 | Public administration, education | 523 | 226 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Health and welfare | 531 | 242 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Culture and other services | 158 | 87 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4515 | 3712 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4515 | 3712 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 161 | 103 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10319,9 +10275,8 @@ Frequencies (unweighted):
 | 2 | No, over-educated | 0 | 513 | 0 | 380 | 0 | 250 | 717 | 0 |
 | 3 | No, under-educated | 0 | 223 | 0 | 174 | 0 | 146 | 268 | 0 |
 | 4 | Educated for something else | 0 | 173 | 0 | 344 | 0 | 362 | 437 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3566 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 23 | 0 | 29 | 0 | 38 | 90 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2574 | 0 | 2024 | 3508 | 0 |
+| .c | Not applicable | 0 | 3566 | 0 | 2574 | 0 | 2024 | 3508 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
 
 ---
@@ -10367,11 +10322,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 2006 | 3566 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2006 | 3566 | 0 | 2574 | 0 | 2024 | 0 | 0 |
 | .d | No information | 75 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 | .a | Don't know | 0 | 33 | 0 | 1 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2574 | 0 | 2024 | 0 | 0 |
 
 ---
 
@@ -10405,7 +10359,7 @@ Frequencies (unweighted):
 | 1 | Paid work 12 hours or more per week | 1346 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Paid work less than 12 hours | 67 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No paid work | 204 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2482 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2482 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 100 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10441,7 +10395,7 @@ Frequencies (unweighted):
 | 1 | Current higher | 718 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Same | 368 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Current lower | 92 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2881 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2881 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 140 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10482,7 +10436,7 @@ Frequencies (unweighted):
 | 6 | Moved house | 43 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Work ended | 168 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Other | 322 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2879 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2879 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 162 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10529,11 +10483,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 2006 | 3578 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2006 | 3578 | 0 | 4654 | 0 | 3624 | 0 | 0 |
 | .d | No information | 35 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 | .a | Don't know | 0 | 12 | 0 | 6 | 0 | 8 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 4654 | 0 | 3624 | 0 | 0 |
 
 ---
 
@@ -10567,7 +10520,7 @@ Frequencies (unweighted):
 | 1 | Government | 531 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Non-profit | 303 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Private company | 1332 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2006 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2006 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10614,8 +10567,7 @@ Frequencies (unweighted):
 | 10 | Other | 120 | 33 | 0 | 162 | 0 | 0 | 0 | 0 |
 | 11 | Via refugee organisation (SPVN 2003) | 0 | 24 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 12 | Via placement agency (SPVN 2003) | 0 | 35 | 0 | 52 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4741 | 2072 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2574 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4741 | 2072 | 0 | 2574 | 0 | 0 | 0 | 0 |
 | .d | No information | 46 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10650,8 +10602,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2041 | 0 | 0 | 1356 | 0 | 1091 | 0 | 0 |
 | 1 | Yes | 1515 | 0 | 0 | 1320 | 0 | 1010 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4741 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2574 | 0 | 2024 | 0 | 0 |
+| .c | Not applicable | 4741 | 0 | 0 | 2574 | 0 | 2024 | 0 | 0 |
 | .d | No information | 24 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 
@@ -10687,7 +10638,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 1237 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2305 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4741 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4741 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 38 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10723,9 +10674,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 1524 | 0 | 0 | 1397 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 1991 | 0 | 0 | 1096 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4741 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 183 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2574 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4741 | 0 | 0 | 2574 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10769,9 +10719,8 @@ Frequencies (unweighted):
 | 8 | Already in highest position | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Too old (SIM 2006) | 0 | 0 | 0 | 80 | 0 | 0 | 0 | 0 |
 | 10 | Other | 173 | 0 | 0 | 449 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6732 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 40 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3853 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6732 | 0 | 0 | 3853 | 0 | 0 | 0 | 0 |
 | .d | No information | 105 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10807,7 +10756,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2367 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 1185 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4741 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4741 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 28 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10847,7 +10796,7 @@ Frequencies (unweighted):
 | 5 | Wage too low | 212 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Moving house | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Other | 328 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 47 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10883,7 +10832,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 835 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 338 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 40 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -10918,8 +10867,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | Permanent | 2879 | 1338 | 1715 | 2078 | 0 | 1566 | 2252 | 0 |
 | 2 | Temporary | 687 | 690 | 428 | 598 | 0 | 535 | 1069 | 0 |
-| . | System missing (not applicable / routed out) | 4741 | 3566 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1953 | 2574 | 0 | 2024 | 3508 | 0 |
+| .c | Not applicable | 4741 | 3566 | 1953 | 2574 | 0 | 2024 | 3508 | 0 |
 | .d | No information | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 6911 | 0 | 0 | 5323 |
 
@@ -10962,8 +10910,8 @@ Frequencies (unweighted):
 | 7 | Probation period | 18 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Subsidised job scheme (ID-banen) | 13 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Other | 32 | 24 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4741 | 3746 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4741 | 3746 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11011,11 +10959,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 4494 | 3403 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4494 | 3403 | 1796 | 0 | 0 | 0 | 3508 | 2427 |
 | .d | No information | 31 | 1 | 2 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
 | .a | Don't know | 0 | 20 | 0 | 0 | 0 | 0 | 41 | 0 |
-| .c | Not applicable | 0 | 0 | 1796 | 0 | 0 | 0 | 3508 | 2427 |
 
 ---
 
@@ -11060,7 +11007,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 4769 | 5431 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4769 | 5431 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 70 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11094,8 +11041,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | Less than 12 hours | 0 | 9 | 0 | 0 | 0 | 0 | 15 | 0 |
 | 2 | 12 hours or more | 0 | 11 | 0 | 0 | 0 | 0 | 26 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2027 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 0 | 6788 | 0 |
+| .c | Not applicable | 0 | 2027 | 0 | 0 | 0 | 0 | 6788 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 7072 | 4096 | 5250 | 6911 | 4125 | 0 | 5323 |
 
 ---
@@ -11140,7 +11086,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 8072 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 8072 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 19 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11185,7 +11131,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 8072 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 8072 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11234,10 +11180,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 8072 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 8072 | 0 | 0 | 5006 | 0 | 3905 | 0 | 0 |
 | .d | No information | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
-| .c | Not applicable | 0 | 0 | 0 | 5006 | 0 | 3905 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 0 | 11 | 0 | 0 |
 
 ---
@@ -11271,7 +11216,7 @@ Frequencies (unweighted):
 | 1 | Own group | 47 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Mixed | 37 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Native Dutch | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 8195 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 8195 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11309,7 +11254,7 @@ Frequencies (unweighted):
 | 3 | Work-disabled | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Student | 47 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3827 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3827 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 115 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11345,9 +11290,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 1623 | 2279 | 0 | 968 | 0 | 660 | 1053 | 0 |
 | 1 | Yes | 2083 | 849 | 0 | 1352 | 0 | 1136 | 2009 | 0 |
-| . | System missing (not applicable / routed out) | 4602 | 2458 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 8 | 0 | 4 | 0 | 8 | 21 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 2926 | 0 | 2321 | 3746 | 0 |
+| .c | Not applicable | 4602 | 2458 | 0 | 2926 | 0 | 2321 | 3746 | 0 |
 | .d | No information | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
 
@@ -11394,11 +11338,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 6225 | 4745 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6225 | 4745 | 0 | 3893 | 0 | 2989 | 5235 | 0 |
 | .d | No information | 191 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
 | .a | Don't know | 0 | 14 | 0 | 30 | 0 | 0 | 72 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3893 | 0 | 2989 | 5235 | 0 |
 
 ---
 
@@ -11444,11 +11387,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 1385 | 5079 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1385 | 5079 | 0 | 0 | 0 | 2989 | 0 | 0 |
 | .d | No information | 258 | 21 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 0 | 70 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 2989 | 0 | 0 |
 
 ---
 
@@ -11485,7 +11427,7 @@ Frequencies (unweighted):
 | 3 | Intermediate | 556 | 93 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Higher | 193 | 38 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Scientific | 50 | 11 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1388 | 5079 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1388 | 5079 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 258 | 21 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11532,7 +11474,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 1384 | 5079 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1384 | 5079 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 303 | 33 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11575,7 +11517,7 @@ Frequencies (unweighted):
 | 6 | Public administration, education | 238 | 25 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Health and welfare | 257 | 27 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Culture and other services | 93 | 22 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1387 | 5079 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1387 | 5079 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 303 | 33 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11612,9 +11554,8 @@ Frequencies (unweighted):
 | 2 | Resigned | 693 | 251 | 0 | 406 | 0 | 372 | 0 | 0 |
 | 3 | Became work-disabled | 719 | 162 | 0 | 333 | 0 | 285 | 0 | 0 |
 | 4 | Retired / early retirement | 126 | 12 | 0 | 198 | 0 | 200 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6225 | 4746 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 15 | 0 | 49 | 0 | 33 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3897 | 0 | 2989 | 0 | 0 |
+| .c | Not applicable | 6225 | 4746 | 0 | 3897 | 0 | 2989 | 0 | 0 |
 | .d | No information | 69 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 
@@ -11659,8 +11600,7 @@ Frequencies (unweighted):
 | 9 | Private reasons | 161 | 43 | 0 | 178 | 0 | 120 | 0 | 0 |
 | 10 | Other | 62 | 53 | 0 | 172 | 0 | 112 | 0 | 0 |
 | 11 | Poor performance (SIM 2011) | 0 | 0 | 0 | 8 | 0 | 5 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7070 | 3023 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 4477 | 0 | 3507 | 0 | 0 |
+| .c | Not applicable | 7070 | 3023 | 0 | 4477 | 0 | 3507 | 0 | 0 |
 | .d | No information | 84 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 
@@ -11695,7 +11635,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2667 | 1563 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 881 | 1687 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4675 | 2344 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4675 | 2344 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 98 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11740,7 +11680,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 7342 | 3907 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7342 | 3907 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 71 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -11777,7 +11717,7 @@ Frequencies (unweighted):
 | 2 | 1-6 months ago | 334 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | 6-12 months ago | 108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | A year or more ago | 172 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7342 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7342 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 115 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11813,9 +11753,8 @@ Frequencies (unweighted):
 | 1 | Yes, 12 hours or more per week | 1045 | 1533 | 1206 | 0 | 0 | 1151 | 1418 | 0 |
 | 2 | Yes, less than 12 hours per week | 331 | 261 | 0 | 0 | 0 | 421 | 355 | 0 |
 | 3 | Does not want work | 2171 | 1391 | 839 | 0 | 0 | 2553 | 1330 | 0 |
-| . | System missing (not applicable / routed out) | 4675 | 2344 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 65 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 2051 | 0 | 0 | 0 | 3726 | 0 |
+| .c | Not applicable | 4675 | 2344 | 2051 | 0 | 0 | 0 | 3726 | 0 |
 | .d | No information | 99 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 0 | 0 | 5323 |
 
@@ -11850,9 +11789,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 496 | 744 | 289 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 546 | 839 | 603 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7176 | 3996 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 3204 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7176 | 3996 | 3204 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 103 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11897,7 +11835,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 7672 | 4755 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7672 | 4755 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 131 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -11943,7 +11881,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 7983 | 4943 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7983 | 4943 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -11979,7 +11917,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 233 | 164 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 308 | 490 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12016,7 +11954,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 278 | 302 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 263 | 352 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12053,7 +11991,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 362 | 531 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 179 | 123 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12090,7 +12028,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 313 | 367 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 228 | 287 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12127,7 +12065,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 395 | 453 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 146 | 201 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12164,7 +12102,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 527 | 631 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 14 | 23 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12201,7 +12139,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 491 | 566 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 50 | 88 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12236,7 +12174,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 624 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 30 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -12270,8 +12208,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 63 | 65 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 473 | 767 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7672 | 4755 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7672 | 4755 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 113 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12310,8 +12248,7 @@ Frequencies (unweighted):
 | 3 | Finishing voluntary work | 1 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Notice period current job | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 33 | 41 | 95 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 8145 | 5529 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 3890 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 8145 | 5529 | 3890 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 113 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12346,7 +12283,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 15 | 37 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 42 | 28 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 8145 | 5529 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 8145 | 5529 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12394,7 +12331,7 @@ Frequencies (unweighted):
 | 12 | Returning to origin country soon (SPVN 2003) | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 13 | Insufficient language skills (SPVN 2003) | 0 | 83 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 14 | No legal status (SPVN 2003) | 0 | 50 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2924 | 4185 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2924 | 4185 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 224 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12430,7 +12367,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3180 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 555 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4498 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4498 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 88 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12466,7 +12403,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2281 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 1441 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4498 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4498 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 101 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12505,8 +12442,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2922 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 3070 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 868 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 342 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12544,8 +12481,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2609 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 3139 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 1100 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 354 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12583,8 +12520,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3000 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2836 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 1032 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 334 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12620,8 +12557,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3485 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2090 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 1370 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 257 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12657,8 +12594,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3212 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2102 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 1639 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 249 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12696,8 +12633,8 @@ Frequencies (unweighted):
 | 4 | Retired | 0 | 55 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Working in the household | 0 | 79 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Not living in the Netherlands | 0 | 116 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 64 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 695 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 64 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -12757,8 +12694,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 2600 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 0 | 2548 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 424 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 22 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 424 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -12803,7 +12740,7 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 3098 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3098 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 213 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
@@ -12839,7 +12776,7 @@ Frequencies (unweighted):
 | 3 | Intermediate | 0 | 798 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Higher | 0 | 439 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Scientific | 0 | 222 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3098 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3098 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 213 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12885,7 +12822,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 4498 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4498 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1332 | 154 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 117 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -12930,8 +12867,8 @@ Frequencies (unweighted):
 | 8 | 1750-2000 euro | 198 | 54 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | 2000-2250 euro | 134 | 79 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 10 | 2250 euro or more | 196 | 83 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4500 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 55 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4500 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 532 | 95 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -12963,7 +12900,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 4498 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4498 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1332 | 154 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 117 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -13009,7 +12946,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 5999 | 2293 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5999 | 2293 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -13040,7 +12977,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 5999 | 2293 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5999 | 2293 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -13077,8 +13014,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 5221 | 2980 | 0 | 3299 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2276 | 2373 | 0 | 1951 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 776 | 236 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 776 | 236 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 48 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13117,7 +13054,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 1551 | 4035 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 708 | 1559 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13156,7 +13093,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2046 | 5363 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 213 | 231 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13195,7 +13132,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 1637 | 5430 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 622 | 164 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13234,7 +13171,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 1909 | 5530 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 350 | 64 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13273,7 +13210,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 1954 | 5387 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 305 | 207 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13312,7 +13249,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2114 | 5462 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 144 | 132 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 66 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13350,8 +13287,8 @@ Frequencies (unweighted):
 | 4 | Pension / state pension (AOW) / early retirement | 0 | 64 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Student grant / UAF | 0 | 207 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Other | 0 | 132 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13397,7 +13334,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 5997 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 705 | 116 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 90 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -13441,8 +13378,8 @@ Frequencies (unweighted):
 | 8 | 1750-2000 euro | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | 2000-2250 euro | 6 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 10 | 2250 euro or more | 5 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 5997 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 54 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 329 | 44 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13474,7 +13411,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 5997 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 705 | 116 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 90 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -13521,11 +13458,10 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 5997 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5997 | 3222 | 0 | 3355 | 0 | 0 | 0 | 0 |
 | .d | No information | 124 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 81 | 0 | 47 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3355 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -13567,7 +13503,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 2421 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2421 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 883 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13606,7 +13542,7 @@ Frequencies (unweighted):
 | 6 | 1550-1750 euro | 292 | 103 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | 1750-2000 euro | 203 | 65 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | 2000 euro or more | 312 | 174 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2423 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2423 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 883 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13638,7 +13574,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 2421 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2421 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 883 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13675,7 +13611,7 @@ Frequencies (unweighted):
 | 2 | Very often | 947 | 984 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Occasionally | 1022 | 868 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Never | 1329 | 760 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 35 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13714,7 +13650,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 4109 | 946 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 42 | 115 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 48 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13753,7 +13689,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 4020 | 912 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 179 | 149 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -13837,7 +13773,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3401 | 444 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 741 | 617 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 57 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -13922,7 +13858,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3323 | 523 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 876 | 538 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14006,7 +13942,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 4037 | 1027 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 162 | 34 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14101,8 +14037,8 @@ Missing values:
 |---|---|---|---|---|---|---|---|---|---|
 | .d | No information | 87 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 2489 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2489 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -14141,7 +14077,7 @@ Frequencies (unweighted):
 | 4 | Parents only | 504 | 335 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Others only | 864 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Other family only (SPVN 2003) | 0 | 265 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 273 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 273 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 67 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -14189,10 +14125,9 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 0 | 4125 | 6829 | 5323 |
-| . | System missing | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 31 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 85 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 1170 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 1170 | 0 | 0 | 0 |
 
 ---
 
@@ -14250,7 +14185,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 1904 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 0 | 1558 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 85 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 85 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14291,7 +14226,7 @@ Frequencies (unweighted):
 | 7 | Contacts with compatriots etc. | 0 | 170 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Medical reasons | 0 | 33 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Other | 0 | 360 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1643 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1643 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14365,7 +14300,7 @@ Frequencies (unweighted):
 | 3 | Neither pleasant nor unpleasant | 0 | 386 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Not pleasant | 0 | 334 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Not at all pleasant | 0 | 136 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14435,7 +14370,7 @@ Frequencies (unweighted):
 | 1 | Too few Dutch | 0 | 880 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Fine | 0 | 2520 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Too many Dutch | 0 | 145 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14469,7 +14404,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 0 | 2396 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 0 | 1149 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14503,7 +14438,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 987 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 162 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14537,7 +14472,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 608 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 541 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14571,7 +14506,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 1101 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 48 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14605,7 +14540,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 1103 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 46 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14639,7 +14574,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 929 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 220 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14673,7 +14608,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 1125 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 24 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14707,7 +14642,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 1140 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14741,7 +14676,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 1118 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 31 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14775,7 +14710,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 1100 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 49 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14809,7 +14744,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 0 | 949 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 0 | 200 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2398 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14843,7 +14778,7 @@ Frequencies (unweighted):
 | 1 | Same municipality | 0 | 2930 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Amsterdam / Rotterdam / The Hague / Utrecht | 0 | 237 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Another municipality | 0 | 378 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -14881,9 +14816,8 @@ Frequencies (unweighted):
 | 3 | Fair | 985 | 663 | 872 | 1119 | 1150 | 794 | 1389 | 1001 |
 | 4 | Poor | 627 | 568 | 239 | 333 | 576 | 217 | 344 | 245 |
 | 5 | Very poor | 122 | 88 | 36 | 51 | 144 | 36 | 94 | 65 |
-| . | System missing (not applicable / routed out) | 0 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 14 |
+| .c | Not applicable | 0 | 1212 | 0 | 3 | 0 | 0 | 0 | 14 |
 | .d | No information | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -14933,9 +14867,8 @@ Missing values:
 |---|---|---|---|---|---|---|---|---|
 | .d | No information | 87 | 3 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 0 | 6911 | 0 | 0 |
-| . | System missing | 0 | 1212 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 14 | 0 | 0 | 0 | 63 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 14 | 0 | 0 | 2685 |
+| .c | Not applicable | 0 | 1212 | 0 | 14 | 0 | 0 | 2685 |
 
 ---
 
@@ -14970,8 +14903,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3058 | 2750 | 0 | 4041 | 0 | 0 | 0 | 3147 |
 | 1 | Yes | 1121 | 795 | 0 | 1206 | 0 | 0 | 0 | 2136 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 40 |
+| .c | Not applicable | 0 | 2 | 0 | 3 | 0 | 0 | 0 | 40 |
 | .d | No information | 20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 0 |
 
@@ -15007,8 +14939,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3626 | 3067 | 0 | 0 | 0 | 0 | 5771 | 0 |
 | 1 | Yes | 550 | 478 | 0 | 0 | 0 | 0 | 996 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 0 | 0 | 62 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 0 | 5323 |
 
@@ -15043,7 +14975,7 @@ Frequencies (unweighted):
 | 1 | Yes | 0 | 1896 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | No | 0 | 993 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Sometimes | 0 | 656 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -15077,7 +15009,7 @@ Frequencies (unweighted):
 | 1 | Yes | 0 | 1927 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | No | 0 | 980 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Sometimes | 0 | 638 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -15111,7 +15043,7 @@ Frequencies (unweighted):
 | 1 | Yes | 0 | 825 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | No | 0 | 1829 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Sometimes | 0 | 891 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -15145,7 +15077,7 @@ Frequencies (unweighted):
 | 1 | Yes | 0 | 889 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | No | 0 | 1842 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Sometimes | 0 | 814 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -15182,8 +15114,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 5925 | 2884 | 0 | 2687 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2159 | 661 | 0 | 2544 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 218 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 2 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 19 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15224,7 +15155,7 @@ Frequencies (unweighted):
 | 7 | Social club | 0 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Ethnic / cultural association | 0 | 85 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Other | 0 | 86 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2887 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2887 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -15262,8 +15193,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 925 | 3209 | 0 | 3897 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 1230 | 338 | 0 | 1334 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15302,7 +15232,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 1926 | 3532 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 229 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15341,8 +15271,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2088 | 3471 | 0 | 4924 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 67 | 76 | 0 | 307 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15381,7 +15310,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2051 | 3522 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 104 | 25 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15420,7 +15349,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 1908 | 3539 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 247 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15459,8 +15388,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2048 | 3534 | 0 | 4964 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 107 | 13 | 0 | 267 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15499,8 +15427,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2113 | 3533 | 0 | 5146 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 42 | 14 | 0 | 85 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15537,7 +15464,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2014 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 141 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15574,7 +15501,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2099 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 56 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15611,8 +15538,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2127 | 0 | 0 | 5140 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 28 | 0 | 0 | 91 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15649,8 +15575,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 1783 | 0 | 0 | 4736 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 372 | 0 | 0 | 495 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15685,7 +15610,7 @@ Frequencies (unweighted):
 | 1 | Many from own group | 953 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Few | 760 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | (Almost) none | 428 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 37 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15721,7 +15646,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 345 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 611 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7331 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7331 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15756,7 +15681,7 @@ Frequencies (unweighted):
 | 1 | Own group in the Netherlands | 513 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Country of origin | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Both | 82 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 7676 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7676 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 43 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15792,8 +15717,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 1589 | 1392 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 6467 | 4187 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 218 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 47 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15830,8 +15755,8 @@ Frequencies (unweighted):
 | 2 | Yes | 712 | 900 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No, rather not | 533 | 203 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | No, definitely not | 137 | 27 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 6685 | 4189 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 79 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6685 | 4189 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -15868,8 +15793,7 @@ Frequencies (unweighted):
 | 1 | Often/always | 2055 | 0 | 1080 | 1016 | 0 | 578 | 1539 | 1251 |
 | 2 | Sometimes | 3605 | 0 | 1523 | 2128 | 0 | 1760 | 3180 | 2584 |
 | 3 | Never | 2378 | 0 | 1493 | 2103 | 0 | 1787 | 2110 | 1488 |
-| . | System missing (not applicable / routed out) | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 0 | 0 | 6911 | 0 | 0 | 0 |
 
@@ -15907,10 +15831,9 @@ Frequencies (unweighted):
 | 1 | Often/always | 2595 | 943 | 1564 | 1537 | 1015 | 974 | 2133 | 1719 |
 | 2 | Sometimes | 3446 | 721 | 1457 | 2117 | 1349 | 1933 | 3360 | 2707 |
 | 3 | Never | 1989 | 376 | 1075 | 1593 | 645 | 1218 | 1336 | 897 |
-| . | System missing (not applicable / routed out) | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3 | 3894 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 0 | 0 | 3 | 3894 | 0 | 0 | 0 |
 | .d | No information | 73 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 7072 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -15947,10 +15870,9 @@ Frequencies (unweighted):
 | 1 | More with own group | 2177 | 1940 | 884 | 903 | 1617 | 847 | 1340 | 856 |
 | 2 | Equally with both | 2519 | 1852 | 1172 | 1297 | 1532 | 985 | 2089 | 1789 |
 | 3 | More with native Dutch | 1355 | 1743 | 951 | 1430 | 1995 | 695 | 1346 | 1171 |
-| . | System missing (not applicable / routed out) | 2207 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 57 | 0 | 0 | 152 | 12 | 95 | 116 |
 | .b | Refusal | 0 | 0 | 14 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 1075 | 1620 | 1607 | 1586 | 1959 | 1391 |
+| .c | Not applicable | 2207 | 2 | 1075 | 1620 | 1607 | 1586 | 1959 | 1391 |
 | .d | No information | 63 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -15985,7 +15907,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | Male | 714 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Female | 663 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 55 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16030,7 +15952,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 56 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16067,7 +15989,7 @@ Frequencies (unweighted):
 | 2 | Other municipality | 304 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Country of origin | 301 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Elsewhere | 33 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 35 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16108,7 +16030,7 @@ Frequencies (unweighted):
 | 5 | At least weekly | 297 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Several times a week | 325 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Daily | 312 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 31 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16149,7 +16071,7 @@ Frequencies (unweighted):
 | 5 | At least weekly | 272 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Several times a week | 403 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Daily | 414 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 35 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16185,7 +16107,7 @@ Frequencies (unweighted):
 | 1 | Several times | 403 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Once or a few times | 316 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No | 677 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 36 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16221,7 +16143,7 @@ Frequencies (unweighted):
 | 1 | Several times | 319 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Once or a few times | 450 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No | 624 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16257,7 +16179,7 @@ Frequencies (unweighted):
 | 1 | Several times | 415 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Once or a few times | 374 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No | 596 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 47 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16293,7 +16215,7 @@ Frequencies (unweighted):
 | 1 | Several times | 590 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Once or a few times | 440 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No | 362 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2767 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 40 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16364,7 +16286,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | Father | 1236 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Mother | 1730 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 79 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16409,7 +16331,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 271 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16446,7 +16368,7 @@ Frequencies (unweighted):
 | 2 | Other municipality | 408 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Country of origin | 1570 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Elsewhere | 105 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 40 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16487,7 +16409,7 @@ Frequencies (unweighted):
 | 5 | At least weekly | 343 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Several times a week | 306 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Daily | 365 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16528,7 +16450,7 @@ Frequencies (unweighted):
 | 5 | At least weekly | 714 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Several times a week | 487 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Daily | 452 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 28 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16564,7 +16486,7 @@ Frequencies (unweighted):
 | 1 | Several times | 402 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Once or a few times | 373 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No | 2230 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 40 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16600,7 +16522,7 @@ Frequencies (unweighted):
 | 1 | Several times | 750 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Once or a few times | 855 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No | 1407 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 33 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16636,7 +16558,7 @@ Frequencies (unweighted):
 | 1 | Several times | 623 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Once or a few times | 584 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No | 1795 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 43 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16672,7 +16594,7 @@ Frequencies (unweighted):
 | 1 | Several times | 671 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Once or a few times | 939 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No | 1396 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1154 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16792,7 +16714,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16837,7 +16759,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 238 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16882,7 +16804,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 187 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16921,7 +16843,7 @@ Frequencies (unweighted):
 | 4 | 4 children | 751 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | 5 children | 124 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | 6 or more children | 93 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 139 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16959,7 +16881,7 @@ Frequencies (unweighted):
 | 4 | Mostly the father | 30 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Always the father | 6 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Neither | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 39 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -16997,7 +16919,7 @@ Frequencies (unweighted):
 | 1 | Mainly the father | 23 | 39 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Mainly the mother | 1067 | 734 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Both | 3759 | 3609 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17035,7 +16957,7 @@ Frequencies (unweighted):
 | 1 | Mainly the father | 504 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Mainly the mother | 559 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Both | 3779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 22 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17073,7 +16995,7 @@ Frequencies (unweighted):
 | 1 | Mainly the father | 105 | 65 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Mainly the mother | 2317 | 1708 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Both | 2419 | 2609 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17111,7 +17033,7 @@ Frequencies (unweighted):
 | 1 | Mainly the father | 1543 | 1197 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Mainly the mother | 55 | 72 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Both | 3242 | 3113 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 24 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17149,7 +17071,7 @@ Frequencies (unweighted):
 | 1 | Mainly the father | 927 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Mainly the mother | 536 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Both | 3374 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17190,9 +17112,8 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 662 | 0 | 0 | 694 | 0 | 568 | 1068 | 706 |
 | 4 | Disagree | 2056 | 0 | 0 | 2053 | 0 | 1792 | 2400 | 1735 |
 | 5 | Strongly disagree | 1156 | 0 | 0 | 1723 | 0 | 1099 | 2476 | 2360 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 0 | 24 | 124 | 165 |
-| .c | Not applicable | 0 | 0 | 0 | 49 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 49 | 0 | 0 | 0 | 0 |
 | .d | No information | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 0 | 0 | 0 |
 
@@ -17232,10 +17153,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 540 | 660 | 609 | 729 | 1229 | 0 | 0 | 0 |
 | 4 | Disagree | 963 | 839 | 860 | 1299 | 1761 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 408 | 249 | 369 | 683 | 868 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 108 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 18 | 21 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 1212 | 18 | 21 | 0 | 0 | 0 | 0 |
 | .d | No information | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 0 | 4125 | 6829 | 5323 |
 
@@ -17276,9 +17196,8 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 745 | 737 | 800 | 684 | 0 | 577 | 1196 | 863 |
 | 4 | Disagree | 1930 | 1229 | 1357 | 1975 | 0 | 1722 | 2146 | 1543 |
 | 5 | Strongly disagree | 889 | 412 | 677 | 1510 | 0 | 1048 | 2184 | 2161 |
-| . | System missing (not applicable / routed out) | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 0 | 20 | 111 | 141 |
-| .c | Not applicable | 0 | 0 | 23 | 42 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 1212 | 23 | 42 | 0 | 0 | 0 | 0 |
 | .d | No information | 22 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 6911 | 0 | 0 | 0 |
 
@@ -17318,7 +17237,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 275 | 264 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 2090 | 1563 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 2164 | 2276 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17358,7 +17277,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 898 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 1204 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 436 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17399,10 +17318,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 418 | 0 | 439 | 464 | 895 | 414 | 919 | 617 |
 | 4 | Disagree | 1930 | 0 | 1531 | 2014 | 2339 | 1711 | 2128 | 1467 |
 | 5 | Strongly disagree | 1218 | 0 | 1138 | 1816 | 2147 | 1080 | 2491 | 2394 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 134 | 18 | 135 | 189 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 30 | 44 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 30 | 44 | 0 | 0 | 0 | 0 |
 | .d | No information | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -17443,10 +17361,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 800 | 744 | 546 | 665 | 872 | 508 | 1127 | 766 |
 | 4 | Disagree | 1865 | 1535 | 1521 | 1958 | 2669 | 1778 | 2370 | 1672 |
 | 5 | Strongly disagree | 729 | 759 | 857 | 1429 | 1785 | 1020 | 2265 | 2258 |
-| . | System missing (not applicable / routed out) | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 142 | 39 | 136 | 148 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 31 | 53 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 1212 | 31 | 53 | 0 | 0 | 0 | 0 |
 | .d | No information | 25 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -17486,7 +17403,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 284 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 1075 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 716 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17526,7 +17443,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 743 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 1693 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 499 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 30 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17566,7 +17483,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 420 | 376 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 742 | 369 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 207 | 121 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 35 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17606,10 +17523,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 418 | 634 | 0 | 503 | 1046 | 408 | 0 | 0 |
 | 4 | Disagree | 1093 | 1146 | 0 | 1697 | 2159 | 1564 | 0 | 0 |
 | 5 | Strongly disagree | 358 | 568 | 0 | 1051 | 1212 | 717 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 155 | 20 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 36 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 1212 | 0 | 36 | 0 | 0 | 0 | 0 |
 | .d | No information | 32 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 0 | 0 | 6829 | 5323 |
 
@@ -17649,7 +17565,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 764 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 1079 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 240 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17689,7 +17605,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 577 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 681 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 131 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 33 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17729,7 +17645,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 387 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 2065 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 1030 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17769,7 +17685,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 441 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 1990 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 855 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17809,7 +17725,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 299 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 177 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 44 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 21 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17849,7 +17765,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 1223 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 387 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17889,7 +17805,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 376 | 437 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 522 | 495 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 104 | 119 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 22 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -17929,10 +17845,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 911 | 0 | 0 | 934 | 1376 | 713 | 0 | 0 |
 | 4 | Disagree | 1535 | 0 | 0 | 1617 | 1864 | 1391 | 0 | 0 |
 | 5 | Strongly disagree | 340 | 0 | 0 | 733 | 783 | 460 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 204 | 36 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 62 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 62 | 0 | 0 | 0 | 0 |
 | .d | No information | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 0 | 0 | 6829 | 5323 |
 
@@ -17972,7 +17887,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 685 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 832 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 149 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -18012,7 +17927,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 537 | 873 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 740 | 848 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 145 | 246 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 46 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -18052,8 +17967,8 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 550 | 0 | 0 | 0 | 0 | 421 | 0 | 0 |
 | 4 | Disagree | 1088 | 0 | 0 | 0 | 0 | 847 | 0 | 0 |
 | 5 | Strongly disagree | 1001 | 0 | 0 | 0 | 0 | 390 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 0 | 73 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 
@@ -18093,7 +18008,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 816 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 660 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 165 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 58 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -18134,10 +18049,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 672 | 0 | 531 | 526 | 971 | 477 | 1478 | 1023 |
 | 4 | Disagree | 1439 | 0 | 1222 | 888 | 2215 | 1398 | 1708 | 1280 |
 | 5 | Strongly disagree | 425 | 0 | 795 | 734 | 1522 | 533 | 968 | 1272 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 397 | 69 | 444 | 570 |
 | .b | Refusal | 0 | 0 | 132 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 1344 | 2 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 1344 | 2 | 0 | 0 | 0 |
 | .d | No information | 62 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -18177,7 +18091,7 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 723 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Disagree | 1529 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Strongly disagree | 435 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 63 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -18217,10 +18131,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 619 | 0 | 454 | 480 | 902 | 592 | 0 | 0 |
 | 4 | Disagree | 2372 | 0 | 1724 | 1611 | 2746 | 1993 | 0 | 0 |
 | 5 | Strongly disagree | 879 | 0 | 1062 | 1019 | 1835 | 646 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 255 | 52 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 70 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 1296 | 2 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 1296 | 2 | 0 | 0 | 0 |
 | .d | No information | 66 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 0 | 0 | 0 | 0 | 6829 | 5323 |
 
@@ -18588,10 +18501,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 649 | 577 | 0 | 916 | 1212 | 736 | 1462 | 1323 |
 | 4 | Disagree | 1011 | 875 | 0 | 1683 | 1540 | 1133 | 1716 | 1234 |
 | 5 | Strongly disagree | 162 | 239 | 0 | 367 | 208 | 187 | 562 | 293 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 232 | 50 | 285 | 360 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 104 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 123 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 123 | 0 | 0 | 0 | 0 |
 | .d | No information | 21 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 0 | 0 |
 
@@ -18671,10 +18583,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 1091 | 596 | 0 | 1222 | 1118 | 929 | 1773 | 1303 |
 | 4 | Disagree | 573 | 367 | 0 | 978 | 647 | 824 | 1065 | 524 |
 | 5 | Strongly disagree | 75 | 68 | 0 | 139 | 79 | 103 | 260 | 100 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 276 | 81 | 371 | 410 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 101 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 249 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 249 | 0 | 0 | 0 | 0 |
 | .d | No information | 44 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 0 | 0 |
 
@@ -18715,10 +18626,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 972 | 497 | 0 | 1024 | 1037 | 869 | 1540 | 1265 |
 | 4 | Disagree | 703 | 335 | 0 | 972 | 602 | 808 | 876 | 456 |
 | 5 | Strongly disagree | 104 | 54 | 0 | 167 | 79 | 118 | 222 | 88 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 106 | 39 | 184 | 196 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 50 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 94 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 94 | 0 | 0 | 0 | 0 |
 | .d | No information | 62 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 0 | 0 |
 
@@ -18876,10 +18786,9 @@ Frequencies (unweighted):
 | 3 | Neither agree nor disagree | 732 | 492 | 0 | 1055 | 1057 | 887 | 1548 | 1075 |
 | 4 | Disagree | 392 | 261 | 0 | 853 | 595 | 806 | 803 | 362 |
 | 5 | Strongly disagree | 59 | 46 | 0 | 117 | 85 | 112 | 216 | 74 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 150 | 41 | 205 | 158 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 80 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 117 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 117 | 0 | 0 | 0 | 0 |
 | .d | No information | 42 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 0 | 0 |
 
@@ -19428,7 +19337,7 @@ Frequencies (unweighted):
 | 1 | Obey parents | 2161 | 1972 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Consideration / respect for others | 684 | 1210 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Independence | 1296 | 1200 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 58 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -19463,7 +19372,7 @@ Frequencies (unweighted):
 | 1 | Obey parents | 1009 | 1229 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Consideration / respect for others | 1785 | 2143 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Independence | 1341 | 1010 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4122 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4122 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 64 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -19502,10 +19411,9 @@ Frequencies (unweighted):
 | 3 | No opinion | 299 | 450 | 163 | 569 | 592 | 439 | 817 | 0 |
 | 4 | Not annoying | 1493 | 1760 | 1236 | 1525 | 1954 | 1651 | 1814 | 0 |
 | 5 | Not at all annoying | 2135 | 2073 | 2529 | 2817 | 3810 | 1790 | 3897 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 244 | 28 | 117 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 6 | 44 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1212 | 6 | 44 | 0 | 0 | 0 | 0 |
 | .d | No information | 25 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 0 | 0 | 0 | 0 | 0 | 5323 |
 
@@ -19545,10 +19453,9 @@ Frequencies (unweighted):
 | 3 | No opinion | 541 | 628 | 427 | 708 | 848 | 619 | 1101 | 960 |
 | 4 | Not annoying | 1085 | 1521 | 1041 | 1165 | 1819 | 1318 | 1613 | 1062 |
 | 5 | Not at all annoying | 1539 | 1778 | 1945 | 2159 | 3113 | 1318 | 3104 | 2679 |
-| . | System missing (not applicable / routed out) | 0 | 1212 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 344 | 50 | 260 | 303 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 9 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 6 | 121 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1212 | 6 | 121 | 0 | 0 | 0 | 0 |
 | .d | No information | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -19584,7 +19491,7 @@ Frequencies (unweighted):
 | 1 | Compatriot | 234 | 132 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Native Dutch | 637 | 903 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Does not matter | 3265 | 2510 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 63 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -19623,9 +19530,8 @@ Frequencies (unweighted):
 | 3 | Neutral | 918 | 602 | 0 | 773 | 0 | 0 | 0 | 0 |
 | 4 | Unpleasant | 84 | 90 | 0 | 91 | 0 | 0 | 0 | 0 |
 | 5 | Very unpleasant | 24 | 13 | 0 | 20 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 19 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 4 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 4 | 0 | 0 | 0 | 0 |
 | .d | No information | 26 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
@@ -19663,8 +19569,8 @@ Frequencies (unweighted):
 | 3 | Neither safe nor unsafe | 0 | 220 | 0 | 0 | 472 | 0 | 0 | 0 |
 | 4 | Unsafe | 0 | 112 | 0 | 0 | 194 | 0 | 0 | 0 |
 | 5 | Very unsafe | 0 | 12 | 0 | 0 | 20 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 0 | 4125 | 6829 | 5323 |
 
 ---
@@ -20259,10 +20165,9 @@ Frequencies (unweighted):
 | 46 | Confucian | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 |
 | 47 | Taoist | 0 | 0 | 0 | 0 | 3 | 0 | 0 | 0 |
 | 99 | Other religion | 73 | 85 | 48 | 83 | 122 | 35 | 64 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 67 | 10 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 6 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 17 | 2 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 17 | 2 | 0 | 0 | 0 |
 | .d | No information | 27 | 0 | 0 | 0 | 0 | 0 | 40 | 134 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -20304,10 +20209,9 @@ Frequencies (unweighted):
 | 2 | Islam | 2670 | 2122 | 1802 | 2140 | 2723 | 0 | 2359 | 1769 |
 | 3 | Christianity | 1169 | 376 | 1039 | 1500 | 1562 | 0 | 2253 | 1378 |
 | 4 | Other | 73 | 85 | 48 | 83 | 311 | 0 | 64 | 0 |
-| . | System missing (not applicable / routed out) | 3457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 67 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 6 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 17 | 2 | 0 | 0 | 0 |
+| .c | Not applicable | 3457 | 0 | 0 | 17 | 2 | 0 | 0 | 0 |
 | .d | No information | 27 | 0 | 0 | 0 | 0 | 0 | 40 | 134 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 0 | 0 | 0 | 3082 | 0 | 0 |
 
@@ -20342,7 +20246,7 @@ Frequencies (unweighted):
 | 1 | Same as raised in | 3961 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Different | 223 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Not raised religiously | 37 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 4077 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4077 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -20393,7 +20297,7 @@ Frequencies (unweighted):
 | 36 | Christian: Jehovah's Witness | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 38 | Christian: other / unspecified | 75 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 99 | Other religion | 59 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3494 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3494 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 55 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -20431,7 +20335,7 @@ Frequencies (unweighted):
 | 2 | Islam | 2739 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Christianity | 1402 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Other | 59 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 3494 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3494 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 55 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -20471,9 +20375,8 @@ Frequencies (unweighted):
 | 2 | A few times a year | 1362 | 598 | 928 | 1087 | 1196 | 773 | 1616 | 1061 |
 | 3 | A few times a month | 653 | 255 | 374 | 493 | 490 | 405 | 529 | 283 |
 | 4 | Weekly or more | 1268 | 365 | 876 | 1194 | 954 | 1153 | 1421 | 800 |
-| . | System missing (not applicable / routed out) | 3698 | 964 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 982 | 1238 | 2221 | 1043 | 1868 | 1900 |
+| .c | Not applicable | 3698 | 964 | 982 | 1238 | 2221 | 1043 | 1868 | 1900 |
 | .d | No information | 37 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 5572 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -20588,7 +20491,7 @@ Frequencies (unweighted):
 | 4 | Yugoslav | 0 | 335 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Somali | 0 | 458 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Other people | 0 | 16 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -20721,10 +20624,9 @@ Frequencies (unweighted):
 | 3 | Occasionally | 2302 | 957 | 0 | 2020 | 3345 | 1564 | 2722 | 2524 |
 | 4 | Often | 598 | 166 | 0 | 862 | 1094 | 789 | 1352 | 1114 |
 | 5 | Very often | 143 | 30 | 0 | 186 | 154 | 229 | 468 | 364 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 408 | 65 | 269 | 475 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 1182 | 0 | 815 | 1046 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 1182 | 0 | 815 | 1046 | 0 |
 | .d | No information | 57 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 0 | 0 |
 
@@ -20762,10 +20664,9 @@ Frequencies (unweighted):
 | 3 | Occasionally | 1291 | 663 | 0 | 1165 | 1583 | 960 | 1840 | 1535 |
 | 4 | Often | 196 | 116 | 0 | 321 | 315 | 290 | 550 | 380 |
 | 5 | Very often | 60 | 24 | 0 | 67 | 72 | 79 | 183 | 159 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 163 | 30 | 130 | 165 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 1068 | 0 | 815 | 1046 | 771 |
+| .c | Not applicable | 0 | 2 | 0 | 1068 | 0 | 815 | 1046 | 771 |
 | .d | No information | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 0 | 0 |
 
@@ -20804,9 +20705,8 @@ Frequencies (unweighted):
 | 1 | Yes | 1422 | 1206 | 0 | 1251 | 1530 | 1012 | 1257 | 0 |
 | 2 | Don't know | 807 | 658 | 0 | 0 | 781 | 242 | 1380 | 0 |
 | 3 | No | 1952 | 1681 | 0 | 2530 | 4592 | 2056 | 3146 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 1469 | 0 | 815 | 1046 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 1469 | 0 | 815 | 1046 | 0 |
 | .d | No information | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 0 | 5323 |
 
@@ -20844,9 +20744,8 @@ Frequencies (unweighted):
 | 1 | Yes | 841 | 443 | 0 | 603 | 829 | 643 | 0 | 0 |
 | 2 | Don't know | 591 | 406 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | No | 787 | 1015 | 0 | 648 | 1271 | 369 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 1952 | 1683 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3999 | 4803 | 3113 | 0 | 0 |
+| .c | Not applicable | 1952 | 1683 | 0 | 3999 | 4803 | 3113 | 0 | 0 |
 | .d | No information | 28 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 6829 | 5323 |
 
@@ -20883,7 +20782,7 @@ Frequencies (unweighted):
 | 2 | Wants to return, other | 763 | 855 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Don't know | 807 | 658 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Does not want to return | 1952 | 1681 | 0 | 0 | 0 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
@@ -20933,9 +20832,8 @@ Frequencies (unweighted):
 | 11 | Economic situation / no work in origin country (SIM) | 0 | 0 | 0 | 193 | 232 | 140 | 0 | 0 |
 | 12 | Origin country not a good place to live (SIM) | 0 | 0 | 0 | 47 | 248 | 37 | 0 | 0 |
 | 13 | Born and raised in / long in the Netherlands (SIM) | 0 | 0 | 0 | 391 | 300 | 438 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 841 | 445 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 145 | 9 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 1711 | 1456 | 2069 | 0 | 0 |
+| .c | Not applicable | 841 | 445 | 0 | 1711 | 1456 | 2069 | 0 | 0 |
 | .d | No information | 132 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 0 | 0 | 0 | 6829 | 5323 |
 
@@ -22739,9 +22637,8 @@ Frequencies (unweighted):
 | 17 | Came on holiday and stayed (SIM 2006/2011) | 0 | 0 | 0 | 0 | 0 | 14 | 0 | 0 |
 | 18 | Invited by the Dutch government (invited refugee; SING 2009) | 0 | 0 | 0 | 0 | 10 | 0 | 0 | 0 |
 | 19 | Religious persecution (SING 2009) | 0 | 0 | 0 | 0 | 30 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 135 | 130 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 0 | 21 | 0 | 0 |
-| .c | Not applicable | 1650 | 2320 | 0 | 3323 | 4173 | 2880 | 4706 | 0 |
+| .c | Not applicable | 1785 | 2450 | 0 | 3323 | 4173 | 2880 | 4706 | 0 |
 | .d | No information | 9364 | 4345 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 0 | 0 | 0 | 0 | 5323 |
 
@@ -23788,9 +23685,8 @@ Frequencies (unweighted):
 | 1 | Low | 842 | 547 | 179 | 0 | 0 | 0 | 231 | 392 |
 | 2 | Middle | 621 | 473 | 404 | 0 | 0 | 0 | 589 | 525 |
 | 3 | High | 420 | 330 | 317 | 0 | 0 | 0 | 490 | 0 |
-| . | System missing (not applicable / routed out) | 6324 | 4218 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 32 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 3164 | 0 | 0 | 0 | 5426 | 4250 |
+| .c | Not applicable | 6324 | 4218 | 3164 | 0 | 0 | 0 | 5426 | 4250 |
 | .d | No information | 114 | 26 | 0 | 0 | 0 | 0 | 93 | 156 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
 
@@ -23830,9 +23726,8 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 1108 | 343 | 1150 | 0 | 0 | 0 | 733 | 494 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 1006 | 406 | 995 | 0 | 0 | 0 | 2127 | 1319 |
 | 3 | High (hbo, wo) | 594 | 364 | 560 | 0 | 0 | 0 | 1180 | 1513 |
-| . | System missing (not applicable / routed out) | 2200 | 1394 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 33 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 2307 | 2656 | 1153 | 0 | 0 | 0 | 2727 | 1763 |
+| .c | Not applicable | 4507 | 4050 | 1153 | 0 | 0 | 0 | 2727 | 1763 |
 | .d | No information | 79 | 14 | 0 | 0 | 0 | 0 | 62 | 234 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
 
@@ -23869,8 +23764,7 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 1554 | 729 | 0 | 0 | 0 | 0 | 1272 | 0 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 940 | 372 | 0 | 0 | 0 | 0 | 1624 | 0 |
 | 3 | High (hbo, wo) | 523 | 321 | 0 | 0 | 0 | 0 | 1160 | 0 |
-| . | System missing (not applicable / routed out) | 1930 | 1108 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1268 | 1935 | 0 | 0 | 0 | 0 | 1511 | 0 |
+| .c | Not applicable | 3198 | 3043 | 0 | 0 | 0 | 0 | 1511 | 0 |
 | .d | No information | 103 | 0 | 0 | 0 | 0 | 0 | 47 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 5323 |
 
@@ -23907,8 +23801,7 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 3121 | 1672 | 0 | 0 | 0 | 0 | 1921 | 0 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 1397 | 1325 | 0 | 0 | 0 | 0 | 1923 | 0 |
 | 3 | High (hbo, wo) | 668 | 1077 | 0 | 0 | 0 | 0 | 1215 | 0 |
-| . | System missing (not applicable / routed out) | 1861 | 1103 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 0 | 1167 | 0 |
+| .c | Not applicable | 1861 | 1103 | 0 | 0 | 0 | 0 | 1167 | 0 |
 | .d | No information | 108 | 0 | 0 | 0 | 0 | 0 | 10 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 5323 |
 
@@ -23944,7 +23837,7 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 4308 | 2087 | 0 | 0 | 0 | 1779 | 2329 | 0 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 1651 | 1441 | 0 | 0 | 0 | 1281 | 2274 | 0 |
 | 3 | High (hbo, wo) | 695 | 1161 | 0 | 0 | 0 | 689 | 1526 | 0 |
-| . | System missing (not applicable / routed out) | 218 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 218 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 282 | 0 | 0 | 0 | 0 | 14 | 17 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 0 | 5323 |
 
@@ -24022,10 +23915,9 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 2037 | 742 | 1081 | 1300 | 0 | 0 | 878 | 0 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 895 | 704 | 603 | 708 | 0 | 0 | 1813 | 0 |
 | 3 | High (hbo, wo) | 445 | 641 | 419 | 506 | 0 | 0 | 992 | 0 |
-| . | System missing (not applicable / routed out) | 190 | 186 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 0 | 0 | 129 | 0 |
 | .b | Refusal | 0 | 0 | 57 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1650 | 2320 | 1737 | 2288 | 0 | 0 | 2795 | 0 |
+| .c | Not applicable | 1840 | 2506 | 1737 | 2288 | 0 | 0 | 2795 | 0 |
 | .d | No information | 7393 | 4345 | 0 | 15 | 0 | 0 | 59 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 0 | 6911 | 4125 | 0 | 5323 |
 
@@ -24066,9 +23958,8 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 2833 | 2029 | 0 | 2061 | 0 | 0 | 2341 | 900 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 566 | 1019 | 0 | 506 | 0 | 0 | 1627 | 1493 |
 | 3 | High (hbo, wo) | 474 | 925 | 0 | 465 | 0 | 0 | 844 | 1186 |
-| . | System missing (not applicable / routed out) | 0 | 243 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 568 | 0 | 0 | 0 | 0 | 1052 | 970 |
-| .c | Not applicable | 0 | 0 | 0 | 761 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 243 | 0 | 761 | 0 | 0 | 0 | 0 |
 | .d | No information | 1460 | 0 | 0 | 9 | 0 | 0 | 130 | 235 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 0 | 0 |
 
@@ -24108,9 +23999,8 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 2843 | 2174 | 0 | 2256 | 0 | 0 | 2377 | 947 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 452 | 751 | 0 | 403 | 0 | 0 | 1807 | 1601 |
 | 3 | High (hbo, wo) | 267 | 374 | 0 | 248 | 0 | 0 | 568 | 908 |
-| . | System missing (not applicable / routed out) | 0 | 92 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 491 | 0 | 0 | 0 | 0 | 750 | 791 |
-| .c | Not applicable | 0 | 0 | 0 | 506 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 92 | 0 | 506 | 0 | 0 | 0 | 0 |
 | .d | No information | 925 | 0 | 0 | 8 | 0 | 0 | 90 | 248 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 0 | 0 |
 
@@ -34810,9 +34700,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2047 | 1338 | 0 | 1311 | 1614 | 956 | 0 | 0 |
 | 1 | Yes | 2372 | 1115 | 0 | 1696 | 2205 | 1478 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 109 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1650 | 2320 | 0 | 2243 | 3092 | 1691 | 0 | 0 |
+| .c | Not applicable | 1759 | 2320 | 0 | 2243 | 3092 | 1691 | 0 | 0 |
 | .d | No information | 7326 | 4345 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 0 | 0 | 0 | 6829 | 5323 |
 
@@ -34861,8 +34750,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 2156 | 1351 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1650 | 2320 | 2705 | 3554 | 0 | 2647 | 0 | 0 |
+| .c | Not applicable | 3806 | 3671 | 2705 | 3554 | 0 | 2647 | 0 | 0 |
 | .d | No information | 7343 | 4345 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 4 | 0 | 21 | 0 | 23 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 19 | 0 | 0 | 0 | 0 | 0 |
@@ -35004,8 +34892,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| . | System missing | 559 | 132 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1650 | 2320 | 0 | 3323 | 0 | 2880 | 0 | 0 |
+| .c | Not applicable | 2209 | 2452 | 0 | 3323 | 0 | 2880 | 0 | 0 |
 | .d | No information | 7382 | 4345 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 18 | 0 | 50 | 0 | 68 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
@@ -42199,8 +42086,7 @@ Frequencies (unweighted):
 | 11 | Chinese | 0 | 0 | 0 | 0 | 469 | 0 | 0 | 0 |
 | 90 | Native Dutch / third generation | 200 | 0 | 0 | 1090 | 1192 | 0 | 0 | 0 |
 | 95 | Other (non-target) origin group | 0 | 0 | 0 | 199 | 359 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 213 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1650 | 2320 | 0 | 1953 | 2537 | 0 | 0 | 0 |
+| .c | Not applicable | 1650 | 2533 | 0 | 1953 | 2537 | 0 | 0 | 0 |
 | .d | No information | 6756 | 4345 | 0 | 0 | 25 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 0 | 0 | 4125 | 6829 | 5323 |
 
@@ -42235,8 +42121,7 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | First generation (partner born abroad; SPVA/SPVN: arrived aged 6 or older) | 4348 | 2291 | 1657 | 1930 | 3050 | 0 | 0 | 0 |
 | 2 | Second generation: partner born in the Netherlands (SPVA/SPVN: or arrived before age 6), native Dutch partners included | 730 | 143 | 417 | 629 | 1324 | 0 | 0 | 0 |
-| . | System missing (not applicable / routed out) | 0 | 20 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1650 | 2320 | 2022 | 2691 | 2537 | 0 | 0 | 0 |
+| .c | Not applicable | 1650 | 2340 | 2022 | 2691 | 2537 | 0 | 0 | 0 |
 | .d | No information | 6776 | 4345 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 0 | 0 | 4125 | 6829 | 5323 |
 

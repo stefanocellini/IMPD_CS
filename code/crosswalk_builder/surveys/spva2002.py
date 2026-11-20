@@ -14,7 +14,9 @@ SURVEY = dict(svy_id=5, svy_name="SPVA2002", svy_year=2002, status="included", k
          title="Sociale positie en voorzieningengebruik van allochtonen 2002 (SPVA 2002)", dans_id="P1684", doi="10.17026/dans-xdt-cynn", access="open",
          groups="Turks; Moroccans; Surinamese; Antilleans/Arubans", fieldwork="Veldkamp Marktonderzoek (2002-2003); SEOR/ISEO & SCP", mode="Face-to-face (PAPI), household sample",
          zipfile="Surveys/SPVA 2002.zip", file_hh="dat/p1684a.por", file_pp="dat/p1684b.por", file_ro="dat/p1684c.por", file_main="", encoding="cp1252",
-         id_var="", weight_var="WEEG", sysmis_tag="",
+         # sysmis_tag: don't know / refusal / no information all carry labelled codes (missing_scheme below), so a
+         # blank cell means the item was routed past or not applicable -> .c (v0.5.3; audited in docs/decisions.md s. 31)
+         id_var="", weight_var="WEEG", sysmis_tag="c",
          missing_scheme="system-missing + labelled codes 9/99/999/9999 'geen informatie', 7/97 'weet niet'")
 
 # sha256 of the DANS zip as downloaded (used when the zip is not present)

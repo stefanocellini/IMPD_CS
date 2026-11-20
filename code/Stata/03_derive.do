@@ -1,7 +1,7 @@
 * 03_derive.do : derived variables (mirrors code/R/03_derive.R; every rule is named in variable_map.csv, column derive)
 *   create rules:   id_hh, id_person | geo_mun_cbs / _name | *_15 CPI-deflated amounts
 *   post-processing: fill0_interviewed | age_cat | brthcntry_group | cit_nl_orig | mode_video | split_random |
-*                    kl9_route | rel_merge20 | rel_none | rel_cat20 | system-missing -> .d/.c per survey (sysmis_tag) in flat surveys
+*                    kl9_route | rel_merge20 | rel_none | rel_cat20 | final pass: system-missing -> .d/.c per survey (sysmis_tag)
 use "$INT/harmonized_all_stata.dta", clear
 impd_define_labels
 impd_flag_flat
@@ -177,18 +177,6 @@ quietly replace rel_den_cat = 3 if svy_id == ${SVYID_sim2020} & inrange(rel_den_
 quietly replace rel_den_cat = 4 if svy_id == ${SVYID_sim2020} & (inrange(rel_den_det, 41, 98) | rel_den_det == 99)
 quietly replace rel_den_cat = rel_den_det if svy_id == ${SVYID_sim2020} & rel_den_det >= .
 
-* ---- remaining system-missing values in flat surveys: tagged per survey (surveys.csv sysmis_tag): .d where the
-* file codes routing explicitly (SIM 2011/2015/2020), .c where a blank means 'routed past the question' (SIM 2006, LAS, SING)
-frame cw_vm: quietly levelsof target if include_main == 1 & type != "str", local(numt) clean
-foreach s in $SURVEYS {
-    if "${STRUCT_`s'}" != "flat" | "${SYSMIS_`s'}" == "" continue
-    foreach t of local numt {
-        capture confirm variable `t'
-        if _rc continue
-        quietly replace `t' = .${SYSMIS_`s'} if svy_id == ${SVYID_`s'} & `t' == .
-    }
-}
-
 * ---- relationship layer (household surveys): id_prtnr link, partner_copy:<target>, has_prtnr_roster, prtnr_cores_roster
 *      (definitions: code/crosswalk_builder/variables_links.py)
 gen byte _hp = !_flat & inlist(dem_poshh, 0, 1)                           // head of household or partner of the head
@@ -234,6 +222,20 @@ quietly replace dem_has_prtnr = cond(_haslink, 1, cond(dem_prtnr_lat == 1, 1, co
 quietly replace dem_prtnr_cores = cond(_haslink, 1, cond(dem_prtnr_lat == 1, 0, cond(_hp & !_amb, .c, .d))) if !_flat & dem_prtnr_cores == .e
 frame drop `pf'
 drop _hp _nhp _sumid _haslink _amb _pfl _p_*
+
+* ---- final pass: remaining system-missing values, tagged per survey (surveys.csv sysmis_tag): .d where the file codes
+* routing explicitly (SIM 2011/2015/2020), .c where a blank means 'routed past the question or not applicable' (SIM 2006,
+* LAS, SING, and - since v0.5.3, decisions s. 31 - SPVA/SPVN, whose files code every informative kind of missing
+* explicitly).  Runs last because the relationship layer above reads untagged system-missing in the household surveys.
+frame cw_vm: quietly levelsof target if include_main == 1 & type != "str", local(numt) clean
+foreach s in $SURVEYS {
+    if "${SYSMIS_`s'}" == "" continue
+    foreach t of local numt {
+        capture confirm variable `t'
+        if _rc continue
+        quietly replace `t' = .${SYSMIS_`s'} if svy_id == ${SVYID_`s'} & `t' == .
+    }
+}
 
 * ---- svy_* labels
 label variable id_hh       "Unique household identifier (svy_key*1e9 + source household number)"
