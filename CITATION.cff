@@ -35,11 +35,11 @@ identifiers:
     value: 10.5281/zenodo.24141874
     description: "Concept DOI for all versions of IMPD-CS (resolves to the latest release)"
   - type: doi
-    value: 10.5281/zenodo.24202835
-    description: "Version DOI of IMPD-CS v0.5.2 (build 63208c421151)"
+    value: 10.5281/zenodo.24393366
+    description: "Version DOI of IMPD-CS v0.5.3 (build 112ec2af0871)"
   - type: url
-    value: "https://github.com/stefanocellini/IMPD_CS/releases/tag/v0.5.2"
-    description: "GitHub release v0.5.2"
+    value: "https://github.com/stefanocellini/IMPD_CS/releases/tag/v0.5.3"
+    description: "GitHub release v0.5.3"
 repository-code: "https://github.com/stefanocellini/IMPD_CS"
 license: MIT
 license-url: "https://github.com/stefanocellini/IMPD_CS/blob/main/LICENSE"
