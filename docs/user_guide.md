@@ -75,8 +75,8 @@ Rscript code/R/run_all.R
 
 | File | Content |
 |---|---|
-| `data/derived/impd_cs_v0_5_3.dta` / `.rds` / `.csv` | the harmonized file (version in the name) |
-| `data/derived/impd_cs_v0_5_3_source_<survey>.dta` / `.rds` | one companion per survey with every original variable, prefix `src_` |
+| `data/derived/impd_cs_v0_5_5.dta` / `.rds` / `.csv` | the harmonized file (version in the name) |
+| `data/derived/impd_cs_v0_5_5_source_<survey>.dta` / `.rds` | one companion per survey with every original variable, prefix `src_` |
 | `docs/codebook.html`, `docs/codebook.md` | the codebook of this build |
 | `docs/run_log.md`, `docs/BUILD_ID` | the checks and the build identity (section 5) |
 
@@ -92,8 +92,8 @@ The pipeline runs the same steps as the R one from the same crosswalks: `01_impo
 
 | File | Content |
 |---|---|
-| `data/derived/impd_cs_v0_5_3_stata.dta` | the harmonized file, compressed, with the codebook's notes attached to each variable (`notes dem_sex`) |
-| `data/derived/impd_cs_v0_5_3_source_<survey>_stata.dta` | one companion per survey with every original variable, prefix `src_` |
+| `data/derived/impd_cs_v0_5_5_stata.dta` | the harmonized file, compressed, with the codebook's notes attached to each variable (`notes dem_sex`) |
+| `data/derived/impd_cs_v0_5_5_source_<survey>_stata.dta` | one companion per survey with every original variable, prefix `src_` |
 | `docs/codebook_stata.txt` | `describe` and `codebook, compact` of the build |
 | `docs/run_log_stata.md`, `docs/run_log_stata.txt` | the verdicts of the checks, and the whole run (section 5) |
 
@@ -122,7 +122,7 @@ Start with the codebook: open `docs/codebook.html` in a browser (it works offlin
 - **Check the joint sample before a model.** `impd_sample()` (`code/R/impd_tools.R`, `code/Stata/impd_tools.do`) reports, per survey, how many records have a valid value on every variable of a model and why the others drop out, and stops when a survey has no complete record. Use it so that a survey never disappears from a pooled model unnoticed.
 - **The worked example** `docs/example_analysis.md`, with its scripts in `code/examples/`, runs one question asked in all eight surveys through these steps in R and in Stata.
 
-In Stata: `use "data/derived/impd_cs_v0_5_3_stata.dta", clear` after a Stata build, or `use "data/derived/impd_cs_v0_5_3.dta", clear` after an R build; both carry variable and value labels, and the Stata-built file has the codebook's notes attached to each variable (`notes dem_sex`). In R: `readRDS("data/derived/impd_cs_v0_5_3.rds")`, with `haven` loaded for the labels and the tagged missing values.
+In Stata: `use "data/derived/impd_cs_v0_5_5_stata.dta", clear` after a Stata build, or `use "data/derived/impd_cs_v0_5_5.dta", clear` after an R build; both carry variable and value labels, and the Stata-built file has the codebook's notes attached to each variable (`notes dem_sex`). In R: `readRDS("data/derived/impd_cs_v0_5_5.rds")`, with `haven` loaded for the labels and the tagged missing values.
 
 ## 7. When something goes wrong
 
