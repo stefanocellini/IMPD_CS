@@ -577,7 +577,7 @@ A("trn_visit_dur", S06, "J2005LNG", u="Respondents who visited the country of or
 A("trn_homesick", S06, "HEIMWEE", u=U06M)
 A("trn_house", S06, "HUISBUI", yn12=True, u=U06M)
 A("trn_remit", S06, "V680", yn12=True, u="Respondents who are head or partner of the household (SIM 2006)")
-W("trn_remit", "SIM 2006: 'in 2005 geld of goederen gestuurd naar het buitenland' (any country, calendar year 2005); SIM 2011/2015: to the country of origin in the past 12 months.")
+W("trn_remit", "Reference period and recipient differ by survey: SIM 2006 calendar year 2005, any country; SING 2009 calendar year 2008 and SIM 2011 calendar year 2010, to the country of origin; SIM 2015 the past 12 months, to the country of origin. Fixed calendar years and rolling periods are not interchangeable around the interview date (audit 25 Nov 2026, decisions s. 34).")
 for t, src in [("trn_remit02", "V682_1"), ("trn_remit01", "V682_2"), ("trn_remit03", "V682_3"), ("trn_remit04", "V682_4"), ("trn_remit06", "V682_5")]:
     A(t, S06, src, pairs=[(1, 1), (2, 0)], u="Households that sent money or goods abroad in 2005 (SIM 2006)")
 W("trn_remit01", "SIM 2006: partner or ex-partner; SIM 2011: partner / spouse / fiance(e).")
@@ -731,7 +731,7 @@ V("soc_act_most", "soc", "Organisation the respondent spends most time on", s06=
   universe="Respondents who attend activities of or are a member of more than one type of organisation (SIM 2006)")
 A("soc_act_ethn", S06, "ORGETNI", u="Respondents who attend activities of or are a member of an organisation (SIM 2006)")
 A("soc_volunteer", S06, "VRIJWIL", yn12=True)
-W("soc_volunteer", "SIM 2006: 'doet u op dit moment wel eens vrijwilligerswerk' (currently); SIM 2015: in the past 12 months.")
+W("soc_volunteer", "Reference period differs by survey: LAS 2004/05 no explicit period (any volunteering from the V229/V231 block, see las_vol_union); SIM 2006 the current situation; SIM 2015/2020 the past 12 months.")
 V("soc_vol_for", "soc", "For whom the voluntary work is mainly done", s06="VRIJVOOR", valueset="vol_for6", universe="Volunteers (SIM 2006)")
 V("soc_cont_par", "soc", "Frequency of contact with parents (not in the household, living in the Netherlands)", s06="CONTOUD|CONTOU_N", valueset="freq5_cont",
   universe="Respondents with parents living in the Netherlands outside the household (SIM 2006)")

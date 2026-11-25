@@ -74,5 +74,6 @@ ACQ_OVERRIDES = collect("ACQ_OVERRIDES")
 CONSTRUCTED = {k: m.CONSTRUCTED for k, m in BY_KEY.items() if hasattr(m, "CONSTRUCTED")}
 MUNICIPALITIES = {(k, code): v for k, m in BY_KEY.items() for code, v in getattr(m, "MUNICIPALITIES", {}).items()}
 PREFER = {k: m.PREFER_INSTRUMENT for k, m in BY_KEY.items() if hasattr(m, "PREFER_INSTRUMENT")}
+CULTURAL_ONLY_ANSWERED = {k: list(m.CULTURAL_ONLY_ANSWERED) for k, m in BY_KEY.items() if hasattr(m, "CULTURAL_ONLY_ANSWERED")}
 NUM_LINK = {k for k, m in BY_KEY.items() if getattr(m, "LINK_BY_QNUM", False)}
 DECLARE = [m.declare for m in MODULES if hasattr(m, "declare")]

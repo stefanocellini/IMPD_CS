@@ -23,7 +23,7 @@ dir.create(P("data", "interim"), showWarnings = FALSE, recursive = TRUE)
 dir.create(P("data", "derived"), showWarnings = FALSE, recursive = TRUE)
 dir.create(P("docs"), showWarnings = FALSE, recursive = TRUE)
 
-IMPD_VERSION <- "0.5.4"
+IMPD_VERSION <- "0.5.5"
 LOG <- character(0)
 logmsg <- function(...) { m <- sprintf(...); message(m); LOG <<- c(LOG, m); invisible(m) }
 
@@ -39,6 +39,7 @@ SRCMISS   <- read_cw("source_missing.csv") %>% mutate(lo = as.numeric(lo), hi = 
 MUNIS     <- read_cw("municipalities.csv") %>% mutate(source_code = as.numeric(source_code))
 UNIVERSES <- read_cw("universes.csv")
 ASKED_TO  <- read_cw("asked_to.csv")       # household surveys: respondent type whose questionnaire contained the item
+CULT_E    <- read_cw("cultural_only_e.csv") # SPVA cultural-only respondents (svy_proxy 8): mini-questionnaire targets set .e (decisions s. 34)
 MERGE_EXC <- read_cw("merge_exceptions.csv") # household surveys: declared merge exceptions (02_harmonize, check 17)
 # a Python interpreter that actually runs (Windows installs a Store alias named python3 that cannot be launched): the first
 # candidate whose --version succeeds, as c(executable, extra args), or character(0) when none does (callers skip and say so)

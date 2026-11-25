@@ -13,7 +13,12 @@
 #     split_random        svy_split from the eight random_* source variables (SIM 2020)
 #     rel_merge20         rel_den_det: SIM 2020 second group list (religie2_kl, target rel_den_det20b) merged in
 #     rel_cat20           rel_den_cat from rel_den_det for SIM 2020
+#     plus_months:<mo>    durations in fractional years: years + months/12; months-only (.c year) -> months/12 (s. 34)
+#     las_vol_union       soc_volunteer LAS 2004/05 from the whole V229/V231 block (s. 34)
+#     cultural_only_e     SPVA svy_proxy 8: mini-questionnaire targets (crosswalks/cultural_only_e.csv) -> .e (s. 34)
 #   final pass: remaining system-missing values get the survey's sysmis_tag (surveys.csv): .d or .c
+#   after it: spvn_applicable_gaps - known-applicable blanks (hh_size, hh_comp) and known recipients/members with a
+#   system-missing type -> .d (s. 34)
 source(file.path(Sys.getenv("IMPD_ROOT", unset = getwd()), "code", "R", "00_setup.R"))
 
 all <- readRDS(P("data", "interim", "harmonized_all.rds"))
@@ -59,6 +64,40 @@ for (i in seq_len(nrow(cpi_targets))) {           # cpi2015:<base>[@<year>]: fix
   all[[cpi_targets$target[i]]] <- deflate(all[[base]], yr)
 }
 logmsg("CPI factors applied: %s", paste(sprintf("%d -> x%.4f", INCLUDED$svy_year, 100 / CPI$cpi_2015[match(INCLUDED$svy_year, CPI$year)]), collapse = ", "))
+
+# ---- plus_months:<mo> : durations in fractional years (audit 25 Nov 2026, decisions s. 34).  SIM 2011 records
+#      years and months separately ('in addition to the years'); SIM 2015 lets the respondent answer in years OR
+#      months (months-only answers left the year target .c).  Combined: years + months/12 where both are valid;
+#      months/12 where the year is .c and the months are valid.  A year with unknown months keeps the year; any
+#      other missing year keeps its tag.  Months above 11 (3 SIM 2011 cells) add more than one year, as recorded.
+pm_targets <- VARMAP %>% filter(str_starts(derive, "plus_months:"))
+for (i in seq_len(nrow(pm_targets))) {
+  t <- pm_targets$target[i]; mo_t <- sub("^plus_months:", "", pm_targets$derive[i])
+  if (!t %in% names(all) || !mo_t %in% names(all)) next
+  x <- all[[t]]; mo <- all[[mo_t]]
+  both <- !is.na(x) & !is.na(mo)
+  x[both] <- x[both] + mo[both] / 12
+  alt <- is.na(x) & is_tagged_na(x) & na_tag(x) == "c" & !is.na(mo)
+  x[alt] <- mo[alt] / 12
+  all[[t]] <- x
+  logmsg("plus_months %s: %d year+month cells combined, %d months-only answers recovered", t, sum(both), sum(alt))
+}
+
+# ---- las_vol_union : soc_volunteer, LAS 2004/05 (audit 25 Nov 2026, decisions s. 34).  VRAAG 231 (VRWWAND) asks
+#      about volunteering for ANOTHER organisation after VRAAG 229 collected nine organisation types (soc_vol01-09),
+#      so the residual item alone understates volunteering.  Any volunteering: a yes in any component; definite no:
+#      no yes, no unknown component, and VRWWAND = no; otherwise .a (some component unknown).
+las <- all$svy_id == INCLUDED$svy_id[tolower(INCLUDED$svy_name) == "las2004"]
+comp <- as.matrix(all[las, paste0("soc_vol0", 1:9)])
+anyy <- rowSums(comp == 1, na.rm = TRUE) > 0
+anyu <- rowSums(sapply(paste0("soc_vol0", 1:9), function(n) { x <- all[[n]][las]; !is.na(is_tagged_na(x)) & is_tagged_na(x) & na_tag(x) %in% "a" })) > 0
+y <- all$soc_volunteer[las]
+out <- y
+out[!is.na(y) & y == 0 & anyy] <- 1
+out[!is.na(y) & y == 0 & !anyy & anyu] <- tagged_na("a")
+all$soc_volunteer[las] <- out
+logmsg("las_vol_union: %d listed-organisation volunteers added to soc_volunteer, %d uncertain set .a (LAS 2004/05)",
+       sum(!is.na(y) & y == 0 & anyy), sum(!is.na(y) & y == 0 & !anyy & anyu))
 
 # ---- fill0_interviewed
 for (t in VARMAP$target[VARMAP$derive == "fill0_interviewed"]) {
@@ -180,6 +219,27 @@ if (nrow(src20)) {
   all$rel_den_cat <- cat
 }
 
+# ---- cultural_only_e : SPVA persons with svy_proxy 8 received only the cultural-integration module, no mini
+#      questionnaire.  The mini-questionnaire targets (crosswalks/cultural_only_e.csv, from the declared list in
+#      surveys/spva2002.py) were never put to them: their blanks are .e, not routing (decisions s. 34).  Runs before the relationship
+#      layer, so the partner copies of cultural-only partners propagate .e, and before the final pass, which
+#      would otherwise tag these blanks .c.
+for (i in seq_len(nrow(INCLUDED))) {
+  ce <- CULT_E[CULT_E$survey == tolower(INCLUDED$svy_name[i]), ]
+  if (!nrow(ce)) next
+  rows <- all$svy_id == INCLUDED$svy_id[i] & !is.na(all$svy_proxy) & all$svy_proxy == 8
+  n_e <- 0; n_val <- 0
+  for (t in ce$target) {
+    if (!t %in% names(all)) next
+    x <- all[[t]]
+    n_val <- n_val + sum(rows & !is.na(x))
+    sel <- rows & is.na(x) & !is_tagged_na(x)
+    if (any(sel)) { x[sel] <- tagged_na("e"); all[[t]] <- x; n_e <- n_e + sum(sel) }
+  }
+  if (n_val > 0) stop(sprintf("cultural_only_e %s: %d valid values in targets declared absent from the cultural-only instrument", tolower(INCLUDED$svy_name[i]), n_val))
+  logmsg("cultural_only_e %s: %d cells set .e over %d targets for %d cultural-only respondents", tolower(INCLUDED$svy_name[i]), n_e, nrow(ce), sum(rows))
+}
+
 # ---- relationship layer (household surveys): id_prtnr link, partner_copy:<target>, has_prtnr_roster, prtnr_cores_roster
 #      (see code/crosswalk_builder/variables_links.py for the definitions)
 hhs <- !is_flat
@@ -231,6 +291,33 @@ for (i in which(INCLUDED$sysmis_tag != "")) {
     x <- all[[t]]; sel <- rows & is.na(x) & !is_tagged_na(x)
     if (any(sel)) { x[sel] <- tagged_na(tg); all[[t]] <- x }
   }
+}
+
+# ---- spvn_applicable_gaps (audit 25 Nov 2026, decisions s. 34).  Runs after the final pass, which tagged the
+#      cells .c.  (a) hh_size / hh_comp apply to every household, so a blank cannot be routing: known gaps are .d.
+#      (b) A benefit recipient or association member whose type item is system-missing keeps 'unknown', not 'no':
+#      the type variable becomes .d and the type indicator dummies that the wildcard made 0 become .d too (the
+#      explicit -3/-4 codes are handled in the value map; this covers the sysmis residual).
+spvn <- all$svy_id == INCLUDED$svy_id[tolower(INCLUDED$svy_name) == "spvn2003"]
+for (t in c("hh_size", "hh_comp")) {
+  x <- all[[t]]; sel <- spvn & is_tagged_na(x) & na_tag(x) %in% "c"
+  if (any(sel)) { x[sel] <- tagged_na("d"); all[[t]] <- x }
+  logmsg("spvn_applicable_gaps: %s %d cells .c -> .d", t, sum(sel))
+}
+gap_sets <- list(list(par = "inc_ben", typ = "inc_ben_type", dums = sprintf("inc_ben%02d", 1:6)),
+                 list(par = "soc_mem", typ = "soc_mem_type", dums = sprintf("soc_mem%02d", c(1, 2, 4, 6, 8, 9, 10))))
+for (g in gap_sets) {
+  par <- all[[g$par]]; typ <- all[[g$typ]]
+  sel <- spvn & !is.na(par) & par == 1 & is.na(typ)
+  if (!any(sel)) next
+  tt <- typ; tt[sel & is_tagged_na(typ) & na_tag(typ) %in% "c"] <- tagged_na("d")
+  all[[g$typ]] <- tt
+  for (dmt in g$dums) {
+    x <- all[[dmt]]
+    dsel <- sel & !is.na(x) & x == 0      # the -3/-4 codes are already .a/.d via the value map; this is the sysmis residual
+    if (any(dsel)) { x[dsel] <- tagged_na("d"); all[[dmt]] <- x }
+  }
+  logmsg("spvn_applicable_gaps: %s==1 with %s missing: %d person(s), dummies retagged", g$par, g$typ, sum(sel))
 }
 
 saveRDS(all, P("data", "interim", "derived_all.rds"))

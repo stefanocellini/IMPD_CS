@@ -36,6 +36,28 @@ MISSING_RULES = [
 ]
 
 # questionnaire PDF(s) parsed by questionnaires.py: (instrument, path relative to the project root, parser, (start, end) regexes or None)
+# Persons with WIEGESPR 8 ('no mini questionnaire, cultural-integration module only', n = 218) received only the
+# cultural-integration module.  These are the pp variables their instrument (or the roster) did collect - the
+# module's items including its internally routed ones (half-sample attitude items, first-generation migration
+# items) plus administration.  Every main target whose SPVA sources are pp-only variables OUTSIDE this set was
+# never put to them: 03_derive sets those cells .e for svy_proxy == 8 (audit 25 Nov 2026, decisions s. 34).
+CULTURAL_ONLY_ANSWERED = [
+    # administration / roster copies
+    "HHNUMMER", "GEZLIDNR", "ETNGROEP", "ETNGRP", "ETNGESL", "POSTCODE", "GEMEENTE", "GEMEENT1", "WIEGESPR",
+    "GESLACHT", "LEEFTIJD", "LEEFTD1", "LEEFTD2", "LEEFTD3", "POSHH", "GEZINPOS", "GENERAT", "GEBLAND",
+    "GEBLPA", "GEBLMA", "MIGRJAAR", "MIGRJR1", "VERBLIJF", "VERBL1", "LFTMIGR", "LFTMIGR1", "SUBGROEP",
+    "MAXDIPPA", "MAXDIPP1", "MAXDIPMA", "MAXDIPM1", "PANEL", "WEEG",
+    # cultural-integration module
+    "IDLFTUIT", "IDLFTHUW", "IDLFTMOE", "IDNKIND", "WIETHUIS", "WIEKIND", "WIEBOODS", "WIEKOKEN", "WIEGELDV",
+    "WIEADMIN", "MANAANK", "VRWHUISH", "MANGELD", "OPLJONGS", "VRWZKIND", "INKJONGS", "VRWSTOPW", "RESPOUD",
+    "INVLOUDF", "MVTEVRIJ", "MINDSEKS", "ZELFEUTH", "RELIGIE0", "RELIGIE", "ZELFDREL", "RELIGOV0", "RELIGOPV",
+    "KERKBEZ", "GEENONTK", "GEENRELD", "GEENRELZ", "RELIGSCH",
+    # module items routed within the module (half-sample attitude items; naturalisation / integration-course
+    # items of first-generation members; family-values items)
+    "ZELFZOEK", "NATIONAL", "INBCURS", "DIPLINB", "MVSAMENW", "SCHJKIND", "STDGEZIN", "THUISHUW", "INWOUDER",
+    "KINDINW", "BELKIND1", "BELKIND2", "ZELFWOND", "ZELFWONZ", "ZELFHUW", "INVLKEUS",
+]
+
 QUESTIONNAIRES = [
     # instrument, pdf path (relative to ROOT), parser, (start, end) regexes slicing the text to the questionnaire (or None)
     ("main", "data/raw/spva2002/dat/p1684.pdf", "spva", None),

@@ -1,10 +1,10 @@
-# IMPD-CS — Codebook v0.5.4
+# IMPD-CS — Codebook v0.5.5
 
 **IMPD-CS** is the cross-sectional component of the Integrated Migrant Panel Dataset (IMPD). It brings eight Dutch surveys of persons with a migration background, held between 2002 and 2020, together in one harmonized person-level file: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015 and SIM 2020. It covers 55,157 persons - the four largest origin groups (Turkish, Moroccan, Surinamese, Antillean/Aruban), refugee groups (Afghan, Iraqi, Iranian, former Yugoslav, Somali), Polish and Chinese migrants, and native Dutch reference samples - with 1,642 variables on demography, migration history, language, education, work, income, housing, health, social contacts, family, attitudes, religion and identity. Every variable has an English name grouped by theme, one coding across the surveys, and missing-value codes that say why a value is missing. The surveys are repeated cross-sections: the same persons are not followed from one survey to the next. The file is rebuilt in R or Stata from the survey files archived at DANS; the survey data themselves are not redistributed.
 
 This codebook documents that file: what it contains, how each variable was built from the source surveys, and how to use it. It serves two kinds of reader. **Researchers who want to analyse the data** should begin with *Start here*, which walks through the steps of an analysis and links to the reference sections. **Readers who want to check or reproduce a variable** will find the rules in sections 2-3 and the evidence per variable in section 5. Section 1 describes the surveys, sections 2-3 the conventions and the questionnaires; section 4 is the index of all variables; section 5 holds one collapsible entry per variable. The shaded *more detail* blocks open on a click; they hold the full rules and survey-by-survey specifics, so the visible text stays short.
 
-*Generated 2026-11-25 17:44 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `5f5ebb4ccea3` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development. **DOI:** [10.5281/zenodo.24141874](https://doi.org/10.5281/zenodo.24141874) (concept DOI: always resolves to the latest release); full citation metadata in `CITATION.cff` in the repository root.*
+*Generated 2026-11-25 20:26 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `6de3453abaff` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development. **DOI:** [10.5281/zenodo.24141874](https://doi.org/10.5281/zenodo.24141874) (concept DOI: always resolves to the latest release); full citation metadata in `CITATION.cff` in the repository root.*
 
 ## Start here
 For researchers who want to run an analysis with the IMPD: the six steps below take you from the DANS deposits to a reported result, and each points to the section that holds the reference material. `docs/example_analysis.md` follows the same steps on one question asked in all eight surveys, in R (which also needs the `survey` package) and Stata (version 17 or later).
@@ -273,11 +273,11 @@ The full assignment rules, survey by survey:
 |---|---|---|
 | .a | Don't know | Source code labelled 'weet niet' / declared don't-know code (SPVN: -3, 0 in year/month items, 7, 97/997/9997; LAS 2004/05: -3, -4, 999 'weet niet, geen informatie'; SIM 2006: -3; SING 2009: labelled 'weet niet'; SIM 2011: -3; SIM 2015: -3; SIM 2020: -3, -6) |
 | .b | Refusal | Refusal / no answer: SPVN -2; LAS -2 and 'wil niet zeggen'; SIM 2006 -2; SING 'geen antwoord' / 'wil niet zeggen'; SIM 2011 -2; SIM 2015 -1 and 98 'wil niet zeggen'; SIM 2020 -2 'wil niet antwoorden' and -4 'geen antwoord' |
-| .c | Not applicable | Not applicable: routed past the question - LAS -5/-7/-9 and 'niet gesteld'; SIM 2006 -5, -7 'niet in vragenlijst', -9; SING 'niet van toepassing'; SIM 2011 -5, -9 'nvt: autochtoon' and -1 (undocumented, used where a question was not asked); SIM 2015 -2 'blanc' and -5; SIM 2020 -5 'nvt binnen vragenlijst'; SIM constructed/coarsened variables where the routing question says so (derive kl9_route); native reference sample for migrant-only items; SPVA/SPVN: explicit 'not applicable' codes, and every remaining system-missing value (don't know / refusal / no information all carry labelled codes in those files, so a blank cell means the item was routed past or not applicable; audited per variable in docs/decisions.md s. 31). In LAS 2004/05, SIM 2006 and SING 2009 every remaining system-missing value is also .c (the files leave routed-out cells empty) |
+| .c | Not applicable | Not applicable: routed past the question - LAS -5/-7/-9 and 'niet gesteld'; SIM 2006 -5, -7 'niet in vragenlijst', -9; SING 'niet van toepassing'; SIM 2011 -5, -9 'nvt: autochtoon' and -1 (undocumented, used where a question was not asked); SIM 2015 -2 'blanc' and -5; SIM 2020 -5 'nvt binnen vragenlijst'; SIM constructed/coarsened variables where the routing question says so (derive kl9_route); native reference sample for migrant-only items; SPVA/SPVN: explicit 'not applicable' codes, and every remaining system-missing value (don't know / refusal / no information all carry labelled codes in those files, so a blank cell means the item was routed past or not applicable; audited per variable in docs/decisions.md s. 31; known-applicable exceptions carry .d instead - hh_size and hh_comp in SPVN, decisions s. 34). In LAS 2004/05, SIM 2006 and SING 2009 every remaining system-missing value is also .c (the files leave routed-out cells empty) |
 | .d | No information | No information: source code labelled 'geen informatie'/'missing'/'onbekend', SPVN -4, SIM 2006 -4/-8, SIM 2011 -4, SPSS user-missing codes declared in the SPVA file (9/99/999/9999), SIM 2020 code 9 'Anders/Refusal/Don't know' of the coarsened (_kl) variables, SIM 2015 -4/-6 in constructed variables, and any remaining system-missing value in the SIM 2011, 2015 and 2020 files |
-| .e | Not collected (survey/questionnaire) | Variable not in this survey, or item not in this respondent's questionnaire: in SPVA/SPVN a heads-file item for other members, any item for roster-only members, and the items of `crosswalks/asked_to.csv` that the persons file holds for both types but only one type was asked (main-questionnaire blocks L-M of SPVA 2002 for other members; mini-questionnaire items for heads). The split-half block of the other group in SIM 2020 is .c, not .e |
+| .e | Not collected (survey/questionnaire) | Variable not in this survey, or item not in this respondent's questionnaire: in SPVA/SPVN a heads-file item for other members, any item for roster-only members, and the items of `crosswalks/asked_to.csv` that the persons file holds for both types but only one type was asked (main-questionnaire blocks L-M of SPVA 2002 for other members; mini-questionnaire items for heads), and the mini-questionnaire items of the 218 SPVA members who received only the cultural-integration module (svy_proxy 8; `crosswalks/cultural_only_e.csv`, decisions s. 34). The split-half block of the other group in SIM 2020 is .c, not .e |
 
-Every missing value is tagged: plain system-missing (`.` in Stata, untagged `NA` in R) does not occur in the delivered file. Empty cells in the source files get a survey-specific tag recorded in `crosswalks/surveys.csv` (`sysmis_tag`): .c for SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006 and SING 2009, whose files code every informative kind of missing explicitly and only leave routed-out or not-applicable cells empty; .d for SIM 2011-2020, where empty cells also arise from item non-response in constructed variables. In SPVA/SPVN the source does not distinguish 'routed past' from 'not applicable', so .c covers both (the blank patterns are audited per variable in `docs/decisions.md`, s. 31). Rules: `crosswalks/missing_rules.csv` (per survey: code rules, label rules, declared-code rules); the declared SPSS user-missing codes per variable: `crosswalks/source_missing.csv`; the routing rules for SIM constructed variables: `code/R/03_derive.R` (kl9_route).
+Every missing value is tagged: plain system-missing (`.` in Stata, untagged `NA` in R) does not occur in the delivered file. Empty cells in the source files get a survey-specific tag recorded in `crosswalks/surveys.csv` (`sysmis_tag`): .c for SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006 and SING 2009, whose files code every informative kind of missing explicitly and only leave routed-out or not-applicable cells empty; .d for SIM 2011-2020, where empty cells also arise from item non-response in constructed variables. In SPVA/SPVN the source does not distinguish 'routed past' from 'not applicable', so .c covers both (the blank patterns are audited per variable in `docs/decisions.md`, s. 31; known-applicable fields are the exception and carry .d - s. 34). Rules: `crosswalks/missing_rules.csv` (per survey: code rules, label rules, declared-code rules); the declared SPSS user-missing codes per variable: `crosswalks/source_missing.csv`; the routing rules for SIM constructed variables: `code/R/03_derive.R` (kl9_route).
 
 </details>
 
@@ -311,7 +311,7 @@ Alongside the harmonized file, each survey has a **companion source file** with 
 
 <details class='more'><summary>Companion source files and weights</summary>
 
-**Companion source files** `impd_cs_v0_5_4_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
+**Companion source files** `impd_cs_v0_5_5_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
 
 </details>
 
@@ -903,7 +903,7 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`lab_frst_lvl`](#lab_frst_lvl) | Skill level of first occupation in NL | cat | FUNCNIV1 | FUNCNIV1 |  |  |  |  |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) |
 | [`lab_frst_ind`](#lab_frst_ind) | Industry of first job in NL (SBI-93, 2 digits) | num | BEDRIJF1 | BEDRIJF1 |  |  |  |  |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) |
 | [`lab_frst_ind_cat`](#lab_frst_ind_cat) | Industry of first job in NL, 9 sectors | cat | BEDRTAK1 | BEDRTAK1 |  |  |  |  |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) |
-| [`lab_exp`](#lab_exp) | Years of work experience in the Netherlands | num | ARBERV | ARBERV |  | ARBERV |  | ARBERV_JR | arbervj |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Employed respondents (SIM 2006, SIM 2011); Employed respondents (SIM 2015): total years worked in NL (months in lab_exp_mo) |
+| [`lab_exp`](#lab_exp) | Work experience in the Netherlands, years (fractional where months are recorded: SIM 2011/2015) | num | ARBERV | ARBERV |  | ARBERV |  | ARBERV_JR | arbervj |  | All interviewed persons aged 12+ (main and mini questionnaire) |
 | [`lab_nunemp`](#lab_nunemp) | Number of times unemployed in the Netherlands | num | NWERKL | NWERKL |  | NWERKL |  |  |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Employed respondents who have been unemployed (SIM 2006) |
 | [`lab_emptype`](#lab_emptype) | Employee, self-employed or freelance | cat | ZELFST | ZELFST | POSWRK | ZELFST | ZELFST | ZELFST | zelfst |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Employed respondents (LAS 2004/05, SIM 2006, SING 2009, SIM 2011); Employed respondents (SIM 2015): employee vs not; self-employed/family business/freelance detail in lab_se_type |
 | [`lab_occ`](#lab_occ) | Current occupation (SBC-92, 5 digits) | num | BEROEP | BEROEP |  |  |  | BEROEP |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Employees (SIM 2011) |
@@ -911,7 +911,7 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`lab_ind`](#lab_ind) | Industry of current job (SBI-93, 2 digits) | num | BEDRIJF | BEDRIJF |  |  |  | BEDRIJF |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Employees (SIM 2011) |
 | [`lab_ind_cat`](#lab_ind_cat) | Industry of current job, 9 sectors | cat | BEDRTAK | BEDRTAK |  |  |  |  |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) |
 | [`lab_match`](#lab_match) | Job matches level of education | cat |  | WENIVOPL |  | ONDERBEN |  | ONDERBEN | onderben |  | All interviewed persons (SPVN 2003); Employees (SIM 2006, SIM 2011); Employed respondents (SIM 2015) |
-| [`lab_tenure`](#lab_tenure) | Years with current employer | num | ERVBEDR | ERVBEDR |  | ERVBEDR |  | ERVBEDR_JR |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Employees (SIM 2006, SIM 2011) |
+| [`lab_tenure`](#lab_tenure) | Time with current employer, years (fractional where months are recorded: SIM 2011) | num | ERVBEDR | ERVBEDR |  | ERVBEDR |  | ERVBEDR_JR |  |  | All interviewed persons aged 12+ (main and mini questionnaire) |
 | [`lab_prev_st`](#lab_prev_st) | Situation before current job | cat | WERKV |  |  |  |  |  |  |  | Heads of household (main questionnaire) (SPVA 2002) |
 | [`lab_lvl_vs_prev`](#lab_lvl_vs_prev) | Level of current job compared with previous job | cat | BAANNIV |  |  |  |  |  |  |  | Heads of household (main questionnaire) (SPVA 2002) |
 | [`lab_chg_reason`](#lab_chg_reason) | Reason for changing jobs | cat | REDRUIL |  |  |  |  |  |  |  | Heads of household (main questionnaire) (SPVA 2002) |
@@ -936,7 +936,7 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`lab_se_ethn`](#lab_se_ethn) | Ethnicity of employees in own business | cat | ETNWERKN |  |  |  |  |  |  |  | All interviewed persons (SPVA 2002) |
 | [`lab_se_prior`](#lab_se_prior) | Situation before starting own business | cat | HFDACTVR |  |  |  |  |  |  |  | Heads of household (main questionnaire) (SPVA 2002) |
 | [`lab_everwork`](#lab_everwork) | Not working: ever had paid work in the Netherlands | cat | WERKNL | WERKNL |  | WERKNL |  | WERKNL | werknl |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Respondents without paid work (SIM 2006, SIM 2011); Respondents not working now (SIM 2015) |
-| [`lab_nowork_yrs`](#lab_nowork_yrs) | Years without work (not working persons) | num | NWRKDUUR | NWRKDUUR |  | NWRKDUUR |  | NWRKDUUR_JR | nrwrkduurj |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Respondents without paid work who ever worked (SIM 2006, SIM 2011); Respondents not working now who ever worked (SIM 2015): years since last job |
+| [`lab_nowork_yrs`](#lab_nowork_yrs) | Time without work, years (not working persons; fractional where months are recorded: SIM 2011/2015) | num | NWRKDUUR | NWRKDUUR |  | NWRKDUUR |  | NWRKDUUR_JR | nrwrkduurj |  | All interviewed persons aged 12+ (main and mini questionnaire) |
 | [`lab_prev_occ`](#lab_prev_occ) | Occupation of previous/last job (SBC-92) | num | BEROEPV | BEROEPVA |  |  |  | BEROEPV |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Respondents without paid work who ever worked (SIM 2011) |
 | [`lab_prev_lvl`](#lab_prev_lvl) | Skill level of previous/last job | cat | FUNCNIVV | FUNCNVVA |  |  |  |  |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) |
 | [`lab_prev_ind`](#lab_prev_ind) | Industry of previous/last job (SBI-93, 2 digits) | num | BEDRIJFV | BEDRFVA |  |  |  |  |  |  | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) |
@@ -984,7 +984,7 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`lab_cond02`](#lab_cond02) | Working conditions: how often physically heavy work | cat |  |  |  |  |  |  | zwaarwerk |  | Employed respondents (SIM 2015) |
 | [`lab_cond03`](#lab_cond03) | Working conditions: how often working very fast | cat |  |  |  |  |  |  | snelwerk |  | Employed respondents (SIM 2015) |
 | [`lab_exp_mo`](#lab_exp_mo) | Months of work experience in addition to lab_exp | num |  |  |  |  |  | ARBERV_MND | arbervm |  | Employed respondents (SIM 2011, SIM 2015) |
-| [`lab_exp_prev`](#lab_exp_prev) | Years of work experience in NL (persons not working now) | num |  |  |  | ARBERV_W |  | ARBERV_W_JR | arberv_wj |  | Respondents without paid work who ever worked (SIM 2006, SIM 2011); Respondents not working now who ever worked in NL (SIM 2015) |
+| [`lab_exp_prev`](#lab_exp_prev) | Work experience in NL, years (persons not working now; fractional where months are recorded: SIM 2011/2015) | num |  |  |  | ARBERV_W |  | ARBERV_W_JR | arberv_wj |  | Respondents not working now who ever worked in NL, SIM 2015 only |
 | [`lab_exp_prev_mo`](#lab_exp_prev_mo) | Months of work experience in addition to lab_exp_prev | num |  |  |  |  |  | ARBERV_W_MND | arberv_wm |  | Respondents without paid work who ever worked (SIM 2011); Respondents not working now who ever worked in NL (SIM 2015) |
 | [`lab_nowork_mo`](#lab_nowork_mo) | Months since last job in addition to lab_nowork_yrs | num |  |  |  |  |  | NWRKDUUR_MND | nrwrkduurm |  | Respondents without paid work who ever worked (SIM 2011); Respondents not working now who ever worked (SIM 2015) |
 | [`lab_want5`](#lab_want5) | Would like paid work now (5 categories) | cat |  |  | WILWERK |  |  |  | wilw12uv2 |  | Respondents without paid work (LAS 2004/05, SIM 2015) |
@@ -1092,8 +1092,8 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`trn_n_oth`](#trn_n_oth) | Number of other persons in origin country supported | num | VERZAND |  |  |  |  |  |  |  | Heads of household (main questionnaire) (SPVA 2002) |
 | [`trn_n_tot`](#trn_n_tot) | Total number of persons in origin country supported | num | VERZTOT | VERZTOT |  |  |  |  |  |  | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) |
 | [`trn_sup_who`](#trn_sup_who) | Whom the respondent supports in the country of origin | cat | VERZORG | VERZORG |  |  |  |  |  |  | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) |
-| [`trn_remit`](#trn_remit) | Household sent money to the country of origin in the past 12 months | cat |  |  |  | V680 | V680X | GELDHERK | geldherk |  | Respondents who are head or partner of the household (SIM 2006); Respondents with a migration background (SING 2009, SIM 2011, SIM 2015) |
-| [`trn_house`](#trn_house) | Respondent (or parents) owns a house in the country of origin | cat |  |  |  | HUISBUI | HUISBUI | HUISBUI | huisbui |  | Respondents with a migration background (SIM 2006, SING 2009, SIM 2011, SIM 2015) |
+| [`trn_remit`](#trn_remit) | Sent money or goods to the country of origin (reference period differs by survey; see notes) | cat |  |  |  | V680 | V680X | GELDHERK | geldherk |  | Respondents who are head or partner of the household (SIM 2006); Respondents with a migration background (SING 2009, SIM 2011, SIM 2015) |
+| [`trn_house`](#trn_house) | Owns a house in the country of origin (subject differs by survey; see notes) | cat |  |  |  | HUISBUI | HUISBUI | HUISBUI | huisbui |  | Respondents with a migration background (SIM 2006, SING 2009, SIM 2011, SIM 2015) |
 | [`trn_cont_fam`](#trn_cont_fam) | Frequency of contact with family in the country of origin | cat |  |  |  |  |  |  | conherk |  | Respondents with a migration background (SIM 2015) |
 | [`trn_visit12m`](#trn_visit12m) | Visited the country of origin in the past 12 months | cat |  |  |  | J2005HER |  | BEZ2010HER | bez2010her |  | Respondents with a migration background (SIM 2006, SIM 2011, SIM 2015) |
 | [`trn_visit_dur`](#trn_visit_dur) | Length of (last) visit to the country of origin | cat |  |  |  | J2005LNG |  | BEZ2010LANG | bez2010lang |  | Respondents who visited the country of origin in 2005 (SIM 2006); Respondents who visited the country of origin in 2010 (SIM 2011); Respondents who visited the country of origin (SIM 2015) |
@@ -1311,7 +1311,7 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`soc_grp05`](#soc_grp05) | Frequency of contact with Poles | cat |  |  |  |  |  |  | anveelpol |  | All respondents, SIM 2015 only; own group asked last (randomised order) |
 | [`soc_grp06`](#soc_grp06) | Frequency of contact with native Dutch | cat |  |  |  |  |  |  | anveelaut |  | All respondents, SIM 2015 only; own group asked last (randomised order) |
 | [`soc_trust_gen`](#soc_trust_gen) | Generalised trust: most people can be trusted | cat |  |  | VERTW |  | VERTROUW | VERTROUW | vertrouw |  | All respondents (LAS 2004/05, SING 2009, SIM 2011, SIM 2015) |
-| [`soc_volunteer`](#soc_volunteer) | Did voluntary work in the past 12 months | cat |  |  | VRWWAND | VRIJWIL |  |  | vrijw | vrijw | All respondents (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020) |
+| [`soc_volunteer`](#soc_volunteer) | Does voluntary work (reference period differs by survey; see notes) | cat |  |  | VRWWAND | VRIJWIL |  |  | vrijw | vrijw | All respondents, SIM 2015 and SIM 2020 |
 | [`soc_sport5`](#soc_sport5) | Frequency of sport in the past 12 months | cat |  |  | FQSPORT | FQSPORT | FQSPORT | FQSPORT | fqsport | fqsport | All respondents (LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020) |
 | [`soc_meet12m`](#soc_meet12m) | Attended meetings of associations or organisations in the past 12 months | cat |  |  |  |  |  |  |  | organ | All respondents (SIM 2020) |
 | [`soc_meet_sh01`](#soc_meet_sh01) | Share of people at these meetings with own origin group | cat |  |  |  |  |  |  |  | organ_migr | Respondents who attended meetings, SIM 2020 only (migration background only) |
@@ -4009,8 +4009,7 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | SING2009 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|
-| .d | No information | 2 | 0 | 8 | 0 | 0 |
-| .c | Not applicable | 0 | 478 | 0 | 0 | 0 |
+| .d | No information | 2 | 478 | 8 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 6829 | 5323 |
 
 ---
@@ -4052,7 +4051,7 @@ Frequencies (unweighted):
 | 7 | Mother with children | 1933 | 338 | 331 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Other | 400 | 49 | 198 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Child living with parents or relatives (LAS 2004/05) | 0 | 0 | 774 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 1599 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 0 | 1599 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -7851,9 +7850,9 @@ Frequencies (unweighted):
 | 1 | Country of origin only | 2307 | 2656 | 981 | 0 | 0 | 728 | 2184 | 1355 |
 | 2 | Both origin country and Netherlands | 1986 | 1792 | 1094 | 0 | 0 | 1010 | 1203 | 1357 |
 | 3 | Netherlands only | 2650 | 703 | 1816 | 0 | 0 | 2118 | 2956 | 2611 |
-| .c | Not applicable | 218 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 133 | 0 | 0 | 0 | 0 | 0 | 4 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 0 | 0 | 0 |
 
 ---
 
@@ -7934,9 +7933,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 3910 | 1140 | 2038 | 2790 | 0 | 0 | 3432 | 0 |
+| .c | Not applicable | 3692 | 1140 | 2038 | 2790 | 0 | 0 | 3432 | 0 |
 | .d | No information | 188 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 6911 | 4125 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 0 | 6911 | 4125 | 0 | 5323 |
 | .a | Don't know | 0 | 25 | 0 | 0 | 0 | 0 | 51 | 0 |
 | .b | Refusal | 0 | 0 | 18 | 0 | 0 | 0 | 0 | 0 |
 
@@ -8019,9 +8018,9 @@ Frequencies (unweighted):
 | 13 | SPVN03: upper secondary | 0 | 1336 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 14 | SPVN03: higher education | 0 | 963 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 3910 | 1156 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3692 | 1156 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 123 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8057,9 +8056,9 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1022 | 658 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 756 | 1336 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 212 | 963 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 3910 | 1164 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3692 | 1164 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 123 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8185,9 +8184,9 @@ Frequencies (unweighted):
 - Sources (file level): SPVA 2002 `SCHOOLG` (pp,hh); SPVN 2003 `SCHOOLG` (pp,hh); SIM 2006 `SCHOOLG` (main); SIM 2015 `schoolg` (main); SIM 2020 `schoolg` (main)
 - Subject: self · Reported by: respondent (SIM 2006, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SIM 2015, SIM 2020 · not collected: LAS 2004/05, SING 2009, SIM 2011
-- Routing (harmonized variables): printed condition not translated (SPVA 2002); none printed (SPVN 2003, SIM 2006, SIM 2015, SIM 2020)
+- Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006, SIM 2015, SIM 2020)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table; a group fill is unresolved in the script printout
-- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, SIM 2006, SIM 2015, SIM 2020): question differs (SPVA 2002 vs SPVN 2003 vs SIM 2015 vs SIM 2006 vs SIM 2020); contains an unresolved fill; introduction none printed; answer options differs (SIM 2006/SIM 2015/SIM 2020 vs SPVA 2002/SPVN 2003); routing printed in SPVA 2002 only
+- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, SIM 2006, SIM 2015, SIM 2020): question differs (SPVA 2002 vs SPVN 2003 vs SIM 2015 vs SIM 2006 vs SIM 2020); contains an unresolved fill; introduction none printed; answer options differs (SIM 2006/SIM 2015/SIM 2020 vs SPVA 2002/SPVN 2003)
 
 | Item | SPVA 2002 | SPVN 2003 | SIM 2006 | SIM 2015 | SIM 2020 |
 |---|---|---|---|---|---|
@@ -8198,7 +8197,7 @@ Frequencies (unweighted):
 | Question / statement shown or read to respondent | Bent u op dit moment bezig met een schoolopleiding? | Bent u op dit moment bezig met een schoolopleiding? Het gaat hierbij NIET om een cursus in het kader van een inburgeringsprogramma. | De volgende vragen gaan over alle schoolopleidingen in Nederland, bijv. basisschool, deeltijd-opleidingen en korte schoolopleidingen. De vragen gaan niet over opleidingen of cursussen zoals bijv. voor uw werk of taalcursussen. Doet u nu een opleiding? | De volgende vragen gaan over alle schoolopleidingen <in Nederland>, bijvoorbeeld basisschool, deeltijdopleidingen en korte schoolopleidingen. De vragen gaan niet over opleidingen of cursussen zoals bijvoorbeeld voor uw werk of taalcursussen. Doet u nu een opleiding? | Doet u nu een opleiding? |
 | Response / recording categories (questionnaire codes) | 1=ja, volgt schoolopleiding; 2=nee | 1=ja, volgt schoolopleiding; 2=nee | 1=ja; 2=nee | 1=ja; 2=nee | 1=ja; 2=nee |
 | Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All respondents (SIM 2006, SIM 2015, SIM 2020) | All respondents (SIM 2015) | All respondents (SIM 2020) |
-| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN NU OPLEIDING:' | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) |
+| Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) |
 - Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SIM 2006 `SCHOOLG`: 2→0; SIM 2015 `schoolg`: 2→0; SIM 2020 `schoolg`: 2→0; SPVA 2002 `SCHOOLG`: 2→0; SPVN 2003 `SCHOOLG`: 2→0
 
 Frequencies (unweighted):
@@ -8207,9 +8206,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 6106 | 4217 | 0 | 4132 | 0 | 0 | 5346 | 4250 |
 | 1 | Yes | 1978 | 1376 | 0 | 1118 | 0 | 0 | 1483 | 1073 |
-| .c | Not applicable | 218 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 19 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 0 | 6911 | 4125 | 0 | 0 |
 
 ---
 
@@ -8220,9 +8219,9 @@ Frequencies (unweighted):
 - Sources (file level): SPVA 2002 `VOLTOPL` (pp,hh); SPVN 2003 `VOLTOPL` (pp,hh); LAS 2004/05 `VOLTOPL` (main); SIM 2015 `voltopl` (main); SIM 2020 `voltopl` (main)
 - Subject: self · Reported by: respondent (LAS 2004/05, SIM 2015, SIM 2020); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2015, SIM 2020 · not collected: SIM 2006, SING 2009, SIM 2011
-- Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003); printed condition not translated (LAS 2004/05); `edu_enr` in {1} (SIM 2015, SIM 2020)
+- Routing (harmonized variables): printed condition not translated (SPVA 2002, LAS 2004/05); none printed (SPVN 2003); `edu_enr` in {1} (SIM 2015, SIM 2020)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
-- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2015, SIM 2020): question differs (SPVA 2002/LAS 2004/05 vs SIM 2020 vs SIM 2015 vs SPVN 2003); introduction none printed; answer options differs (SPVN 2003/LAS 2004/05/SIM 2015 vs SPVA 2002 vs SIM 2020); routing differs (SIM 2015 vs SIM 2020 vs LAS 2004/05); none printed in SPVA 2002, SPVN 2003
+- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2015, SIM 2020): question differs (SPVA 2002/LAS 2004/05 vs SIM 2020 vs SIM 2015 vs SPVN 2003); introduction none printed; answer options differs (SPVN 2003/LAS 2004/05/SIM 2015 vs SPVA 2002 vs SIM 2020); routing differs (SIM 2015 vs SIM 2020 vs SPVA 2002 vs LAS 2004/05); none printed in SPVN 2003
 
 | Item | SPVA 2002 | SPVN 2003 | LAS 2004/05 | SIM 2015 | SIM 2020 |
 |---|---|---|---|---|---|
@@ -8233,7 +8232,7 @@ Frequencies (unweighted):
 | Question / statement shown or read to respondent | Is dit een voltijdse dagopleiding, dus een opleiding waarbij u tenminste 19 lesuren per week naar school gaat? | Is dit een opleiding waarbij u tenminste 19 lesuren per week naar school gaat of moet studeren? | Is dit een voltijdse dagopleiding, dus een opleiding waarbij u tenminste 19 lesuren per week naar school gaat? | Is deze opleiding een voltijdse dagopleiding? Dus een opleiding waarbij u minstens 19 uur per week aan school besteedt. De uren die u aan huiswerk besteedt mag u ook meetellen. | Besteedt u minstens 19 uur per week aan deze opleiding? De uren die u aan huiswerk besteedt mag u ook meetellen. |
 | Response / recording categories (questionnaire codes) | 1=ja, voltijdse dagopleiding; 2=nee (incl. SCHOOLG=2) | 1=ja, voltijdse dagopleiding; 2=nee | 1=ja, voltijdse dagopleiding; 2=nee | 1=ja, voltijdse dagopleiding; 2=nee | 1=ja; 2=nee |
 | Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All respondents (LAS 2004/05) | Enrolled respondents (SIM 2015) | Enrolled respondents (SIM 2020) |
-| Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | printed condition not translated into a harmonized variable: 'INDIEN NU SCHOOLOPLEIDING:' | `edu_enr` in {1} (translated from the printed condition on `schoolg`) - holds in the data (1482 values) | `edu_enr` in {1} (translated from the printed condition on `schoolg`) - holds in the data (1073 values) |
+| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN NU OPLEIDING:' | none (no eligibility condition printed for this item) | printed condition not translated into a harmonized variable: 'INDIEN NU SCHOOLOPLEIDING:' | `edu_enr` in {1} (translated from the printed condition on `schoolg`) - holds in the data (1482 values) | `edu_enr` in {1} (translated from the printed condition on `schoolg`) - holds in the data (1073 values) |
 - Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): LAS 2004/05 `VOLTOPL`: 2→0; SIM 2015 `voltopl`: 2→0; SIM 2020 `voltopl`: 2→0; SPVA 2002 `VOLTOPL`: 2→0; SPVN 2003 `VOLTOPL`: 2→0
 
 Frequencies (unweighted):
@@ -8242,9 +8241,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 6460 | 4530 | 3400 | 0 | 0 | 0 | 315 | 206 |
 | 1 | Yes | 1614 | 1063 | 696 | 0 | 0 | 0 | 1167 | 867 |
-| .c | Not applicable | 218 | 0 | 0 | 0 | 0 | 0 | 5347 | 4250 |
+| .c | Not applicable | 0 | 0 | 0 | 0 | 0 | 0 | 5347 | 4250 |
 | .d | No information | 29 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
 
 ---
 
@@ -8281,9 +8280,9 @@ Frequencies (unweighted):
 | 3 | Evening education | 121 | 79 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Practical / apprenticeship | 66 | 54 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 26 | 40 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 218 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 33 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8294,9 +8293,9 @@ Frequencies (unweighted):
 - Sources (file level): SPVA 2002 `ONDPART` (pp,hh); SPVN 2003 `ONDPART` (pp,hh); LAS 2004/05 `ONDPART` (main); SIM 2006 `ONDPART` (main); SIM 2011 `ondpart` (main); SIM 2015 `ondpart` (main)
 - Subject: self · Reported by: constructed by the data producer from survey or registry inputs (see source definition) (LAS 2004/05, SIM 2006, SIM 2011, SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SIM 2011, SIM 2015 · not collected: SING 2009, SIM 2020
-- Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003)
+- Routing (harmonized variables): printed condition not translated (SPVA 2002); none printed (SPVN 2003)
 - Comparability: **mixed provenance** (auto) — the information is obtained differently across surveys (respondent vs constructed): see the 'How obtained' and 'Source definition' rows
-- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003): question differs (SPVN 2003 vs SPVA 2002); introduction none printed; answer options differs (SPVN 2003 vs SPVA 2002). Constructed sources (LAS 2004/05, SIM 2006, SIM 2011, SIM 2015): see the source definition row. Acquisition differs between surveys (respondent vs constructed): the measurements are not equivalent by wording
+- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003): question differs (SPVN 2003 vs SPVA 2002); introduction none printed; answer options differs (SPVN 2003 vs SPVA 2002); routing printed in SPVA 2002 only. Constructed sources (LAS 2004/05, SIM 2006, SIM 2011, SIM 2015): see the source definition row. Acquisition differs between surveys (respondent vs constructed): the measurements are not equivalent by wording
 
 | Item | SPVA 2002 | SPVN 2003 | LAS 2004/05 | SIM 2006 | SIM 2011 | SIM 2015 |
 |---|---|---|---|---|---|---|
@@ -8309,7 +8308,7 @@ Frequencies (unweighted):
 | Source definition / derivation |  |  | Constructed variable (data producer's coding) - codebook: full-time education participation from the questions on current education and main activity | Constructed variable (data producer's coding) - codebook: full-time education participation from the questions on current education and main activity | Constructed variable (data producer's coding) - codebook: full-time education participation from the questions on current education and main activity | Registry or constructed field, no questionnaire item |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 0=Geen; 1=Voltijd | -3=weet niet; -4=Missing; -7=Sysmis; 0=Geen; 1=Voltijd | 0=geen; 1=voltijd | 0=geen; 1=voltijd | 0=geen voltijd onderwijs; 1=voltijd onderwijs | 0=geen voltijd onderwijs; 1=voltijd onderwijs |
 | Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All respondents (LAS 2004/05, SIM 2006, SIM 2011) | All respondents (LAS 2004/05, SIM 2006, SIM 2011) | All respondents (LAS 2004/05, SIM 2006, SIM 2011) | All respondents (SIM 2015 derived variable) |
-| Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) |  |  |  |  |
+| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN NU OPLEIDING:' | none (no eligibility condition printed for this item) |  |  |  |  |
 
 Frequencies (unweighted):
 
@@ -8317,9 +8316,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 6391 | 4351 | 3400 | 4421 | 0 | 3366 | 5662 | 0 |
 | 1 | Full-time | 1688 | 1243 | 696 | 829 | 0 | 759 | 1167 | 0 |
-| .c | Not applicable | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 24 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 6911 | 0 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 0 | 6911 | 0 | 0 | 5323 |
 
 ---
 
@@ -8361,9 +8359,9 @@ Frequencies (unweighted):
 | 6 | Higher professional (hbo) | 295 | 186 | 226 | 0 | 0 | 0 | 0 | 0 |
 | 7 | University (wo) | 125 | 144 | 91 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 32 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6324 | 4218 | 3164 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6106 | 4218 | 3164 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 114 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8399,9 +8397,9 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 562 | 455 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 676 | 473 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 420 | 330 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6324 | 4244 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6106 | 4244 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 209 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8437,9 +8435,9 @@ Frequencies (unweighted):
 | 3 | vmbo/havo | 41 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | havo/vwo | 55 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 3862 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3644 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 9382 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 9600 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8477,9 +8475,9 @@ Frequencies (unweighted):
 | 4 | Care / health / services | 178 | 193 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 390 | 243 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6576 | 4310 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6358 | 4310 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8526,9 +8524,9 @@ Frequencies (unweighted):
 | 19 | SPVN03: teacher training | 0 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 20 | SPVN03: other | 0 | 75 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6576 | 4310 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6358 | 4310 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8571,9 +8569,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 6324 | 2958 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6106 | 2958 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 109 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8651,9 +8649,9 @@ Frequencies (unweighted):
 | 6 | Higher professional (hbo) | 391 | 222 | 395 | 0 | 0 | 0 | 0 | 0 |
 | 7 | University (wo) | 203 | 142 | 165 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 33 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 2200 | 1394 | 172 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1982 | 1394 | 172 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 79 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8692,9 +8690,9 @@ Frequencies (unweighted):
 | 4 | Care / health / services | 344 | 143 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 570 | 256 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 11 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5654 | 4497 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5436 | 4497 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 89 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8742,9 +8740,9 @@ Frequencies (unweighted):
 | 19 | SPVN03: teacher training | 0 | 19 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 20 | SPVN03: other | 0 | 82 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 11 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5654 | 4497 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5436 | 4497 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 89 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8936,9 +8934,9 @@ Frequencies (unweighted):
 | 5 | Upper general secondary (havo/vwo) | 185 | 54 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Higher professional (hbo) | 358 | 196 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | University (wo) | 165 | 125 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1930 | 1108 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1712 | 1108 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 103 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -8971,9 +8969,9 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 813 | 276 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 940 | 372 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 523 | 321 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1930 | 3043 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1712 | 3043 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 103 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -9011,9 +9009,9 @@ Frequencies (unweighted):
 | 5 | Upper general secondary (havo/vwo) | 376 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Higher professional (hbo) | 453 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | University (wo) | 215 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1861 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1643 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -9049,9 +9047,9 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1443 | 696 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 1397 | 1325 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 668 | 1077 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1861 | 1103 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1643 | 1103 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -9084,9 +9082,9 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1443 | 696 | 0 | 1145 | 0 | 752 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 1397 | 1325 | 0 | 1150 | 0 | 1062 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 668 | 1077 | 0 | 660 | 0 | 661 | 0 | 0 |
-| .c | Not applicable | 1861 | 1103 | 0 | 873 | 0 | 759 | 0 | 0 |
+| .c | Not applicable | 1643 | 1103 | 0 | 873 | 0 | 759 | 0 | 0 |
 | .d | No information | 108 | 0 | 0 | 0 | 0 | 11 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 
 ---
 
@@ -9123,9 +9121,8 @@ Frequencies (unweighted):
 | 5 | Upper general secondary (havo/vwo) | 547 | 0 | 0 | 0 | 0 | 405 | 0 | 0 |
 | 6 | Higher professional (hbo) | 477 | 0 | 0 | 0 | 0 | 480 | 0 | 0 |
 | 7 | University (wo) | 218 | 0 | 0 | 0 | 0 | 209 | 0 | 0 |
-| .c | Not applicable | 218 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 282 | 0 | 0 | 0 | 0 | 14 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 
 ---
 
@@ -9161,9 +9158,9 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1673 | 737 | 0 | 0 | 0 | 966 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 1651 | 1441 | 0 | 0 | 0 | 1281 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 695 | 1161 | 0 | 0 | 0 | 689 | 0 | 0 |
-| .c | Not applicable | 218 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 282 | 0 | 0 | 0 | 0 | 14 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 
 ---
 
@@ -9196,9 +9193,9 @@ Frequencies (unweighted):
 | 2 | Lower secondary (vbo/mavo) | 1673 | 737 | 0 | 0 | 0 | 966 | 0 | 0 |
 | 3 | Upper secondary (mbo/havo/vwo) | 1651 | 1441 | 0 | 0 | 0 | 1281 | 0 | 0 |
 | 4 | Tertiary (hbo/wo) | 695 | 1161 | 0 | 0 | 0 | 689 | 0 | 0 |
-| .c | Not applicable | 218 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 282 | 0 | 0 | 0 | 0 | 14 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 
 ---
 
@@ -9233,9 +9230,9 @@ Frequencies (unweighted):
 | 3 | Technical | 580 | 376 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Care / health / services | 340 | 165 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 555 | 274 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5613 | 4328 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5395 | 4328 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 50 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -9280,9 +9277,9 @@ Frequencies (unweighted):
 | 18 | SPVN03: personal and social care | 0 | 76 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 19 | SPVN03: teacher training | 0 | 22 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 20 | SPVN03: other | 0 | 105 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5613 | 4328 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5395 | 4328 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 50 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -9313,9 +9310,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Diploma Dutch secondary education | 1603 | 797 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Dropout from Dutch secondary education | 299 | 155 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5120 | 4642 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4902 | 4642 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1299 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -9524,8 +9521,8 @@ Frequencies (unweighted):
 | 6 | Benefit only | 74 | 38 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Other, wants work | 335 | 288 | 485 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Other, not in labour force | 2561 | 1662 | 1562 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1096 | 354 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 878 | 354 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -9557,9 +9554,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not in labour force | 3187 | 2474 | 1585 | 1801 | 3016 | 1766 | 0 | 0 |
 | 1 | In labour force | 4038 | 2766 | 2511 | 3050 | 3887 | 2359 | 0 | 0 |
-| .c | Not applicable | 1096 | 354 | 0 | 399 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 878 | 354 | 0 | 399 | 0 | 0 | 0 | 0 |
 | .d | No information | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 0 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 0 | 0 | 0 | 6829 | 5323 |
 
 ---
 
@@ -9590,8 +9587,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Other labour force | 3700 | 2106 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Registered unemployed | 338 | 660 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4283 | 2828 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 4065 | 2828 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -9622,8 +9619,8 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Other labour force | 3552 | 1997 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Not working | 486 | 769 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4283 | 2828 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 4065 | 2828 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -9658,9 +9655,9 @@ Frequencies (unweighted):
 | 0 | No | 3718 | 3132 | 0 | 0 | 0 | 0 | 3083 | 2062 |
 | 1 | Yes | 3825 | 2222 | 0 | 0 | 0 | 0 | 3746 | 3261 |
 | .a | Don't know | 0 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 776 | 236 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 558 | 236 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 0 |
 
 ---
 
@@ -9702,9 +9699,9 @@ Frequencies (unweighted):
 | 5 | Retired / state pension | 331 | 88 | 71 | 405 | 0 | 410 | 507 | 471 |
 | 6 | Other | 87 | 122 | 101 | 117 | 0 | 60 | 254 | 153 |
 | 7 | No legal status (SPVN 2003) | 0 | 59 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 778 | 251 | 2051 | 2615 | 0 | 2065 | 3254 | 3261 |
+| .c | Not applicable | 560 | 251 | 2051 | 2615 | 0 | 2065 | 3254 | 3261 |
 | .d | No information | 112 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 6911 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 0 | 6911 | 0 | 0 | 0 |
 
 ---
 
@@ -9929,14 +9926,15 @@ Frequencies (unweighted):
 ---
 
 ### `lab_exp` {#lab_exp}
-**Years of work experience in the Netherlands**
+**Work experience in the Netherlands, years (fractional where months are recorded: SIM 2011/2015)**
 - Theme: Labour market (`lab`) · Scope: person · Type: num
-- Universe: All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Employed respondents (SIM 2006, SIM 2011); Employed respondents (SIM 2015): total years worked in NL (months in lab_exp_mo)
+- Universe: All interviewed persons aged 12+ (main and mini questionnaire)
 - Sources (file level): SPVA 2002 `ARBERV` (pp,hh); SPVN 2003 `ARBERV` (pp,hh); SIM 2006 `ARBERV` (main); SIM 2011 `ARBERV_JR` (main); SIM 2015 `arbervj` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SIM 2011, SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
-- Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SIM 2011, SIM 2015 · not collected: LAS 2004/05, SING 2009, SIM 2020
+- Derived: `plus_months:lab_exp_mo` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (LAS 2004/05, SING 2009, SIM 2020); respondent (SIM 2006, SIM 2011, SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
+- Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SIM 2011, SIM 2015 · derived where the inputs exist: LAS 2004/05, SING 2009, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006); `lab_emp` in {1} (SIM 2011); printed condition not translated (SIM 2015)
-- Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table; a group fill is unresolved in the script printout
+- Comparability: **derived** (auto) — derived by rule 'plus_months:lab_exp_mo' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, SIM 2006, SIM 2011, SIM 2015): question differs (SPVA 2002/SPVN 2003 vs SIM 2011 vs SIM 2015 vs SIM 2006); contains an unresolved fill; introduction none printed; answer options none printed; interviewer instruction printed in SIM 2011 only; routing differs (SIM 2015 vs SIM 2011); none printed in SPVA 2002, SPVN 2003, SIM 2006. **Note:** SIM 2006: years with decimals; SIM 2011/2015: years and months in two variables.
 
 | Item | SPVA 2002 | SPVN 2003 | SIM 2006 | SIM 2011 | SIM 2015 |
@@ -9949,7 +9947,7 @@ Frequencies (unweighted):
 | Interviewer recording / assessment instruction (questionnaire) |  |  |  | (ENQ.: Laat een schatting maken indien respondent het niet weet) |  |
 | Response format |  |  |  | Aantal jaren; Aantal maanden; Weet niet | Max 80 |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 999=geen informatie | -3=weet niet; -4=Missing; -7=Sysmis; 997=weet niet | -2=wil niet zeggen/geen opgave; -3=weet niet; -5=niet van toepassing | -5=Niet van toepassing | -2=blanc; -3=weet niet/geen antwoord |
-| Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | Employed respondents (SIM 2006) | Employed respondents (SIM 2011) | Employed respondents (SIM 2015): total years worked in NL (months in lab_exp_mo) |
+| Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) | All interviewed persons aged 12+ (main and mini questionnaire) | Employed respondents (SIM 2006) | Employed respondents (SIM 2011) | Employed respondents (SIM 2015): total years worked in NL (months in lab_exp_mo) |
 | Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | `lab_emp` in {1} (persons with paid work) - holds in the data (2321 values; 2321 of them from records without a value on the gate variable, which the printed condition admits) | printed condition not translated into a harmonized variable: 'INDIEN Nederland (Q9001=7): ‘In Nederland’ weghalen; INDIEN IN NEDERLAND GEBOREN (Q20=5): ‘In Nederland’ weghalen; INDIEN NIET IN NEDERLAND GEBOREN (Q20 ≠5):...' |
 
 Summary (unweighted, non-missing values):
@@ -9961,17 +9959,17 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 2881 | 12.49 | 10.28 | 0 | 4 | 10 | 18.33 | 56 |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 2321 | 15.02 | 10.56 | 0 | 6 | 14 | 21 | 50 |
-| SIM2015 | 3561 | 14.03 | 10.58 | 0 | 5 | 11 | 20 | 58 |
+| SIM2011 | 2321 | 15.13 | 10.53 | 0 | 6.25 | 14 | 21 | 50 |
+| SIM2015 | 3683 | 13.58 | 10.68 | 0.0833333333333333 | 5 | 10 | 20 | 58 |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
 Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 2399 | 2546 | 0 | 2328 | 0 | 1804 | 3205 | 0 |
+| .c | Not applicable | 2181 | 2546 | 0 | 2328 | 0 | 1804 | 3083 | 0 |
 | .d | No information | 151 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
 | .a | Don't know | 0 | 29 | 0 | 41 | 0 | 0 | 63 | 0 |
 
 ---
@@ -10015,9 +10013,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 3868 | 3397 | 0 | 4206 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3650 | 3397 | 0 | 4206 | 0 | 0 | 0 | 0 |
 | .d | No information | 97 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 8 | 0 | 21 | 0 | 0 | 0 | 0 |
 
 ---
@@ -10055,9 +10053,9 @@ Frequencies (unweighted):
 | 1 | Employee | 3573 | 2028 | 2143 | 2676 | 3133 | 2101 | 3321 | 0 |
 | 2 | Self-employed / own business | 221 | 146 | 110 | 246 | 517 | 220 | 425 | 0 |
 | 3 | Freelance | 26 | 48 | 27 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4494 | 3372 | 1816 | 2328 | 3261 | 1804 | 3083 | 0 |
+| .c | Not applicable | 4276 | 3372 | 1816 | 2328 | 3261 | 1804 | 3083 | 0 |
 | .d | No information | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 0 | 0 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 0 | 0 | 0 | 0 | 5323 |
 
 ---
 
@@ -10103,9 +10101,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 4494 | 3442 | 0 | 0 | 0 | 2024 | 0 | 0 |
+| .c | Not applicable | 4276 | 3442 | 0 | 0 | 0 | 2024 | 0 | 0 |
 | .d | No information | 139 | 95 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 0 | 62 | 0 | 0 |
 
 ---
@@ -10145,9 +10143,9 @@ Frequencies (unweighted):
 | 3 | Intermediate | 1080 | 554 | 646 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Higher | 439 | 251 | 272 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Scientific | 128 | 101 | 76 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4494 | 3442 | 1917 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4276 | 3442 | 1917 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 139 | 95 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10193,9 +10191,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 4494 | 3712 | 0 | 0 | 0 | 2024 | 0 | 0 |
+| .c | Not applicable | 4276 | 3712 | 0 | 0 | 0 | 2024 | 0 | 0 |
 | .d | No information | 161 | 103 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 0 | 6829 | 5323 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 0 | 46 | 0 | 0 |
 
 ---
@@ -10238,9 +10236,9 @@ Frequencies (unweighted):
 | 6 | Public administration, education | 523 | 226 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Health and welfare | 531 | 242 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Culture and other services | 158 | 87 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4515 | 3712 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4297 | 3712 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 161 | 103 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10282,14 +10280,15 @@ Frequencies (unweighted):
 ---
 
 ### `lab_tenure` {#lab_tenure}
-**Years with current employer**
+**Time with current employer, years (fractional where months are recorded: SIM 2011)**
 - Theme: Labour market (`lab`) · Scope: person · Type: num
-- Universe: All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Employees (SIM 2006, SIM 2011)
+- Universe: All interviewed persons aged 12+ (main and mini questionnaire)
 - Sources (file level): SPVA 2002 `ERVBEDR` (hh); SPVN 2003 `ERVBEDR` (pp,hh); SIM 2006 `ERVBEDR` (main); SIM 2011 `ERVBEDR_JR` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SIM 2011); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVN 2003); respondent (main questionnaire: heads of household) (SPVA 2002)
-- Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SIM 2011 · not collected: LAS 2004/05, SING 2009, SIM 2015, SIM 2020
+- Derived: `plus_months:lab_tenure_mo` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (LAS 2004/05, SING 2009, SIM 2015, SIM 2020); respondent (SIM 2006, SIM 2011); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVN 2003); respondent (main questionnaire: heads of household) (SPVA 2002)
+- Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SIM 2011 · derived where the inputs exist: LAS 2004/05, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006); `lab_emptype` in {1} (SIM 2011)
-- Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
+- Comparability: **derived** (auto) — derived by rule 'plus_months:lab_tenure_mo' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, SIM 2006, SIM 2011): question differs (SPVA 2002/SPVN 2003/SIM 2011 vs SIM 2006); introduction none printed; answer options none printed; interviewer instruction printed in SIM 2011 only; routing printed in SIM 2011 only. **Note:** SIM 2006: years with decimals (months / 12); SIM 2011: years and months in two variables (lab_tenure, lab_tenure_mo).
 
 | Item | SPVA 2002 | SPVN 2003 | SIM 2006 | SIM 2011 |
@@ -10302,7 +10301,7 @@ Frequencies (unweighted):
 | Interviewer recording / assessment instruction (questionnaire) |  |  |  | (ENQ.: Laat een schatting maken indien respondent het niet weet) |
 | Response format |  |  |  | In jaren of in maanden; Aantal jaren; Aantal maanden; Weet niet |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 97=weet niet; 99=geen informatie | -3=weet niet; -4=Missing; -7=Sysmis; 997=weet niet | -2=wil niet zeggen/geen opgave; -3=weet niet; -5=niet van toepassing | -5=Niet van toepassing |
-| Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | Employees (SIM 2006) | Employees (SIM 2011) |
+| Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) | All interviewed persons aged 12+ (main and mini questionnaire) | Employees (SIM 2006) | Employees (SIM 2011) |
 | Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | `lab_emptype` in {1} (translated from the printed condition on `ZELFST`) - holds in the data (2101 values) |
 
 Summary (unweighted, non-missing values):
@@ -10314,7 +10313,7 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 2675 | 6.79 | 7.49 | 0.08 | 1.12 | 4.33 | 9.5 | 41.67 |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 2101 | 7.3 | 7.84 | 0 | 2 | 5 | 10 | 50 |
+| SIM2011 | 2101 | 7.5 | 7.8 | 0 | 2 | 5 | 10.58 | 50 |
 | SIM2015 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
@@ -10567,9 +10566,9 @@ Frequencies (unweighted):
 | 10 | Other | 120 | 33 | 0 | 162 | 0 | 0 | 0 | 0 |
 | 11 | Via refugee organisation (SPVN 2003) | 0 | 24 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 12 | Via placement agency (SPVN 2003) | 0 | 35 | 0 | 52 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4741 | 2072 | 0 | 2574 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4523 | 2072 | 0 | 2574 | 0 | 0 | 0 | 0 |
 | .d | No information | 46 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10602,9 +10601,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2041 | 0 | 0 | 1356 | 0 | 1091 | 0 | 0 |
 | 1 | Yes | 1515 | 0 | 0 | 1320 | 0 | 1010 | 0 | 0 |
-| .c | Not applicable | 4741 | 0 | 0 | 2574 | 0 | 2024 | 0 | 0 |
+| .c | Not applicable | 4523 | 0 | 0 | 2574 | 0 | 2024 | 0 | 0 |
 | .d | No information | 24 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 
 ---
 
@@ -10638,9 +10637,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 1237 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2305 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4741 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4523 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 38 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10675,9 +10674,9 @@ Frequencies (unweighted):
 | 0 | No | 1524 | 0 | 0 | 1397 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 1991 | 0 | 0 | 1096 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 183 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4741 | 0 | 0 | 2574 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4523 | 0 | 0 | 2574 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10720,9 +10719,9 @@ Frequencies (unweighted):
 | 9 | Too old (SIM 2006) | 0 | 0 | 0 | 80 | 0 | 0 | 0 | 0 |
 | 10 | Other | 173 | 0 | 0 | 449 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 40 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6732 | 0 | 0 | 3853 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6514 | 0 | 0 | 3853 | 0 | 0 | 0 | 0 |
 | .d | No information | 105 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10756,9 +10755,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2367 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 1185 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4741 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4523 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 28 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10796,9 +10795,9 @@ Frequencies (unweighted):
 | 5 | Wage too low | 212 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Moving house | 18 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | Other | 328 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6890 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 47 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10832,9 +10831,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 835 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 338 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6890 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 40 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10867,9 +10866,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 1 | Permanent | 2879 | 1338 | 1715 | 2078 | 0 | 1566 | 2252 | 0 |
 | 2 | Temporary | 687 | 690 | 428 | 598 | 0 | 535 | 1069 | 0 |
-| .c | Not applicable | 4741 | 3566 | 1953 | 2574 | 0 | 2024 | 3508 | 0 |
+| .c | Not applicable | 4523 | 3566 | 1953 | 2574 | 0 | 2024 | 3508 | 0 |
 | .d | No information | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 6911 | 0 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 0 | 6911 | 0 | 0 | 5323 |
 
 ---
 
@@ -10911,9 +10910,9 @@ Frequencies (unweighted):
 | 8 | Subsidised job scheme (ID-banen) | 13 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Other | 32 | 24 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4741 | 3746 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4523 | 3746 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 27 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -10959,9 +10958,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 4494 | 3403 | 1796 | 0 | 0 | 0 | 3508 | 2427 |
+| .c | Not applicable | 4276 | 3403 | 1796 | 0 | 0 | 0 | 3508 | 2427 |
 | .d | No information | 31 | 1 | 2 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
 | .a | Don't know | 0 | 20 | 0 | 0 | 0 | 0 | 41 | 0 |
 
 ---
@@ -11008,9 +11007,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 4769 | 5431 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4551 | 5431 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 70 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
@@ -11088,9 +11087,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 8072 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7854 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 19 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11133,9 +11132,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 8072 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7854 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11182,9 +11181,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 8072 | 0 | 0 | 5006 | 0 | 3905 | 0 | 0 |
+| .c | Not applicable | 7854 | 0 | 0 | 5006 | 0 | 3905 | 0 | 0 |
 | .d | No information | 14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 0 | 11 | 0 | 0 |
 
 ---
@@ -11218,9 +11217,9 @@ Frequencies (unweighted):
 | 1 | Own group | 47 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Mixed | 37 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Native Dutch | 29 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 8195 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7977 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11293,21 +11292,22 @@ Frequencies (unweighted):
 | 0 | No | 1623 | 2279 | 0 | 968 | 0 | 660 | 1053 | 0 |
 | 1 | Yes | 2083 | 849 | 0 | 1352 | 0 | 1136 | 2009 | 0 |
 | .a | Don't know | 0 | 8 | 0 | 4 | 0 | 8 | 21 | 0 |
-| .c | Not applicable | 4602 | 2458 | 0 | 2926 | 0 | 2321 | 3746 | 0 |
+| .c | Not applicable | 4384 | 2458 | 0 | 2926 | 0 | 2321 | 3746 | 0 |
 | .d | No information | 13 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
 
 ---
 
 ### `lab_nowork_yrs` {#lab_nowork_yrs}
-**Years without work (not working persons)**
+**Time without work, years (not working persons; fractional where months are recorded: SIM 2011/2015)**
 - Theme: Labour market (`lab`) · Scope: person · Type: num
-- Universe: All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003); Respondents without paid work who ever worked (SIM 2006, SIM 2011); Respondents not working now who ever worked (SIM 2015): years since last job
+- Universe: All interviewed persons aged 12+ (main and mini questionnaire)
 - Sources (file level): SPVA 2002 `NWRKDUUR` (pp,hh); SPVN 2003 `NWRKDUUR` (pp,hh); SIM 2006 `NWRKDUUR` (main); SIM 2011 `NWRKDUUR_JR` (main); SIM 2015 `nrwrkduurj` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SIM 2011, SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
-- Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SIM 2011, SIM 2015 · not collected: LAS 2004/05, SING 2009, SIM 2020
+- Derived: `plus_months:lab_nowork_mo` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (LAS 2004/05, SING 2009, SIM 2020); respondent (SIM 2006, SIM 2011, SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
+- Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SIM 2011, SIM 2015 · derived where the inputs exist: LAS 2004/05, SING 2009, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006); `lab_emp` in {0} & `lab_everwork` in {1} (SIM 2011); `lab_everwork` in {1} (SIM 2015)
-- Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table; a group fill is unresolved in the script printout
+- Comparability: **derived** (auto) — derived by rule 'plus_months:lab_nowork_mo' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, SIM 2006, SIM 2011, SIM 2015): question differs (SPVA 2002/SPVN 2003 vs SIM 2011 vs SIM 2015 vs SIM 2006); contains an unresolved fill; introduction none printed; answer options none printed; interviewer instruction printed in SIM 2011 only; routing differs (SIM 2015 vs SIM 2011); none printed in SPVA 2002, SPVN 2003, SIM 2006
 
 | Item | SPVA 2002 | SPVN 2003 | SIM 2006 | SIM 2011 | SIM 2015 |
@@ -11320,7 +11320,7 @@ Frequencies (unweighted):
 | Interviewer recording / assessment instruction (questionnaire) |  |  |  | (ENQ.: Laat een schatting maken indien respondent het niet weet) |  |
 | Response format |  |  |  | IN jaren of in maanden; Aantal jaren; Aantal maanden; Weet niet | Max 80 |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 0=geen enkele keer; 999=geen informatie | -3=weet niet; -4=Missing; -7=Sysmis; 997=weet niet | -2=wil niet zeggen/geen opgave; -3=weet niet; -5=niet van toepassing | -5=Niet van toepassing | -2=blanc; -3=weet niet/geen antwoord |
-| Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | Respondents without paid work who ever worked (SIM 2006) | Respondents without paid work who ever worked (SIM 2011) | Respondents not working now who ever worked (SIM 2015): years since last job |
+| Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) | All interviewed persons aged 12+ (main and mini questionnaire) | Respondents without paid work who ever worked (SIM 2006) | Respondents without paid work who ever worked (SIM 2011) | Respondents not working now who ever worked (SIM 2015): years since last job |
 | Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | `lab_emp` in {0} (persons without paid work) - holds in the data (1136 values; 1136 of them from records without a value on the gate variable, which the printed condition admits); `lab_everwork` in {1} (translated from the printed condition on `WERKNL`) - holds in the data (1136 values) | `lab_everwork` in {1} (translated from the printed condition on `werknl`) - holds in the data (1522 values) |
 
 Summary (unweighted, non-missing values):
@@ -11332,17 +11332,17 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 1327 | 8.67 | 9.66 | 0 | 2 | 5 | 13 | 68 |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 1136 | 8.85 | 10.94 | 0 | 1 | 5 | 13 | 68 |
-| SIM2015 | 1522 | 9.1 | 10.82 | 0 | 2 | 5 | 12 | 80 |
+| SIM2011 | 1136 | 8.98 | 10.87 | 0 | 1.33 | 5 | 13 | 68 |
+| SIM2015 | 1937 | 7.23 | 10.24 | 0.0833333333333333 | 1 | 3 | 10 | 80 |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
 Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 6225 | 4745 | 0 | 3893 | 0 | 2989 | 5235 | 0 |
+| .c | Not applicable | 6007 | 4745 | 0 | 3893 | 0 | 2989 | 4820 | 0 |
 | .d | No information | 191 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
 | .a | Don't know | 0 | 14 | 0 | 30 | 0 | 0 | 72 | 0 |
 
 ---
@@ -11557,9 +11557,9 @@ Frequencies (unweighted):
 | 3 | Became work-disabled | 719 | 162 | 0 | 333 | 0 | 285 | 0 | 0 |
 | 4 | Retired / early retirement | 126 | 12 | 0 | 198 | 0 | 200 | 0 | 0 |
 | .a | Don't know | 0 | 15 | 0 | 49 | 0 | 33 | 0 | 0 |
-| .c | Not applicable | 6225 | 4746 | 0 | 3897 | 0 | 2989 | 0 | 0 |
+| .c | Not applicable | 6007 | 4746 | 0 | 3897 | 0 | 2989 | 0 | 0 |
 | .d | No information | 69 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 
 ---
 
@@ -11602,9 +11602,9 @@ Frequencies (unweighted):
 | 9 | Private reasons | 161 | 43 | 0 | 178 | 0 | 120 | 0 | 0 |
 | 10 | Other | 62 | 53 | 0 | 172 | 0 | 112 | 0 | 0 |
 | 11 | Poor performance (SIM 2011) | 0 | 0 | 0 | 8 | 0 | 5 | 0 | 0 |
-| .c | Not applicable | 7070 | 3023 | 0 | 4477 | 0 | 3507 | 0 | 0 |
+| .c | Not applicable | 6852 | 3023 | 0 | 4477 | 0 | 3507 | 0 | 0 |
 | .d | No information | 84 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 0 | 6911 | 0 | 6829 | 5323 |
 
 ---
 
@@ -11637,9 +11637,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2667 | 1563 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 881 | 1687 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4675 | 2344 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4457 | 2344 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 98 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11682,9 +11682,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 7342 | 3907 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7124 | 3907 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 71 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
@@ -11719,9 +11719,9 @@ Frequencies (unweighted):
 | 2 | 1-6 months ago | 334 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | 6-12 months ago | 108 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | A year or more ago | 172 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7342 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7124 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 115 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11732,9 +11732,9 @@ Frequencies (unweighted):
 - Sources (file level): SPVA 2002 `WILWERK` (pp,hh); SPVN 2003 `WILWERK` (pp,hh); LAS 2004/05 `WILWERK` (main); SIM 2011 `WIL12UUR` (main); SIM 2015 `wilw12uv2` (main)
 - Subject: self · Reported by: respondent (LAS 2004/05, SIM 2011, SIM 2015); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2011, SIM 2015 · not collected: SIM 2006, SING 2009, SIM 2020
-- Routing (harmonized variables): printed condition not translated (SPVA 2002, LAS 2004/05, SIM 2011); none printed (SPVN 2003); `lab_act` in {1,2,3,4,5,6} (SIM 2015)
+- Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003); printed condition not translated (LAS 2004/05, SIM 2011); `lab_act` in {1,2,3,4,5,6} (SIM 2015)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
-- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2011, SIM 2015): question differs (SIM 2011 vs LAS 2004/05 vs SIM 2015 vs SPVN 2003 vs SPVA 2002); introduction none printed; answer options differs (SPVN 2003 vs SPVA 2002 vs SIM 2015 vs SIM 2011 vs LAS 2004/05); routing differs (SIM 2015 vs SPVA 2002 vs SIM 2011 vs LAS 2004/05); none printed in SPVN 2003
+- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2011, SIM 2015): question differs (SIM 2011 vs LAS 2004/05 vs SIM 2015 vs SPVN 2003 vs SPVA 2002); introduction none printed; answer options differs (SPVN 2003 vs SPVA 2002 vs SIM 2015 vs SIM 2011 vs LAS 2004/05); routing differs (SIM 2015 vs SIM 2011 vs LAS 2004/05); none printed in SPVA 2002, SPVN 2003
 
 | Item | SPVA 2002 | SPVN 2003 | LAS 2004/05 | SIM 2011 | SIM 2015 |
 |---|---|---|---|---|---|
@@ -11745,7 +11745,7 @@ Frequencies (unweighted):
 | Question / statement shown or read to respondent | Zou u op dit moment betaald werk willen hebben voor tenminste 12 uur per week? | Zou u op dit moment betaald werk willen hebben voor meer dan 12 uur per week? | Zou u op dit moment betaald werk van 12 uur of meer per week willen hebben? | Zou u 12 uur of meer per week willen werken? | Zou u op dit moment betaald werk willen hebben voor 12 uur per week of meer- al dan niet in een nieuwe werkkring? |
 | Response / recording categories (questionnaire codes) | 1=ja, wil werk voor TENMINSTE 12 uur p/w; 2=nee, wil MINDER dan 12 uur p/w werken; 3=nee, wil geen werk | 1=ja, wil werk voor MEER dan 12 uur p\w; 2=nee, wil MINDER dan 12 uur p\w werken; 3=nee, wil geen werk | 1=ja; 2=nee; 3=reeds gevonden; 4=wil wel, maar kan niet | 1=ja; 2=nee | 1=ja; 2=ik wil wel betaald werk hebben, maar voor minder dan 12 uur per week; 3=nee, ik wil op dit moment geen betaald werk; 4=ik heb al nieuw werk gevonden; 5=wil wel, maar kan niet |
 | Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | Respondents without paid work (LAS 2004/05) | Respondents without paid work (SIM 2011) | Respondents without paid work (SIM 2015); codes 4 'already found work' -> 1 and 5 'would like to but cannot' -> 3 (detail in lab_want5) |
-| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN MINSTENS 12 UUR:' | none (no eligibility condition printed for this item) | printed condition not translated into a harmonized variable: 'INDIEN RESPONDENT MINDER DAN 12 UUR PER WEEK WERKT:' | printed condition not translated into a harmonized variable: 'INDIEN NIET WEET HOEVEEL UUR WIL WERKEN (Q555=WEET NIET):' | `lab_act` in {1,2,3,4,5,6} (translated from the printed condition on `hfdact`) - holds in the data (3103 values) |
+| Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | printed condition not translated into a harmonized variable: 'INDIEN RESPONDENT MINDER DAN 12 UUR PER WEEK WERKT:' | printed condition not translated into a harmonized variable: 'INDIEN NIET WEET HOEVEEL UUR WIL WERKEN (Q555=WEET NIET):' | `lab_act` in {1,2,3,4,5,6} (translated from the printed condition on `hfdact`) - holds in the data (3103 values) |
 - Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): LAS 2004/05 `WILWERK`: 2→3, 3→1, 4→1; SIM 2011 `WIL12UUR`: 2→3, 4→1, 7→2; SIM 2015 `wilw12uv2`: 4→1, 5→3
 
 Frequencies (unweighted):
@@ -11756,9 +11756,9 @@ Frequencies (unweighted):
 | 2 | Yes, less than 12 hours per week | 331 | 261 | 0 | 0 | 0 | 421 | 355 | 0 |
 | 3 | Does not want work | 2171 | 1391 | 839 | 0 | 0 | 2553 | 1330 | 0 |
 | .a | Don't know | 0 | 65 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4675 | 2344 | 2051 | 0 | 0 | 0 | 3726 | 0 |
+| .c | Not applicable | 4457 | 2344 | 2051 | 0 | 0 | 0 | 3726 | 0 |
 | .d | No information | 99 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 0 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 0 | 0 | 5323 |
 
 ---
 
@@ -11769,9 +11769,9 @@ Frequencies (unweighted):
 - Sources (file level): SPVA 2002 `ZOEKWERK` (pp,hh); SPVN 2003 `ZOEKWERK` (pp,hh); LAS 2004/05 `ZOEKWERK` (main)
 - Subject: self · Reported by: respondent (LAS 2004/05); respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003, LAS 2004/05 · not collected: SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
-- Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003); printed condition not translated (LAS 2004/05)
+- Routing (harmonized variables): printed condition not translated (SPVA 2002, LAS 2004/05); none printed (SPVN 2003)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
-- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, LAS 2004/05): question differs (SPVA 2002/SPVN 2003 vs LAS 2004/05); introduction none printed; answer options identical; routing printed in LAS 2004/05 only
+- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, LAS 2004/05): question differs (SPVA 2002/SPVN 2003 vs LAS 2004/05); introduction none printed; answer options identical; routing differs (LAS 2004/05 vs SPVA 2002); none printed in SPVN 2003
 
 | Item | SPVA 2002 | SPVN 2003 | LAS 2004/05 |
 |---|---|---|---|
@@ -11782,7 +11782,7 @@ Frequencies (unweighted):
 | Question / statement shown or read to respondent | Heeft u de afgelopen maand naar werk gezocht, ik bedoel heeft u iets gedaan om werk te krijgen? | Heeft u de afgelopen maand naar werk gezocht, ik bedoel heeft u iets gedaan om werk te krijgen? | Heeft u het afgelopen half jaar iets gedaan om aan werk te komen van 12 uur of meer per week? Adver- tenties nakijken om een baan te vinden telt al mee. |
 | Response / recording categories (questionnaire codes) | 1=ja, werk gezocht; 2=nee | 1=ja, werk gezocht; 2=nee | 1=ja, werk gezocht; 2=nee |
 | Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | Respondents without paid work who want work (LAS 2004/05) |
-| Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | printed condition not translated into a harmonized variable: 'INDIEN IDEM + RESPONDENT WERK WIL HEBBEN:' |
+| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN MINSTENS 12 UUR:' | none (no eligibility condition printed for this item) | printed condition not translated into a harmonized variable: 'INDIEN IDEM + RESPONDENT WERK WIL HEBBEN:' |
 - Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): LAS 2004/05 `ZOEKWERK`: 2→0; SPVA 2002 `ZOEKWERK`: 2→0; SPVN 2003 `ZOEKWERK`: 2→0
 
 Frequencies (unweighted):
@@ -11792,9 +11792,9 @@ Frequencies (unweighted):
 | 0 | No | 496 | 744 | 289 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 546 | 839 | 603 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7176 | 3996 | 3204 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6958 | 3996 | 3204 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 103 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11837,9 +11837,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 7672 | 4755 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7454 | 4755 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 131 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11883,8 +11883,8 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 7983 | 4943 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 7765 | 4943 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11919,9 +11919,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 233 | 164 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 308 | 490 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7558 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11956,9 +11956,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 278 | 302 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 263 | 352 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7558 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -11993,9 +11993,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 362 | 531 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 179 | 123 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7558 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12030,9 +12030,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 313 | 367 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 228 | 287 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7558 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12067,9 +12067,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 395 | 453 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 146 | 201 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7558 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12104,9 +12104,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 527 | 631 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 14 | 23 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7558 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12141,9 +12141,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 491 | 566 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 50 | 88 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7776 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7558 | 2893 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12211,9 +12211,9 @@ Frequencies (unweighted):
 | 0 | No | 63 | 65 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 473 | 767 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7672 | 4755 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7454 | 4755 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 113 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12250,9 +12250,9 @@ Frequencies (unweighted):
 | 3 | Finishing voluntary work | 1 | 0 | 2 | 0 | 0 | 0 | 0 | 0 |
 | 4 | Notice period current job | 0 | 0 | 7 | 0 | 0 | 0 | 0 | 0 |
 | 5 | Other | 33 | 41 | 95 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 8145 | 5529 | 3890 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7927 | 5529 | 3890 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 113 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12263,9 +12263,9 @@ Frequencies (unweighted):
 - Sources (file level): SPVA 2002 `BESCH3M` (pp,hh); SPVN 2003 `BESCH3M` (pp,hh)
 - Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVA 2002, SPVN 2003)
 - Availability: collected: SPVA 2002, SPVN 2003 · not collected: LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
-- Routing (harmonized variables): printed condition not translated (SPVA 2002); none printed (SPVN 2003)
+- Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003)
 - Comparability: **exact match** (auto) — same question and answer options in every respondent-facing source
-- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003): question identical; introduction none printed; answer options identical; routing printed in SPVA 2002 only
+- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003): question identical; introduction none printed; answer options identical
 
 | Item | SPVA 2002 | SPVN 2003 |
 |---|---|---|
@@ -12276,7 +12276,7 @@ Frequencies (unweighted):
 | Question / statement shown or read to respondent | Zou u dan binnen drie maanden kunnen beginnen? | Zou u dan binnen drie maanden kunnen beginnen? |
 | Response / recording categories (questionnaire codes) | 1=ja, kan binnen drie maanden beginnen; 2=nee | 1=ja, kan binnen drie maanden beginnen; 2=nee |
 | Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) |
-| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN NIET GEZOCHT/WIL GEEN WERK:' | none (no eligibility condition printed for this item) |
+| Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) |
 - Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `BESCH3M`: 2→0; SPVN 2003 `BESCH3M`: 2→0
 
 Frequencies (unweighted):
@@ -12285,9 +12285,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 15 | 37 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 42 | 28 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 8145 | 5529 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7927 | 5529 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12299,9 +12299,9 @@ Frequencies (unweighted):
 - Notes: Codes 11-14 only in SPVN 2003.
 - Subject: self · Reported by: respondent (main questionnaire for heads, mini questionnaire for other interviewed members) (SPVN 2003); respondent (main questionnaire: heads of household) (SPVA 2002)
 - Availability: collected: SPVA 2002, SPVN 2003 · not collected: LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015, SIM 2020
-- Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003)
+- Routing (harmonized variables): printed condition not translated (SPVA 2002); none printed (SPVN 2003)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
-- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003): question differs (SPVA 2002 vs SPVN 2003); introduction none printed; answer options differs (SPVA 2002 vs SPVN 2003)
+- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003): question differs (SPVA 2002 vs SPVN 2003); introduction none printed; answer options differs (SPVA 2002 vs SPVN 2003); routing printed in SPVA 2002 only
 
 | Item | SPVA 2002 | SPVN 2003 |
 |---|---|---|
@@ -12313,7 +12313,7 @@ Frequencies (unweighted):
 | Response / recording categories (questionnaire codes) | 01=vanwege gezondheid/is arbeidsongeschikt; 02=werk bevalt wel; 03=studeert/zit op school; 04=is werkzaam in huishouden; 05=is te oud; 06=er is toch geen werk/kan geen werk vinden; 07=geen tijd gehad/het is er nog niet van gekomen; 08=wordt toch niet aangenomen/discriminatie; 09=andere bezigheden/geen behoefte | 1=vanwege gezondheid\is arbeidsongeschikt; 2=huidige baan van minder dan 12 uur bevalt wel; 3=studeert\zit op school; 4=wil eerst studeren; 5=is werkzaam in huishouden; 6=is te oud; 7=er is toch geen werk\kan geen werk vinden; 8=geen tijd gehad\het is er nog niet van gekomen; 9=wordt toch niet aangenomen\discriminatie; 10=andere bezigheden\geen behoefte; 11=ik keer binnenkort terug; 12=anders, nl.: |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 1=Gezondheid; 10=Anders; 2=Werk bevalt wel; 3=Studie; 4=Huishouden; 5=Te oud; 6=Er is geen werk; 7=Geen tijd gehad; 8=Wordt niet aangen.; 9=Geen behoefte | **Coding differs from the questionnaire** - codes 4, 5, 6, 7, 8, 9, 10, 11, 12 mean something else in the data file than in the questionnaire (4: questionnaire 'wil eerst studeren' vs data file 'Werkzaam in huishouden'; 5: questionnaire 'is werkzaam in huishouden' vs data file 'Te oud'; 6: questionnaire 'is te oud' vs data file 'Geen werk/niet vinden'; 7: questionnaire 'er is toch geen werk\kan geen werk vinde' vs data file 'Geen tijd/niet van gekomen'; ...); the value map works from the data-file codes. Data-file labels: -3=weet niet; -4=Missing; -7=Sysmis; 1=Vanwege gezondh.\arbeidsong.; 10=Anders; 11=Wil eerst studeren; 12=Ik keer binnenkort terug; 13=Taal niet machtig; 14=Geen status; 2=Huidige baan < 12u bevalt; 3=Studeert\zit op school; 4=Werkzaam in huishouden; 5=Te oud; 6=Geen werk/niet vinden; 7=Geen tijd/niet van gekomen; 8=Toch niet aangenomen; 9=Andere bezigheden/geen behoefte; 97=Weet niet |
 | Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) |
-| Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) |
+| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN NIET GEZOCHT/WIL GEEN WERK:' | none (no eligibility condition printed for this item) |
 
 Frequencies (unweighted):
 
@@ -12369,9 +12369,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3180 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 555 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4498 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4280 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 88 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12405,9 +12405,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 2281 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 1441 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4498 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4280 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 101 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12445,9 +12445,9 @@ Frequencies (unweighted):
 | 0 | No | 2922 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 3070 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 868 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 901 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 342 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12484,9 +12484,9 @@ Frequencies (unweighted):
 | 0 | No | 2609 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 3139 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 1100 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 901 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 354 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12523,9 +12523,9 @@ Frequencies (unweighted):
 | 0 | No | 3000 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2836 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 1032 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 901 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 334 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12560,9 +12560,9 @@ Frequencies (unweighted):
 | 0 | No | 3485 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2090 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 1370 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 901 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 257 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12597,9 +12597,9 @@ Frequencies (unweighted):
 | 0 | No | 3212 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2102 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 1639 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1119 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 901 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 249 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12824,9 +12824,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 4498 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4280 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 1332 | 154 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 117 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 110 | 0 | 0 | 0 | 0 | 0 | 0 |
 
@@ -12870,9 +12870,9 @@ Frequencies (unweighted):
 | 9 | 2000-2250 euro | 134 | 79 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 10 | 2250 euro or more | 196 | 83 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 55 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4500 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 4282 | 3368 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 532 | 95 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -12948,8 +12948,8 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 5999 | 2293 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 5781 | 2293 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13017,9 +13017,9 @@ Frequencies (unweighted):
 | 0 | No | 5221 | 2980 | 0 | 3299 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2276 | 2373 | 0 | 1951 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 776 | 236 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 558 | 236 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 48 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13054,11 +13054,12 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1551 | 4035 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1551 | 4019 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 708 | 1559 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13093,11 +13094,12 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 2046 | 5363 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 2046 | 5347 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 213 | 231 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13132,11 +13134,12 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1637 | 5430 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1637 | 5414 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 622 | 164 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13171,11 +13174,12 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1909 | 5530 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1909 | 5514 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 350 | 64 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13210,11 +13214,12 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1954 | 5387 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1954 | 5371 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 305 | 207 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13249,11 +13254,12 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 2114 | 5462 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 2114 | 5446 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 144 | 132 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5997 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 66 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 66 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13290,8 +13296,8 @@ Frequencies (unweighted):
 | 5 | Student grant / UAF | 0 | 207 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 6 | Other | 0 | 132 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 0 | 6 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 3221 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -13336,9 +13342,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 5997 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5779 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 705 | 116 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 90 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
@@ -13381,9 +13387,9 @@ Frequencies (unweighted):
 | 9 | 2000-2250 euro | 6 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 10 | 2250 euro or more | 5 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 54 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 5997 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5779 | 3222 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 329 | 44 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13460,9 +13466,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 5997 | 3222 | 0 | 3355 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5779 | 3222 | 0 | 3355 | 0 | 0 | 0 | 0 |
 | .d | No information | 124 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 | .a | Don't know | 0 | 81 | 0 | 47 | 0 | 0 | 0 | 0 |
 
 ---
@@ -13505,9 +13511,9 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 2421 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2203 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 883 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13544,9 +13550,9 @@ Frequencies (unweighted):
 | 6 | 1550-1750 euro | 292 | 103 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 7 | 1750-2000 euro | 203 | 65 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | 2000 euro or more | 312 | 174 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 2423 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 2205 | 1564 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 883 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -13683,15 +13689,16 @@ Frequencies (unweighted):
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 0= | -3=weet niet; -4=Missing; -7=Sysmis; 0=niet genoemd; 1=genoemd |
 | Eligible records / population | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) |
 | Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN BIJDRAGE:' | none (no eligibility condition printed for this item) |
-- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZKIND`: 1-99→1
+- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZKIND`: 1-98→1
 
 Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 4020 | 912 | 0 | 0 | 0 | 0 | 0 | 0 |
-| 1 | Yes | 179 | 149 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 1 | Yes | 132 | 149 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .c | Not applicable | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 47 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -13852,15 +13859,16 @@ Missing values:
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 0= | -3=weet niet; -4=Missing; -7=Sysmis; 0=niet genoemd; 1=genoemd |
 | Eligible records / population | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) |
 | Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN BIJDRAGE:' | none (no eligibility condition printed for this item) |
-- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZFAM`: 1-99→1
+- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZFAM`: 1-98→1
 
 Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 3323 | 523 | 0 | 0 | 0 | 0 | 0 | 0 |
-| 1 | Yes | 876 | 538 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 1 | Yes | 802 | 538 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .c | Not applicable | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 74 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -13936,15 +13944,16 @@ Missing values:
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 0= | -3=weet niet; -4=Missing; -7=Sysmis; 0=niet genoemd; 1=genoemd |
 | Eligible records / population | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) |
 | Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN BIJDRAGE:' | none (no eligibility condition printed for this item) |
-- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZAND`: 1-99→1
+- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZAND`: 1-98→1
 
 Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 4037 | 1027 | 0 | 0 | 0 | 0 | 0 | 0 |
-| 1 | Yes | 162 | 34 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 1 | Yes | 108 | 34 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .c | Not applicable | 0 | 2486 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 54 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 9305 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -15116,9 +15125,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 5925 | 2884 | 0 | 2687 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 2159 | 661 | 0 | 2544 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 218 | 2 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 19 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15157,7 +15166,8 @@ Frequencies (unweighted):
 | 7 | Social club | 0 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 8 | Ethnic / cultural association | 0 | 85 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 9 | Other | 0 | 86 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 0 | 2887 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2886 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
@@ -15193,11 +15203,11 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 925 | 3209 | 0 | 3897 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 925 | 3208 | 0 | 3897 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 1230 | 338 | 0 | 1334 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
-| .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 5925 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .d | No information | 23 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15232,11 +15242,11 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1926 | 3532 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1926 | 3531 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 229 | 15 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 5925 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 23 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15271,11 +15281,11 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 2088 | 3471 | 0 | 4924 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 2088 | 3470 | 0 | 4924 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 67 | 76 | 0 | 307 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
-| .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 5925 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .d | No information | 23 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15310,11 +15320,11 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 2051 | 3522 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 2051 | 3521 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 104 | 25 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 5925 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 23 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15349,11 +15359,11 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1908 | 3539 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1908 | 3538 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 247 | 8 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 5925 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .d | No information | 23 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15388,11 +15398,11 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 2048 | 3534 | 0 | 4964 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 2048 | 3533 | 0 | 4964 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 107 | 13 | 0 | 267 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
-| .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 5925 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .d | No information | 23 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15427,11 +15437,11 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 2113 | 3533 | 0 | 5146 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 2113 | 3532 | 0 | 5146 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 42 | 14 | 0 | 85 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
-| .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 5925 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .d | No information | 23 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 5572 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15466,9 +15476,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2014 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 141 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5925 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15503,9 +15513,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2099 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 56 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5925 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15540,9 +15550,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 2127 | 0 | 0 | 5140 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 28 | 0 | 0 | 91 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5925 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15577,9 +15587,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | Not mentioned | 1783 | 0 | 0 | 4736 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 372 | 0 | 0 | 495 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5925 | 0 | 0 | 19 | 0 | 0 | 0 | 0 |
 | .d | No information | 23 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 0 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15612,9 +15622,9 @@ Frequencies (unweighted):
 | 1 | Many from own group | 953 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Few | 760 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | (Almost) none | 428 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6143 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 5925 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 37 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15648,9 +15658,9 @@ Frequencies (unweighted):
 |---|---|---|---|---|---|---|---|---|---|
 | 0 | No | 345 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 611 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7331 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7113 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 34 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15683,9 +15693,9 @@ Frequencies (unweighted):
 | 1 | Own group in the Netherlands | 513 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2 | Country of origin | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3 | Both | 82 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 7676 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 7458 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 43 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15720,9 +15730,9 @@ Frequencies (unweighted):
 | 0 | No | 1589 | 1392 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Yes | 6467 | 4187 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 13 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 218 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 47 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15758,9 +15768,9 @@ Frequencies (unweighted):
 | 3 | No, rather not | 533 | 203 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | No, definitely not | 137 | 27 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 79 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6685 | 4189 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 6467 | 4189 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 71 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
 
 ---
 
@@ -15795,9 +15805,9 @@ Frequencies (unweighted):
 | 1 | Often/always | 2055 | 0 | 1080 | 1016 | 0 | 578 | 1539 | 1251 |
 | 2 | Sometimes | 3605 | 0 | 1523 | 2128 | 0 | 1760 | 3180 | 2584 |
 | 3 | Never | 2378 | 0 | 1493 | 2103 | 0 | 1787 | 2110 | 1488 |
-| .c | Not applicable | 218 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 9119 | 0 | 0 | 6911 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 9119 | 0 | 0 | 6911 | 0 | 0 | 0 |
 
 ---
 
@@ -15835,9 +15845,9 @@ Frequencies (unweighted):
 | 3 | Never | 1989 | 376 | 1075 | 1593 | 645 | 1218 | 1336 | 897 |
 | .a | Don't know | 0 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 218 | 0 | 0 | 3 | 3894 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 0 | 0 | 3 | 3894 | 0 | 0 | 0 |
 | .d | No information | 73 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 7072 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 7072 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -15874,9 +15884,9 @@ Frequencies (unweighted):
 | 3 | More with native Dutch | 1355 | 1743 | 951 | 1430 | 1995 | 695 | 1346 | 1171 |
 | .a | Don't know | 0 | 57 | 0 | 0 | 152 | 12 | 95 | 116 |
 | .b | Refusal | 0 | 0 | 14 | 0 | 8 | 0 | 0 | 0 |
-| .c | Not applicable | 2207 | 2 | 1075 | 1620 | 1607 | 1586 | 1959 | 1391 |
+| .c | Not applicable | 1989 | 2 | 1075 | 1620 | 1607 | 1586 | 1959 | 1391 |
 | .d | No information | 63 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -20736,7 +20746,7 @@ Frequencies (unweighted):
 | Response / recording categories (questionnaire codes) | 1=ja, ziet mogelijkheden; 2=weet niet; 3=nee | 1=ja, ziet mogelijkheden; 2=nee; 3=weet niet | 1=ja; 2=nee | 1=ja; 2=nee | 1=ja; 2=nee |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) |  |  |  | 1=ja; 2=nee; 7=geen antwoord\wil niet zeggen; 8=niet van toepassing; 9=niet van toepassing |  |
 | Eligible records / population | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) | Respondents who want to return (SIM 2006) | Respondents who want to return (SING 2009) | Respondents who want to return (SIM 2011) |
-| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN JA/WEET NIET:; INDIEN NEE/WEET NIET:' | none (no eligibility condition printed for this item) | `ret_wish` in {1} (translated from the printed condition on `WILTERUG`) - holds in the data (1251 values) | printed condition not translated into a harmonized variable: 'INDIEN [ Q2420 , 1 , 3 ]' | `svy_routing_mig` in {1} (persons with a migration background (migrant routing of the script)) - holds in the data (1012 values); `ret_wish` in {1} (translated from the printed condition on `WILTERUG`) - holds in the data (1012 values) |
+| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN JA/WEET NIET:' | none (no eligibility condition printed for this item) | `ret_wish` in {1} (translated from the printed condition on `WILTERUG`) - holds in the data (1251 values) | printed condition not translated into a harmonized variable: 'INDIEN [ Q2420 , 1 , 3 ]' | `svy_routing_mig` in {1} (persons with a migration background (migrant routing of the script)) - holds in the data (1012 values); `ret_wish` in {1} (translated from the printed condition on `WILTERUG`) - holds in the data (1012 values) |
 - Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SIM 2006 `MOGTERUG`: 2→3; SIM 2011 `MOGTERUG`: 2→3; SING 2009 `MOGTERUG`: 2→3; SPVN 2003 `MOGTERUG`: 3→2, 2→3
 
 Frequencies (unweighted):
@@ -23689,9 +23699,9 @@ Frequencies (unweighted):
 | 2 | Middle | 621 | 473 | 404 | 0 | 0 | 0 | 589 | 525 |
 | 3 | High | 420 | 330 | 317 | 0 | 0 | 0 | 490 | 0 |
 | .a | Don't know | 0 | 0 | 32 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 6324 | 4218 | 3164 | 0 | 0 | 0 | 5426 | 4250 |
+| .c | Not applicable | 6106 | 4218 | 3164 | 0 | 0 | 0 | 5426 | 4250 |
 | .d | No information | 114 | 26 | 0 | 0 | 0 | 0 | 93 | 156 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
 
 ---
 
@@ -23730,9 +23740,9 @@ Frequencies (unweighted):
 | 2 | Middle (havo/vwo, mbo 2-4) | 1006 | 406 | 995 | 0 | 0 | 0 | 2127 | 1319 |
 | 3 | High (hbo, wo) | 594 | 364 | 560 | 0 | 0 | 0 | 1180 | 1513 |
 | .a | Don't know | 0 | 0 | 33 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 4507 | 4050 | 1153 | 0 | 0 | 0 | 2727 | 1763 |
+| .c | Not applicable | 4289 | 4050 | 1153 | 0 | 0 | 0 | 2727 | 1763 |
 | .d | No information | 79 | 14 | 0 | 0 | 0 | 0 | 62 | 234 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 0 | 5250 | 6911 | 4125 | 0 | 0 |
 
 ---
 
@@ -23767,9 +23777,9 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 1554 | 729 | 0 | 0 | 0 | 0 | 1272 | 0 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 940 | 372 | 0 | 0 | 0 | 0 | 1624 | 0 |
 | 3 | High (hbo, wo) | 523 | 321 | 0 | 0 | 0 | 0 | 1160 | 0 |
-| .c | Not applicable | 3198 | 3043 | 0 | 0 | 0 | 0 | 1511 | 0 |
+| .c | Not applicable | 2980 | 3043 | 0 | 0 | 0 | 0 | 1511 | 0 |
 | .d | No information | 103 | 0 | 0 | 0 | 0 | 0 | 47 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 5323 |
 
 ---
 
@@ -23804,9 +23814,9 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 3121 | 1672 | 0 | 0 | 0 | 0 | 1921 | 0 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 1397 | 1325 | 0 | 0 | 0 | 0 | 1923 | 0 |
 | 3 | High (hbo, wo) | 668 | 1077 | 0 | 0 | 0 | 0 | 1215 | 0 |
-| .c | Not applicable | 1861 | 1103 | 0 | 0 | 0 | 0 | 1167 | 0 |
+| .c | Not applicable | 1643 | 1103 | 0 | 0 | 0 | 0 | 1167 | 0 |
 | .d | No information | 108 | 0 | 0 | 0 | 0 | 0 | 10 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 0 | 5323 |
 
 ---
 
@@ -23840,9 +23850,9 @@ Frequencies (unweighted):
 | 1 | Low (primary, vmbo, mbo-1) | 4308 | 2087 | 0 | 0 | 0 | 1779 | 2329 | 0 |
 | 2 | Middle (havo/vwo, mbo 2-4) | 1651 | 1441 | 0 | 0 | 0 | 1281 | 2274 | 0 |
 | 3 | High (hbo, wo) | 695 | 1161 | 0 | 0 | 0 | 689 | 1526 | 0 |
-| .c | Not applicable | 218 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 0 | 488 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 282 | 0 | 0 | 0 | 0 | 14 | 17 | 0 |
-| .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 0 | 0 | 5323 |
+| .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 0 | 0 | 5323 |
 
 ---
 
@@ -23920,8 +23930,8 @@ Frequencies (unweighted):
 | 3 | High (hbo, wo) | 445 | 641 | 419 | 506 | 0 | 0 | 992 | 0 |
 | .a | Don't know | 0 | 0 | 0 | 0 | 0 | 0 | 129 | 0 |
 | .b | Refusal | 0 | 0 | 57 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1840 | 2506 | 1737 | 2288 | 0 | 0 | 2795 | 0 |
-| .d | No information | 7393 | 4345 | 0 | 15 | 0 | 0 | 59 | 0 |
+| .c | Not applicable | 1731 | 2506 | 1737 | 2288 | 0 | 0 | 2795 | 0 |
+| .d | No information | 7502 | 4345 | 0 | 15 | 0 | 0 | 59 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 0 | 6911 | 4125 | 0 | 5323 |
 
 ---
@@ -24589,14 +24599,15 @@ Missing values:
 ---
 
 ### `lab_exp_prev` {#lab_exp_prev}
-**Years of work experience in NL (persons not working now)**
+**Work experience in NL, years (persons not working now; fractional where months are recorded: SIM 2011/2015)**
 - Theme: Labour market (`lab`) · Scope: person · Type: num
-- Universe: Respondents without paid work who ever worked (SIM 2006, SIM 2011); Respondents not working now who ever worked in NL (SIM 2015)
+- Universe: Respondents not working now who ever worked in NL, SIM 2015 only
 - Sources (file level): SIM 2006 `ARBERV_W` (main); SIM 2011 `ARBERV_W_JR` (main); SIM 2015 `arberv_wj` (main)
-- Subject: self · Reported by: respondent (SIM 2006, SIM 2011, SIM 2015)
-- Availability: collected: SIM 2006, SIM 2011, SIM 2015 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SING 2009, SIM 2020
+- Derived: `plus_months:lab_exp_prev_mo` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, LAS 2004/05, SING 2009, SIM 2020); respondent (SIM 2006, SIM 2011, SIM 2015)
+- Availability: collected: SIM 2006, SIM 2011, SIM 2015 · derived where the inputs exist: SPVA 2002, SPVN 2003, LAS 2004/05, SING 2009, SIM 2020
 - Routing (harmonized variables): none printed (SIM 2006); `lab_emp` in {0} & `lab_everwork` in {1} (SIM 2011); `lab_everwork` in {1} (SIM 2015)
-- Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table; a group fill is unresolved in the script printout
+- Comparability: **derived** (auto) — derived by rule 'plus_months:lab_exp_prev_mo' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SIM 2006, SIM 2011, SIM 2015): question differs (SIM 2011 vs SIM 2015 vs SIM 2006); contains an unresolved fill; introduction none printed; answer options none printed; interviewer instruction printed in SIM 2011 only; routing differs (SIM 2015 vs SIM 2011); none printed in SIM 2006
 
 | Item | SIM 2006 | SIM 2011 | SIM 2015 |
@@ -24609,7 +24620,7 @@ Missing values:
 | Interviewer recording / assessment instruction (questionnaire) |  | (ENQ.: Laat een schatting maken indien respondent het niet weet) |  |
 | Response format |  | IN jaren of in maanden; Aantal jaren; Aantal maanden; Weet niet | Max 80 |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | -2=wil niet zeggen/geen opgave; -3=weet niet; -5=niet van toepassing | -5=Niet van toepassing | -2=blanc; -3=weet niet/geen antwoord |
-| Eligible records / population | Respondents without paid work who ever worked (SIM 2006) | Respondents without paid work who ever worked (SIM 2011) | Respondents not working now who ever worked in NL (SIM 2015) |
+| Eligible records / population | Respondents without paid work who ever worked (SIM 2006) | Respondents without paid work who ever worked (SIM 2011) | Respondents not working now who ever worked in NL, SIM 2015 only |
 | Routing (harmonized variables) | none (no eligibility condition printed for this item) | `lab_emp` in {0} (persons without paid work) - holds in the data (1136 values; 1136 of them from records without a value on the gate variable, which the printed condition admits); `lab_everwork` in {1} (translated from the printed condition on `WERKNL`) - holds in the data (1136 values) | `lab_everwork` in {1} (translated from the printed condition on `werknl`) - holds in the data (1806 values) |
 
 Summary (unweighted, non-missing values):
@@ -24621,8 +24632,8 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 1320 | 13.28 | 13.09 | 0 | 3 | 8.59 | 20 | 65 |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 1136 | 15.13 | 13.1 | 0 | 4 | 10 | 25 | 40 |
-| SIM2015 | 1806 | 14.82 | 13.5 | 0 | 4 | 10 | 21 | 65 |
+| SIM2011 | 1136 | 15.25 | 13.08 | 0 | 4 | 10.54 | 25 | 41 |
+| SIM2015 | 1947 | 13.78 | 13.53 | 0.0833333333333333 | 3 | 9 | 20 | 65 |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
 Missing values:
@@ -24631,7 +24642,7 @@ Missing values:
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 9119 | 4096 | 0 | 6911 | 0 | 0 | 5323 |
 | .a | Don't know | 0 | 0 | 0 | 37 | 0 | 0 | 62 | 0 |
-| .c | Not applicable | 0 | 0 | 0 | 3893 | 0 | 2989 | 4961 | 0 |
+| .c | Not applicable | 0 | 0 | 0 | 3893 | 0 | 2989 | 4820 | 0 |
 
 ---
 
@@ -24954,7 +24965,7 @@ Frequencies (unweighted):
 ---
 
 ### `trn_remit` {#trn_remit}
-**Household sent money to the country of origin in the past 12 months**
+**Sent money or goods to the country of origin (reference period differs by survey; see notes)**
 - Theme: Transnational support to origin country (`trn`) · Scope: person · Type: cat · Value set: `yesno`
 - Universe: Respondents who are head or partner of the household (SIM 2006); Respondents with a migration background (SING 2009, SIM 2011, SIM 2015)
 - Sources (file level): SIM 2006 `V680` (main); SING 2009 `V680X` (main); SIM 2011 `GELDHERK` (main); SIM 2015 `geldherk` (main)
@@ -24962,7 +24973,7 @@ Frequencies (unweighted):
 - Availability: collected: SIM 2006, SING 2009, SIM 2011, SIM 2015 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2020
 - Routing (harmonized variables): none printed (SIM 2006); `svy_routing_mig` in {1} (SING 2009, SIM 2011); printed condition not translated (SIM 2015)
 - Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table; a group fill is unresolved in the script printout
-- Wording and procedure: Respondent-facing (SIM 2006, SING 2009, SIM 2011, SIM 2015): question differs (SIM 2006 vs SING 2009 vs SIM 2011 vs SIM 2015); contains an unresolved fill; introduction none printed; answer options identical; routing differs (SIM 2015 vs SIM 2011 vs SING 2009); none printed in SIM 2006. **Note:** SIM 2006: 'in 2005 geld of goederen gestuurd naar het buitenland' (any country, calendar year 2005); SIM 2011/2015: to the country of origin in the past 12 months. SING 2009 asks about the calendar year 2008 (money or goods sent to the country of origin).
+- Wording and procedure: Respondent-facing (SIM 2006, SING 2009, SIM 2011, SIM 2015): question differs (SIM 2006 vs SING 2009 vs SIM 2011 vs SIM 2015); contains an unresolved fill; introduction none printed; answer options identical; routing differs (SIM 2015 vs SIM 2011 vs SING 2009); none printed in SIM 2006. **Note:** Reference period and recipient differ by survey: SIM 2006 calendar year 2005, any country; SING 2009 calendar year 2008 and SIM 2011 calendar year 2010, to the country of origin; SIM 2015 the past 12 months, to the country of origin. Fixed calendar years and rolling periods are not interchangeable around the interview date (audit 25 Nov 2026, decisions s. 34). SING 2009 asks about the calendar year 2008 (money or goods sent to the country of origin).
 
 | Item | SIM 2006 | SING 2009 | SIM 2011 | SIM 2015 |
 |---|---|---|---|---|
@@ -24990,10 +25001,11 @@ Frequencies (unweighted):
 ---
 
 ### `trn_house` {#trn_house}
-**Respondent (or parents) owns a house in the country of origin**
+**Owns a house in the country of origin (subject differs by survey; see notes)**
 - Theme: Transnational support to origin country (`trn`) · Scope: person · Type: cat · Value set: `yesno`
 - Universe: Respondents with a migration background (SIM 2006, SING 2009, SIM 2011, SIM 2015)
 - Sources (file level): SIM 2006 `HUISBUI` (main); SING 2009 `HUISBUI` (main); SIM 2011 `HUISBUI` (main); SIM 2015 `huisbui` (main)
+- Notes: SIM 2006/SING 2009/SIM 2011 ask about the respondent or the household; SIM 2015 asks about the respondent personally ('u zelf'), so for respondents living as a child in the household the subject shifts from the parents to the respondent. (Audit 25 Nov 2026, decisions s. 34.)
 - Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015)
 - Availability: collected: SIM 2006, SING 2009, SIM 2011, SIM 2015 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2020
 - Routing (harmonized variables): `svy_routing_mig` in {1} (SIM 2006, SING 2009, SIM 2011); printed condition not translated (SIM 2015)
@@ -26349,15 +26361,17 @@ Frequencies (unweighted):
 ---
 
 ### `soc_volunteer` {#soc_volunteer}
-**Did voluntary work in the past 12 months**
+**Does voluntary work (reference period differs by survey; see notes)**
 - Theme: Social contacts and participation (`soc`) · Scope: person · Type: cat · Value set: `yesno`
-- Universe: All respondents (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020)
+- Universe: All respondents, SIM 2015 and SIM 2020
 - Sources (file level): LAS 2004/05 `VRWWAND` (main); SIM 2006 `VRIJWIL` (main); SIM 2015 `vrijw` (main); SIM 2020 `vrijw` (main)
-- Subject: self · Reported by: respondent (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020)
-- Availability: collected: LAS 2004/05, SIM 2006, SIM 2015, SIM 2020 · not collected: SPVA 2002, SPVN 2003, SING 2009, SIM 2011
+- Derived: `las_vol_union` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Notes: LAS 2004/05: any volunteering from the whole block - the nine listed organisation types (V229, kept as soc_vol01-09) or the residual other-organisation item (V231 VRWWAND); no explicit reference period. SIM 2006: current situation. SIM 2015/2020: past 12 months. (Audit 25 Nov 2026, decisions s. 34.)
+- Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, SING 2009, SIM 2011); respondent (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020)
+- Availability: collected: LAS 2004/05, SIM 2006, SIM 2015, SIM 2020 · derived where the inputs exist: SPVA 2002, SPVN 2003, SING 2009, SIM 2011
 - Routing (harmonized variables): none printed (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020)
-- Comparability: **approximate match** (auto) — question wording differs between surveys: see the wording table
-- Wording and procedure: Respondent-facing (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020): question differs (SIM 2015/SIM 2020 vs SIM 2006 vs LAS 2004/05); introduction none printed; answer options differs (LAS 2004/05/SIM 2006 vs SIM 2020 vs SIM 2015). **Note:** SIM 2006: 'doet u op dit moment wel eens vrijwilligerswerk' (currently); SIM 2015: in the past 12 months.
+- Comparability: **derived** (auto) — derived by rule 'las_vol_union' in every survey where the inputs exist; see the variable note
+- Wording and procedure: Respondent-facing (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020): question differs (SIM 2015/SIM 2020 vs SIM 2006 vs LAS 2004/05); introduction none printed; answer options differs (LAS 2004/05/SIM 2006 vs SIM 2020 vs SIM 2015). **Note:** Reference period differs by survey: LAS 2004/05 no explicit period (any volunteering from the V229/V231 block, see las_vol_union); SIM 2006 the current situation; SIM 2015/2020 the past 12 months.
 
 | Item | LAS 2004/05 | SIM 2006 | SIM 2015 | SIM 2020 |
 |---|---|---|---|---|
@@ -26368,7 +26382,7 @@ Frequencies (unweighted):
 | Question / statement shown or read to respondent | Doet u wel eens vrijwilligerswerk voor een andere organisatie of instelling, bij voorbeeld voor een school, ziekenhuis, bibliotheek of andere voorziening? | Doet u op dit moment wel eens vrijwilligerswerk? Vrijwilligerswerk is werk waarvoor u niets betaald krijgt. Bijvoorbeeld vrijwilligerswerk op een school, in een ziekenhuis of in een bibliotheek. | Heeft u in de afgelopen 12 maanden vrijwilligerswerk gedaan? Onder vrijwilligerswerk verstaan we hier activiteiten die u doet voor een organisatie of een vereniging en waarvoor u niet wordt betaald. Denk bijvoorbeeld aan iets organiseren op de sportclub of helpen op school, of activiteiten voor de moskee of de kerk. | Heeft u in de afgelopen 12 maanden vrijwilligerswerk gedaan? Onder vrijwilligerswerk verstaan we hier activiteiten die u doet voor een organisatie of een vereniging en waarvoor u niet wordt betaald. Denk bijvoorbeeld aan iets organiseren op de sportclub of helpen op school, of activiteiten voor de moskee of de kerk. |
 | Response / recording categories (questionnaire codes) | 1=ja; 2=nee | 1=ja; 2=nee | 1=ja; 2=nee; 99=weet niet | 1=ja; 2=nee; 92=weet niet |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) |  |  | -2=blanc; -3=weet niet; 1=Ja; 2=Nee | -3=weet niet; 1=ja; 2=nee |
-| Eligible records / population | All respondents (LAS 2004/05) | All respondents (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020) | All respondents (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020) | All respondents (LAS 2004/05, SIM 2006, SIM 2015, SIM 2020) |
+| Eligible records / population | All respondents (LAS 2004/05) | All respondents, SIM 2015 and SIM 2020 | All respondents, SIM 2015 and SIM 2020 | All respondents, SIM 2015 and SIM 2020 |
 | Routing (harmonized variables) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) | none (no eligibility condition printed for this item) |
 - Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): LAS 2004/05 `VRWWAND`: 2→0; SIM 2006 `VRIJWIL`: 2→0; SIM 2015 `vrijw`: 2→0; SIM 2020 `vrijw`: 2→0
 
@@ -26376,9 +26390,9 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | No | 0 | 0 | 3706 | 4442 | 0 | 0 | 5212 | 3776 |
-| 1 | Yes | 0 | 0 | 390 | 807 | 0 | 0 | 1534 | 1470 |
-| .a | Don't know | 0 | 0 | 0 | 0 | 0 | 0 | 83 | 77 |
+| 0 | No | 0 | 0 | 3128 | 4442 | 0 | 0 | 5212 | 3776 |
+| 1 | Yes | 0 | 0 | 908 | 807 | 0 | 0 | 1534 | 1470 |
+| .a | Don't know | 0 | 0 | 60 | 0 | 0 | 0 | 83 | 77 |
 | .c | Not applicable | 0 | 0 | 0 | 1 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 13504 | 9119 | 0 | 0 | 6911 | 4125 | 0 | 0 |
 
@@ -33851,7 +33865,7 @@ Frequencies (unweighted):
 - Theme: Health (`hlth`) · Scope: person · Type: num
 - Universe: All respondents (SIM 2011, SIM 2015, SIM 2020)
 - Sources (file level): SIM 2011 `LENGTE` (main); SIM 2015 `lengte` (main); SIM 2020 `lengte` (main)
-- Notes: SIM 2015: 0 -> .d; SIM 2020: values >= 990 -> .a.
+- Notes: SIM 2015: 0 -> .d; SIM 2020: values >= 990 -> .a. Implausible recorded SIM 2015 values are kept as recorded (heights of 1 and 16 cm; see the weight note): apply your own plausibility rules.
 - Subject: self · Reported by: respondent (SIM 2011, SIM 2015, SIM 2020)
 - Availability: collected: SIM 2011, SIM 2015, SIM 2020 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009
 - Routing (harmonized variables): none printed (SIM 2011, SIM 2015, SIM 2020)
@@ -33901,7 +33915,7 @@ Missing values:
 - Theme: Health (`hlth`) · Scope: person · Type: num
 - Universe: All respondents (SIM 2011, SIM 2015, SIM 2020)
 - Sources (file level): SIM 2011 `GEWICHT` (main); SIM 2015 `gewicht` (main); SIM 2020 `gewicht` (main)
-- Notes: SIM 2015: 0 -> .d; SIM 2020: values >= 990 -> .a.
+- Notes: SIM 2015: 0 -> .d; SIM 2020: values >= 990 -> .a. Implausible recorded SIM 2015 values are kept as recorded (weights of 1, 2, 2, 10 and 15 kg; also extremes up to 260 cm and 300 kg): the source does not justify a correction, so apply your own plausibility rules (audit 25 Nov 2026, decisions s. 34).
 - Subject: self · Reported by: respondent (SIM 2011, SIM 2015, SIM 2020)
 - Availability: collected: SIM 2011, SIM 2015, SIM 2020 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009
 - Routing (harmonized variables): none printed (SIM 2011, SIM 2015); printed condition not translated (SIM 2020)
@@ -34704,8 +34718,8 @@ Frequencies (unweighted):
 | 0 | No | 2047 | 1338 | 0 | 1311 | 1614 | 956 | 0 | 0 |
 | 1 | Yes | 2372 | 1115 | 0 | 1696 | 2205 | 1478 | 0 | 0 |
 | .a | Don't know | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .c | Not applicable | 1759 | 2320 | 0 | 2243 | 3092 | 1691 | 0 | 0 |
-| .d | No information | 7326 | 4345 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 1650 | 2320 | 0 | 2243 | 3092 | 1691 | 0 | 0 |
+| .d | No information | 7435 | 4345 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 0 | 0 | 0 | 6829 | 5323 |
 
 ---
@@ -34753,8 +34767,8 @@ Missing values:
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| .c | Not applicable | 3806 | 3671 | 2705 | 3554 | 0 | 2647 | 0 | 0 |
-| .d | No information | 7343 | 4345 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .c | Not applicable | 3697 | 3671 | 2705 | 3554 | 0 | 2647 | 0 | 0 |
+| .d | No information | 7452 | 4345 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .a | Don't know | 0 | 4 | 0 | 21 | 0 | 23 | 0 | 0 |
 | .b | Refusal | 0 | 0 | 19 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 0 | 0 | 6911 | 0 | 6829 | 5323 |

@@ -84,11 +84,11 @@ soc_sport5,LAS 2004/05 asked the number of times in the past 12 months in classe
 soc_sport_comp,"LAS 2004/05: 'in competitie- of trainingsverband' (competition or training); SIM 2006/2011: competitions, tournaments or matches."
 soc_sport_ethn,LAS 2004/05: background of the members of the sports club (voornamelijk westers / eigen groep / half-half / divers / anders).
 soc_visit_nl,"SPVA 2002: 'autochtone Nederlandse vrienden'. SIM: text filled per group - migrants asked about 'autochtone Nederlandse' visitors, the native reference sample about 'allochtone' (2015) / 'personen met een migratieachtergrond' (2020). Interpret for natives as contact with the other group."
-soc_volunteer,SIM 2006: 'doet u op dit moment wel eens vrijwilligerswerk' (currently); SIM 2015: in the past 12 months.
+soc_volunteer,"Reference period differs by survey: LAS 2004/05 no explicit period (any volunteering from the V229/V231 block, see las_vol_union); SIM 2006 the current situation; SIM 2015/2020 the past 12 months."
 svy_lang_q,SPVN 2003: Dutch/English/French chosen by the interviewer with the respondent. SIM 2020: language version selected by the respondent (CAWI) or interviewer (CAPI).
 svy_wgt,"Weights are population-scaled (sum = population size per survey) and survey-specific; SPVA/SPVN weights come from ISEO, SIM weights from CBS. Do not pool weighted estimates across surveys without rescaling."
 tim_act01,"LAS 2004/05 diary: the day runs from 6:00 to 24:00 in 72 quarter-hour slots (tim_slot01-72, activity codes act43); tim_act01-43 are the hours spent on each activity summed by SCP over the 72 slots."
-trn_remit,"SIM 2006: 'in 2005 geld of goederen gestuurd naar het buitenland' (any country, calendar year 2005); SIM 2011/2015: to the country of origin in the past 12 months. SING 2009 asks about the calendar year 2008 (money or goods sent to the country of origin)."
+trn_remit,"Reference period and recipient differ by survey: SIM 2006 calendar year 2005, any country; SING 2009 calendar year 2008 and SIM 2011 calendar year 2010, to the country of origin; SIM 2015 the past 12 months, to the country of origin. Fixed calendar years and rolling periods are not interchangeable around the interview date (audit 25 Nov 2026, decisions s. 34). SING 2009 asks about the calendar year 2008 (money or goods sent to the country of origin)."
 trn_remit01,SIM 2006: partner or ex-partner; SIM 2011: partner / spouse / fiance(e).
 trn_remit04,SIM 2006: other family members or friends; SIM 2011: other family members (friends under 'others').
 trn_visit12m,SIM 2006 asks about the calendar year 2005 (interviews autumn 2006 - January 2007); SIM 2011/2015 about 2010 / the past 12 months.

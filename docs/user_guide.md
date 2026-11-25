@@ -43,7 +43,7 @@ Do not unzip, rename or edit anything inside. The pipeline unzips each deposit i
 
 ## 3. Get the repository
 
-Either clone it with Git (`git clone https://github.com/stefanocellini/IMPD_CS.git`, or GitHub Desktop), or download a release as a zip from the repository's *Releases* page and unzip it. Use a release (a tagged version such as `v0.5.3`) rather than an arbitrary commit: a release is a state meant for use, with release notes.
+Either clone it with Git (`git clone https://github.com/stefanocellini/IMPD_CS.git`, or GitHub Desktop), or download a release as a zip from the repository's *Releases* page and unzip it. Use a release (a tagged version such as `v0.5.5`) rather than an arbitrary commit: a release is a state meant for use, with release notes.
 
 Keep the folder out of a synced cloud folder (OneDrive, Dropbox) if you can: the build writes 2 GB and the syncing has been seen to serve stale copies of files.
 
@@ -105,7 +105,7 @@ Three things say that your build is the one the release describes:
 
 1. **`docs/BUILD_ID`** holds the build identity: a 12-character fingerprint of the crosswalks and the code, followed by the version and the time. It is written by the import step (4.1), so both engines have it. It must equal the build identity stated in the release notes. If it does not, your copy of the repository differs from the release (section 7).
 2. **The run log.** R: `docs/run_log.md` lists the 44 checks, one line each, starting with `PASS` (43 and one `SKIP` when Python is not installed: the label review already ran when the crosswalks were built). Stata: `docs/run_log_stata.md` lists the verdicts of the Stata checks the same way, and names the build identity in its first line. In either engine a `FAIL` stops the pipeline before the files are written.
-3. **The counts.** 55,157 persons and 1,642 variables for version 0.5.3: in the R run log's first checks, and in the Stata pipeline's `04_build` message (`Main file: 55157 persons x 1642 variables`).
+3. **The counts.** 55,157 persons and 1,642 variables for version 0.5.5: in the R run log's first checks, and in the Stata pipeline's `04_build` message (`Main file: 55157 persons x 1642 variables`).
 
 With both engines built: the Stata log ends with `PASS Stata build identical to R build in every cell of every variable`.
 
@@ -135,7 +135,7 @@ In Stata: `use "data/derived/impd_cs_v0_5_3_stata.dta", clear` after a Stata bui
 | `FAIL …` in the run log | a check found the build inconsistent | this should not happen with an unmodified release: open an issue with the run log attached |
 | `SKIP value-map review: no working Python interpreter found` | Python 3 is not installed or not on the PATH | harmless for the data; install Python 3 to run the check yourself |
 | `Word copies skipped` / `Slide decks skipped` | pandoc or Python is absent | harmless; the Markdown and HTML documents are the reference |
-| `docs/BUILD_ID` differs from the release notes | your repository copy is not the release: a different commit, or a file changed, or line endings converted by Git on checkout | download the release zip, or `git checkout v<version>` (for example `v0.5.3`); the project's `.gitattributes` prevents line-ending conversion, but a global Git setting can still override it |
+| `docs/BUILD_ID` differs from the release notes | your repository copy is not the release: a different commit, or a file changed, or line endings converted by Git on checkout | download the release zip, or `git checkout v<version>` (for example `v0.5.5`); the project's `.gitattributes` prevents line-ending conversion, but a global Git setting can still override it |
 | Stata: `missing data/interim/… - run Rscript code/R/01_import.R first` | the deposits have not been read yet (4.1) | run `Rscript code/R/01_import.R`, then start the Stata pipeline again |
 | Stata: `FAIL …` and the run stops | a check found the Stata build inconsistent | this should not happen with an unmodified release: open an issue with `docs/run_log_stata.txt` attached |
 | Stata: `R build not found - comparison skipped` | only the Stata build exists | nothing to do: the comparison needs both builds |

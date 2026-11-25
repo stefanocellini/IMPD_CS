@@ -350,7 +350,7 @@ for i, (src, lab) in enumerate([("gevwerk", "dangerous work"), ("zwaarwerk", "ph
     V(f"lab_cond{i:02d}", "lab", f"Working conditions: how often {lab}", s15=src, valueset="freq4_av", universe="Employed respondents, SIM 2015 only")
 S("lab_exp", s15="arbervj", u15="Employed respondents (SIM 2015): total years worked in NL (months in lab_exp_mo)")
 V("lab_exp_mo", "lab", "Months of work experience in addition to lab_exp", s15="arbervm", type="num", universe="Employed respondents, SIM 2015 only")
-V("lab_exp_prev", "lab", "Years of work experience in NL (persons not working now)", s15="arberv_wj", type="num", universe="Respondents not working now who ever worked in NL, SIM 2015 only")
+V("lab_exp_prev", "lab", "Work experience in NL, years (persons not working now; fractional where months are recorded: SIM 2011/2015)", s15="arberv_wj", type="num", universe="Respondents not working now who ever worked in NL, SIM 2015 only", derive="plus_months:lab_exp_prev_mo")
 V("lab_exp_prev_mo", "lab", "Months of work experience in addition to lab_exp_prev", s15="arberv_wm", type="num", universe="Respondents not working now who ever worked in NL, SIM 2015 only")
 S("lab_everwork", s15="werknl", u15="Respondents not working now (SIM 2015)")
 yn("lab_everwork", S15, "werknl")
@@ -377,9 +377,10 @@ V("inc_hh_pct_reg", "inc", "Disposable household income, percentile group (regis
 V("inc_sec_reg", "inc", "Socio-economic category, main income source (registry 2019)", s20="inpsecj_kl", valueset="sec_reg4", universe=U_SIM20)
 
 # ============================================================== trn_
-V("trn_remit", "trn", "Household sent money to the country of origin in the past 12 months", s15="geldherk", valueset="yesno", universe=U_MIG15)
+V("trn_remit", "trn", "Sent money or goods to the country of origin (reference period differs by survey; see notes)", s15="geldherk", valueset="yesno", universe=U_MIG15)
 yn("trn_remit", S15, "geldherk")
-V("trn_house", "trn", "Respondent (or parents) owns a house in the country of origin", s15="huisbui", valueset="yesno", universe=U_MIG15)
+V("trn_house", "trn", "Owns a house in the country of origin (subject differs by survey; see notes)", s15="huisbui", valueset="yesno", universe=U_MIG15,
+  notes="SIM 2006/SING 2009/SIM 2011 ask about the respondent or the household; SIM 2015 asks about the respondent personally ('u zelf'), so for respondents living as a child in the household the subject shifts from the parents to the respondent. (Audit 25 Nov 2026, decisions s. 34.)")
 MM("trn_house", S15, "huisbui", [(1, 1), (2, 0), (98, ".b")])
 V("trn_cont_fam", "trn", "Frequency of contact with family in the country of origin", s15="conherk", valueset="freq5_cont", universe=U_MIG15)
 M("trn_cont_fam", S15, "conherk", 9, ".c")
@@ -445,7 +446,8 @@ V("soc_cont_want", "soc", "Would like more contact with the other group", s15="c
 for i, (g, lab) in enumerate([("mar", "Moroccans"), ("tur", "Turks"), ("ant", "Antilleans/Arubans"), ("sur", "Surinamese"), ("pol", "Poles"), ("aut", "native Dutch")], 1):
     V(f"soc_grp{i:02d}", "soc", f"Frequency of contact with {lab}", s15=f"anveel{g}", valueset="freq4_vrsn", universe="All respondents, SIM 2015 only; own group asked last (randomised order)")
 V("soc_trust_gen", "soc", "Generalised trust: most people can be trusted", s15="vertrouw", valueset="trust2", universe=U_SIM15)
-V("soc_volunteer", "soc", "Did voluntary work in the past 12 months", s15="vrijw", s20="vrijw", valueset="yesno", universe="All respondents, SIM 2015 and SIM 2020")
+V("soc_volunteer", "soc", "Does voluntary work (reference period differs by survey; see notes)", s15="vrijw", s20="vrijw", valueset="yesno", universe="All respondents, SIM 2015 and SIM 2020", derive="las_vol_union",
+  notes="LAS 2004/05: any volunteering from the whole block - the nine listed organisation types (V229, kept as soc_vol01-09) or the residual other-organisation item (V231 VRWWAND); no explicit reference period. SIM 2006: current situation. SIM 2015/2020: past 12 months. (Audit 25 Nov 2026, decisions s. 34.)")
 both("soc_volunteer", "vrijw", "vrijw", yn12=True)
 V("soc_sport5", "soc", "Frequency of sport in the past 12 months", s15="fqsport", s20="fqsport", valueset="sport5", universe="All respondents, SIM 2015 and SIM 2020",
   notes="SIM 2020 code -1 = Farsi questionnaire offered 'once a year' instead of 'a few times a year' -> 4.")
@@ -660,8 +662,8 @@ V("hlth_care_give", "hlth", "Gave informal help or care in the past 12 months", 
 both("hlth_care_give", "manthlp", "manthlp", yn12=True)
 V("hlth_care_to", "hlth", "Relation to the person to whom most help was given", s20="hulpaanwie", valueset="relation8", universe="Respondents who gave help, SIM 2020 only",
   notes="Code -1 (wrong question in the Farsi version) -> .d.")
-V("hlth_height_cm", "hlth", "Height in cm", s15="lengte", s20="lengte", type="num", universe="All respondents, SIM 2015 and SIM 2020", notes="SIM 2015: 0 -> .d; SIM 2020: values >= 990 -> .a.")
-V("hlth_weight_kg", "hlth", "Weight in kg", s15="gewicht", s20="gewicht", type="num", universe="All respondents, SIM 2015 and SIM 2020", notes="SIM 2015: 0 -> .d; SIM 2020: values >= 990 -> .a.")
+V("hlth_height_cm", "hlth", "Height in cm", s15="lengte", s20="lengte", type="num", universe="All respondents, SIM 2015 and SIM 2020", notes="SIM 2015: 0 -> .d; SIM 2020: values >= 990 -> .a. Implausible recorded SIM 2015 values are kept as recorded (heights of 1 and 16 cm; see the weight note): apply your own plausibility rules.")
+V("hlth_weight_kg", "hlth", "Weight in kg", s15="gewicht", s20="gewicht", type="num", universe="All respondents, SIM 2015 and SIM 2020", notes="SIM 2015: 0 -> .d; SIM 2020: values >= 990 -> .a. Implausible recorded SIM 2015 values are kept as recorded (weights of 1, 2, 2, 10 and 15 kg; also extremes up to 260 cm and 300 kg): the source does not justify a correction, so apply your own plausibility rules (audit 25 Nov 2026, decisions s. 34).")
 for t, s in [("hlth_height_cm", "lengte"), ("hlth_weight_kg", "gewicht")]:
     M(t, S15, s, 0, ".d"); M(t, S20, s, "990-999", ".a")
 

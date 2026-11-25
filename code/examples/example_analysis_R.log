@@ -1,4 +1,4 @@
-Data file: impd_cs_v0_5_4.rds 
+Data file: impd_cs_v0_5_5.rds 
 
 == Eligibility statements (impd_universe) ==
   target       
@@ -24,7 +24,7 @@ impd_sample: 6 variable(s), 8 survey(s)
   SIM2011      3287       3287          1.000              
   SIM2015      5783       5783          1.000              
   SIM2020      4552       4552          1.000              
-  SPVA2002: soc_leis_nl: 7185 valid / 217 .c / 0 .e / 62 other | dem_eth: 7464 valid / 0 .c / 0 .e / 0 other | dem_gen: 7464 valid / 0 .c / 0 .e / 0 other | dem_sex: 7462 valid / 0 .c / 0 .e / 2 other | dem_age_cat3: 7464 valid / 0 .c / 0 .e / 0 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other
+  SPVA2002: soc_leis_nl: 7185 valid / 0 .c / 217 .e / 62 other | dem_eth: 7464 valid / 0 .c / 0 .e / 0 other | dem_gen: 7464 valid / 0 .c / 0 .e / 0 other | dem_sex: 7462 valid / 0 .c / 0 .e / 2 other | dem_age_cat3: 7464 valid / 0 .c / 0 .e / 0 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other
   SPVN2003: soc_leis_nl: 1586 valid / 0 .c / 3488 .e / 3 other | dem_eth: 5077 valid / 0 .c / 0 .e / 0 other | dem_gen: 5077 valid / 0 .c / 0 .e / 0 other | dem_sex: 5077 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 5077 valid / 0 .c / 0 .e / 0 other | svy_wgt: 5077 valid / 0 .c / 0 .e / 0 other
   LAS2004: soc_leis_nl: 3424 valid / 0 .c / 0 .e / 0 other | dem_eth: 3424 valid / 0 .c / 0 .e / 0 other | dem_gen: 3424 valid / 0 .c / 0 .e / 0 other | dem_sex: 3424 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 3424 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3424 valid / 0 .c / 0 .e / 0 other
   SIM2006: soc_leis_nl: 4201 valid / 2 .c / 0 .e / 0 other | dem_eth: 4203 valid / 0 .c / 0 .e / 0 other | dem_gen: 4203 valid / 0 .c / 0 .e / 0 other | dem_sex: 4203 valid / 0 .c / 0 .e / 0 other | dem_age_cat3: 4203 valid / 0 .c / 0 .e / 0 other | svy_wgt: 4203 valid / 0 .c / 0 .e / 0 other
@@ -44,7 +44,7 @@ impd_sample: 3 variable(s), 8 survey(s)
   SIM2011      3287       3287          1.000              
   SIM2015      5783       5783          1.000              
   SIM2020      4552       3309          0.727              
-  SPVA2002: soc_leis_nl: 7185 valid / 217 .c / 0 .e / 62 other | lang_prob_spk: 4093 valid / 0 .c / 3349 .e / 22 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other
+  SPVA2002: soc_leis_nl: 7185 valid / 0 .c / 217 .e / 62 other | lang_prob_spk: 4093 valid / 0 .c / 3349 .e / 22 other | svy_wgt: 7464 valid / 0 .c / 0 .e / 0 other
   SPVN2003: soc_leis_nl: 1586 valid / 0 .c / 3488 .e / 3 other | lang_prob_spk: 0 valid / 0 .c / 5077 .e / 0 other | svy_wgt: 5077 valid / 0 .c / 0 .e / 0 other
   LAS2004: soc_leis_nl: 3424 valid / 0 .c / 0 .e / 0 other | lang_prob_spk: 3424 valid / 0 .c / 0 .e / 0 other | svy_wgt: 3424 valid / 0 .c / 0 .e / 0 other
   SIM2006: soc_leis_nl: 4201 valid / 2 .c / 0 .e / 0 other | lang_prob_spk: 4203 valid / 0 .c / 0 .e / 0 other | svy_wgt: 4203 valid / 0 .c / 0 .e / 0 other

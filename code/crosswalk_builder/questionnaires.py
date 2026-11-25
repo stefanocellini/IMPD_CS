@@ -585,9 +585,9 @@ def parse_spva(text, survey, instrument):
                 items.append(finish_spva(cur, survey, instrument, pending_out=pending))
             if mq.re is RE_QINSTR:
                 line = line.replace(mq.group(1), mq.group(1) + ".", 1)
-            for nm in [n for n in pending if n in constr]:
+            for nm in [nm for _c, nm in pending if nm in constr]:
                 DERIVED_AT.setdefault(survey, {}).setdefault(nm, mq.group(1))
-            cur = {"qid": mq.group(1), "block": section, "lines": [line] + hold, "pending_in": [n for n in pending if n not in constr]}
+            cur = {"qid": mq.group(1), "block": section, "lines": [line] + hold, "pending_in": [(c, nm) for c, nm in pending if nm not in constr]}
             pending, hold = [], []
             continue
         if started and cur is not None:
@@ -620,7 +620,10 @@ def _col_of(x, positions):
 def finish_spva(cur, survey, instrument, pending_out=None):
     lines = cur["lines"]
     qtext, subs, names, routing = [], [], [], []
-    names += cur.get("pending_in", [])
+    for _pc, _pn in cur.get("pending_in", []):
+        names.append(_pn)
+        if _pc:
+            routing.append(_pc)        # the condition printed above this question governs it ('INDIEN NU OPLEIDING:' -> B2b, not B2a; decisions s. 34)
     multi = []           # (name, option label) pairs of multiple-response blocks
     multi_names = []     # variable names printed in the question column next to the options, in order
     arrow_at = None      # (column, code index) of a skip arrow printed on a line of its own
@@ -658,8 +661,7 @@ def finish_spva(cur, survey, instrument, pending_out=None):
             continue
         mp = RE_PENDING.match(l)
         if mp and pending_out is not None and i > 0:
-            pending_out.append(mp.group(2))            # 'INDIEN NU OPLEIDING:  VOLTOPL' names the NEXT question's variable
-            routing.append(squeeze(mp.group(1)))
+            pending_out.append((squeeze(mp.group(1)), mp.group(2)))   # 'INDIEN NU OPLEIDING:  VOLTOPL': condition and variable name of the NEXT question
             continue
         l = re.sub(r"^(\s*)([A-Z]\d{1,2}[a-z]?[´'’]?)\.", lambda m: m.group(1) + " " * (len(m.group(2)) + 1), l, count=1)   # blank the question id, keep columns
         raw = l.strip()

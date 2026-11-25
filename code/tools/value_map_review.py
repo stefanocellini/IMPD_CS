@@ -303,6 +303,56 @@ for key in approvals:
     if key[0] == 'numcode' and key not in num_candidates:
         orphaned.append(key)
 
+# ---- broad maps across missing codes --------------------------------------------------------------------------------
+# value-map rows run before every missing rule, so a range or wildcard can consume a missing source response and turn
+# it into a substantive answer (trn_sup_* '1-99 -> 1' made declared-missing 99 a yes; inc_ben* '* -> 0' made known
+# recipients with an unknown type a no - audit 25 Nov 2026, decisions s. 34).  Flag every source code inside a range
+# or wildcard spec that is declared user-missing or carries a label a label rule of the survey reads, unless a
+# specific row of the same mapping dispatches it, or it is signed (kind broadmap, target_value 'valid').
+def missing_like(svy, var, code):
+    if any(lo <= code <= hi for lo, hi in declared_rng.get((svy, var), [])):
+        return 'declared missing'
+    lab = labels.get((svy, var), {}).get(fmt_num(code))
+    if lab:
+        for r in mrules[svy]:
+            if r['rule_type'] == 'label' and re.search(r['match'], lab, re.I):
+                return 'label "%s"' % lab
+    return None
+
+
+broadflags, broad_candidates = [], set()
+for (t, svy, var), specs in sorted(vm_by_src.items()):
+    broad = []
+    for spec in specs:
+        if spec == '*':
+            broad.append((spec, None, None))
+        else:
+            m = re.fullmatch(r'(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)', spec)
+            if m:
+                broad.append((spec, float(m.group(1)), float(m.group(2))))
+    if not broad:
+        continue
+    exact = {num(sp) for sp in specs if num(sp) is not None}
+    for c, n in srcvals.get((svy, var), []):
+        if c in exact:
+            continue
+        hit = next((sp for sp, lo, hi in broad if lo is not None and lo <= c <= hi), None)
+        if hit is None and any(sp == '*' for sp, lo, hi in broad):
+            hit = '*'
+        if hit is None:
+            continue
+        why = missing_like(svy, var, c)
+        if not why:
+            continue
+        key = ('broadmap', svy, var, fmt_num(c), t)
+        broad_candidates.add(key)
+        if approved(key, 'valid'):
+            continue
+        broadflags.append((t, svy, var, fmt_num(c), n, hit, why))
+for key in approvals:
+    if key[0] == 'broadmap' and key not in broad_candidates:
+        orphaned.append(key)
+
 print('value-map review: %d rows -> %s' % (len(rows), os.path.relpath(OUT, ROOT)))
 print('OVERLAP  %d pair(s) of value-set labels whose numeric ranges overlap:' % len(overlaps))
 for x in overlaps:
@@ -333,7 +383,11 @@ print('NUMCODE  %d undispatched filler-looking code(s) in numeric targets: map t
       'against the questionnaire and the data:' % len(numflags))
 for x in numflags:
     print('   %s <- %s %s code %s (n=%d) "%s"' % x)
-if fails or needs or reuse or overlaps or unbound or changed or orphaned or numflags:
-    print('FAIL value-map review: %d polarity, %d unread two-valued labels, %d reuse pairs to approve, %d overlapping ranges, %d unbound approvals, %d changed after approval, %d orphaned approvals, %d undispatched numeric codes' % (len(fails), len(needs), len(reuse), len(overlaps), len(unbound), len(changed), len(orphaned), len(numflags)))
+print('BROADMAP  %d missing-type source code(s) consumed by a range or wildcard value-map spec: give the code its own row '
+      '(or a missing rule), or sign it in crosswalks/label_approvals.csv (kind broadmap, target_value valid) after reading it:' % len(broadflags))
+for x in broadflags:
+    print('   %s <- %s %s code %s (n=%d) in spec %s: %s' % x)
+if fails or needs or reuse or overlaps or unbound or changed or orphaned or numflags or broadflags:
+    print('FAIL value-map review: %d polarity, %d unread two-valued labels, %d reuse pairs to approve, %d overlapping ranges, %d unbound approvals, %d changed after approval, %d orphaned approvals, %d undispatched numeric codes, %d broad maps across missing codes' % (len(fails), len(needs), len(reuse), len(overlaps), len(unbound), len(changed), len(orphaned), len(numflags), len(broadflags)))
     sys.exit(1)
-print('PASS value-map review: every two-valued mapping reads as a yes/no or is approved; every cross-survey reuse with differing labels is approved; every filler-looking numeric code is dispatched or signed')
+print('PASS value-map review: every two-valued mapping reads as a yes/no or is approved; every cross-survey reuse with differing labels is approved; every filler-looking numeric code is dispatched or signed; no range or wildcard consumes a missing-type code unsigned')

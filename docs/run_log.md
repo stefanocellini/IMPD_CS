@@ -1,6 +1,6 @@
-# IMPD-CS v0.5.4 — run log (build 5f5ebb4ccea3)
+# IMPD-CS v0.5.5 — run log (build 6de3453abaff)
 
-Built 2026-11-25 17:48 with R 4.3.3 (x86_64-pc-linux-gnu) on Linux; packages: haven 2.5.4, dplyr 1.1.4, readr 2.1.5, stringr 1.5.1, tidyr 1.3.1, purrr 1.0.2, openssl 2.1.1, jsonlite 1.8.8.
+Built 2026-11-25 20:30 with R 4.3.3 (x86_64-pc-linux-gnu) on Linux; packages: haven 2.5.4, dplyr 1.1.4, readr 2.1.5, stringr 1.5.1, tidyr 1.3.1, purrr 1.0.2, openssl 2.1.1, jsonlite 1.8.8.
 
 Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data files in crosswalks/surveys.csv): SPVA2002 91166a194661, SPVN2003 96556f53090b, LAS2004 cb67573d71e1, SIM2006 5c666899708d, SING2009 b4d3aea4cf56, SIM2011 78d8bf29ef63, SIM2015 5269492b473f, SIM2020 cc4518f30693.
 
@@ -38,7 +38,7 @@ Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data fil
 - PASS trn_recv_amt_15 = trn_recv_amt@2005 x CPI factor
 - PASS trn_inherit_amt_15 = trn_inherit_amt@2005 x CPI factor
 - PASS hous_cost_15 = hous_cost x CPI factor
-- PASS independent recount of 1884 exact value-map cells matches
+- PASS independent recount of 1876 exact value-map cells matches
 - PASS stated universes agree with the data (native sample, split half, head-only items)
 - PASS multi-source feeds (18; 94,360 cells) re-derived independently with the documented precedence
 - NOTE feed conflicts (two sources with different valid values; the first source is kept): dem_prtnr_st/las2004: 143 rows with different valid values in two sources (first source kept); dem_prtnr_st/sim2006: 176 rows with different valid values in two sources (first source kept); dem_prtnr_st/sing2009: 187 rows with different valid values in two sources (first source kept)
@@ -51,7 +51,7 @@ Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data fil
 - PASS asked-to table (75 items in one respondent type's questionnaire only) holds, and no further item shows the pattern
 - PASS SIM 2020 split-half annotations agree with the halves that carry values (251 source items)
 - PASS value-map grammar (exact, ranges with negative bounds, quoted strings, wildcard) behaves as documented on synthetic input
-- PASS value-map review (labels read against target labels; 202 approvals in crosswalks/label_approvals.csv): every two-valued mapping reads as a yes/no or is approved; every cross-survey reuse with differing labels is approved; every filler-looking numeric code is dispatched or signed
+- PASS value-map review (labels read against target labels; 215 approvals in crosswalks/label_approvals.csv): every two-valued mapping reads as a yes/no or is approved; every cross-survey reuse with differing labels is approved; every filler-looking numeric code is dispatched or signed; no range or wildcard consumes a missing-type code unsigned
 - PASS household-survey merge: 1 declared exception(s) in crosswalks/merge_exceptions.csv took effect in the source companions; undeclared missing-code-over-valid cells kept by decision: SPVN2003 LEEFTD2 (1), SPVN2003 LEEFTD3 (1)
 - PASS every missing value of every numeric variable carries a tag (.a-.e); no plain system-missing
 
@@ -67,15 +67,25 @@ Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data fil
 - SIM2015 harmonized: 6829 persons (individual sample), 1631 variables
 - SIM2020 harmonized: 5323 persons (individual sample), 1631 variables
 - CPI factors applied: 2002 -> x1.2386, 2003 -> x1.2131, 2004 -> x1.1987, 2006 -> x1.1659, 2009 -> x1.1062, 2011 -> x1.0675, 2015 -> x1.0000, 2020 -> x0.9302
+- plus_months lab_exp: 2436 year+month cells combined, 122 months-only answers recovered
+- plus_months lab_tenure: 2101 year+month cells combined, 0 months-only answers recovered
+- plus_months lab_nowork_yrs: 1216 year+month cells combined, 415 months-only answers recovered
+- plus_months lab_exp_prev: 1223 year+month cells combined, 141 months-only answers recovered
+- las_vol_union: 518 listed-organisation volunteers added to soc_volunteer, 60 uncertain set .a (LAS 2004/05)
 - Migrant routing in the person samples: LAS2004 3454 of 4096 (self-reported natives with migrant routing: 24); SIM2006 4208 of 5250 (self-reported natives with migrant routing: 0); SING2009 5952 of 6911 (self-reported natives with migrant routing: 3); SIM2011 3310 of 4125 (self-reported natives with migrant routing: 23); SIM2015 5783 of 6829 (self-reported natives with migrant routing: 0); SIM2020 4552 of 5323 (self-reported natives with migrant routing: 0)
+- cultural_only_e spva2002: 27250 cells set .e over 196 targets for 218 cultural-only respondents
 - Partner links in the household samples: SPVA2002 5098 linked persons, 1650 heads/partners without a co-resident partner, 0 in ambiguous rosters; SPVN2003 2454 linked persons, 2320 heads/partners without a co-resident partner, 0 in ambiguous rosters
-- Main file: 55157 persons x 1642 variables -> impd_cs_v0_5_4.{dta,rds,csv}
-- Source file SPVA2002: 13504 persons x 339 variables -> impd_cs_v0_5_4_source_spva2002.{dta,rds}
-- Source file SPVN2003: 9119 persons x 285 variables -> impd_cs_v0_5_4_source_spvn2003.{dta,rds}
-- Source file LAS2004: 4096 persons x 571 variables -> impd_cs_v0_5_4_source_las2004.{dta,rds}
-- Source file SIM2006: 5250 persons x 377 variables -> impd_cs_v0_5_4_source_sim2006.{dta,rds}
-- Source file SING2009: 6911 persons x 247 variables -> impd_cs_v0_5_4_source_sing2009.{dta,rds}
-- Source file SIM2011: 4125 persons x 374 variables -> impd_cs_v0_5_4_source_sim2011.{dta,rds}
-- Source file SIM2015: 6829 persons x 241 variables -> impd_cs_v0_5_4_source_sim2015.{dta,rds}
-- Source file SIM2020: 5323 persons x 280 variables -> impd_cs_v0_5_4_source_sim2020.{dta,rds}
+- spvn_applicable_gaps: hh_size 478 cells .c -> .d
+- spvn_applicable_gaps: hh_comp 1599 cells .c -> .d
+- spvn_applicable_gaps: inc_ben==1 with inc_ben_type missing: 16 person(s), dummies retagged
+- spvn_applicable_gaps: soc_mem==1 with soc_mem_type missing: 1 person(s), dummies retagged
+- Main file: 55157 persons x 1642 variables -> impd_cs_v0_5_5.{dta,rds,csv}
+- Source file SPVA2002: 13504 persons x 339 variables -> impd_cs_v0_5_5_source_spva2002.{dta,rds}
+- Source file SPVN2003: 9119 persons x 285 variables -> impd_cs_v0_5_5_source_spvn2003.{dta,rds}
+- Source file LAS2004: 4096 persons x 571 variables -> impd_cs_v0_5_5_source_las2004.{dta,rds}
+- Source file SIM2006: 5250 persons x 377 variables -> impd_cs_v0_5_5_source_sim2006.{dta,rds}
+- Source file SING2009: 6911 persons x 247 variables -> impd_cs_v0_5_5_source_sing2009.{dta,rds}
+- Source file SIM2011: 4125 persons x 374 variables -> impd_cs_v0_5_5_source_sim2011.{dta,rds}
+- Source file SIM2015: 6829 persons x 241 variables -> impd_cs_v0_5_5_source_sim2015.{dta,rds}
+- Source file SIM2020: 5323 persons x 280 variables -> impd_cs_v0_5_5_source_sim2020.{dta,rds}
 - Routing gates checked against the data: 697 source x gate pairs, 630 hold, 67 hold with exceptions (<= 10% of values outside), 0 do not hold -> docs/routing_check.csv

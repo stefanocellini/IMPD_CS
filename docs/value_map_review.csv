@@ -348,23 +348,38 @@ inc_ben,Receives any social benefit,spva2002,UITKERIN,2,nee,0,No,yesno
 inc_ben,Receives any social benefit,spvn2003,UITKERIN,1,"ja, ontvangt uitkering",1,Yes,yesno
 inc_ben,Receives any social benefit,spvn2003,UITKERIN,2,nee,0,No,yesno
 inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,1,bijstandsuitkering,1,Mentioned,mentioned
+inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
+inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,-4,Missing,.d,,mentioned
 inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,2,werkloosheidsuitkering,1,Mentioned,mentioned
+inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
+inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,-4,Missing,.d,,mentioned
 inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,3,arbeidsongeschiktheid,1,Mentioned,mentioned
+inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
+inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,-4,Missing,.d,,mentioned
 inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,4,"pensioen, AOW of vut",1,Mentioned,mentioned
+inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
+inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,-4,Missing,.d,,mentioned
 inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben05,Receives student grant,spvn2003,SRTUITK,5,studiefinanciering\UAF,1,Mentioned,mentioned
+inc_ben05,Receives student grant,spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
+inc_ben05,Receives student grant,spvn2003,SRTUITK,-4,Missing,.d,,mentioned
 inc_ben05,Receives student grant,spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben06,Receives other benefit,spvn2003,SRTUITK,6,anders,1,Mentioned,mentioned
+inc_ben06,Receives other benefit,spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
+inc_ben06,Receives other benefit,spvn2003,SRTUITK,-4,Missing,.d,,mentioned
 inc_ben06,Receives other benefit,spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 trn_sup_prtnr,Financially supports partner in country of origin,spva2002,VERZPART,1-9,,1,Yes,yesno
 trn_sup_prtnr,Financially supports partner in country of origin,spva2002,VERZPART,99,,.d,,yesno
-trn_sup_chd,Financially supports children in country of origin,spva2002,VERZKIND,1-99,,1,Yes,yesno
+trn_sup_chd,Financially supports children in country of origin,spva2002,VERZKIND,1-98,,1,Yes,yesno
+trn_sup_chd,Financially supports children in country of origin,spva2002,VERZKIND,99,,.d,,yesno
 trn_sup_par,Financially supports parents in country of origin,spva2002,VERZOUD,1-9,,1,Yes,yesno
-trn_sup_fam,Financially supports other family in country of origin,spva2002,VERZFAM,1-99,,1,Yes,yesno
-trn_sup_oth,Financially supports other persons in country of origin,spva2002,VERZAND,1-99,,1,Yes,yesno
+trn_sup_fam,Financially supports other family in country of origin,spva2002,VERZFAM,1-98,,1,Yes,yesno
+trn_sup_fam,Financially supports other family in country of origin,spva2002,VERZFAM,99,,.d,,yesno
+trn_sup_oth,Financially supports other persons in country of origin,spva2002,VERZAND,1-98,,1,Yes,yesno
+trn_sup_oth,Financially supports other persons in country of origin,spva2002,VERZAND,99,,.d,,yesno
 hous_indep_yr,Year first moved into independent housing,spvn2003,JRZELFST,9996,nog geen zelfst. woning,.c,,
 hous_same_addr,Still at the address of first independent dwelling,spvn2003,ZELFDADR,1,"ja, woon hetzelfde adres",1,Yes,yesno
 hous_same_addr,Still at the address of first independent dwelling,spvn2003,ZELFDADR,2,"nee, tenminste 1 x verhuisd",0,No,yesno
@@ -896,11 +911,11 @@ inc_hh_std_reg,"Standardised disposable household income, bands (registry; 2013 
 inc_hh_std_reg,"Standardised disposable household income, bands (registry; 2013 resp. 2019)",sim2020,inhgestinkh_kl,3,50000 tot 75000,13,"50,000-75,000",inc_band
 inc_hh_std_reg,"Standardised disposable household income, bands (registry; 2013 resp. 2019)",sim2020,inhgestinkh_kl,4,75000 >,16,"75,000 euro or more (household, SIM 2020)",inc_band
 inc_hh_std_reg,"Standardised disposable household income, bands (registry; 2013 resp. 2019)",sim2020,inhgestinkh_kl,9,Geen inkomen,90,No income,inc_band
-trn_remit,Household sent money to the country of origin in the past 12 months,sim2015,geldherk,1,Ja,1,Yes,yesno
-trn_remit,Household sent money to the country of origin in the past 12 months,sim2015,geldherk,2,Nee,0,No,yesno
-trn_house,Respondent (or parents) owns a house in the country of origin,sim2015,huisbui,1,Ja,1,Yes,yesno
-trn_house,Respondent (or parents) owns a house in the country of origin,sim2015,huisbui,2,Nee,0,No,yesno
-trn_house,Respondent (or parents) owns a house in the country of origin,sim2015,huisbui,98,Wil niet zeggen,.b,,yesno
+trn_remit,Sent money or goods to the country of origin (reference period differs by survey; see notes),sim2015,geldherk,1,Ja,1,Yes,yesno
+trn_remit,Sent money or goods to the country of origin (reference period differs by survey; see notes),sim2015,geldherk,2,Nee,0,No,yesno
+trn_house,Owns a house in the country of origin (subject differs by survey; see notes),sim2015,huisbui,1,Ja,1,Yes,yesno
+trn_house,Owns a house in the country of origin (subject differs by survey; see notes),sim2015,huisbui,2,Nee,0,No,yesno
+trn_house,Owns a house in the country of origin (subject differs by survey; see notes),sim2015,huisbui,98,Wil niet zeggen,.b,,yesno
 trn_cont_fam,Frequency of contact with family in the country of origin,sim2015,conherk,9,Niet van toepassing,.c,,freq5_cont
 trn_visit12m,Visited the country of origin in the past 12 months,sim2015,bez2010her,1,Ja,1,Yes,yesno
 trn_visit12m,Visited the country of origin in the past 12 months,sim2015,bez2010her,2,Nee,0,No,yesno
@@ -935,10 +950,10 @@ lang_prob_eng,Problems in a conversation in English,sim2020,engtaal,4,nooit moei
 ret_wish,Wishes to return permanently to country of origin,sim2015,wilterug,1,"Ja, wil voor altijd",1,Yes,return3
 ret_wish,Wishes to return permanently to country of origin,sim2015,wilterug,2,Nee,3,No,return3
 ret_wish,Wishes to return permanently to country of origin,sim2015,wilterug,-3,weet niet,2,Don't know,return3
-soc_volunteer,Did voluntary work in the past 12 months,sim2015,vrijw,1,Ja,1,Yes,yesno
-soc_volunteer,Did voluntary work in the past 12 months,sim2015,vrijw,2,Nee,0,No,yesno
-soc_volunteer,Did voluntary work in the past 12 months,sim2020,vrijw,1,ja,1,Yes,yesno
-soc_volunteer,Did voluntary work in the past 12 months,sim2020,vrijw,2,nee,0,No,yesno
+soc_volunteer,Does voluntary work (reference period differs by survey; see notes),sim2015,vrijw,1,Ja,1,Yes,yesno
+soc_volunteer,Does voluntary work (reference period differs by survey; see notes),sim2015,vrijw,2,Nee,0,No,yesno
+soc_volunteer,Does voluntary work (reference period differs by survey; see notes),sim2020,vrijw,1,ja,1,Yes,yesno
+soc_volunteer,Does voluntary work (reference period differs by survey; see notes),sim2020,vrijw,2,nee,0,No,yesno
 soc_sport5,Frequency of sport in the past 12 months,sim2020,fqsport,-1,in Farsi: 1x per jaar (ipv paar keer per jaar),4,A few times a year,sport5
 soc_meet12m,Attended meetings of associations or organisations in the past 12 months,sim2020,organ,1,ja,1,Yes,yesno
 soc_meet12m,Attended meetings of associations or organisations in the past 12 months,sim2020,organ,2,nee,0,No,yesno
@@ -1204,14 +1219,14 @@ ret_noreason,Main reason for not wanting to return,sim2011,NIETTRUG,10,geboren e
 ret_noreason,Main reason for not wanting to return,sim2011,NIETTRUG,11,bevalt goed in Nederland,2,Likes it here,reason_not_return
 ret_noreason,Main reason for not wanting to return,sim2011,NIETTRUG,12,geen binding in uw land van herkomst,8,No ties with origin country,reason_not_return
 ret_noreason,Main reason for not wanting to return,sim2011,NIETTRUG,13,"anders, namelijk:",10,Other,reason_not_return
-trn_house,Respondent (or parents) owns a house in the country of origin,sim2011,HUISBUI,1,ja,1,Yes,yesno
-trn_house,Respondent (or parents) owns a house in the country of origin,sim2011,HUISBUI,2,nee,0,No,yesno
+trn_house,Owns a house in the country of origin (subject differs by survey; see notes),sim2011,HUISBUI,1,ja,1,Yes,yesno
+trn_house,Owns a house in the country of origin (subject differs by survey; see notes),sim2011,HUISBUI,2,nee,0,No,yesno
 trn_cont_fam3,Contact with family in the country of origin (much / sometimes / never),sim2011,CONTHERK,4,niet van toepassing,.c,,freq3
 trn_visit_yearly,Visits family or friends in the country of origin every year,sim2011,BEZOEHER,4,niet van toepassing,.c,,visit3
 trn_visit12m,Visited the country of origin in the past 12 months,sim2011,BEZ2010HER,1,ja,1,Yes,yesno
 trn_visit12m,Visited the country of origin in the past 12 months,sim2011,BEZ2010HER,2,nee,0,No,yesno
-trn_remit,Household sent money to the country of origin in the past 12 months,sim2011,GELDHERK,1,ja,1,Yes,yesno
-trn_remit,Household sent money to the country of origin in the past 12 months,sim2011,GELDHERK,2,nee,0,No,yesno
+trn_remit,Sent money or goods to the country of origin (reference period differs by survey; see notes),sim2011,GELDHERK,1,ja,1,Yes,yesno
+trn_remit,Sent money or goods to the country of origin (reference period differs by survey; see notes),sim2011,GELDHERK,2,nee,0,No,yesno
 int_crs,Participated in civic integration course (inburgeringscursus),sim2011,INBCURUS,1,"ja, gevolgd",1,Yes,yesno
 int_crs,Participated in civic integration course (inburgeringscursus),sim2011,INBCURUS,2,nu mee bezig,1,Yes,yesno
 int_crs,Participated in civic integration course (inburgeringscursus),sim2011,INBCURUS,3,"nee, niet gevolgd",0,No,yesno
@@ -1520,10 +1535,10 @@ ret_reason,Main reason for wanting to return to the country of origin,sim2006,WE
 ret_reason,Main reason for wanting to return to the country of origin,sim2006,WELTRUG,13,familie\vrienden zijn daar,11,Family / friends are there,ret_reason13
 trn_visit12m,Visited the country of origin in the past 12 months,sim2006,J2005HER,1,Ja,1,Yes,yesno
 trn_visit12m,Visited the country of origin in the past 12 months,sim2006,J2005HER,2,Nee,0,No,yesno
-trn_house,Respondent (or parents) owns a house in the country of origin,sim2006,HUISBUI,1,Ja,1,Yes,yesno
-trn_house,Respondent (or parents) owns a house in the country of origin,sim2006,HUISBUI,2,Nee,0,No,yesno
-trn_remit,Household sent money to the country of origin in the past 12 months,sim2006,V680,1,Ja,1,Yes,yesno
-trn_remit,Household sent money to the country of origin in the past 12 months,sim2006,V680,2,Nee,0,No,yesno
+trn_house,Owns a house in the country of origin (subject differs by survey; see notes),sim2006,HUISBUI,1,Ja,1,Yes,yesno
+trn_house,Owns a house in the country of origin (subject differs by survey; see notes),sim2006,HUISBUI,2,Nee,0,No,yesno
+trn_remit,Sent money or goods to the country of origin (reference period differs by survey; see notes),sim2006,V680,1,Ja,1,Yes,yesno
+trn_remit,Sent money or goods to the country of origin (reference period differs by survey; see notes),sim2006,V680,2,Nee,0,No,yesno
 trn_remit02,Money or goods sent to: children (mentioned),sim2006,V682_1,1,Ja,1,Mentioned,mentioned
 trn_remit02,Money or goods sent to: children (mentioned),sim2006,V682_1,2,Nee,0,Not mentioned,mentioned
 trn_remit01,Money or goods sent to: partner / spouse / fiance(e) (mentioned),sim2006,V682_2,1,Ja,1,Mentioned,mentioned
@@ -1691,8 +1706,8 @@ iden_allochtoon,Sees him/herself as 'allochtoon',sim2006,ZELFALL,1,Ja,1,Yes,yesn
 iden_allochtoon,Sees him/herself as 'allochtoon',sim2006,ZELFALL,2,Nee,0,No,yesno
 soc_mem,Member of an association or club,sim2006,GEENLID,1,Mentioned,0,No,yesno
 soc_mem,Member of an association or club,sim2006,GEENLID,0,Not mentioned,1,Yes,yesno
-soc_volunteer,Did voluntary work in the past 12 months,sim2006,VRIJWIL,1,Ja,1,Yes,yesno
-soc_volunteer,Did voluntary work in the past 12 months,sim2006,VRIJWIL,2,Nee,0,No,yesno
+soc_volunteer,Does voluntary work (reference period differs by survey; see notes),sim2006,VRIJWIL,1,Ja,1,Yes,yesno
+soc_volunteer,Does voluntary work (reference period differs by survey; see notes),sim2006,VRIJWIL,2,Nee,0,No,yesno
 soc_cont_par,"Frequency of contact with parents (not in the household, living in the Netherlands)",sim2006,CONTOUD,1,Nooit\minder dan 1 keer per jaar,5,Never / less than once a year,freq5_cont
 soc_cont_par,"Frequency of contact with parents (not in the household, living in the Netherlands)",sim2006,CONTOUD,2,Een paar keer per jaar,4,A few times a year,freq5_cont
 soc_cont_par,"Frequency of contact with parents (not in the household, living in the Netherlands)",sim2006,CONTOUD,3,Elke maand,3,Every month,freq5_cont
@@ -2276,8 +2291,8 @@ soc_mem_act05,How active as a member of the organisation of or for migrants,las2
 soc_mem_act06,How active as a member of the political party or organisation,las2004,POLACT,4,weet niet \ geen antwoord,.a,,active3
 soc_mem_act07,How active as a member of the religious organisation,las2004,GELACT,4,weet niet \ geen antwoord,.a,,active3
 soc_mem_act08,"How active as a member of the nature, environment or solidarity organisation",las2004,NATACT,4,weet niet \ geen antwoord,.a,,active3
-soc_volunteer,Did voluntary work in the past 12 months,las2004,VRWWAND,1,ja,1,Yes,yesno
-soc_volunteer,Did voluntary work in the past 12 months,las2004,VRWWAND,2,nee,0,No,yesno
+soc_volunteer,Does voluntary work (reference period differs by survey; see notes),las2004,VRWWAND,1,ja,1,Yes,yesno
+soc_volunteer,Does voluntary work (reference period differs by survey; see notes),las2004,VRWWAND,2,nee,0,No,yesno
 soc_act_ethn,With whom the respondent has most contact in these associations,las2004,BETROK,1,voornamelijk westers,2,Mainly native Dutch,ethmix4
 soc_act_ethn,With whom the respondent has most contact in these associations,las2004,BETROK,2,voornamelijk eigen nat.,1,Mainly own origin group,ethmix4
 soc_act_ethn,With whom the respondent has most contact in these associations,las2004,BETROK,3,"half westers, half eigen nat.",3,"Half own group, half native Dutch",ethmix4
@@ -2573,8 +2588,8 @@ lang_orig_write,Problems writing the origin-country language,sing2009,ETNIPEN,4,
 hous_tenure,Tenure of dwelling (self-reported),sing2009,KOOPWON,1,huur,1,Rented,tenure3
 hous_tenure,Tenure of dwelling (self-reported),sing2009,KOOPWON,2,koop,2,Owner-occupied,tenure3
 hous_tenure,Tenure of dwelling (self-reported),sing2009,KOOPWON,6,anders,98,Other,tenure3
-trn_house,Respondent (or parents) owns a house in the country of origin,sing2009,HUISBUI,1,ja,1,Yes,yesno
-trn_house,Respondent (or parents) owns a house in the country of origin,sing2009,HUISBUI,2,nee,0,No,yesno
+trn_house,Owns a house in the country of origin (subject differs by survey; see notes),sing2009,HUISBUI,1,ja,1,Yes,yesno
+trn_house,Owns a house in the country of origin (subject differs by survey; see notes),sing2009,HUISBUI,2,nee,0,No,yesno
 hlth_bmi_cat,Body mass index in 4 classes (respondents aged 18+; SING 2009 public file),sing2009,BMI,8,jonger dan 18 jaar,.c,,bmi4
 hlth_bmi_cat,Body mass index in 4 classes (respondents aged 18+; SING 2009 public file),sing2009,BMI,9,lengte of gewicht onbekend,.d,,bmi4
 hlth_pa_winter,Days per week with at least 30 minutes of physical activity in winter,sing2009,SPORTWIN,8,nooit,0,,
@@ -2605,8 +2620,8 @@ ret_other_cntry,Would like to live permanently in a country other than the Nethe
 ret_fut5y,Expected country of residence in five years,sing2009,WOONNL5J,1,"ja, zeker",1,Living in the Netherlands,future_res4
 ret_fut5y,Expected country of residence in five years,sing2009,WOONNL5J,2,"nee, woont - waarschijnlijk - weer herkomstland",3,In the country of origin,future_res4
 ret_fut5y,Expected country of residence in five years,sing2009,WOONNL5J,3,"nee, woont - waarschijnlijk - in ander land",4,(Partly) in another country,future_res4
-trn_remit,Household sent money to the country of origin in the past 12 months,sing2009,V680X,1,ja,1,Yes,yesno
-trn_remit,Household sent money to the country of origin in the past 12 months,sing2009,V680X,2,nee,0,No,yesno
+trn_remit,Sent money or goods to the country of origin (reference period differs by survey; see notes),sing2009,V680X,1,ja,1,Yes,yesno
+trn_remit,Sent money or goods to the country of origin (reference period differs by survey; see notes),sing2009,V680X,2,nee,0,No,yesno
 soc_act_ethn,With whom the respondent has most contact in these associations,sing2009,ORGETNI,1,vooral allochtonen,1,Mainly own origin group,ethmix4
 soc_act_ethn,With whom the respondent has most contact in these associations,sing2009,ORGETNI,2,vooral autochtone Nederlanders,2,Mainly native Dutch,ethmix4
 soc_act_ethn,With whom the respondent has most contact in these associations,sing2009,ORGETNI,3,allerlei verschillende bevolkingsgroepen,4,All kinds of groups,ethmix4

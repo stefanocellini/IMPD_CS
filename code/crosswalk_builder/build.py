@@ -1020,6 +1020,26 @@ for r in vm_rows:
 vm_fields += ["subject"] + [f"reporter_{k}" for k in KEYS] + [f"avail_{k}" for k in KEYS]
 write("variable_map.csv", vm_rows, vm_fields)
 print("  subject:", dict(collections.Counter(r["subject"] for r in vm_rows if r["include_main"] == 1)))
+
+# ---- cultural-only SPVA respondents (WIEGESPR 8): items of the mini questionnaire they never received ---------------
+# surveys/spva2002.py declares the pp variables their instrument did collect (roster/administration plus the
+# cultural-integration module, its internally routed items included).  Every main target whose sources in that
+# survey are pp-only variables outside the declared set was never put to them: 03_derive sets those cells .e for
+# svy_proxy == 8 (audit 25 Nov 2026, decisions s. 34).
+cult_rows = []
+for _k, _answered in getattr(SV, "CULTURAL_ONLY_ANSWERED", {}).items():
+    _ans = {a.upper() for a in _answered}
+    for r in vm_rows:
+        if r["include_main"] != 1 or not r.get("src_" + _k):
+            continue
+        _srcs = [re.sub(r"\(.*\)", "", p).strip().upper() for p in re.split(r"[|+]", r["src_" + _k]) if p.strip()]
+        _recs = [source_vars.get((_k, v)) for v in _srcs]
+        if not _srcs or any(x is None for x in _recs):
+            continue
+        if all("pp" in rec["files"] for rec in _recs) and all(v not in _ans for v in _srcs):
+            cult_rows.append(dict(survey=_k, target=r["target"]))
+write("cultural_only_e.csv", cult_rows, ["survey", "target"])
+print("  cultural-only .e targets:", len(cult_rows))
 # plausibility of the automatic links: token overlap between the data label and the questionnaire text (printed for review)
 def toks(x): return set(w for w in re.findall(r"[a-zà-ü]{4,}", x.lower()) if w not in {"vraag", "deze", "voor", "heeft", "hebt", "bent", "welke", "wordt", "worden", "over", "naar", "niet", "meer", "zich", "deel", "uw"})
 weak = []

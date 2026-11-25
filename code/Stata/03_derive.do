@@ -1,6 +1,6 @@
 * 03_derive.do : derived variables (mirrors code/R/03_derive.R; every rule is named in variable_map.csv, column derive)
 *   create rules:   id_hh, id_person | geo_mun_cbs / _name | *_15 CPI-deflated amounts
-*   post-processing: fill0_interviewed | age_cat | brthcntry_group | cit_nl_orig | mode_video | split_random |
+*   post-processing: fill0_interviewed | age_cat | brthcntry_group | cit_nl_orig | mode_video | split_random | plus_months | las_vol_union | cultural_only_e | spvn_applicable_gaps |
 *                    kl9_route | rel_merge20 | rel_none | rel_cat20 | final pass: system-missing -> .d/.c per survey (sysmis_tag)
 use "$INT/harmonized_all_stata.dta", clear
 impd_define_labels
@@ -76,6 +76,33 @@ frame cw_vm: quietly levelsof target if derive == "fill0_interviewed", local(fil
 foreach t of local fills {
     quietly replace `t' = 0 if `t' == . & inlist(svy_resptype, 1, 2)
 }
+
+* ---- plus_months:<mo> : durations in fractional years (audit 25 Nov 2026, decisions s. 34).  years + months/12
+* where both are valid; months/12 where the year is .c and the months are valid; a year with unknown months keeps
+* the year; any other missing year keeps its tag.  Months above 11 (3 SIM 2011 cells) add more than one year.
+frame cw_vm: quietly levelsof rowid if regexm(derive, "^plus_months:"), local(pmrows)
+foreach r of local pmrows {
+    frame cw_vm: local t = target[`r']
+    frame cw_vm: local mo = subinstr(derive[`r'], "plus_months:", "", 1)
+    capture confirm variable `t'
+    if _rc continue
+    capture confirm variable `mo'
+    if _rc continue
+    quietly replace `t' = `t' + `mo' / 12 if `t' < . & `mo' < .
+    quietly replace `t' = `mo' / 12 if `t' == .c & `mo' < .
+}
+
+* ---- las_vol_union : soc_volunteer, LAS 2004/05 (audit 25 Nov 2026, decisions s. 34).  VRAAG 231 (VRWWAND) asks
+* about volunteering for ANOTHER organisation after VRAAG 229 collected nine types (soc_vol01-09): any volunteering
+* = a yes in any component; definite no = no yes, no unknown component, VRWWAND no; otherwise .a.
+tempvar anyy anyu
+quietly egen `anyy' = anymatch(soc_vol01 soc_vol02 soc_vol03 soc_vol04 soc_vol05 soc_vol06 soc_vol07 soc_vol08 soc_vol09) if svy_id == ${SVYID_las2004}, values(1)
+quietly gen byte `anyu' = 0 if svy_id == ${SVYID_las2004}
+forvalues k = 1/9 {
+    quietly replace `anyu' = 1 if svy_id == ${SVYID_las2004} & soc_vol0`k' == .a
+}
+quietly replace soc_volunteer = 1  if svy_id == ${SVYID_las2004} & soc_volunteer == 0 & `anyy' == 1
+quietly replace soc_volunteer = .a if svy_id == ${SVYID_las2004} & soc_volunteer == 0 & `anyu' == 1
 
 * ---- age_cat: classes 15-24 ... 75+ (0 = under 15) from dem_age where dem_age_cat is .e
 quietly replace dem_age_cat = cond(dem_age < 15, 0, min(floor((dem_age - 15) / 10) + 1, 7)) if dem_age_cat == .e & dem_age < .
@@ -177,6 +204,30 @@ quietly replace rel_den_cat = 3 if svy_id == ${SVYID_sim2020} & inrange(rel_den_
 quietly replace rel_den_cat = 4 if svy_id == ${SVYID_sim2020} & (inrange(rel_den_det, 41, 98) | rel_den_det == 99)
 quietly replace rel_den_cat = rel_den_det if svy_id == ${SVYID_sim2020} & rel_den_det >= .
 
+* ---- cultural_only_e : SPVA persons with svy_proxy 8 received only the cultural-integration module, no mini
+* questionnaire.  The mini-questionnaire targets (crosswalks/cultural_only_e.csv) were never put to them: their
+* blanks are .e, not routing (decisions s. 34).  Runs before the relationship layer, so partner copies
+* of cultural-only partners propagate .e, and before the final pass, which would otherwise tag them .c.
+frame cw_culte: quietly count
+if r(N) {
+    frame cw_culte: quietly levelsof survey, local(cesvys) clean
+    foreach s of local cesvys {
+        frame cw_culte: quietly levelsof target if survey == "`s'", local(cets) clean
+        local nval 0
+        foreach t of local cets {
+            capture confirm variable `t'
+            if _rc continue
+            quietly count if svy_id == ${SVYID_`s'} & svy_proxy == 8 & `t' < .
+            local nval = `nval' + r(N)
+            quietly replace `t' = .e if svy_id == ${SVYID_`s'} & svy_proxy == 8 & `t' == .
+        }
+        if `nval' {
+            display as error "cultural_only_e `s': `nval' valid values in targets declared absent from the cultural-only instrument"
+            error 9
+        }
+    }
+}
+
 * ---- relationship layer (household surveys): id_prtnr link, partner_copy:<target>, has_prtnr_roster, prtnr_cores_roster
 *      (definitions: code/crosswalk_builder/variables_links.py)
 gen byte _hp = !_flat & inlist(dem_poshh, 0, 1)                           // head of household or partner of the head
@@ -235,6 +286,22 @@ foreach s in $SURVEYS {
         if _rc continue
         quietly replace `t' = .${SYSMIS_`s'} if svy_id == ${SVYID_`s'} & `t' == .
     }
+}
+
+* ---- spvn_applicable_gaps (audit 25 Nov 2026, decisions s. 34).  Runs after the final pass, which tagged the
+* cells .c.  (a) hh_size / hh_comp apply to every household, so a blank cannot be routing: known gaps are .d.
+* (b) A benefit recipient or association member whose type item is system-missing keeps 'unknown', not 'no':
+* the type variable and the 0-dummies of the wildcard become .d (the explicit -3/-4 codes are in the value map).
+foreach t in hh_size hh_comp {
+    quietly replace `t' = .d if svy_id == ${SVYID_spvn2003} & `t' == .c
+}
+quietly replace inc_ben_type = .d if svy_id == ${SVYID_spvn2003} & inc_ben == 1 & inc_ben_type == .c
+foreach t in inc_ben01 inc_ben02 inc_ben03 inc_ben04 inc_ben05 inc_ben06 {
+    quietly replace `t' = .d if svy_id == ${SVYID_spvn2003} & inc_ben == 1 & inc_ben_type >= . & `t' == 0
+}
+quietly replace soc_mem_type = .d if svy_id == ${SVYID_spvn2003} & soc_mem == 1 & soc_mem_type == .c
+foreach t in soc_mem01 soc_mem02 soc_mem04 soc_mem06 soc_mem08 soc_mem09 soc_mem10 {
+    quietly replace `t' = .d if svy_id == ${SVYID_spvn2003} & soc_mem == 1 & soc_mem_type >= . & `t' == 0
 }
 
 * ---- svy_* labels
