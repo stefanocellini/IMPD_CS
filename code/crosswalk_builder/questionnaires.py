@@ -205,6 +205,7 @@ def finish_tns(cur, survey, instrument):
     lines = cur["lines"]
     qtext, opts, subs, notes, routing, qtype, fmt = [], [], [], [], list(cur.get("pre_routing", [])), "", []
     in_notes, in_options, last, inline_scale, trailer, name_line, in_bracket = False, False, "", False, None, False, False
+    scale_cols, scale_edge, scale_open = [], 0, False     # column anchors of the grid row that set the inline scale
     for l in lines:
         s = l.strip()
         if not s:
@@ -334,14 +335,38 @@ def finish_tns(cur, survey, instrument):
             scale = re.findall(r"(\d+)[:.]\s*([A-Za-z][^\d]*?)(?=\s+\d+[:.]|\s*\*PAGE|$)", body)
             rowtext = re.split(r"\s{2,}\d+[:.]", body)[0]
             subs.append((mm.group(1), "", squeeze(rowtext)))
+            scale_open = False
             if scale and not opts:
                 opts = [(c, squeeze(t)) for c, t in scale]
+                # grid cells wrap: remember each scale cell's column (position in the line) so that the
+                # continuation lines below this row can hand their wrapped words back to the right label
+                off = mm.start(2)
+                anchors = list(re.finditer(r"(\d+)[:.]\s*([A-Za-z][^\d]*?)(?=\s+\d+[:.]|\s*\*PAGE|$)", body))
+                scale_cols = [off + a.start() for a in anchors]
+                scale_edge = off + anchors[-1].end() + 3 if anchors else 0
+                scale_open = True
             in_options, last, inline_scale, name_line = True, "sub", bool(scale), False
             continue
         if in_options and last == "sub" and subs:
             q, n, t = subs[-1]          # continuation of a sub-item text, or its variable name on a line of its own
             if re.fullmatch(r"[A-Z][A-Z0-9_]{2,}", s) and not n:
-                subs[-1] = (q, s, t); name_line = True
+                subs[-1] = (q, s, t); name_line, scale_open = True, False
+            elif inline_scale and scale_open and scale_cols:
+                # wrapped grid cells: words under a scale column continue that option's label; words left of
+                # the first column continue the row text (e.g. '1:Heel veel / vertrouwen' -> 'Heel veel vertrouwen')
+                row_words = []
+                for w in re.finditer(r"\S+", l):
+                    p = w.start()
+                    if p < scale_cols[0] - 3:
+                        row_words.append(w.group(0))
+                    elif p <= scale_edge and not re.fullmatch(r"\*?PAGE", w.group(0)):
+                        k = max(i for i, a in enumerate(scale_cols) if a <= p + 3)
+                        c_, t_ = opts[k]
+                        opts[k] = (c_, squeeze(t_ + " " + w.group(0)))
+                if row_words:
+                    cont = " ".join(row_words)
+                    if not re.fullmatch(r"\*?PAGE|Wilt u", cont):
+                        subs[-1] = (q, n, squeeze(t + " " + cont))
             else:
                 cont = re.split(r"\s{2,}", l.strip())[0] if inline_scale else s     # column-aligned matrix: first column only
                 if re.search(r"[?.]$", t) and re.match(r"^[A-Z]", cont) and not inline_scale:
@@ -442,7 +467,13 @@ def finish_spvn(cur, survey, instrument):
         if not s:
             continue
         names += caps_tokens(l)
-        body = re.sub(r"(\s+(\(\+G\)|\+G|\(P\)|\(G\)|G|P|\*)?\s*\b[A-Z][A-Z0-9]{1,}\b)+\s*$", "", l).rstrip()   # trailing variable names / markers
+        # trailing variable names / markers: names sit in a right-aligned column (a gap of 2+ spaces) or follow
+        # a marker (+G, P, *); a single space before a bare trailing caps token means the token is part of the
+        # text itself ('arbeidsongeschikt\in WAO', 'ondersteuning UAF', "'geen antwoord' TOEGESTAAN")
+        _MK = r"(?:\(\+G\)|\+G|\(P\)|\(G\)|G|P|\*)"
+        body = re.sub(rf"(?:^\s*|\s{{2,}}|\s+{_MK}\s+(?=[A-Z]))(?:{_MK}\s*)?[A-Z][A-Z0-9]{{1,}}(?:\s+{_MK}?\s*[A-Z][A-Z0-9]{{1,}})*\s*$", "", l).rstrip()
+        if re.fullmatch(r"\s*[A-Z]\.\s+[A-Z][A-Z ,/&-]{2,}\s*", body):
+            continue                      # section heading ('G. HUISVESTING'): not part of any question's wording
         body = re.sub(r"(\(\+G\)|\+G|\(P\)|\(G\))", "", body).rstrip()
         mo = RE_OPT_SPVN.match(body)
         if mo:

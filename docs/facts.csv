@@ -1,7 +1,7 @@
 name,value,description,source
 version,0.5.3,IMPD-CS version,code/R/00_setup.R
-build_id,112ec2af0871,"build identity (sha256 of crosswalks and code, first 12 hex digits)",docs/BUILD_ID
-build_date,2026-11-20,date of the build,docs/BUILD_ID
+build_id,3defeff3a34e,"build identity (sha256 of crosswalks and code, first 12 hex digits)",docs/BUILD_ID
+build_date,2026-11-25,date of the build,docs/BUILD_ID
 build_month,November 2026,month of the build,docs/BUILD_ID
 n_surveys,8,surveys included,crosswalks/surveys.csv
 year_first,2002,fieldwork year of the first survey,crosswalks/surveys.csv
