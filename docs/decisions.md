@@ -520,4 +520,6 @@ Stefano, reading the codebook against the SIM 2020 questionnaire, caught the Q85
 
 **Audit.** Every questionnaire-derived option label was compared against the source file's value label for the same code; a questionnaire label that is a strict prefix of the file label is suspect. After the fix, three hits remain and all three are verified against the questionnaire page as genuinely printed short (SIM 2011 VRAAG 43A "ja"; SIM 2020 Q662 "soms"; SPVA C3q "werkt parttime") - there the codebook's two rows (questionnaire codes vs file labels) correctly differ. The full old→new diff touches wording for 5 + 14 harmonized targets and one unclaimed SPVN item; data, value maps and all other crosswalks are unchanged.
 
+Folded into the same build, closing an open item: the codebook header now prints the concept DOI, read from `CITATION.cff` at build time (`05_codebook.R`), instead of only pointing to the file.
+
 Wording metadata only - no data cell changes. New build identity (the parser and `crosswalks/wording.csv` / `questionnaire_items.csv` are in its scope).
