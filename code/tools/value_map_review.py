@@ -227,6 +227,82 @@ for vs, codes in vsets.items():
             if (max(a1, a2) < min(b1, b2)) if amount else (max(a1, a2) <= min(b1, b2)):
                 overlaps.append((vs, c1, l1, c2, l2))
 
+# ---- numeric top codes --------------------------------------------------------------------------------------------
+# a quantitative pass-through can let a source's missing-type code through as a value (lab_hrs_tot: LAS 2004/05
+# URENWERK 97 'no paid work' passed as 97 hours - IMPD-P finding, 25 Nov 2026, decisions s. 33).  For every source of
+# a numeric main target, flag every negative code and the largest code when it looks like a filler (7/8/9/97/98/99/
+# 997/999/9999...), unless something dispatches it: a value-map row, a survey code rule, a declared user-missing code
+# (where the survey has declared rules), a label that a label rule of the survey reads, or a signed approval
+# (kind numcode, target_value 'valid') after reading the code against the questionnaire and the data.
+mrules = collections.defaultdict(list)
+for r in read_csv(os.path.join(CW, 'missing_rules.csv')):
+    mrules[r['survey']].append(r)
+declared_rng = collections.defaultdict(list)
+for r in read_csv(os.path.join(CW, 'source_missing.csv')):
+    lo, hi = num(r['lo']), num(r['hi'])
+    if lo is not None:
+        declared_rng[(r['survey'], r['source_var'].upper())].append((lo, hi if hi is not None else lo))
+srcvals = collections.defaultdict(list)
+for r in read_csv(os.path.join(CW, 'source_values.csv')):
+    c = num(r['code'])
+    if c is not None:
+        srcvals[(r['survey'], r['source_var'].upper())].append((c, int(num(r['n_max_file']) or 0)))
+vm_by_src = collections.defaultdict(list)
+for r in vmap:
+    vm_by_src[(r['target'], r['survey'], r['source_var'].upper())].append(r['source_value'])
+NINES = {7, 8, 9, 77, 88, 97, 98, 99, 777, 888, 977, 997, 998, 999, 7777, 8888, 9977, 9997, 9998, 9999, 99997, 99998, 99999}
+SURVEYS = [c[4:] for c in (next(iter(varmap.values())) if varmap else {}) if c.startswith('src_')]
+
+
+def fmt_num(c):
+    return str(int(c)) if c == int(c) else str(c)
+
+
+def dispatched(svy, var, code, target):
+    if any(lo <= code <= hi for lo, hi in declared_rng.get((svy, var), [])) and \
+       any(r['rule_type'] == 'declared' for r in mrules[svy]):
+        return True
+    lab = labels.get((svy, var), {}).get(fmt_num(code))
+    for r in mrules[svy]:
+        if r['rule_type'] == 'code' and num(r['match']) == code:
+            return True
+        if r['rule_type'] == 'label' and lab and re.search(r['match'], lab, re.I):
+            return True
+    for spec in vm_by_src.get((target, svy, var), []):
+        if spec == '*':
+            return True
+        m = re.fullmatch(r'(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)', spec)
+        if m and float(m.group(1)) <= code <= float(m.group(2)):
+            return True
+        if num(spec) is not None and num(spec) == code:
+            return True
+    return False
+
+
+numflags, num_candidates = [], set()
+for t, vrow in sorted(varmap.items()):
+    if vrow.get('include_main') != '1' or vrow.get('type') != 'num':
+        continue
+    for svy in SURVEYS:
+        for part in re.split(r'[|+]', vrow.get('src_' + svy, '') or ''):
+            var = re.sub(r'\(.*\)', '', part).strip().upper()
+            cl = sorted(srcvals.get((svy, var), []))
+            if not cl:
+                continue
+            mx = cl[-1][0]
+            for c, n in cl:
+                kind = 'negative' if c < 0 else ('top' if c in NINES and c == mx and len(cl) > 1 else None)
+                if not kind or dispatched(svy, var, c, t):
+                    continue
+                key = ('numcode', svy, var, fmt_num(c), t)
+                num_candidates.add(key)
+                if approved(key, 'valid'):
+                    continue
+                numflags.append((t, svy, var, fmt_num(c), n, labels.get((svy, var), {}).get(fmt_num(c), '(no label)')))
+for key in approvals:
+    if key[0] == 'numcode' and key not in num_candidates:
+        orphaned.append(key)
+
 print('value-map review: %d rows -> %s' % (len(rows), os.path.relpath(OUT, ROOT)))
 print('OVERLAP  %d pair(s) of value-set labels whose numeric ranges overlap:' % len(overlaps))
 for x in overlaps:
@@ -252,7 +328,12 @@ unbound = sorted(set(unbound))
 print('UNBOUND  %d approval(s) without a target_value (an approval is bound to the mapping that was read; add the value):' % len(unbound))
 for x in unbound:
     print('   %s %s %s %s -> %s' % (x[0], x[1], x[2], x[3], x[4]))
-if fails or needs or reuse or overlaps or unbound or changed or orphaned:
-    print('FAIL value-map review: %d polarity, %d unread two-valued labels, %d reuse pairs to approve, %d overlapping ranges, %d unbound approvals, %d changed after approval, %d orphaned approvals' % (len(fails), len(needs), len(reuse), len(overlaps), len(unbound), len(changed), len(orphaned)))
+print('NUMCODE  %d undispatched filler-looking code(s) in numeric targets: map the code or add a missing rule if it is a '
+      'missing-type code, or sign it in crosswalks/label_approvals.csv (kind numcode, target_value valid) after reading it '
+      'against the questionnaire and the data:' % len(numflags))
+for x in numflags:
+    print('   %s <- %s %s code %s (n=%d) "%s"' % x)
+if fails or needs or reuse or overlaps or unbound or changed or orphaned or numflags:
+    print('FAIL value-map review: %d polarity, %d unread two-valued labels, %d reuse pairs to approve, %d overlapping ranges, %d unbound approvals, %d changed after approval, %d orphaned approvals, %d undispatched numeric codes' % (len(fails), len(needs), len(reuse), len(overlaps), len(unbound), len(changed), len(orphaned), len(numflags)))
     sys.exit(1)
-print('PASS value-map review: every two-valued mapping reads as a yes/no or is approved; every cross-survey reuse with differing labels is approved')
+print('PASS value-map review: every two-valued mapping reads as a yes/no or is approved; every cross-survey reuse with differing labels is approved; every filler-looking numeric code is dispatched or signed')

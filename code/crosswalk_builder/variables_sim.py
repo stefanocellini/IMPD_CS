@@ -184,6 +184,8 @@ V("hh_pos_reg", "hh", "Position in the household (registry)", s15="plaatsinhuish
   universe="All respondents; SIM 2015 BRP 31-12-2014, SIM 2020 BRP in classes", notes="SIM 2020 class 9 (reference person other hh / other member / institutional / unknown) = code 19.")
 M("hh_pos_reg", S20, "vrlplhh_kl", 9, 19)
 V("hh_nadult_reg", "hh", "Number of adult household members (registry)", s15="aantalmeerderjarigen", type="num", universe=U_SIM15)
+M("hh_nadult_reg", S15, "aantalmeerderjarigen", 88, ".d", "unlabelled 88 against a next-highest count of 58, on a record whose household size is unknown too = unknown (decisions s. 33; flagged to IMPD-P to verify in the CBS file)")
+M("hh_noth", S15, "nhuisover", 999, ".d", "unlabelled 999 against a next-highest count of 20, household size unknown on the record = no information, as SING 2009's 99 (decisions s. 33)")
 V("hh_nminor_reg", "hh", "Number of minor household members (registry)", s15="aantalminderjarigen", type="num", universe=U_SIM15)
 for src, lab in [("bo", "primary education (bo)"), ("vo", "secondary education (vo)"), ("ve", "adult/vocational education (ve)"),
                  ("mbo", "upper vocational education (mbo)"), ("hbo", "higher professional education (hbo)"), ("wo", "university (wo)")]:

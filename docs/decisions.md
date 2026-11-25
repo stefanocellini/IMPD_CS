@@ -523,3 +523,19 @@ Stefano, reading the codebook against the SIM 2020 questionnaire, caught the Q85
 Folded into the same build, closing an open item: the codebook header now prints the concept DOI, read from `CITATION.cff` at build time (`05_codebook.R`), instead of only pointing to the file.
 
 Wording metadata only - no data cell changes. New build identity (the parser and `crosswalks/wording.csv` / `questionnaire_items.csv` are in its scope).
+
+## 33. Numeric top codes: lab_hrs_tot's 97 and three smaller leaks; a standing review (25 Nov 2026, v0.5.4)
+
+IMPD-P's bundle 05 run caught `lab_hrs_tot` carrying LAS 2004/05 `URENWERK` code **97 = no paid work** as a valid value of 97 hours (1,796 cells; the variable's mean was 59 hours a week). The code is unlabelled and undeclared in the .por, so no rule read it; all 1,796 cases have no job and nobody with a job has 97. Per Stefano's decision (handoff of 25 Nov): `97 -> .c`, the recorded zeros stay 0, and the label no longer claims "0 = no paid work" (27 of the 29 zeros are employees — 0 is a recorded zero).
+
+**The sweep.** Every source code of every numeric main target was audited for the same shape: negative codes and filler-looking top codes (7/8/9/97/98/99/997/999/9999...) at the top of the distribution that nothing dispatches — no value-map row, no survey code rule, no declared user-missing code, no label that a label rule reads. 43 candidates; each read against the source labels, the questionnaire and the built data. Three more were leaks, now fixed alongside `lab_hrs_tot`:
+
+- `lab_hrs_act` SPVN 2003 `FEITUREN` 97 -> `.a` (1 cell): undeclared 97 following the ISEO don't-know convention that `URENWERK` declares; the one case is an employed person whose contractual hours are `.a`.
+- `hh_noth` SIM 2015 `nhuisover` 999 -> `.d` (1 cell): unlabelled 999 against a next-highest count of 20 — as SING 2009's 99, which was already mapped.
+- `hh_nadult_reg` SIM 2015 `aantalmeerderjarigen` 88 -> `.d` (1 cell): unlabelled 88 against a next-highest count of 58, on a record whose household size is unknown too. Flagged to IMPD-P to verify against the CBS file.
+
+The other 39 are genuine values, each with its reason signed in `crosswalks/label_approvals.csv` (kind `numcode`): the 24 SIM 2020 media items are days per week ('7 dagen'), SPORTWIN/SPORTZOM are days per week of exercise, `BEDRIJF` 97 is a real SBI 2008 class, the counts (children at home, bicycles, contact attempts, benefit months, time-use hours) have contiguous distributions, and the SPVN age-77 migrant checks out against his arrival year and age. Two earlier worries were false alarms: `VERZOUD` 99 and `BEDRIJFZ` 99999 carry 'geen informatie' labels that the SPVA label rule already maps to `.d`.
+
+**The standing review.** The same audit now runs on every crosswalk build and in check 16, as part of `code/tools/value_map_review.py`: an undispatched filler-looking code in a numeric target FAILs the build until it is mapped, given a rule, or signed as a real value — the class of error cannot pass silently again. Orphan handling covers the new kind: an approval whose code is no longer flaggable is reported.
+
+**Scale.** 1,799 cells change (1,796 + 3), all from a valid value to a tagged missing; no valid value moves otherwise. Version 0.5.4. Consequence for IMPD-P: SIM 2011 `urenwerk` 97 -> `.c` on their side (their bundle 06), and the LAS cells return to definitions-check identity once this release is their reference.

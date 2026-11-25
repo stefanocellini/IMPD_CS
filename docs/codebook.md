@@ -1,10 +1,10 @@
-# IMPD-CS — Codebook v0.5.3
+# IMPD-CS — Codebook v0.5.4
 
 **IMPD-CS** is the cross-sectional component of the Integrated Migrant Panel Dataset (IMPD). It brings eight Dutch surveys of persons with a migration background, held between 2002 and 2020, together in one harmonized person-level file: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015 and SIM 2020. It covers 55,157 persons - the four largest origin groups (Turkish, Moroccan, Surinamese, Antillean/Aruban), refugee groups (Afghan, Iraqi, Iranian, former Yugoslav, Somali), Polish and Chinese migrants, and native Dutch reference samples - with 1,642 variables on demography, migration history, language, education, work, income, housing, health, social contacts, family, attitudes, religion and identity. Every variable has an English name grouped by theme, one coding across the surveys, and missing-value codes that say why a value is missing. The surveys are repeated cross-sections: the same persons are not followed from one survey to the next. The file is rebuilt in R or Stata from the survey files archived at DANS; the survey data themselves are not redistributed.
 
 This codebook documents that file: what it contains, how each variable was built from the source surveys, and how to use it. It serves two kinds of reader. **Researchers who want to analyse the data** should begin with *Start here*, which walks through the steps of an analysis and links to the reference sections. **Readers who want to check or reproduce a variable** will find the rules in sections 2-3 and the evidence per variable in section 5. Section 1 describes the surveys, sections 2-3 the conventions and the questionnaires; section 4 is the index of all variables; section 5 holds one collapsible entry per variable. The shaded *more detail* blocks open on a click; they hold the full rules and survey-by-survey specifics, so the visible text stays short.
 
-*Generated 2026-11-25 13:30 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `d97e2274ca66` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development. **DOI:** [10.5281/zenodo.24141874](https://doi.org/10.5281/zenodo.24141874) (concept DOI: always resolves to the latest release); full citation metadata in `CITATION.cff` in the repository root.*
+*Generated 2026-11-25 17:44 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `5f5ebb4ccea3` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development. **DOI:** [10.5281/zenodo.24141874](https://doi.org/10.5281/zenodo.24141874) (concept DOI: always resolves to the latest release); full citation metadata in `CITATION.cff` in the repository root.*
 
 ## Start here
 For researchers who want to run an analysis with the IMPD: the six steps below take you from the DANS deposits to a reported result, and each points to the section that holds the reference material. `docs/example_analysis.md` follows the same steps on one question asked in all eight surveys, in R (which also needs the `survey` package) and Stata (version 17 or later).
@@ -311,7 +311,7 @@ Alongside the harmonized file, each survey has a **companion source file** with 
 
 <details class='more'><summary>Companion source files and weights</summary>
 
-**Companion source files** `impd_cs_v0_5_3_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
+**Companion source files** `impd_cs_v0_5_4_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
 
 </details>
 
@@ -1015,7 +1015,7 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`lab_avail4`](#lab_avail4) | How soon the respondent could start working | cat |  |  | BESCHILB |  |  |  |  |  | Respondents without paid work who want work (LAS 2004/05) |
 | [`lab_seek4w`](#lab_seek4w) | Tried to find work in the past four weeks | cat |  |  | ZOEK4WK |  |  |  |  |  | Respondents who looked for work in the past six months (LAS 2004/05) |
 | [`lab_hrs_want`](#lab_hrs_want) | Hours per week the respondent would like to work outside the home | num |  |  | ZELFWERL |  |  |  |  |  | Respondents who work, are unemployed, homemaker or work-disabled and live with a partner (LAS 2004/05) |
-| [`lab_hrs_tot`](#lab_hrs_tot) | Hours worked per week, all respondents (0 = no paid work; SCP construct urenwerk) | num |  |  | URENWERK |  |  |  |  |  | All respondents (LAS 2004/05) |
+| [`lab_hrs_tot`](#lab_hrs_tot) | Hours worked per week, all jobs (not applicable = no paid work; SCP construct urenwerk) | num |  |  | URENWERK |  |  |  |  |  | All respondents (LAS 2004/05) |
 | [`lab_occ_class`](#lab_occ_class) | Occupational class (SBC-92 two-digit classes, LAS 2004/05) | cat |  |  | BEROEP2 |  |  |  |  |  | Employed respondents (LAS 2004/05) |
 | [`lab_socpos`](#lab_socpos) | Social position: main activity combined with occupational level (SCP construct) | cat |  |  | MAATPOS |  |  |  |  |  | All respondents (LAS 2004/05) |
 | [`lab_ind_sec`](#lab_ind_sec) | Industry of current job, 14 sectors (LAS 2004/05) | cat |  |  | BEDRIJF |  |  |  |  |  | Employed respondents (LAS 2004/05) |
@@ -4079,7 +4079,7 @@ Frequencies (unweighted):
 | Response format |  |  |  |  | Max 999 |
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 0= | -3=weet niet; -4=Missing; -7=Sysmis | -2=wil niet zeggen/geen opgave; -3=weet niet; -5=niet van toepassing |  | -2=blanc |
 | Eligible records / population | All household members (roster) (SPVA 2002, SPVN 2003) | All household members (roster) (SPVA 2002, SPVN 2003) | All respondents (SIM 2006) | All respondents (SING 2009) | Respondents with other persons in the household (SIM 2015) |
-| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN ANDEREN:' | none (no eligibility condition printed for this item) | printed condition not translated into a harmonized variable: 'IF [ aantalp = 1 ] ADD TO Q170 [ 1 ]; IF [ aantalp = 2 ] ADD TO Q170 [ 1 ] ADD TO Q170 [ 2 ]; IF [ aantalp = 3 ] ADD TO Q170 [ 1 ] ADD TO Q170 [ 2 ] ADD TO Q...' | none (no eligibility condition printed for this item) | `hh_oth_pers` in {1} (translated from the printed condition on `huishoverig`) - holds in the data (1734 values) |
+| Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN ANDEREN:' | none (no eligibility condition printed for this item) | printed condition not translated into a harmonized variable: 'IF [ aantalp = 1 ] ADD TO Q170 [ 1 ]; IF [ aantalp = 2 ] ADD TO Q170 [ 1 ] ADD TO Q170 [ 2 ]; IF [ aantalp = 3 ] ADD TO Q170 [ 1 ] ADD TO Q170 [ 2 ] ADD TO Q...' | none (no eligibility condition printed for this item) | `hh_oth_pers` in {1} (translated from the printed condition on `huishoverig`) - holds in the data (1733 values) |
 - Value map: codes kept as delivered (missing codes and string maps in `crosswalks/value_map.csv`)
 
 Summary (unweighted, non-missing values):
@@ -4092,7 +4092,7 @@ Summary (unweighted, non-missing values):
 | SIM2006 | 5250 | 0.27 | 0.92 | 0 | 0 | 0 | 0 | 11 |
 | SING2009 | 6892 | 0.15 | 0.59 | 0 | 0 | 0 | 0 | 6 |
 | SIM2011 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2015 | 1734 | 3.5 | 23.99 | 1 | 2 | 3 | 4 | 999 |
+| SIM2015 | 1733 | 2.92 | 1.76 | 1 | 2 | 3 | 4 | 20 |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
 Missing values:
@@ -4100,7 +4100,7 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|
 | .c | Not applicable | 824 | 1094 | 0 | 0 | 0 | 5095 | 0 |
-| .d | No information | 87 | 0 | 0 | 19 | 0 | 0 | 0 |
+| .d | No information | 87 | 0 | 0 | 19 | 0 | 1 | 0 |
 | .e | Not collected (survey/questionnaire) | 0 | 0 | 4096 | 0 | 4125 | 0 | 5323 |
 
 ---
@@ -10989,13 +10989,14 @@ Missing values:
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 0= | -3=weet niet; -4=Missing; -7=Sysmis |
 | Eligible records / population | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) | All interviewed persons aged 12+ (main and mini questionnaire) (SPVA 2002, SPVN 2003) |
 | Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN 12 UUR OF MEER:' | none (no eligibility condition printed for this item) |
+- Value map: codes kept as delivered (missing codes and string maps in `crosswalks/value_map.csv`)
 
 Summary (unweighted, non-missing values):
 
 | survey | n | mean | sd | min | p25 | median | p75 | max |
 |---|---|---|---|---|---|---|---|---|
 | SPVA2002 | 3482 | 35.57 | 9.34 | 12 | 32 | 38 | 40 | 90 |
-| SPVN2003 | 163 | 40.88 | 17.04 | 12 | 30 | 40 | 50 | 97 |
+| SPVN2003 | 162 | 40.54 | 16.51 | 12 | 30 | 40 | 50 | 90 |
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
@@ -11010,6 +11011,7 @@ Missing values:
 | .c | Not applicable | 4769 | 5431 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 70 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5183 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .a | Don't know | 0 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 
@@ -22234,6 +22236,7 @@ Frequencies (unweighted):
 | Question / statement shown or read to respondent | Not applicable - registry / sample-frame field (see the source definition row) |
 | Source definition / derivation | Registry (CBS microdata) or survey-administration field, no questionnaire item |
 | Eligible records / population | All respondents (SIM 2015) |
+- Value map: codes kept as delivered (missing codes and string maps in `crosswalks/value_map.csv`)
 
 Summary (unweighted, non-missing values):
 
@@ -22245,7 +22248,7 @@ Summary (unweighted, non-missing values):
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2011 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2015 | 6825 | 2.11 | 1.69 | 0 | 1 | 2 | 2 | 88 |
+| SIM2015 | 6824 | 2.09 | 1.33 | 0 | 1 | 2 | 2 | 58 |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
 Missing values:
@@ -22253,7 +22256,7 @@ Missing values:
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
 | .e | Not collected (survey/questionnaire) | 13504 | 9119 | 4096 | 5250 | 6911 | 4125 | 0 | 5323 |
-| .d | No information | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 0 |
+| .d | No information | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 0 |
 
 ---
 
@@ -47543,7 +47546,7 @@ Missing values:
 ---
 
 ### `lab_hrs_tot` {#lab_hrs_tot}
-**Hours worked per week, all respondents (0 = no paid work; SCP construct urenwerk)**
+**Hours worked per week, all jobs (not applicable = no paid work; SCP construct urenwerk)**
 - Theme: Labour market (`lab`) · Scope: person · Type: num
 - Universe: All respondents (LAS 2004/05)
 - Sources (file level): LAS 2004/05 `URENWERK` (main)
@@ -47561,6 +47564,7 @@ Missing values:
 | Question / statement shown or read to respondent | Not applicable - coded/constructed variable (see the source definition row) |
 | Source definition / derivation | Constructed variable (data producer's coding) - codebook: total weekly working hours of all jobs |
 | Eligible records / population | All respondents (LAS 2004/05) |
+- Value map: codes kept as delivered (missing codes and string maps in `crosswalks/value_map.csv`)
 
 Summary (unweighted, non-missing values):
 
@@ -47568,7 +47572,7 @@ Summary (unweighted, non-missing values):
 |---|---|---|---|---|---|---|---|---|
 | SPVA2002 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SPVN2003 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| LAS2004 | 4096 | 59.46 | 34.48 | 0 | 32 | 40 | 97 | 97 |
+| LAS2004 | 2300 | 30.14 | 12.5 | 0 | 21 | 36 | 40 | 90 |
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2011 | 0 | NaN | NA | NA | NA | NA | NA | NA |
@@ -47577,9 +47581,10 @@ Summary (unweighted, non-missing values):
 
 Missing values:
 
-| code | label | SPVA2002 | SPVN2003 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
-|---|---|---|---|---|---|---|---|---|
-| .e | Not collected (survey/questionnaire) | 13504 | 9119 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
+|---|---|---|---|---|---|---|---|---|---|
+| .e | Not collected (survey/questionnaire) | 13504 | 9119 | 0 | 5250 | 6911 | 4125 | 6829 | 5323 |
+| .c | Not applicable | 0 | 0 | 1796 | 0 | 0 | 0 | 0 | 0 |
 
 ---
 

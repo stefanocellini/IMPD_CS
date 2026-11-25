@@ -306,6 +306,7 @@ lab_oth_consider,Considering working elsewhere,spva2002,ANDWERK,1,overweeg ander
 lab_oth_consider,Considering working elsewhere,spva2002,ANDWERK,2,nee,0,No,yesno
 lab_oth_applied,Has applied for jobs elsewhere,spva2002,GESOLL,1,al gesolliciteerd,1,Yes,yesno
 lab_oth_applied,Has applied for jobs elsewhere,spva2002,GESOLL,2,nee,0,No,yesno
+lab_hrs_act,Actual working hours per week (persons working 12+ hours),spvn2003,FEITUREN,97,,.a,,
 lab_everwork,Not working: ever had paid work in the Netherlands,spva2002,WERKNL,1,Gewerkt,1,Yes,yesno
 lab_everwork,Not working: ever had paid work in the Netherlands,spva2002,WERKNL,2,Niet gewerkt,0,No,yesno
 lab_everwork,Not working: ever had paid work in the Netherlands,spvn2003,WERKNL,1,"ja, betaald werk gehad",1,Yes,yesno
@@ -568,6 +569,8 @@ hh_oth_pers,Other persons (besides partner/children/parents) in the household,si
 hh_oth_pers,Other persons (besides partner/children/parents) in the household,sim2015,huishoverig,2,Nee,0,No,yesno
 hh_type_reg,Household type (registry),sim2020,vrltyphh_kl,7,Overig huishouden / institutioneel huishouden / onbekend,9,Other / institutional / unknown (SIM 2020 classes),hh_type_reg
 hh_pos_reg,Position in the household (registry),sim2020,vrlplhh_kl,9,"Referentiepersoon in overig huishouden, overig lid in huishouden, institutioneel huishouden, onbekend",19,Reference person / other member / institutional / unknown (SIM 2020 classes),hh_pos_reg
+hh_nadult_reg,Number of adult household members (registry),sim2015,aantalmeerderjarigen,88,,.d,,
+hh_noth,Number of other (non-nuclear) persons in the household,sim2015,nhuisover,999,,.d,,
 mig_reason,Main reason for migration,sim2015,redmigr2,1,Werk,1,Work,mig_reason
 mig_reason,Main reason for migration,sim2015,redmigr2,2,Studie,2,Study,mig_reason
 mig_reason,Main reason for migration,sim2015,redmigr2,3,"Sociale zekerheid, uitkeringen",3,Social security (SPVA 2002),mig_reason
@@ -2030,6 +2033,7 @@ dem_prtnr_act,Main activity of partner,las2004,PARTHFDA,4,scholier\student,5,Pup
 dem_prtnr_act,Main activity of partner,las2004,PARTHFDA,5,gepensioneerd\heeft  AOW|VUT,6,Retired / state pension / early retirement,prtnr_activity
 dem_prtnr_act,Main activity of partner,las2004,PARTHFDA,6,anders,98,Other,prtnr_activity
 lab_hrs,Contractual working hours per week,las2004,URENWRK,-1,,.d,,
+lab_hrs_tot,"Hours worked per week, all jobs (not applicable = no paid work; SCP construct urenwerk)",las2004,URENWERK,97,,.c,,
 lab_lf,In the labour force (CCS-91 definition),las2004,BB_NED,1,Werkzame beroepsbevolking,1,In labour force,in_lf
 lab_lf,In the labour force (CCS-91 definition),las2004,BB_NED,2,Werkloze beroepsbevolking,1,In labour force,in_lf
 lab_lf,In the labour force (CCS-91 definition),las2004,BB_NED,3,Niet beroepsbevolking,0,Not in labour force,in_lf

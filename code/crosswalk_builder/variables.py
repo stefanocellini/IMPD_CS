@@ -379,6 +379,7 @@ V("lab_contr", "lab", "Type of employment contract", "ARBOVK", "ARBOVK", "contra
 V("lab_hrs", "lab", "Contractual working hours per week", "URENWERK", "URENWERK", type="num", universe=U_INT)
 V("lab_hrs_cat", "lab", "Contractual hours, classes (source recode)", "URENWRK1", "URENWRK1", universe=U_INT, include=0, notes="Pure recode of lab_hours_contract.")
 V("lab_hrs_act", "lab", "Actual working hours per week (persons working 12+ hours)", "FEITUREN", "FEITUREN", type="num", universe=U_INT)
+M("lab_hrs_act", S03, "FEITUREN", 97, ".a", "undeclared 97 follows the ISEO don't-know convention that URENWERK declares (the one case is an employed person whose contractual hours are .a; decisions s. 33)")
 V("lab_12h", "lab", "Works 12 hours or more per week (mini questionnaire)", None, "W12UPW", "hours12", universe=U_INT03)
 V("lab_se_ind", "lab", "Type of own business (SBI-93, 5 digits)", "BEDRIJFZ", None, type="num", universe=U_INT02)
 V("lab_se_yr", "lab", "Year own business started", "STARTJR", None, type="year", universe=U_INT02)

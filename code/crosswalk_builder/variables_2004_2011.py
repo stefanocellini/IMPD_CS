@@ -1009,7 +1009,8 @@ V("lab_hrs_want", "lab", "Hours per week the respondent would like to work outsi
 V("dem_prtnr_hrs_want", "dem", "Hours per week the respondent would like the partner to work outside the home", s04="PRTWERK", type="num",
   universe="Respondents who work, are unemployed, homemaker or work-disabled and live with a partner (LAS 2004/05)")
 A("lab_hrs", S04, "URENWRK", pairs=[(-1, ".d")], u=U04W)
-V("lab_hrs_tot", "lab", "Hours worked per week, all respondents (0 = no paid work; SCP construct urenwerk)", s04="URENWERK", type="num", universe=U04)
+V("lab_hrs_tot", "lab", "Hours worked per week, all jobs (not applicable = no paid work; SCP construct urenwerk)", s04="URENWERK", type="num", universe=U04)
+M("lab_hrs_tot", S04, "URENWERK", 97, ".c", "unlabelled 97 = no paid work: all 1,796 cases have no job, nobody with a job has 97; recorded zeros stay 0 (IMPD-P finding, 25 Nov 2026; decisions s. 33)")
 A("lab_lf3", S04, "BB_NED", u=U04)
 A("lab_lf", S04, "BB_NED", pairs=[(1, 1), (2, 1), (3, 0)], u=U04)
 A("lab_rel", S04, "BERBEV", pairs=[(1, 1), (2, 7), (3, 8)], u=U04, note="LAS 3 classes: working / non-working labour force / not in labour force")

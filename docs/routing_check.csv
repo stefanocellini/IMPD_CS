@@ -21,7 +21,7 @@ dem_nchd_away,spva2002,NUITWKI,dem_has_chd,1,persons with children,4180,4180,0,0
 dem_nchd_away,sim2011,NIETINWKIND,dem_has_chd,1,from VRAAG 41 `KINDEREN` 1,2620,0,0,0,=,holds
 dem_nchd_away,sim2015,nietinwkind,dem_has_chd,1,from Q41 `kinderen` 1,1930,0,0,0,=,holds
 dem_chd_reun,sing2009,KOMKIND,dem_chd_res,"2,3,4,5","from VRAAG 280 `KINDNL` 2 , 3 , 4 , 5",453,0,0,0,=,holds
-hh_noth,sim2015,nhuisover,hh_oth_pers,1,from Q59 `huishoverig` 1,1734,0,0,0,=,holds
+hh_noth,sim2015,nhuisover,hh_oth_pers,1,from Q59 `huishoverig` 1,1733,0,0,0,=,holds
 geo_orig_settl,spvn2003,WPLVH,dem_brthcntry,"5012,5043,6013,6023,6045,9999",from VRAAG 1 (A1a) `GEBLAND` not 6,3505,0,0,0,=,holds
 mig_yr_arr,las2004,MIGRJAAR,dem_gen,1,first generation (born abroad),2610,0,12,0.0046,0=12,holds with exceptions
 mig_yr_arr,sim2011,MIGRJAAR,svy_routing_mig,1,persons with a migration background (migrant routing of the script),2243,0,0,0,=,holds

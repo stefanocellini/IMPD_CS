@@ -27,8 +27,8 @@ authors:
     given-names: Matthijs
     affiliation: "Netherlands Interdisciplinary Demographic Institute; University of Groningen"
     email: kalmijn@nidi.nl
-version: 0.5.3
-date-released: "2026-11-20"
+version: 0.5.4
+date-released: "2026-11-25"
 doi: 10.5281/zenodo.24141874
 identifiers:
   - type: doi
