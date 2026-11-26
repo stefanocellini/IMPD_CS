@@ -134,3 +134,30 @@ else {
     display as error "FAIL Stata and R builds differ - see the cf listing above (variables with a nonzero count)"
     error 9                                              // a failed equivalence check terminates the run (nonzero exit)
 }
+
+* companion source files: each Stata companion must match the R companion cell by cell - strings byte for byte.
+* The companions carry the original source bytes, so the two engines must agree on them exactly (audit of v0.5.6:
+* the SIM 2006 R companion trimmed leading spaces in INKCAT that the Stata one kept; decisions s. 36).
+local comp_ok 0
+local comp_skip ""
+foreach s in $SURVEYS {
+    capture confirm file "$DER/impd_cs_v${VERTAG}_source_`s'.dta"
+    if _rc {
+        local comp_skip "`comp_skip' `s'"
+        continue
+    }
+    use "$DER/impd_cs_v${VERTAG}_source_`s'.dta", clear
+    sort id_person
+    tempfile rcomp
+    quietly save "`rcomp'"
+    use "$DER/impd_cs_v${VERTAG}_source_`s'_stata.dta", clear
+    sort id_person
+    capture noisily cf _all using "`rcomp'", all
+    if _rc {
+        display as error "FAIL Stata source companion `s' differs from the R companion - see the cf listing above"
+        error 9                                          // a failed equivalence check terminates the run (nonzero exit)
+    }
+    local comp_ok = `comp_ok' + 1
+}
+if "`comp_skip'" == "" display as result "PASS all `comp_ok' Stata source companions identical to the R companions in every cell"
+else display as text "PASS `comp_ok' Stata source companion(s) identical to the R companions; R companion not present for:`comp_skip'"

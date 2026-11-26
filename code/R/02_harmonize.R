@@ -62,8 +62,10 @@ build_flat_frame <- function(key, id_var) {
   per$PERSNR <- as.numeric(per[[id_var]])
   per$HHNUMMER <- NA_real_; per$GEZLIDNR <- NA_real_
   per$svy_resptype <- 4L
-  for (v in names(per)) if (is.character(per[[v]])) { per[[v]] <- str_trim(per[[v]]) }   # keep '' (mapped as such)
-  list(per = per, hh = NULL)
+  chr <- names(per)[vapply(per, is.character, logical(1))]
+  raw_chr <- per[chr]                                   # original source strings: the companion keeps these untrimmed (decisions s. 36)
+  for (v in chr) per[[v]] <- str_trim(per[[v]])         # keep '' (mapped as such); the working frame is trimmed for code matching
+  list(per = per, hh = NULL, raw_chr = raw_chr)
 }
 
 not_asked <- function(files, scope, resptype) {
@@ -144,7 +146,9 @@ harmonize_survey <- function(s) {
     logmsg("%s harmonized: %d persons (%d heads, %d other interviewed, %d roster only), %d variables", s$svy_name, n,
            sum(per$svy_resptype == 1), sum(per$svy_resptype == 2), sum(per$svy_resptype == 3), ncol(out))
   }
-  saveRDS(per, P("data", "interim", paste0("source_", key, ".rds")))
+  per_save <- per                                       # the companion carries the original imported strings, not the trimmed working copies
+  if (flat && !is.null(pf$raw_chr)) for (v in names(pf$raw_chr)) if (v %in% names(per_save)) per_save[[v]] <- pf$raw_chr[[v]]
+  saveRDS(per_save, P("data", "interim", paste0("source_", key, ".rds")))
   out
 }
 
