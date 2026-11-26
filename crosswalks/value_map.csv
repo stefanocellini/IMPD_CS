@@ -350,32 +350,44 @@ inc_ben,spvn2003,UITKERIN,2,0,
 inc_ben01,spvn2003,SRTUITK,1,1,
 inc_ben01,spvn2003,SRTUITK,-3,.a,"recipient, type don't know: the wildcard must not make this a no (decisions s. 34)"
 inc_ben01,spvn2003,SRTUITK,-4,.d,"recipient, type missing (decisions s. 34)"
+inc_ben01,spvn2003,SRTUITK,7,.a,"declared don't-know code, unobserved: kept out of the wildcard (decisions s. 35)"
+inc_ben01,spvn2003,SRTUITK,99,.d,"declared no-information code, unobserved: kept out of the wildcard (decisions s. 35)"
 inc_ben01,spvn2003,SRTUITK,*,0,
 inc_ben02,spvn2003,SRTUITK,2,1,
 inc_ben02,spvn2003,SRTUITK,-3,.a,"recipient, type don't know: the wildcard must not make this a no (decisions s. 34)"
 inc_ben02,spvn2003,SRTUITK,-4,.d,"recipient, type missing (decisions s. 34)"
+inc_ben02,spvn2003,SRTUITK,7,.a,"declared don't-know code, unobserved: kept out of the wildcard (decisions s. 35)"
+inc_ben02,spvn2003,SRTUITK,99,.d,"declared no-information code, unobserved: kept out of the wildcard (decisions s. 35)"
 inc_ben02,spvn2003,SRTUITK,*,0,
 inc_ben03,spvn2003,SRTUITK,3,1,
 inc_ben03,spvn2003,SRTUITK,-3,.a,"recipient, type don't know: the wildcard must not make this a no (decisions s. 34)"
 inc_ben03,spvn2003,SRTUITK,-4,.d,"recipient, type missing (decisions s. 34)"
+inc_ben03,spvn2003,SRTUITK,7,.a,"declared don't-know code, unobserved: kept out of the wildcard (decisions s. 35)"
+inc_ben03,spvn2003,SRTUITK,99,.d,"declared no-information code, unobserved: kept out of the wildcard (decisions s. 35)"
 inc_ben03,spvn2003,SRTUITK,*,0,
 inc_ben04,spvn2003,SRTUITK,4,1,
 inc_ben04,spvn2003,SRTUITK,-3,.a,"recipient, type don't know: the wildcard must not make this a no (decisions s. 34)"
 inc_ben04,spvn2003,SRTUITK,-4,.d,"recipient, type missing (decisions s. 34)"
+inc_ben04,spvn2003,SRTUITK,7,.a,"declared don't-know code, unobserved: kept out of the wildcard (decisions s. 35)"
+inc_ben04,spvn2003,SRTUITK,99,.d,"declared no-information code, unobserved: kept out of the wildcard (decisions s. 35)"
 inc_ben04,spvn2003,SRTUITK,*,0,
 inc_ben05,spvn2003,SRTUITK,5,1,
 inc_ben05,spvn2003,SRTUITK,-3,.a,"recipient, type don't know: the wildcard must not make this a no (decisions s. 34)"
 inc_ben05,spvn2003,SRTUITK,-4,.d,"recipient, type missing (decisions s. 34)"
+inc_ben05,spvn2003,SRTUITK,7,.a,"declared don't-know code, unobserved: kept out of the wildcard (decisions s. 35)"
+inc_ben05,spvn2003,SRTUITK,99,.d,"declared no-information code, unobserved: kept out of the wildcard (decisions s. 35)"
 inc_ben05,spvn2003,SRTUITK,*,0,
 inc_ben06,spvn2003,SRTUITK,6,1,
 inc_ben06,spvn2003,SRTUITK,-3,.a,"recipient, type don't know: the wildcard must not make this a no (decisions s. 34)"
 inc_ben06,spvn2003,SRTUITK,-4,.d,"recipient, type missing (decisions s. 34)"
+inc_ben06,spvn2003,SRTUITK,7,.a,"declared don't-know code, unobserved: kept out of the wildcard (decisions s. 35)"
+inc_ben06,spvn2003,SRTUITK,99,.d,"declared no-information code, unobserved: kept out of the wildcard (decisions s. 35)"
 inc_ben06,spvn2003,SRTUITK,*,0,
-trn_sup_prtnr,spva2002,VERZPART,1-9,1,
+trn_sup_prtnr,spva2002,VERZPART,1-8,1,
 trn_sup_prtnr,spva2002,VERZPART,99,.d,unlabelled 99 (n=48) = no information
 trn_sup_chd,spva2002,VERZKIND,1-98,1,
 trn_sup_chd,spva2002,VERZKIND,99,.d,"declared 99 (n=47) = no information; counts run to 11 (audit 25 Nov 2026, decisions s. 34)"
-trn_sup_par,spva2002,VERZOUD,1-9,1,
+trn_sup_par,spva2002,VERZOUD,1-8,1,
 trn_sup_fam,spva2002,VERZFAM,1-98,1,
 trn_sup_fam,spva2002,VERZFAM,99,.d,declared 99 (n=74) = no information; counts run to 50 (decisions s. 34)
 trn_sup_oth,spva2002,VERZAND,1-98,1,

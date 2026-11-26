@@ -1,6 +1,6 @@
-# IMPD-CS v0.5.5 — run log (build 6de3453abaff)
+# IMPD-CS v0.5.6 — run log (build afe616bac908)
 
-Built 2026-11-25 20:30 with R 4.3.3 (x86_64-pc-linux-gnu) on Linux; packages: haven 2.5.4, dplyr 1.1.4, readr 2.1.5, stringr 1.5.1, tidyr 1.3.1, purrr 1.0.2, openssl 2.1.1, jsonlite 1.8.8.
+Built 2026-11-26 01:17 with R 4.3.3 (x86_64-pc-linux-gnu) on Linux; packages: haven 2.5.4, dplyr 1.1.4, readr 2.1.5, stringr 1.5.1, tidyr 1.3.1, purrr 1.0.2, openssl 2.1.1, jsonlite 1.8.8.
 
 Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data files in crosswalks/surveys.csv): SPVA2002 91166a194661, SPVN2003 96556f53090b, LAS2004 cb67573d71e1, SIM2006 5c666899708d, SING2009 b4d3aea4cf56, SIM2011 78d8bf29ef63, SIM2015 5269492b473f, SIM2020 cc4518f30693.
 
@@ -71,6 +71,13 @@ Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data fil
 - plus_months lab_tenure: 2101 year+month cells combined, 0 months-only answers recovered
 - plus_months lab_nowork_yrs: 1216 year+month cells combined, 415 months-only answers recovered
 - plus_months lab_exp_prev: 1223 year+month cells combined, 141 months-only answers recovered
+- plus_months inc_ben_yrs01: 246 year+month cells combined, 0 months-only answers recovered
+- plus_months inc_ben_yrs02: 198 year+month cells combined, 0 months-only answers recovered
+- plus_months inc_ben_yrs03: 312 year+month cells combined, 0 months-only answers recovered
+- plus_months inc_ben_yrs04: 495 year+month cells combined, 0 months-only answers recovered
+- plus_months inc_ben_yrs05: 396 year+month cells combined, 0 months-only answers recovered
+- plus_months inc_ben_yrs07: 36 year+month cells combined, 0 months-only answers recovered
+- plus_months inc_ben_yrs06: 78 year+month cells combined, 0 months-only answers recovered
 - las_vol_union: 518 listed-organisation volunteers added to soc_volunteer, 60 uncertain set .a (LAS 2004/05)
 - Migrant routing in the person samples: LAS2004 3454 of 4096 (self-reported natives with migrant routing: 24); SIM2006 4208 of 5250 (self-reported natives with migrant routing: 0); SING2009 5952 of 6911 (self-reported natives with migrant routing: 3); SIM2011 3310 of 4125 (self-reported natives with migrant routing: 23); SIM2015 5783 of 6829 (self-reported natives with migrant routing: 0); SIM2020 4552 of 5323 (self-reported natives with migrant routing: 0)
 - cultural_only_e spva2002: 27250 cells set .e over 196 targets for 218 cultural-only respondents
@@ -79,13 +86,14 @@ Deposit zip files (sha256, first 12 hex digits; full hashes of zips and data fil
 - spvn_applicable_gaps: hh_comp 1599 cells .c -> .d
 - spvn_applicable_gaps: inc_ben==1 with inc_ben_type missing: 16 person(s), dummies retagged
 - spvn_applicable_gaps: soc_mem==1 with soc_mem_type missing: 1 person(s), dummies retagged
-- Main file: 55157 persons x 1642 variables -> impd_cs_v0_5_5.{dta,rds,csv}
-- Source file SPVA2002: 13504 persons x 339 variables -> impd_cs_v0_5_5_source_spva2002.{dta,rds}
-- Source file SPVN2003: 9119 persons x 285 variables -> impd_cs_v0_5_5_source_spvn2003.{dta,rds}
-- Source file LAS2004: 4096 persons x 571 variables -> impd_cs_v0_5_5_source_las2004.{dta,rds}
-- Source file SIM2006: 5250 persons x 377 variables -> impd_cs_v0_5_5_source_sim2006.{dta,rds}
-- Source file SING2009: 6911 persons x 247 variables -> impd_cs_v0_5_5_source_sing2009.{dta,rds}
-- Source file SIM2011: 4125 persons x 374 variables -> impd_cs_v0_5_5_source_sim2011.{dta,rds}
-- Source file SIM2015: 6829 persons x 241 variables -> impd_cs_v0_5_5_source_sim2015.{dta,rds}
-- Source file SIM2020: 5323 persons x 280 variables -> impd_cs_v0_5_5_source_sim2020.{dta,rds}
+- spvn_applicable_gaps: inc_ben==.a: 5 person(s), 30 dummy zeros -> .a
+- Main file: 55157 persons x 1642 variables -> impd_cs_v0_5_6.{dta,rds,csv}
+- Source file SPVA2002: 13504 persons x 339 variables -> impd_cs_v0_5_6_source_spva2002.{dta,rds}
+- Source file SPVN2003: 9119 persons x 285 variables -> impd_cs_v0_5_6_source_spvn2003.{dta,rds}
+- Source file LAS2004: 4096 persons x 571 variables -> impd_cs_v0_5_6_source_las2004.{dta,rds}
+- Source file SIM2006: 5250 persons x 377 variables -> impd_cs_v0_5_6_source_sim2006.{dta,rds}
+- Source file SING2009: 6911 persons x 247 variables -> impd_cs_v0_5_6_source_sing2009.{dta,rds}
+- Source file SIM2011: 4125 persons x 374 variables -> impd_cs_v0_5_6_source_sim2011.{dta,rds}
+- Source file SIM2015: 6829 persons x 241 variables -> impd_cs_v0_5_6_source_sim2015.{dta,rds}
+- Source file SIM2020: 5323 persons x 280 variables -> impd_cs_v0_5_6_source_sim2020.{dta,rds}
 - Routing gates checked against the data: 697 source x gate pairs, 630 hold, 67 hold with exceptions (<= 10% of values outside), 0 do not hold -> docs/routing_check.csv

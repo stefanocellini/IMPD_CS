@@ -319,6 +319,21 @@ for (g in gap_sets) {
   }
   logmsg("spvn_applicable_gaps: %s==1 with %s missing: %d person(s), dummies retagged", g$par, g$typ, sum(sel))
 }
+# (c) Unknown receipt/membership (parent .a) cannot establish non-receipt of any type: the zeros the wildcard wrote
+#     into the type dummies become .a.  The type variable stays .c (the type question was never reached).
+#     Audit of v0.5.5, 25 Nov 2026 (decisions s. 35).
+for (g in gap_sets) {
+  par <- all[[g$par]]
+  sel_a <- spvn & is.na(par) & is_tagged_na(par) & na_tag(par) %in% "a"
+  if (!any(sel_a)) next
+  n_cells <- 0L
+  for (dmt in g$dums) {
+    x <- all[[dmt]]
+    dsel <- sel_a & !is.na(x) & x == 0
+    if (any(dsel)) { x[dsel] <- tagged_na("a"); all[[dmt]] <- x; n_cells <- n_cells + sum(dsel) }
+  }
+  logmsg("spvn_applicable_gaps: %s==.a: %d person(s), %d dummy zeros -> .a", g$par, sum(sel_a), n_cells)
+}
 
 saveRDS(all, P("data", "interim", "derived_all.rds"))
 writeLines(LOG, P("data", "interim", "log_03_derive.txt"))

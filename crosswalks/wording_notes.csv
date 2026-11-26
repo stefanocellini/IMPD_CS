@@ -34,13 +34,13 @@ iden_scale,Same 5-point scale; SIM 2015 question text 'Voelt u zich: meer (herko
 int_nlcrs,"SIM: 'followed, with or without certificate, or currently following' = yes; 'no' and 'planning to' = no (detail in int_nlcrs_det). SIM 2006: 'wel eens een cursus gedaan om Nederlands te leren' (first generation); SIM 2011/2015 ask the same with more answer categories (int_nlcrs_det)."
 lab_act,SPVA/SPVN include 'working 12 hours or more' (code 0); SIM asks the question only to persons without paid work.
 lab_emptype,SIM 2015 asks 'Werkt u als werknemer in loondienst?' (yes / 'diversen'); the self-employment detail comes from a follow-up (lab_se_type). Code 2 here = not an employee.
-lab_exp,SIM 2006: years with decimals; SIM 2011/2015: years and months in two variables.
+lab_exp,"SIM 2006: years with decimals; SIM 2011/2015: years and months asked separately - lab_exp includes the months as a fraction of a year, lab_exp_mo keeps the original month component."
 lab_found,"SIM 2006 adds 'wervings- en selectiebureau' (mapped to 12, placement agency) and 'werd gevraagd' (9)."
 lab_hrs_cat5,"SING 2009: contractual hours of employees in classes <12, 12-20, 20-35, 35+ (no 'zero hours' class)."
 lab_occ,"SIM 2011: Standaard Beroepenclassificatie 1992 codes (5 digits, first digit = skill level); SPVA/SPVN: SBC-1992 as coded by ISEO."
 lab_occ_lvl,"LAS 2004/05: skill level (beroepsniveau) of all working respondents, SBC-92 levels 1-5."
 lab_rel,"LAS 2004/05 has three classes (BERBEV): working labour force (1), non-working labour force (7) and not in the labour force (8)."
-lab_tenure,"SIM 2006: years with decimals (months / 12); SIM 2011: years and months in two variables (lab_tenure, lab_tenure_mo)."
+lab_tenure,"SIM 2006: years with decimals (months / 12); SIM 2011: years and months asked separately - lab_tenure includes the months as a fraction of a year, lab_tenure_mo keeps the original month component."
 lang_orig_follow,SIM 2006: yes/no; SIM 2011/2015: yes / a little / no.
 lang_orig_read,SIM 2006 has no 'cannot read the language' category (SIM 2011: code 4).
 lang_orig_write,SIM 2006 has no 'cannot write the language' category (SIM 2011: code 4).

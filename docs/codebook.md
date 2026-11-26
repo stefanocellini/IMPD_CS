@@ -1,10 +1,10 @@
-# IMPD-CS — Codebook v0.5.5
+# IMPD-CS — Codebook v0.5.6
 
 **IMPD-CS** is the cross-sectional component of the Integrated Migrant Panel Dataset (IMPD). It brings eight Dutch surveys of persons with a migration background, held between 2002 and 2020, together in one harmonized person-level file: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2011, SIM 2015 and SIM 2020. It covers 55,157 persons - the four largest origin groups (Turkish, Moroccan, Surinamese, Antillean/Aruban), refugee groups (Afghan, Iraqi, Iranian, former Yugoslav, Somali), Polish and Chinese migrants, and native Dutch reference samples - with 1,642 variables on demography, migration history, language, education, work, income, housing, health, social contacts, family, attitudes, religion and identity. Every variable has an English name grouped by theme, one coding across the surveys, and missing-value codes that say why a value is missing. The surveys are repeated cross-sections: the same persons are not followed from one survey to the next. The file is rebuilt in R or Stata from the survey files archived at DANS; the survey data themselves are not redistributed.
 
 This codebook documents that file: what it contains, how each variable was built from the source surveys, and how to use it. It serves two kinds of reader. **Researchers who want to analyse the data** should begin with *Start here*, which walks through the steps of an analysis and links to the reference sections. **Readers who want to check or reproduce a variable** will find the rules in sections 2-3 and the evidence per variable in section 5. Section 1 describes the surveys, sections 2-3 the conventions and the questionnaires; section 4 is the index of all variables; section 5 holds one collapsible entry per variable. The shaded *more detail* blocks open on a click; they hold the full rules and survey-by-survey specifics, so the visible text stays short.
 
-*Generated 2026-11-25 20:26 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `6de3453abaff` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development. **DOI:** [10.5281/zenodo.24141874](https://doi.org/10.5281/zenodo.24141874) (concept DOI: always resolves to the latest release); full citation metadata in `CITATION.cff` in the repository root.*
+*Generated 2026-11-26 01:14 CET by `code/R/05_codebook.R` from the crosswalks in `crosswalks/` and the built data in `data/derived/`. **Build identity:** `afe616bac908` (sha256 of the crosswalks and the code, first 12 hex digits; also in `docs/run_log.md` and `docs/BUILD_ID`). Cite the build identity with the version: substantively different revisions can carry the same version number during development. **DOI:** [10.5281/zenodo.24141874](https://doi.org/10.5281/zenodo.24141874) (concept DOI: always resolves to the latest release); full citation metadata in `CITATION.cff` in the repository root.*
 
 ## Start here
 For researchers who want to run an analysis with the IMPD: the six steps below take you from the DANS deposits to a reported result, and each points to the section that holds the reference material. `docs/example_analysis.md` follows the same steps on one question asked in all eight surveys, in R (which also needs the `survey` package) and Stata (version 17 or later).
@@ -311,7 +311,7 @@ Alongside the harmonized file, each survey has a **companion source file** with 
 
 <details class='more'><summary>Companion source files and weights</summary>
 
-**Companion source files** `impd_cs_v0_5_5_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
+**Companion source files** `impd_cs_v0_5_6_source_<survey>.dta/.rds` contain every original variable of each survey (prefix `src_`, Dutch labels, original codes) keyed by `id_person`, so any harmonization step can be audited or redone. In the household surveys a field that occurs in more than one deposit file (heads, interviewed persons, roster) is kept once, with the value of the most detailed file (heads > persons > roster); where the files disagree - in SPVN 2003, 37 roster-age cells of 17 persons - the companion holds the chosen value only, and the per-file frames in `data/interim/` are the place to study the disagreement. **Weights** (`svy_wgt`) are the survey-specific weights supplied with the files: ISEO/SCP design weights for SPVA/SPVN, CBS calibration weights scaled to the population for SIM (SIM 2015 also ships an alternative model, `svy_wgt_alt`); they are not comparable across surveys (section 1, weights).
 
 </details>
 
@@ -983,13 +983,13 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`lab_cond01`](#lab_cond01) | Working conditions: how often dangerous work | cat |  |  |  |  |  |  | gevwerk |  | Employed respondents (SIM 2015) |
 | [`lab_cond02`](#lab_cond02) | Working conditions: how often physically heavy work | cat |  |  |  |  |  |  | zwaarwerk |  | Employed respondents (SIM 2015) |
 | [`lab_cond03`](#lab_cond03) | Working conditions: how often working very fast | cat |  |  |  |  |  |  | snelwerk |  | Employed respondents (SIM 2015) |
-| [`lab_exp_mo`](#lab_exp_mo) | Months of work experience in addition to lab_exp | num |  |  |  |  |  | ARBERV_MND | arbervm |  | Employed respondents (SIM 2011, SIM 2015) |
+| [`lab_exp_mo`](#lab_exp_mo) | Original month component of lab_exp (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | ARBERV_MND | arbervm |  | Employed respondents (SIM 2011, SIM 2015) |
 | [`lab_exp_prev`](#lab_exp_prev) | Work experience in NL, years (persons not working now; fractional where months are recorded: SIM 2011/2015) | num |  |  |  | ARBERV_W |  | ARBERV_W_JR | arberv_wj |  | Respondents not working now who ever worked in NL, SIM 2015 only |
-| [`lab_exp_prev_mo`](#lab_exp_prev_mo) | Months of work experience in addition to lab_exp_prev | num |  |  |  |  |  | ARBERV_W_MND | arberv_wm |  | Respondents without paid work who ever worked (SIM 2011); Respondents not working now who ever worked in NL (SIM 2015) |
-| [`lab_nowork_mo`](#lab_nowork_mo) | Months since last job in addition to lab_nowork_yrs | num |  |  |  |  |  | NWRKDUUR_MND | nrwrkduurm |  | Respondents without paid work who ever worked (SIM 2011); Respondents not working now who ever worked (SIM 2015) |
+| [`lab_exp_prev_mo`](#lab_exp_prev_mo) | Original month component of lab_exp_prev (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | ARBERV_W_MND | arberv_wm |  | Respondents without paid work who ever worked (SIM 2011); Respondents not working now who ever worked in NL (SIM 2015) |
+| [`lab_nowork_mo`](#lab_nowork_mo) | Original month component of lab_nowork_yrs (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | NWRKDUUR_MND | nrwrkduurm |  | Respondents without paid work who ever worked (SIM 2011); Respondents not working now who ever worked (SIM 2015) |
 | [`lab_want5`](#lab_want5) | Would like paid work now (5 categories) | cat |  |  | WILWERK |  |  |  | wilw12uv2 |  | Respondents without paid work (LAS 2004/05, SIM 2015) |
 | [`lab_srch2m`](#lab_srch2m) | Did something in the past two months to find work | cat |  |  |  |  |  |  | zoek2m |  | Respondents without paid work who want work (SIM 2015) |
-| [`lab_tenure_mo`](#lab_tenure_mo) | Months with current employer (in addition to the years) | num |  |  |  |  |  | ERVBEDR_MND |  |  | Employees (SIM 2011) |
+| [`lab_tenure_mo`](#lab_tenure_mo) | Original month component of lab_tenure (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | ERVBEDR_MND |  |  | Employees (SIM 2011) |
 | [`lab_sup`](#lab_sup) | Supervises other people in the current job | cat |  |  |  | LEIDING |  | LEIDING |  |  | Employees (SIM 2006, SIM 2011) |
 | [`lab_se_occ`](#lab_se_occ) | Occupation of the self-employed (SBC-1992 code) | num |  |  |  |  |  | BEROEP2 |  |  | Self-employed respondents (SIM 2011) |
 | [`lab_unemp_ever`](#lab_unemp_ever) | Has ever been unemployed | cat |  |  |  | WERKL | WERKL | WERKL |  |  | Employed respondents (SIM 2006, SING 2009, SIM 2011) |
@@ -1054,20 +1054,20 @@ All eight surveys were face-to-face interviews except SIM 2015 (web first, then 
 | [`inc_sec_reg`](#inc_sec_reg) | Socio-economic category, main income source (registry 2019) | cat |  |  |  |  |  |  |  | inpsecj_kl | All respondents (SIM 2020) |
 | [`inc_change5`](#inc_change5) | Financial situation of the household compared with 12 months ago | cat |  |  |  | FINSUBJ | FINSUBJ | FINSUBJ |  |  | Respondents who are head or partner of the household (SIM 2006, SING 2009, SIM 2011) |
 | [`inc_rel_nl5`](#inc_rel_nl5) | Standard of living compared with other people in the Netherlands | cat |  |  |  |  | LVSTNL | LVSTNL |  |  | All respondents (SING 2009); Respondents who are head or partner of the household (SIM 2011) |
-| [`inc_ben_yrs01`](#inc_ben_yrs01) | Years receiving social assistance (bijstand) | num |  |  |  |  |  | UITKDUUR_BIJSTAND_JR |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_mo01`](#inc_ben_mo01) | Months receiving social assistance (in addition to years) | num |  |  |  |  |  | UITKDUUR_BIJSTAND_MND |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_yrs02`](#inc_ben_yrs02) | Years receiving unemployment benefit (WW) | num |  |  |  |  |  | UITKDUUR_WWUITK_JR |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_mo02`](#inc_ben_mo02) | Months receiving unemployment benefit (in addition to years) | num |  |  |  |  |  | UITKDUUR_WWUITK_MND |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_yrs03`](#inc_ben_yrs03) | Years receiving disability benefit (WAO/WIA) | num |  |  |  |  |  | UITKDUUR_WAOUITK_JR |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_mo03`](#inc_ben_mo03) | Months receiving disability benefit (in addition to years) | num |  |  |  |  |  | UITKDUUR_WAOUITK_MND |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_yrs04`](#inc_ben_yrs04) | Years receiving pension / AOW / early retirement | num |  |  |  |  |  | UITKDUUR_AOWUITK_JR |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_mo04`](#inc_ben_mo04) | Months receiving pension (in addition to years) | num |  |  |  |  |  | UITKDUUR_AOWUITK_MND |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_yrs05`](#inc_ben_yrs05) | Years receiving a student grant | num |  |  |  |  |  | UITKDUUR_STUDIEF_JR |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_mo05`](#inc_ben_mo05) | Months receiving a student grant (in addition to years) | num |  |  |  |  |  | UITKDUUR_STUDIEF_MND |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_yrs07`](#inc_ben_yrs07) | Years receiving alimony | num |  |  |  |  |  | UITKDUUR_ALIMEN_JR |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_mo07`](#inc_ben_mo07) | Months receiving alimony (in addition to years) | num |  |  |  |  |  | UITKDUUR_ALIMEN_MND |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_yrs06`](#inc_ben_yrs06) | Years receiving another benefit | num |  |  |  |  |  | UITKDUUR_ANDUITK_JR |  |  | Recipients of the benefit (SIM 2011) |
-| [`inc_ben_mo06`](#inc_ben_mo06) | Months receiving another benefit (in addition to years) | num |  |  |  |  |  | UITKDUUR_ANDUITK_MND |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_yrs01`](#inc_ben_yrs01) | Years receiving social assistance (bijstand) (fractional where months are recorded) | num |  |  |  |  |  | UITKDUUR_BIJSTAND_JR |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_mo01`](#inc_ben_mo01) | Original month component of inc_ben_yrs01 (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | UITKDUUR_BIJSTAND_MND |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_yrs02`](#inc_ben_yrs02) | Years receiving unemployment benefit (WW) (fractional where months are recorded) | num |  |  |  |  |  | UITKDUUR_WWUITK_JR |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_mo02`](#inc_ben_mo02) | Original month component of inc_ben_yrs02 (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | UITKDUUR_WWUITK_MND |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_yrs03`](#inc_ben_yrs03) | Years receiving disability benefit (WAO/WIA) (fractional where months are recorded) | num |  |  |  |  |  | UITKDUUR_WAOUITK_JR |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_mo03`](#inc_ben_mo03) | Original month component of inc_ben_yrs03 (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | UITKDUUR_WAOUITK_MND |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_yrs04`](#inc_ben_yrs04) | Years receiving pension / AOW / early retirement (fractional where months are recorded) | num |  |  |  |  |  | UITKDUUR_AOWUITK_JR |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_mo04`](#inc_ben_mo04) | Original month component of inc_ben_yrs04 (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | UITKDUUR_AOWUITK_MND |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_yrs05`](#inc_ben_yrs05) | Years receiving a student grant (fractional where months are recorded) | num |  |  |  |  |  | UITKDUUR_STUDIEF_JR |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_mo05`](#inc_ben_mo05) | Original month component of inc_ben_yrs05 (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | UITKDUUR_STUDIEF_MND |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_yrs07`](#inc_ben_yrs07) | Years receiving alimony (fractional where months are recorded) | num |  |  |  |  |  | UITKDUUR_ALIMEN_JR |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_mo07`](#inc_ben_mo07) | Original month component of inc_ben_yrs07 (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | UITKDUUR_ALIMEN_MND |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_yrs06`](#inc_ben_yrs06) | Years receiving another benefit (fractional where months are recorded) | num |  |  |  |  |  | UITKDUUR_ANDUITK_JR |  |  | Recipients of the benefit (SIM 2011) |
+| [`inc_ben_mo06`](#inc_ben_mo06) | Original month component of inc_ben_yrs06 (already included there as a fraction of a year; do not add again) | num |  |  |  |  |  | UITKDUUR_ANDUITK_MND |  |  | Recipients of the benefit (SIM 2011) |
 | [`inc_change5_par`](#inc_change5_par) | Financial situation compared with 12 months ago, reported by the parent | cat |  |  |  |  |  | FINSUBJ2 |  |  | Respondents aged 15-17 whose parent answered the parent questions (SIM 2011) |
 | [`inc_rel_nl5_par`](#inc_rel_nl5_par) | Standard of living compared with others, reported by the parent | cat |  |  |  |  |  | LVSTNL2 |  |  | Respondents aged 15-17 whose parent answered the parent questions (SIM 2011) |
 | [`inc_ease5`](#inc_ease5) | How easily the household makes ends meet on its total income | cat |  |  |  | RONDKOM |  |  |  |  | Respondents who are head or partner of the household (SIM 2006) |
@@ -9935,7 +9935,7 @@ Frequencies (unweighted):
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SIM 2011, SIM 2015 · derived where the inputs exist: LAS 2004/05, SING 2009, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006); `lab_emp` in {1} (SIM 2011); printed condition not translated (SIM 2015)
 - Comparability: **derived** (auto) — derived by rule 'plus_months:lab_exp_mo' in every survey where the inputs exist; see the variable note
-- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, SIM 2006, SIM 2011, SIM 2015): question differs (SPVA 2002/SPVN 2003 vs SIM 2011 vs SIM 2015 vs SIM 2006); contains an unresolved fill; introduction none printed; answer options none printed; interviewer instruction printed in SIM 2011 only; routing differs (SIM 2015 vs SIM 2011); none printed in SPVA 2002, SPVN 2003, SIM 2006. **Note:** SIM 2006: years with decimals; SIM 2011/2015: years and months in two variables.
+- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, SIM 2006, SIM 2011, SIM 2015): question differs (SPVA 2002/SPVN 2003 vs SIM 2011 vs SIM 2015 vs SIM 2006); contains an unresolved fill; introduction none printed; answer options none printed; interviewer instruction printed in SIM 2011 only; routing differs (SIM 2015 vs SIM 2011); none printed in SPVA 2002, SPVN 2003, SIM 2006. **Note:** SIM 2006: years with decimals; SIM 2011/2015: years and months asked separately - lab_exp includes the months as a fraction of a year, lab_exp_mo keeps the original month component.
 
 | Item | SPVA 2002 | SPVN 2003 | SIM 2006 | SIM 2011 | SIM 2015 |
 |---|---|---|---|---|---|
@@ -10289,7 +10289,7 @@ Frequencies (unweighted):
 - Availability: collected: SPVA 2002, SPVN 2003, SIM 2006, SIM 2011 · derived where the inputs exist: LAS 2004/05, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): none printed (SPVA 2002, SPVN 2003, SIM 2006); `lab_emptype` in {1} (SIM 2011)
 - Comparability: **derived** (auto) — derived by rule 'plus_months:lab_tenure_mo' in every survey where the inputs exist; see the variable note
-- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, SIM 2006, SIM 2011): question differs (SPVA 2002/SPVN 2003/SIM 2011 vs SIM 2006); introduction none printed; answer options none printed; interviewer instruction printed in SIM 2011 only; routing printed in SIM 2011 only. **Note:** SIM 2006: years with decimals (months / 12); SIM 2011: years and months in two variables (lab_tenure, lab_tenure_mo).
+- Wording and procedure: Respondent-facing (SPVA 2002, SPVN 2003, SIM 2006, SIM 2011): question differs (SPVA 2002/SPVN 2003/SIM 2011 vs SIM 2006); introduction none printed; answer options none printed; interviewer instruction printed in SIM 2011 only; routing printed in SIM 2011 only. **Note:** SIM 2006: years with decimals (months / 12); SIM 2011: years and months asked separately - lab_tenure includes the months as a fraction of a year, lab_tenure_mo keeps the original month component.
 
 | Item | SPVA 2002 | SPVN 2003 | SIM 2006 | SIM 2011 |
 |---|---|---|---|---|
@@ -13054,9 +13054,9 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1551 | 4019 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1551 | 4014 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 708 | 1559 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .a | Don't know | 0 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
@@ -13094,9 +13094,9 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 2046 | 5347 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 2046 | 5342 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 213 | 231 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .a | Don't know | 0 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
@@ -13134,9 +13134,9 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1637 | 5414 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1637 | 5409 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 622 | 164 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .a | Don't know | 0 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
@@ -13174,9 +13174,9 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1909 | 5514 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1909 | 5509 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 350 | 64 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .a | Don't know | 0 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
@@ -13214,9 +13214,9 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 1954 | 5371 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 1954 | 5366 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 305 | 207 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .a | Don't know | 0 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 65 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
@@ -13254,9 +13254,9 @@ Frequencies (unweighted):
 
 | code | label | SPVA2002 | SPVN2003 | LAS2004 | SIM2006 | SING2009 | SIM2011 | SIM2015 | SIM2020 |
 |---|---|---|---|---|---|---|---|---|---|
-| 0 | Not mentioned | 2114 | 5446 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 0 | Not mentioned | 2114 | 5441 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 1 | Mentioned | 144 | 132 | 0 | 0 | 0 | 0 | 0 | 0 |
-| .a | Don't know | 0 | 9 | 0 | 0 | 0 | 0 | 0 | 0 |
+| .a | Don't know | 0 | 14 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .c | Not applicable | 5779 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .d | No information | 66 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 | .e | Not collected (survey/questionnaire) | 5401 | 3525 | 4096 | 5250 | 6911 | 4125 | 6829 | 5323 |
@@ -13650,7 +13650,7 @@ Frequencies (unweighted):
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 0= | -3=weet niet; -4=Missing; -7=Sysmis; 0=niet genoemd; 1=genoemd |
 | Eligible records / population | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) |
 | Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN BIJDRAGE:' | none (no eligibility condition printed for this item) |
-- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZPART`: 1-9→1
+- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZPART`: 1-8→1
 
 Frequencies (unweighted):
 
@@ -13774,7 +13774,7 @@ Missing values:
 | Value labels in the source data file (shown where codes or meanings differ from the questionnaire; the value map and the harmonized codes work from these) | 0=geen; 99=geen informatie | -3=weet niet; -4=Missing; -7=Sysmis; 0=niet genoemd; 1=genoemd |
 | Eligible records / population | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) | Heads of household (main questionnaire) (SPVA 2002, SPVN 2003) |
 | Routing (harmonized variables) | printed condition not translated into a harmonized variable: 'INDIEN BIJDRAGE:' | none (no eligibility condition printed for this item) |
-- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZOUD`: 1-9→1
+- Recodes (source code → harmonized code; full map incl. missing codes in `crosswalks/value_map.csv`): SPVA 2002 `VERZOUD`: 1-8→1
 
 Frequencies (unweighted):
 
@@ -24553,7 +24553,7 @@ Frequencies (unweighted):
 ---
 
 ### `lab_exp_mo` {#lab_exp_mo}
-**Months of work experience in addition to lab_exp**
+**Original month component of lab_exp (already included there as a fraction of a year; do not add again)**
 - Theme: Labour market (`lab`) · Scope: person · Type: num
 - Universe: Employed respondents (SIM 2011, SIM 2015)
 - Sources (file level): SIM 2011 `ARBERV_MND` (main); SIM 2015 `arbervm` (main)
@@ -24647,7 +24647,7 @@ Missing values:
 ---
 
 ### `lab_exp_prev_mo` {#lab_exp_prev_mo}
-**Months of work experience in addition to lab_exp_prev**
+**Original month component of lab_exp_prev (already included there as a fraction of a year; do not add again)**
 - Theme: Labour market (`lab`) · Scope: person · Type: num
 - Universe: Respondents without paid work who ever worked (SIM 2011); Respondents not working now who ever worked in NL (SIM 2015)
 - Sources (file level): SIM 2011 `ARBERV_W_MND` (main); SIM 2015 `arberv_wm` (main)
@@ -24693,7 +24693,7 @@ Missing values:
 ---
 
 ### `lab_nowork_mo` {#lab_nowork_mo}
-**Months since last job in addition to lab_nowork_yrs**
+**Original month component of lab_nowork_yrs (already included there as a fraction of a year; do not add again)**
 - Theme: Labour market (`lab`) · Scope: person · Type: num
 - Universe: Respondents without paid work who ever worked (SIM 2011); Respondents not working now who ever worked (SIM 2015)
 - Sources (file level): SIM 2011 `NWRKDUUR_MND` (main); SIM 2015 `nrwrkduurm` (main)
@@ -25005,7 +25005,7 @@ Frequencies (unweighted):
 - Theme: Transnational support to origin country (`trn`) · Scope: person · Type: cat · Value set: `yesno`
 - Universe: Respondents with a migration background (SIM 2006, SING 2009, SIM 2011, SIM 2015)
 - Sources (file level): SIM 2006 `HUISBUI` (main); SING 2009 `HUISBUI` (main); SIM 2011 `HUISBUI` (main); SIM 2015 `huisbui` (main)
-- Notes: SIM 2006/SING 2009/SIM 2011 ask about the respondent or the household; SIM 2015 asks about the respondent personally ('u zelf'), so for respondents living as a child in the household the subject shifts from the parents to the respondent. (Audit 25 Nov 2026, decisions s. 34.)
+- Notes: SIM 2006/SING 2009/SIM 2011 ask about the respondent or the household; SIM 2015 asks about the respondent personally ('Heeft u zelf ...'), except respondents living as a child in the household, who are asked about themselves or their parents ('heeft u of uw ouders', scripted for q51=4). The subject is therefore narrower in SIM 2015 for ordinary respondents and respondent-or-parents for resident children. (Audit 25 Nov 2026, decisions s. 34-35.)
 - Subject: self · Reported by: respondent (SIM 2006, SING 2009, SIM 2011, SIM 2015)
 - Availability: collected: SIM 2006, SING 2009, SIM 2011, SIM 2015 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2020
 - Routing (harmonized variables): `svy_routing_mig` in {1} (SIM 2006, SING 2009, SIM 2011); printed condition not translated (SIM 2015)
@@ -35745,7 +35745,7 @@ Frequencies (unweighted):
 ---
 
 ### `lab_tenure_mo` {#lab_tenure_mo}
-**Months with current employer (in addition to the years)**
+**Original month component of lab_tenure (already included there as a fraction of a year; do not add again)**
 - Theme: Labour market (`lab`) · Scope: person · Type: num
 - Universe: Employees (SIM 2011)
 - Sources (file level): SIM 2011 `ERVBEDR_MND` (main)
@@ -36100,14 +36100,15 @@ Frequencies (unweighted):
 ---
 
 ### `inc_ben_yrs01` {#inc_ben_yrs01}
-**Years receiving social assistance (bijstand)**
+**Years receiving social assistance (bijstand) (fractional where months are recorded)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_BIJSTAND_JR` (main)
-- Subject: self · Reported by: respondent (SIM 2011)
-- Availability: collected: SIM 2011 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
+- Derived: `plus_months:inc_ben_mo01` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020); respondent (SIM 2011)
+- Availability: collected: SIM 2011 · derived where the inputs exist: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): printed condition not translated (SIM 2011)
-- Comparability: **wave-specific** (auto) — carried by one survey only
+- Comparability: **derived** (auto) — derived by rule 'plus_months:inc_ben_mo01' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SIM 2011): single survey
 
 | Item | SIM 2011 |
@@ -36132,7 +36133,7 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 246 | 6.42 | 7.43 | 0 | 1 | 4 | 9 | 50 |
+| SIM2011 | 246 | 6.57 | 7.35 | 0 | 1.5 | 4 | 9.38 | 50 |
 | SIM2015 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
@@ -36146,7 +36147,7 @@ Missing values:
 ---
 
 ### `inc_ben_mo01` {#inc_ben_mo01}
-**Months receiving social assistance (in addition to years)**
+**Original month component of inc_ben_yrs01 (already included there as a fraction of a year; do not add again)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_BIJSTAND_MND` (main)
@@ -36192,14 +36193,15 @@ Missing values:
 ---
 
 ### `inc_ben_yrs02` {#inc_ben_yrs02}
-**Years receiving unemployment benefit (WW)**
+**Years receiving unemployment benefit (WW) (fractional where months are recorded)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_WWUITK_JR` (main)
-- Subject: self · Reported by: respondent (SIM 2011)
-- Availability: collected: SIM 2011 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
+- Derived: `plus_months:inc_ben_mo02` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020); respondent (SIM 2011)
+- Availability: collected: SIM 2011 · derived where the inputs exist: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): printed condition not translated (SIM 2011)
-- Comparability: **wave-specific** (auto) — carried by one survey only
+- Comparability: **derived** (auto) — derived by rule 'plus_months:inc_ben_mo02' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SIM 2011): single survey
 
 | Item | SIM 2011 |
@@ -36224,7 +36226,7 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 198 | 2.26 | 5.44 | 0 | 0 | 1 | 2 | 50 |
+| SIM2011 | 198 | 2.5 | 5.38 | 0 | 0.33 | 1 | 2 | 50 |
 | SIM2015 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
@@ -36238,7 +36240,7 @@ Missing values:
 ---
 
 ### `inc_ben_mo02` {#inc_ben_mo02}
-**Months receiving unemployment benefit (in addition to years)**
+**Original month component of inc_ben_yrs02 (already included there as a fraction of a year; do not add again)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_WWUITK_MND` (main)
@@ -36284,14 +36286,15 @@ Missing values:
 ---
 
 ### `inc_ben_yrs03` {#inc_ben_yrs03}
-**Years receiving disability benefit (WAO/WIA)**
+**Years receiving disability benefit (WAO/WIA) (fractional where months are recorded)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_WAOUITK_JR` (main)
-- Subject: self · Reported by: respondent (SIM 2011)
-- Availability: collected: SIM 2011 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
+- Derived: `plus_months:inc_ben_mo03` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020); respondent (SIM 2011)
+- Availability: collected: SIM 2011 · derived where the inputs exist: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): printed condition not translated (SIM 2011)
-- Comparability: **wave-specific** (auto) — carried by one survey only
+- Comparability: **derived** (auto) — derived by rule 'plus_months:inc_ben_mo03' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SIM 2011): single survey
 
 | Item | SIM 2011 |
@@ -36316,7 +36319,7 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 312 | 9.4 | 7.98 | 0 | 3 | 8 | 14 | 40 |
+| SIM2011 | 312 | 9.49 | 7.94 | 0 | 3.5 | 8 | 14 | 40 |
 | SIM2015 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
@@ -36330,7 +36333,7 @@ Missing values:
 ---
 
 ### `inc_ben_mo03` {#inc_ben_mo03}
-**Months receiving disability benefit (in addition to years)**
+**Original month component of inc_ben_yrs03 (already included there as a fraction of a year; do not add again)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_WAOUITK_MND` (main)
@@ -36376,14 +36379,15 @@ Missing values:
 ---
 
 ### `inc_ben_yrs04` {#inc_ben_yrs04}
-**Years receiving pension / AOW / early retirement**
+**Years receiving pension / AOW / early retirement (fractional where months are recorded)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_AOWUITK_JR` (main)
-- Subject: self · Reported by: respondent (SIM 2011)
-- Availability: collected: SIM 2011 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
+- Derived: `plus_months:inc_ben_mo04` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020); respondent (SIM 2011)
+- Availability: collected: SIM 2011 · derived where the inputs exist: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): printed condition not translated (SIM 2011)
-- Comparability: **wave-specific** (auto) — carried by one survey only
+- Comparability: **derived** (auto) — derived by rule 'plus_months:inc_ben_mo04' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SIM 2011): single survey
 
 | Item | SIM 2011 |
@@ -36408,7 +36412,7 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 495 | 7.56 | 6.92 | 0 | 2 | 6 | 11 | 50 |
+| SIM2011 | 495 | 7.73 | 6.87 | 0 | 2.29 | 6 | 11 | 50 |
 | SIM2015 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
@@ -36422,7 +36426,7 @@ Missing values:
 ---
 
 ### `inc_ben_mo04` {#inc_ben_mo04}
-**Months receiving pension (in addition to years)**
+**Original month component of inc_ben_yrs04 (already included there as a fraction of a year; do not add again)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_AOWUITK_MND` (main)
@@ -36468,14 +36472,15 @@ Missing values:
 ---
 
 ### `inc_ben_yrs05` {#inc_ben_yrs05}
-**Years receiving a student grant**
+**Years receiving a student grant (fractional where months are recorded)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_STUDIEF_JR` (main)
-- Subject: self · Reported by: respondent (SIM 2011)
-- Availability: collected: SIM 2011 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
+- Derived: `plus_months:inc_ben_mo05` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020); respondent (SIM 2011)
+- Availability: collected: SIM 2011 · derived where the inputs exist: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): printed condition not translated (SIM 2011)
-- Comparability: **wave-specific** (auto) — carried by one survey only
+- Comparability: **derived** (auto) — derived by rule 'plus_months:inc_ben_mo05' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SIM 2011): single survey
 
 | Item | SIM 2011 |
@@ -36500,7 +36505,7 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 396 | 2.45 | 2.02 | 0 | 1 | 2 | 4 | 11 |
+| SIM2011 | 396 | 2.66 | 1.95 | 0 | 1 | 2.29 | 4 | 11.6666666666667 |
 | SIM2015 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
@@ -36514,7 +36519,7 @@ Missing values:
 ---
 
 ### `inc_ben_mo05` {#inc_ben_mo05}
-**Months receiving a student grant (in addition to years)**
+**Original month component of inc_ben_yrs05 (already included there as a fraction of a year; do not add again)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_STUDIEF_MND` (main)
@@ -36560,14 +36565,15 @@ Missing values:
 ---
 
 ### `inc_ben_yrs07` {#inc_ben_yrs07}
-**Years receiving alimony**
+**Years receiving alimony (fractional where months are recorded)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_ALIMEN_JR` (main)
-- Subject: self · Reported by: respondent (SIM 2011)
-- Availability: collected: SIM 2011 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
+- Derived: `plus_months:inc_ben_mo07` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020); respondent (SIM 2011)
+- Availability: collected: SIM 2011 · derived where the inputs exist: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): printed condition not translated (SIM 2011)
-- Comparability: **wave-specific** (auto) — carried by one survey only
+- Comparability: **derived** (auto) — derived by rule 'plus_months:inc_ben_mo07' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SIM 2011): single survey
 
 | Item | SIM 2011 |
@@ -36592,7 +36598,7 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 36 | 5.56 | 4.55 | 0 | 2 | 4.5 | 8 | 17 |
+| SIM2011 | 36 | 5.7 | 4.51 | 0.0833333333333333 | 2 | 4.75 | 8 | 17 |
 | SIM2015 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
@@ -36606,7 +36612,7 @@ Missing values:
 ---
 
 ### `inc_ben_mo07` {#inc_ben_mo07}
-**Months receiving alimony (in addition to years)**
+**Original month component of inc_ben_yrs07 (already included there as a fraction of a year; do not add again)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_ALIMEN_MND` (main)
@@ -36652,14 +36658,15 @@ Missing values:
 ---
 
 ### `inc_ben_yrs06` {#inc_ben_yrs06}
-**Years receiving another benefit**
+**Years receiving another benefit (fractional where months are recorded)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_ANDUITK_JR` (main)
-- Subject: self · Reported by: respondent (SIM 2011)
-- Availability: collected: SIM 2011 · not collected: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
+- Derived: `plus_months:inc_ben_mo06` (see `code/R/03_derive.R` / `code/Stata/03_derive.do`)
+- Subject: self · Reported by: constructed (SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020); respondent (SIM 2011)
+- Availability: collected: SIM 2011 · derived where the inputs exist: SPVA 2002, SPVN 2003, LAS 2004/05, SIM 2006, SING 2009, SIM 2015, SIM 2020
 - Routing (harmonized variables): printed condition not translated (SIM 2011)
-- Comparability: **wave-specific** (auto) — carried by one survey only
+- Comparability: **derived** (auto) — derived by rule 'plus_months:inc_ben_mo06' in every survey where the inputs exist; see the variable note
 - Wording and procedure: Respondent-facing (SIM 2011): single survey
 
 | Item | SIM 2011 |
@@ -36684,7 +36691,7 @@ Summary (unweighted, non-missing values):
 | LAS2004 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2006 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SING2009 | 0 | NaN | NA | NA | NA | NA | NA | NA |
-| SIM2011 | 78 | 6.12 | 7.37 | 0 | 1 | 3 | 8 | 34 |
+| SIM2011 | 78 | 6.32 | 7.3 | 0 | 1 | 3.04 | 8.4 | 34 |
 | SIM2015 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 | SIM2020 | 0 | NaN | NA | NA | NA | NA | NA | NA |
 
@@ -36698,7 +36705,7 @@ Missing values:
 ---
 
 ### `inc_ben_mo06` {#inc_ben_mo06}
-**Months receiving another benefit (in addition to years)**
+**Original month component of inc_ben_yrs06 (already included there as a fraction of a year; do not add again)**
 - Theme: Income and benefits (`inc`) · Scope: person · Type: num
 - Universe: Recipients of the benefit (SIM 2011)
 - Sources (file level): SIM 2011 `UITKDUUR_ANDUITK_MND` (main)

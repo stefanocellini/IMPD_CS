@@ -303,6 +303,14 @@ quietly replace soc_mem_type = .d if svy_id == ${SVYID_spvn2003} & soc_mem == 1 
 foreach t in soc_mem01 soc_mem02 soc_mem04 soc_mem06 soc_mem08 soc_mem09 soc_mem10 {
     quietly replace `t' = .d if svy_id == ${SVYID_spvn2003} & soc_mem == 1 & soc_mem_type >= . & `t' == 0
 }
+* (c) Unknown receipt/membership (parent .a) cannot establish non-receipt of any type: the wildcard's zeros in the
+* type dummies become .a; the type variable stays .c (the type question was never reached). Decisions s. 35.
+foreach t in inc_ben01 inc_ben02 inc_ben03 inc_ben04 inc_ben05 inc_ben06 {
+    quietly replace `t' = .a if svy_id == ${SVYID_spvn2003} & inc_ben == .a & `t' == 0
+}
+foreach t in soc_mem01 soc_mem02 soc_mem04 soc_mem06 soc_mem08 soc_mem09 soc_mem10 {
+    quietly replace `t' = .a if svy_id == ${SVYID_spvn2003} & soc_mem == .a & `t' == 0
+}
 
 * ---- svy_* labels
 label variable id_hh       "Unique household identifier (svy_key*1e9 + source household number)"

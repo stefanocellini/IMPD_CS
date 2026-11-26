@@ -350,32 +350,44 @@ inc_ben,Receives any social benefit,spvn2003,UITKERIN,2,nee,0,No,yesno
 inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,1,bijstandsuitkering,1,Mentioned,mentioned
 inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
 inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,-4,Missing,.d,,mentioned
+inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,7,,.a,,mentioned
+inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,99,,.d,,mentioned
 inc_ben01,Receives social assistance (bijstand),spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,2,werkloosheidsuitkering,1,Mentioned,mentioned
 inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
 inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,-4,Missing,.d,,mentioned
+inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,7,,.a,,mentioned
+inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,99,,.d,,mentioned
 inc_ben02,Receives unemployment benefit (WW),spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,3,arbeidsongeschiktheid,1,Mentioned,mentioned
 inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
 inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,-4,Missing,.d,,mentioned
+inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,7,,.a,,mentioned
+inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,99,,.d,,mentioned
 inc_ben03,Receives disability benefit (WAO),spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,4,"pensioen, AOW of vut",1,Mentioned,mentioned
 inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
 inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,-4,Missing,.d,,mentioned
+inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,7,,.a,,mentioned
+inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,99,,.d,,mentioned
 inc_ben04,Receives old-age pension / AOW / early retirement,spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben05,Receives student grant,spvn2003,SRTUITK,5,studiefinanciering\UAF,1,Mentioned,mentioned
 inc_ben05,Receives student grant,spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
 inc_ben05,Receives student grant,spvn2003,SRTUITK,-4,Missing,.d,,mentioned
+inc_ben05,Receives student grant,spvn2003,SRTUITK,7,,.a,,mentioned
+inc_ben05,Receives student grant,spvn2003,SRTUITK,99,,.d,,mentioned
 inc_ben05,Receives student grant,spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
 inc_ben06,Receives other benefit,spvn2003,SRTUITK,6,anders,1,Mentioned,mentioned
 inc_ben06,Receives other benefit,spvn2003,SRTUITK,-3,weet niet,.a,,mentioned
 inc_ben06,Receives other benefit,spvn2003,SRTUITK,-4,Missing,.d,,mentioned
+inc_ben06,Receives other benefit,spvn2003,SRTUITK,7,,.a,,mentioned
+inc_ben06,Receives other benefit,spvn2003,SRTUITK,99,,.d,,mentioned
 inc_ben06,Receives other benefit,spvn2003,SRTUITK,*,,0,Not mentioned,mentioned
-trn_sup_prtnr,Financially supports partner in country of origin,spva2002,VERZPART,1-9,,1,Yes,yesno
+trn_sup_prtnr,Financially supports partner in country of origin,spva2002,VERZPART,1-8,,1,Yes,yesno
 trn_sup_prtnr,Financially supports partner in country of origin,spva2002,VERZPART,99,,.d,,yesno
 trn_sup_chd,Financially supports children in country of origin,spva2002,VERZKIND,1-98,,1,Yes,yesno
 trn_sup_chd,Financially supports children in country of origin,spva2002,VERZKIND,99,,.d,,yesno
-trn_sup_par,Financially supports parents in country of origin,spva2002,VERZOUD,1-9,,1,Yes,yesno
+trn_sup_par,Financially supports parents in country of origin,spva2002,VERZOUD,1-8,,1,Yes,yesno
 trn_sup_fam,Financially supports other family in country of origin,spva2002,VERZFAM,1-98,,1,Yes,yesno
 trn_sup_fam,Financially supports other family in country of origin,spva2002,VERZFAM,99,,.d,,yesno
 trn_sup_oth,Financially supports other persons in country of origin,spva2002,VERZAND,1-98,,1,Yes,yesno

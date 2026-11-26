@@ -333,7 +333,18 @@ for (t, svy, var), specs in sorted(vm_by_src.items()):
     if not broad:
         continue
     exact = {num(sp) for sp in specs if num(sp) is not None}
-    for c, n in srcvals.get((svy, var), []):
+    # also test declared user-missing codes that never occur in the data: the files are frozen, but a range that
+    # would consume a declared code is a wrong rule regardless of occurrence (audit of v0.5.5, decisions s. 35;
+    # VERZPART/VERZOUD '1-9' covered their declared 9).  Narrow ranges are enumerated; wide ones by their endpoints.
+    cands = list(srcvals.get((svy, var), []))
+    seen = {c for c, n in cands}
+    for lo, hi in declared_rng.get((svy, var), []):
+        codes = [lo + i for i in range(int(hi - lo) + 1)] if hi - lo <= 10 and lo == int(lo) and hi == int(hi) else [lo, hi]
+        for c in codes:
+            if c not in seen:
+                cands.append((c, 0))
+                seen.add(c)
+    for c, n in cands:
         if c in exact:
             continue
         hit = next((sp for sp, lo, hi in broad if lo is not None and lo <= c <= hi), None)

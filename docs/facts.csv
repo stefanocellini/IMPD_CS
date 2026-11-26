@@ -1,7 +1,7 @@
 name,value,description,source
-version,0.5.5,IMPD-CS version,code/R/00_setup.R
-build_id,6de3453abaff,"build identity (sha256 of crosswalks and code, first 12 hex digits)",docs/BUILD_ID
-build_date,2026-11-25,date of the build,docs/BUILD_ID
+version,0.5.6,IMPD-CS version,code/R/00_setup.R
+build_id,afe616bac908,"build identity (sha256 of crosswalks and code, first 12 hex digits)",docs/BUILD_ID
+build_date,2026-11-26,date of the build,docs/BUILD_ID
 build_month,November 2026,month of the build,docs/BUILD_ID
 n_surveys,8,surveys included,crosswalks/surveys.csv
 year_first,2002,fieldwork year of the first survey,crosswalks/surveys.csv
@@ -18,7 +18,7 @@ n_source_vars,2684,source variables in the deposits,crosswalks/source_variables.
 n_skipped,10,source variables deliberately not harmonized,crosswalks/source_skipped.csv
 n_valuesets,342,value sets,crosswalks/valuesets.csv
 n_crosswalks,29,crosswalk tables,crosswalks/
-n_vmap_rows,3004,value-map rows,crosswalks/value_map.csv
+n_vmap_rows,3016,value-map rows,crosswalks/value_map.csv
 n_approvals,215,signed label approvals,crosswalks/label_approvals.csv
 n_parsers,5,questionnaire parsers (layouts),code/crosswalk_builder/questionnaires.py
 routing_pairs,697,source x gate pairs in the routing check,docs/routing_check.csv
